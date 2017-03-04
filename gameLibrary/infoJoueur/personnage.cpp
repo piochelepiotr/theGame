@@ -516,7 +516,7 @@ int Personnage::getPods() const
 
 QString Personnage::gagneRessources(Ressource *ressource, int nombre, int *indexDernier)
 {
-    int place;
+    int place = 0;
     QString texte;
     if(nombre <= 0)
         return texte;

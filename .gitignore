@@ -1,0 +1,7 @@
+*.pro.user
+*.o
+*.so*
+moc_*
+data-gameLibrary/Makefile
+ui_*.h
+*.stash
