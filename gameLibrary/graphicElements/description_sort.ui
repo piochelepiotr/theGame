@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Description_sort</class>
+ <widget class="QFrame" name="Description_sort">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>602</width>
+    <height>469</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Frame</string>
+  </property>
+  <property name="frameShape">
+   <enum>QFrame::StyledPanel</enum>
+  </property>
+  <property name="frameShadow">
+   <enum>QFrame::Raised</enum>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="lay_haut">
+     <item>
+      <widget class="QLabel" name="nom_sort">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="texte_niveau">
+       <property name="text">
+        <string>Niveau actuel : </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="niveau">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="niveaux_du_sort">
+     <property name="currentIndex">
+      <number>9</number>
+     </property>
+     <widget class="QWidget" name="lvl1">
+      <attribute name="title">
+       <string>lvl 1</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QTextEdit" name="textEdit_1"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="lvl2">
+      <attribute name="title">
+       <string>lvl 2</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QTextEdit" name="textEdit_2"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="lvl3">
+      <attribute name="title">
+       <string>lvl 3</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QTextEdit" name="textEdit_3"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="lvl4">
+      <attribute name="title">
+       <string>lvl 4</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QTextEdit" name="textEdit_4"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="lvl5">
+      <attribute name="title">
+       <string>lvl 5</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QTextEdit" name="textEdit_5"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="lvl6">
+      <attribute name="title">
+       <string>lvl 6</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_7">
+       <item>
+        <widget class="QTextEdit" name="textEdit_6"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="lvl7">
+      <attribute name="title">
+       <string>lvl 7</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_8">
+       <item>
+        <widget class="QTextEdit" name="textEdit_7"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="lvl8">
+      <attribute name="title">
+       <string>lvl 8</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_9">
+       <item>
+        <widget class="QTextEdit" name="textEdit_8"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="lvl9">
+      <attribute name="title">
+       <string>lvl 9</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_10">
+       <item>
+        <widget class="QTextEdit" name="textEdit_9"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="lvl10">
+      <attribute name="title">
+       <string>lvl 10</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_11">
+       <item>
+        <widget class="QTextEdit" name="textEdit_10"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
