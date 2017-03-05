@@ -5,6 +5,19 @@
 #include <QPoint>
 #include <QDebug>
 
+//map editor
+
+#define CALQUE_DEFAUT 2
+#define NBR_LVL_SORTS 10
+#define SORT_DEFAUT QObject::trUtf8("Coup de poing")
+
+//server
+
+#define TEMPS_MIN_REPOUSSE 60000
+#define TEMPS_MAX_REPOUSSE 120000
+#define NBR_MONSTRES_MAP 3
+#define METIER_LVLS_1CASEENPLUS 15
+
 //emplacement des ressources
 
 #define DOSSIER_IMAGES_SORTS "../data/imagesSorts/"

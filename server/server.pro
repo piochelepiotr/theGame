@@ -25,5 +25,5 @@ win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../data-shared/release/ -l
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../data-shared/debug/ -lshared
 else:unix: LIBS += -L$$PWD/../data-shared -lshared
 
-INCLUDEPATH += $$PWD/../sharded
+INCLUDEPATH += $$PWD/../shared
 DEPENDPATH += $$PWD/../shared

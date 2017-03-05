@@ -107,7 +107,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     {
         QMainWindow::eventFilter(obj,event);
         QGraphicsSceneMouseEvent *mouseEvent = static_cast<QGraphicsSceneMouseEvent *>(event);
-        QPoint poscase = m_jeu->dataMap()->ccase(mouseEvent->scenePos().x(), mouseEvent->scenePos().y(),m_jeu->getlmap(),m_jeu->gethmap(),m_jeu->getlcase(),m_jeu->gethcase());
+        QPoint poscase = m_jeu->dataMap()->ccase(mouseEvent->scenePos().x(), mouseEvent->scenePos().y(),m_jeu->getlmap(),m_jeu->gethmap(),m_jeu->getlcase(),m_jeu->gethcase(),m_jeu->zoom());
         if(m_appuyer)
         {
             if((poscase.x() != m_jeu->case_selectionnee().x() || poscase.y() != m_jeu->case_selectionnee().y()) && poscase.x() != -1)
@@ -132,7 +132,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
         }
         else
         {
-             m_jeu->souriBouge(poscase);
+            m_jeu->souriBouge(poscase);
         }
         return true;
     }

@@ -65,7 +65,7 @@ public:
     void setObjet(int i,int j,int calque,Objet *objet) {m_estEnregistree = false; m_objets[calque][i][j] = objet; }
     void vide();
 
-    QPoint ccase(int posx, int posy,int lmap,int hmap,int lcase,int hcase);
+    QPoint ccase(int posx, int posy, int lmap, int hmap, int lcase, int hcase, bool zoom = false);
     int cposy(int casey,int hcase);
     int cposx(int casex, int casey,int lcase);
     Transporteur getTranspo(QPoint const& pos) const { return m_transpos[pos]; }

@@ -835,7 +835,7 @@ int DataMap::cposy(int casey,int hcase)
     return mhcase*(casey-CASESCACHEESY);
 }
 
-QPoint DataMap::ccase(int posx, int posy,int lmap,int hmap,int lcase,int hcase)
+QPoint DataMap::ccase(int posx, int posy,int lmap,int hmap,int lcase,int hcase,bool zoom)
 {
     int mhcase = hcase/2;
     int mlcase = lcase/2;
@@ -843,10 +843,14 @@ QPoint DataMap::ccase(int posx, int posy,int lmap,int hmap,int lcase,int hcase)
     if(mhcase == 0 || mlcase == 0)
         return lacase;
 
-    posx += CASESCACHEESX*lcase;
-    posy += CASESCACHEESY*mhcase;
+    if(!zoom)
+    {
+        posx += CASESCACHEESX*lcase;
+        posy += CASESCACHEESY*mhcase;
+    }
 
-    if(posx > -CASESCACHEESX*lcase-1 && posx < lmap + CASESCACHEESX*lcase && posy > -CASESCACHEESY*mhcase-1 && posy < hmap + CASESCACHEESY*mhcase)
+    if((!zoom && (posx > -CASESCACHEESX*lcase-1 && posx < lmap + CASESCACHEESX*lcase && posy > -CASESCACHEESY*mhcase-1 && posy < hmap + CASESCACHEESY*mhcase))
+            || (zoom && posx > 0 && posx < lmap && posy > 0 && posy < hmap))
     {
         double a = (double) mhcase/ (double) mlcase, bdroitem, bdroited;
         int i = 0, j = qCeil(NBR_CASES_H/2)-1;

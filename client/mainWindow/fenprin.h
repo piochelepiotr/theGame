@@ -27,7 +27,6 @@
 #include "ui_choixmainwindow.h"
 #include "ui_jeumainwindow.h"
 #include "ui_creermainwindow.h"
-#include "additionalWindows/interjoueur.h"
 #include "additionalWindows/echange.h"
 #include "network/reseau.h"
 #include "additionalWindows/caracteristiques.h"
@@ -38,6 +37,7 @@
 #include "combats/combat.h"
 #include "additionalWindows/windowendfight.h"
 #include "graphicGame/layoutbarreoutil.h"
+#include "additionalWindows/interjoueur.h"
 
 
 

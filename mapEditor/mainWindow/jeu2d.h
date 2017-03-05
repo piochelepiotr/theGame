@@ -82,6 +82,8 @@ public:
     void affiche_casesPO();
     void masque_casesPO();
 
+    bool zoom() const { return m_zoom_active; }
+
 private:
 
     QGraphicsRectItem *m_cadred;
