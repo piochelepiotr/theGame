@@ -19,7 +19,7 @@ LayoutBarreOutil::LayoutBarreOutil(FenPrin *parent,Personnage *perso) :
     m_labelPC = new QLabel(QString::number(perso->getTotalPC()));
 
     m_lay_sorts->addWidget(m_bout_cac);
-    m_bout_cara->setIcon(QIcon("bouton.png"));
+    m_bout_cara->setIcon(QIcon("../data/interface/bouton.png"));
     m_bout_cara->setIconSize(QSize(50,50));
     m_lay_chat->addWidget(m_chat);
     m_lay_chat->addWidget(m_bar_chat);

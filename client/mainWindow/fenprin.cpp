@@ -207,7 +207,7 @@ void FenPrin::choixPerso()
 
     if(m_compte->getNbrPerso())
     {
-        m_choixui->image_persoactuel->setPixmap(QPixmap("imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
+        m_choixui->image_persoactuel->setPixmap(QPixmap("../data/imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
         m_choixui->bout_jouer->setEnabled(true);
         m_choixui->bout_supprimer->setEnabled(true);
         m_choixui->nomperso->setText(m_compte->getPerso(m_persoActuel)->getNom());
@@ -276,7 +276,7 @@ void FenPrin::creer()
     m_choixui = 0;
     m_creerui = new Ui::CreerMainWindow();
     m_creerui->setupUi(this);
-    m_creerui->image_classe->setPixmap(QPixmap("imagesdespersos/"+m_classeActuelle+'/'+m_classeActuelle+".png").scaled(QSize(this->size().width()*PLPERSOCREER, this->size().height()*PHPERSOCREER)));
+    m_creerui->image_classe->setPixmap(QPixmap("../data/imagesdespersos/"+m_classeActuelle+'/'+m_classeActuelle+".png").scaled(QSize(this->size().width()*PLPERSOCREER, this->size().height()*PHPERSOCREER)));
     connect(m_creerui->bout_creer, SIGNAL(pressed()),this, SLOT(creerUnPerso()));
     connect(m_creerui->bout_annuler, SIGNAL(pressed()), this, SLOT(choixPerso()));
     connect(m_creerui->menu_jeu_quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
@@ -299,7 +299,7 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
         {
                  if(event->type() == QEvent::Resize)
                  {
-                     m_creerui->image_classe->setPixmap(QPixmap("imagesdespersos/"+m_classeActuelle+'/'+m_classeActuelle+".png").scaled(QSize(this->size().width()*PLPERSOCREER, this->size().height()*PHPERSOCREER)));
+                     m_creerui->image_classe->setPixmap(QPixmap("../data/imagesdespersos/"+m_classeActuelle+'/'+m_classeActuelle+".png").scaled(QSize(this->size().width()*PLPERSOCREER, this->size().height()*PHPERSOCREER)));
                      return true;
                  }
                  else
@@ -319,7 +319,7 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
             if (event->type() == QEvent::Resize)
             {
                 if(m_compte->getNbrPerso())
-                    m_choixui->image_persoactuel->setPixmap(QPixmap("imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
+                    m_choixui->image_persoactuel->setPixmap(QPixmap("../data/imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
                 return true;
             }
             else
@@ -417,13 +417,13 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
 void FenPrin::classeSuivante()
 {
     m_classeActuelle = m_donneesediteur->ressources->classeSuivante(m_classeActuelle);
-    m_creerui->image_classe->setPixmap(QPixmap("imagesdespersos/"+m_classeActuelle+'/'+m_classeActuelle+".png").scaled(QSize(this->size().width()*PLPERSOCREER, this->size().height()*PHPERSOCREER)));
+    m_creerui->image_classe->setPixmap(QPixmap("../data/imagesdespersos/"+m_classeActuelle+'/'+m_classeActuelle+".png").scaled(QSize(this->size().width()*PLPERSOCREER, this->size().height()*PHPERSOCREER)));
 }
 
 void FenPrin::classePrecedente()
 {
     m_classeActuelle = m_donneesediteur->ressources->classeSuivante(m_classeActuelle);
-    m_creerui->image_classe->setPixmap(QPixmap("imagesdespersos/"+m_classeActuelle+'/'+m_classeActuelle+".png").scaled(QSize(this->size().width()*PLPERSOCREER, this->size().height()*PHPERSOCREER)));
+    m_creerui->image_classe->setPixmap(QPixmap("../data/imagesdespersos/"+m_classeActuelle+'/'+m_classeActuelle+".png").scaled(QSize(this->size().width()*PLPERSOCREER, this->size().height()*PHPERSOCREER)));
 }
 
 void FenPrin::persoSuivant()
@@ -433,7 +433,7 @@ void FenPrin::persoSuivant()
         m_persoActuel++;
         if(m_persoActuel >= m_compte->getNbrPerso())
             m_persoActuel = 0;
-        m_choixui->image_persoactuel->setPixmap(QPixmap("imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
+        m_choixui->image_persoactuel->setPixmap(QPixmap("../data/imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
         m_choixui->nomperso->setText(m_compte->getPerso(m_persoActuel)->getNom());
     }
 }
@@ -445,7 +445,7 @@ void FenPrin::persoPrecedent()
         m_persoActuel--;
         if(m_persoActuel < 0)
             m_persoActuel = m_compte->getNbrPerso()-1;
-        m_choixui->image_persoactuel->setPixmap(QPixmap("imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
+        m_choixui->image_persoactuel->setPixmap(QPixmap("../data/imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
         m_choixui->nomperso->setText(m_compte->getPerso(m_persoActuel)->getNom());
     }
 }
@@ -460,7 +460,7 @@ void FenPrin::supprimmePerso()
         m_persoActuel = 0;
         if(m_compte->getNbrPerso())
         {
-            m_choixui->image_persoactuel->setPixmap(QPixmap("imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
+            m_choixui->image_persoactuel->setPixmap(QPixmap("../data/imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
             m_choixui->nomperso->setText(m_compte->getPerso(m_persoActuel)->getNom());
         }
         else
