@@ -70,7 +70,7 @@ GameScene::GameScene(const QSize &size, QLabel *texte, Donnees_editeur *donnees_
 
             for(int x = 0; x < 3; x++)
             {
-                m_imagesObjets[x] [i] [j] = addPixmap(QPixmap());
+                m_imagesObjets[x] [i] [j] = new ObjSurScene(this,m_lmap);
                 m_imagesObjets[x] [i] [j]->setVisible(false);
             }
 
@@ -629,73 +629,6 @@ void GameScene::updateObjet(int i,int j, Objet *objet)
     caseEgale(i,j,objet,2);
 }
 
-void GameScene::imagesuivante()
-{
-    for(QMap<QString, AfficheJoueur*>::iterator i = m_persos.begin(); i != m_persos.end(); i++)
-    {
-       i.value()->suivante();
-    }
-}
-
-void GameScene::changePlayerMap(int largX, int largY)
-{
-    m_persos[m_nom]->changePos(largX, largY);
-    QStringList asuprr;
-    for(QMap<QString,AfficheJoueur*>::iterator i = m_persos.begin(); i != m_persos.end(); i++)
-    {
-        if(i.key() != m_nom)
-        {
-            asuprr.append(i.key());
-        }
-    }
-    while(!asuprr.isEmpty())
-    {
-        supprimeUnPerso(asuprr.first());
-        asuprr.pop_front();
-    }
-}
-
-void GameScene::ajouteChemin(QString const& nom, QQueue<Dir> const& chemin)
-{
-    m_persos[nom]->nouveauchemin(chemin);
-}
-
-QString GameScene::contientJoueur()
-{
-    for(QMap<QString, AfficheJoueur*>::iterator i = m_persos.begin(); i != m_persos.end(); i++)
-    {
-        if(i.value()->isUnderMouse())
-        {
-            return i.key();
-        }
-    }
-    return "";
-}
-
-bool GameScene::contientJoueur(QPoint const& pos)
-{
-    for(QMap<QString,AfficheJoueur*>::iterator it = m_persos.begin(); it != m_persos.end();it++)
-    {
-        if(it.value()->posALaFin() == pos)
-            return true;
-    }
-    return false;
-}
-
-void GameScene::ajouteUnPerso(InfoPerVis perso)
-{
-    m_persos[perso.nom] = new AfficheJoueur(m_donneesediteur->ressources->getClasse(perso.classe) ,perso.nom, QSize(m_lcase, m_hcase), perso.posmap, this);
-    this->addItem(m_persos[perso.nom]);
-    if(perso.nom == m_nom)
-        connect(m_persos[perso.nom], SIGNAL(estSurTranspo(QPoint)), m_parent, SLOT(VaChangerDeMap(QPoint)));
-}
-
-void GameScene::supprimeUnPerso(QString const& nom)
-{
-    delete m_persos[nom];
-    m_persos.remove(nom);
-}
-
 void GameScene::effaceChemin()
 {
     for(int i = 0; i < NBR_CASES_L; i++)
@@ -741,4 +674,9 @@ void GameScene::affichePortee()
             m_casesPortee[i][j]->setVisible(m_cases_ateignables[i][j]);
         }
     }
+}
+
+void GameScene::utileClique(QPoint const& pos)
+{
+
 }

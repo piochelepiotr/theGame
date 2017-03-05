@@ -1,7 +1,7 @@
 #include "objsurscene.h"
-#include "jeu_graphique.h"
+#include "gamescene.h"
 
-ObjSurScene::ObjSurScene(Jeu_graphique *parent, int largeurScene, QPoint const& pos) : QGraphicsPixmapItem()
+ObjSurScene::ObjSurScene(GameScene *parent, int largeurScene, QPoint const& pos) : QGraphicsPixmapItem()
 {
     m_parent = parent;
     m_pos = pos;

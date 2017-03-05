@@ -5,6 +5,7 @@
 #include "additionalActions/constantes.h"
 #include <QLabel>
 #include "additionalActions/datamap.h"
+#include "objsurscene.h"
 
 
 class GameScene : public QGraphicsScene
@@ -68,15 +69,11 @@ public:
 
     bool zoom() const { return m_zoom_active; }
     void updateObjet(int i,int j, Objet *objet);
-    void imagesuivante();
-    void changePlayerMap(int largX, int largY);
-    void ajouteChemin(QString const& nom, QQueue<Dir> const& chemin);
-    QString contientJoueur();
-    void ajouteUnPerso(InfoPerVis perso);
-    void supprimeUnPerso(QString const& nom);
     void afficheChemin(QPoint dep, QQueue<Dir>chem);
     void effaceChemin();
     void stopUtiliseSort();
+    void affichePortee();
+    virtual void utileClique(QPoint const& pos);
 
 protected:
     void zoomChanged();
@@ -90,6 +87,7 @@ protected:
     QGraphicsPixmapItem *m_imgcasescbt[2] [MAX_PAR_EQUIP];
     QGraphicsPolygonItem *m_grille[NBR_CASES_L] [NBR_CASES_H];
     ObjSurScene *m_imagesObjets [3] [NBR_CASES_L] [NBR_CASES_H];
+    bool m_cases_ateignables [NBR_CASES_L] [NBR_CASES_H];
     QGraphicsPixmapItem *m_fond;
     QMap <QPoint, QGraphicsPixmapItem*>m_lesimagestransports;
     QGraphicsPixmapItem *m_imgCaseVisee;

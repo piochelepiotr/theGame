@@ -37,7 +37,7 @@ public:
     void doit_recolter();
     void fait_recettes();
     void changeMap();
-    void utileClique(QPoint const& pos);
+    virtual void utileClique(QPoint const& pos);
     AfficheJoueur *getJoueur(QString const& nom);
     void supprimeUnPerso(QString const& nom);
     void ajouteUnPerso(InfoPerVis perso);
@@ -48,6 +48,12 @@ public:
     DataMap *dataMap() const { return m_dataMap; }
     Sort *sort() const { return m_sort_a_utiliser; }
     void utiliseSort(Sort *sort);
+    void imagesuivante();
+    void changePlayerMap(int largX, int largY);
+    void ajouteChemin(QString const& nom, QQueue<Dir> const& chemin);
+    QString contientJoueur();
+    void ajouteUnPerso(InfoPerVis perso);
+    void supprimeUnPerso(QString const& nom);
 private:
     Personnage *m_personnage;
     QTcpSocket *m_socket;

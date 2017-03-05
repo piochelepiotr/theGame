@@ -14,7 +14,6 @@ SOURCES += \
     mainWindow/fenprin.cpp \
     network/compte.cpp \
     network/reseau.cpp \
-    graphicGame/objsurscene.cpp \
     graphicGame/affichejoueur.cpp \
     combats/combat.cpp \
     graphicGame/tooltip.cpp \
@@ -33,7 +32,6 @@ HEADERS += \
     mainWindow/fenprin.h \
     network/compte.h \
     network/reseau.h \
-    graphicGame/objsurscene.h \
     graphicGame/affichejoueur.h \
     combats/combat.h \
     graphicGame/tooltip.h \
