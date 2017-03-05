@@ -107,6 +107,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     {
         QMainWindow::eventFilter(obj,event);
         QGraphicsSceneMouseEvent *mouseEvent = static_cast<QGraphicsSceneMouseEvent *>(event);
+        qDebug() << "zoom : " << m_jeu->zoom();
         QPoint poscase = m_jeu->dataMap()->ccase(mouseEvent->scenePos().x(), mouseEvent->scenePos().y(),m_jeu->getlmap(),m_jeu->gethmap(),m_jeu->getlcase(),m_jeu->gethcase(),m_jeu->zoom());
         if(m_appuyer)
         {
@@ -140,7 +141,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     {
         QMainWindow::eventFilter(obj,event);
         QGraphicsSceneMouseEvent *mouseEvent = static_cast<QGraphicsSceneMouseEvent *>(event);
-        QPoint poscase = m_jeu->dataMap()->ccase(mouseEvent->scenePos().x(), mouseEvent->scenePos().y(),m_jeu->getlmap(),m_jeu->gethmap(),m_jeu->getlcase(),m_jeu->gethcase());
+        QPoint poscase = m_jeu->dataMap()->ccase(mouseEvent->scenePos().x(), mouseEvent->scenePos().y(),m_jeu->getlmap(),m_jeu->gethmap(),m_jeu->getlcase(),m_jeu->gethcase(),m_jeu->zoom());
         if(m_outil == Outil_transporteur)
         {
             if(caseExiste(poscase.x(), poscase.y()))

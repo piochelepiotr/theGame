@@ -141,24 +141,24 @@ void Jeu2d::redi(QSize const& nouvelle)
             }
 
             m_caseImmarchables[i] [j]->setPixmap(caseim);
-            m_caseImmarchables[i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase)-m_mlcase, m_dataMap->cposy(j,m_hcase)-m_mhcase);
+            m_caseImmarchables[i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase,m_zoom_active)-m_mlcase, m_dataMap->cposy(j,m_hcase,m_zoom_active)-m_mhcase);
 
             m_casesPortee[i] [j]->setPixmap(casePortee);
-            m_casesPortee[i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase)-m_mlcase, m_dataMap->cposy(j,m_hcase)-m_mhcase);
+            m_casesPortee[i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase,m_zoom_active)-m_mlcase, m_dataMap->cposy(j,m_hcase,m_zoom_active)-m_mhcase);
         }
     }
 
     for(QMap<QPoint, QGraphicsPixmapItem*>::iterator i = m_lesimagestransports.begin(); i != m_lesimagestransports.end(); i++)
     {
         i.value()->setPixmap(QPixmap("../data/interface/transporteur.png").scaled(m_lcase, m_hcase));
-        i.value()->setPos(m_dataMap->cposx(i.key().x(), i.key().y(),m_lcase)-m_mlcase, m_dataMap->cposy(i.key().y(),m_hcase)-m_mhcase);
+        i.value()->setPos(m_dataMap->cposx(i.key().x(), i.key().y(),m_lcase,m_zoom_active)-m_mlcase, m_dataMap->cposy(i.key().y(),m_hcase,m_zoom_active)-m_mhcase);
     }
 
     for(int i = 0; i < 2; i++)
     {
         for(int j = 0; j < MAX_PAR_EQUIP; j++)
         {
-            m_imgcasescbt[i] [j]->setPos(m_dataMap->cposx(m_dataMap->caseCombat(i,j).x(),m_dataMap->caseCombat(i,j).y(),m_lcase)-m_mlcase, m_dataMap->cposy(m_dataMap->caseCombat(i,j).y(),m_hcase)-m_mhcase);
+            m_imgcasescbt[i] [j]->setPos(m_dataMap->cposx(m_dataMap->caseCombat(i,j).x(),m_dataMap->caseCombat(i,j).y(),m_lcase,m_zoom_active)-m_mlcase, m_dataMap->cposy(m_dataMap->caseCombat(i,j).y(),m_hcase,m_zoom_active)-m_mhcase);
         }
     }
 
@@ -193,8 +193,8 @@ void Jeu2d::grille()
                     m_grille[i] [j]->setVisible(true);
                 else
                     m_grille[i] [j]->setVisible(false);
-                posx = m_dataMap->cposx(i,j,m_lcase);
-                posy = m_dataMap->cposy(j,m_hcase);
+                posx = m_dataMap->cposx(i,j,m_lcase,m_zoom_active);
+                posy = m_dataMap->cposy(j,m_hcase,m_zoom_active);
 
                 p.clear();
                 p<<QPoint(posx, posy-m_mhcase)<<QPoint(posx+m_mlcase,posy)<<QPoint(posx, posy+m_mhcase)<<QPoint(posx-m_mlcase, posy);
@@ -215,8 +215,8 @@ void Jeu2d::grille()
                     m_grille[i] [j]->setVisible(true);
                 else
                     m_grille[i] [j]->setVisible(false);
-                posx = m_dataMap->cposx(i,j,m_lcase);
-                posy = m_dataMap->cposy(j,m_hcase);
+                posx = m_dataMap->cposx(i,j,m_lcase,m_zoom_active);
+                posy = m_dataMap->cposy(j,m_hcase,m_zoom_active);
 
                 p.clear();
                 p<<QPoint(posx, posy-m_mhcase)<<QPoint(posx+m_mlcase,posy)<<QPoint(posx, posy+m_mhcase)<<QPoint(posx-m_mlcase, posy);
@@ -426,9 +426,9 @@ void Jeu2d::caseEgale(int i, int j, Objet *objet, int fond)
         m_imagesObjets[fond] [i] [j]->setPixmap(objet->image());
         m_imagesObjets[fond] [i] [j]->setVisible(true);
         if(fond == 2)
-            m_imagesObjets[fond] [i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase)-m_imagesObjets[fond] [i] [j]->pixmap().width()/2, m_dataMap->cposy(j,m_hcase)-m_imagesObjets[fond] [i] [j]->pixmap().height()+m_hcase*ECART);
+            m_imagesObjets[fond] [i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().width()/2, m_dataMap->cposy(j,m_hcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().height()+m_hcase*ECART);
         else
-            m_imagesObjets[fond] [i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase)-m_imagesObjets[fond] [i] [j]->pixmap().width()/2, m_dataMap->cposy(j,m_hcase)-m_imagesObjets[fond] [i] [j]->pixmap().height()/2);
+            m_imagesObjets[fond] [i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().width()/2, m_dataMap->cposy(j,m_hcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().height()/2);
     }
 }
 
@@ -449,7 +449,7 @@ void Jeu2d::ajouteTranspo(QPoint const& pos, Transporteur const& transpo)
 {
     m_dataMap->ajouterTranspo(pos,transpo);
     m_lesimagestransports[pos] = addPixmap(QPixmap("../data/interface/transporteur.png").scaled(m_lcase, m_hcase));
-    m_lesimagestransports[pos]->setPos(m_dataMap->cposx(pos.x(), pos.y(),m_lcase)-m_mlcase, m_dataMap->cposy(pos.y(),m_hcase)-m_mhcase);
+    m_lesimagestransports[pos]->setPos(m_dataMap->cposx(pos.x(), pos.y(),m_lcase,m_zoom_active)-m_mlcase, m_dataMap->cposy(pos.y(),m_hcase,m_zoom_active)-m_mhcase);
     m_lesimagestransports[pos]->setZValue(4);
 }
 
@@ -724,7 +724,7 @@ void Jeu2d::ajouteCasecbt(int x, int y)
         if(m_dataMap->caseCombat(m_equipe,i).x() == -1)
         {
             m_dataMap->setCaseCombat(m_equipe,i,QPoint(x,y));
-            m_imgcasescbt[m_equipe] [i]->setPos(m_dataMap->cposx(x,y,m_lcase)-m_mlcase, m_dataMap->cposy(y,m_hcase)-m_mhcase);
+            m_imgcasescbt[m_equipe] [i]->setPos(m_dataMap->cposx(x,y,m_lcase,m_zoom_active)-m_mlcase, m_dataMap->cposy(y,m_hcase,m_zoom_active)-m_mhcase);
             m_imgcasescbt[m_equipe] [i]->setVisible(true);
             return;
         }
@@ -808,7 +808,7 @@ void Jeu2d::affiche_casesCombat()
         {
             if(m_dataMap->caseCombat(i,j).x() != -1)
             {
-                m_imgcasescbt[i] [j]->setPos(m_dataMap->cposx(m_dataMap->caseCombat(i,j).x(),m_dataMap->caseCombat(i,j).y(),m_lcase)-m_mlcase, m_dataMap->cposy(m_dataMap->caseCombat(i,j).y(),m_hcase)-m_mhcase);
+                m_imgcasescbt[i] [j]->setPos(m_dataMap->cposx(m_dataMap->caseCombat(i,j).x(),m_dataMap->caseCombat(i,j).y(),m_lcase,m_zoom_active)-m_mlcase, m_dataMap->cposy(m_dataMap->caseCombat(i,j).y(),m_hcase,m_zoom_active)-m_mhcase);
                 m_imgcasescbt[i] [j]->setVisible(true);
             }
         }

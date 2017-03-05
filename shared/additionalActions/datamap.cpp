@@ -778,8 +778,8 @@ void DataMap::calculPortee(bool cases_ateignables[NBR_CASES_L] [NBR_CASES_H], in
     int lcase = 40,hcase = 40;
     int mlcase = lcase/2;
     int mhcase = hcase/2;
-    int x = cposx(xdep,ydep,lcase);
-    int y = cposy(ydep,hcase);
+    int x = cposx(xdep,ydep,lcase,true);
+    int y = cposy(ydep,hcase,true);
 
     initialisePortee(cases_ateignables,xdep,ydep,min_portee,max_portee);
     for(int i = 0; i < NBR_CASES_L;i++)
@@ -788,8 +788,8 @@ void DataMap::calculPortee(bool cases_ateignables[NBR_CASES_L] [NBR_CASES_H], in
         {
             if(m_casepleines[i][j] == 2 && (i != xdep || j != ydep))
             {
-                int x2 = cposx(i,j,lcase)-x;
-                int y2 = cposy(j,hcase)-y;
+                int x2 = cposx(i,j,lcase,true)-x;
+                int y2 = cposy(j,hcase,true)-y;
                 int d = x2*x2+y2*y2;
                 double max = 0,min = 0;
                 calculContoursCase(x2,y2,mlcase,mhcase,max,min);
@@ -799,7 +799,7 @@ void DataMap::calculPortee(bool cases_ateignables[NBR_CASES_L] [NBR_CASES_H], in
                     {
                         if(cases_ateignables[i2][j2])
                         {
-                            int x3 = cposx(i2,j2,lcase)-x,y3 = cposy(j2,hcase)-y;
+                            int x3 = cposx(i2,j2,lcase,true)-x,y3 = cposy(j2,hcase,true)-y;
                             if(d < x3*x3+y3*y3)// l'obstacle ne peut cacher que ce qu'il y a derrière lui
                             {
                                 double angle = calculAngle(x3,y3);
@@ -816,23 +816,27 @@ void DataMap::calculPortee(bool cases_ateignables[NBR_CASES_L] [NBR_CASES_H], in
     }
 }
 
-int DataMap::cposx(int casex, int casey,int lcase)
+int DataMap::cposx(int casex, int casey,int lcase,bool zoom)
 {
     int mlcase = lcase/2;
+    if(zoom)
+        casex -= CASESCACHEESX;
     if(casey % 2 == 0)
     {
-        return lcase*(casex-CASESCACHEESX);
+        return lcase*(casex);
     }
     else
     {
-        return lcase*(casex-CASESCACHEESX)+mlcase;
+        return lcase*(casex)+mlcase;
     }
 }
 
-int DataMap::cposy(int casey,int hcase)
+int DataMap::cposy(int casey, int hcase, bool zoom)
 {
     int mhcase = hcase/2;
-    return mhcase*(casey-CASESCACHEESY);
+    if(zoom)
+        casey -= CASESCACHEESY;
+    return mhcase*(casey);
 }
 
 QPoint DataMap::ccase(int posx, int posy,int lmap,int hmap,int lcase,int hcase,bool zoom)
@@ -843,14 +847,14 @@ QPoint DataMap::ccase(int posx, int posy,int lmap,int hmap,int lcase,int hcase,b
     if(mhcase == 0 || mlcase == 0)
         return lacase;
 
-    if(!zoom)
+    if(zoom)
     {
         posx += CASESCACHEESX*lcase;
         posy += CASESCACHEESY*mhcase;
     }
 
-    if((!zoom && (posx > -CASESCACHEESX*lcase-1 && posx < lmap + CASESCACHEESX*lcase && posy > -CASESCACHEESY*mhcase-1 && posy < hmap + CASESCACHEESY*mhcase))
-            || (zoom && posx > 0 && posx < lmap && posy > 0 && posy < hmap))
+    if((zoom && (posx > -CASESCACHEESX*lcase-1 && posx < lmap + CASESCACHEESX*lcase && posy > -CASESCACHEESY*mhcase-1 && posy < hmap + CASESCACHEESY*mhcase))
+            || (!zoom && posx > 0 && posx < lmap && posy > 0 && posy < hmap))
     {
         double a = (double) mhcase/ (double) mlcase, bdroitem, bdroited;
         int i = 0, j = qCeil(NBR_CASES_H/2)-1;

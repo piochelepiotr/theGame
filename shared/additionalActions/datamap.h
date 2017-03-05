@@ -65,9 +65,9 @@ public:
     void setObjet(int i,int j,int calque,Objet *objet) {m_estEnregistree = false; m_objets[calque][i][j] = objet; }
     void vide();
 
-    QPoint ccase(int posx, int posy, int lmap, int hmap, int lcase, int hcase, bool zoom = false);
-    int cposy(int casey,int hcase);
-    int cposx(int casex, int casey,int lcase);
+    QPoint ccase(int posx, int posy, int lmap, int hmap, int lcase, int hcase, bool zoom);
+    int cposy(int casey,int hcase,bool zoom);
+    int cposx(int casex, int casey, int lcase, bool zoom);
     Transporteur getTranspo(QPoint const& pos) const { return m_transpos[pos]; }
     void ajouterTranspo(QPoint const& pos, Transporteur const& transpo) { m_transpos[pos] = transpo; }
     void supprimeTranspo(QPoint const& pos) { m_transpos.remove(pos); }
