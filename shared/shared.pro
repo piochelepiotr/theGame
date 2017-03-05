@@ -55,7 +55,8 @@ SOURCES += \
     additionalActions/rechercheChemin.cpp \
     additionalActions/unchemin.cpp \
     graphicElements/bouton.cpp \
-    graphicElements/boutonimgString.cpp
+    graphicElements/boutonimgString.cpp \
+    graphicElements/gamescene.cpp
 
 HEADERS += \
     infoJoueur/arme.h \
@@ -100,7 +101,8 @@ HEADERS += \
     additionalActions/rechercheChemin.h \
     additionalActions/unchemin.h \
     graphicElements/bouton.h \
-    graphicElements/boutonimgString.h
+    graphicElements/boutonimgString.h \
+    graphicElements/gamescene.h
 
 unix {
     target.path = /usr/lib

@@ -53,7 +53,7 @@ void AfficheJoueur::suivante()
         setPixmap(m_perso->getImage());
         if(*m_caseY != ancienneY)
             setZValue(4+(*m_caseY));
-        setPos(m_parent->getJeu()->dataMap()->cposx(*m_caseX, *m_caseY,m_parent->getlcase())-pixmap().width()/2+m_decalageX, m_parent->getJeu()->dataMap()->cposy(*m_caseY,m_parent->gethcase())-pixmap().height()+m_parent->gethcase()*ECART+m_decalageY);
+        setPos(m_parent->getJeu()->dataMap()->cposx(*m_caseX, *m_caseY,m_parent->getlcase(),true)-pixmap().width()/2+m_decalageX, m_parent->getJeu()->dataMap()->cposy(*m_caseY,m_parent->gethcase(),true)-pixmap().height()+m_parent->gethcase()*ECART+m_decalageY);
         if(m_perso->imobile() && m_parent->contientTranspo(QPoint(*m_caseX, *m_caseY)))
         {
             emit estSurTranspo(QPoint(*m_caseX, *m_caseY));
@@ -111,7 +111,7 @@ void AfficheJoueur::affiche()
 {
     setPixmap(m_perso->getImage());
     setPos(0,0);
-    setPos(m_parent->getJeu()->dataMap()->cposx(*m_caseX, *m_caseY,m_parent->getlcase())-pixmap().width()/2+m_decalageX, m_parent->getJeu()->dataMap()->cposy(*m_caseY,m_parent->gethcase())-pixmap().height()+m_parent->gethcase()*ECART+m_decalageY);
+    setPos(m_parent->getJeu()->dataMap()->cposx(*m_caseX, *m_caseY,m_parent->getlcase(),true)-pixmap().width()/2+m_decalageX, m_parent->getJeu()->dataMap()->cposy(*m_caseY,m_parent->gethcase(),true)-pixmap().height()+m_parent->gethcase()*ECART+m_decalageY);
 }
 
 void AfficheJoueur::changePos(int casex, int casey)
@@ -119,7 +119,7 @@ void AfficheJoueur::changePos(int casex, int casey)
     *m_caseX = casex;
     *m_caseY = casey;
     setZValue(4+(*m_caseY));
-    setPos(m_parent->getJeu()->dataMap()->cposx(*m_caseX, *m_caseY,m_parent->getlcase())-pixmap().width()/2+m_decalageX, m_parent->getJeu()->dataMap()->cposy(*m_caseY,m_parent->gethcase())-pixmap().height()+m_parent->gethcase()*ECART+m_decalageY);
+    setPos(m_parent->getJeu()->dataMap()->cposx(*m_caseX, *m_caseY,m_parent->getlcase(),true)-pixmap().width()/2+m_decalageX, m_parent->getJeu()->dataMap()->cposy(*m_caseY,m_parent->gethcase(),true)-pixmap().height()+m_parent->gethcase()*ECART+m_decalageY);
 }
 
 void AfficheJoueur::mousePressEvent ( QGraphicsSceneMouseEvent *event)

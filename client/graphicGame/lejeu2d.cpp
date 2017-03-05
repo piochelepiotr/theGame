@@ -187,7 +187,7 @@ void Jeu2d::cliqueGauche(int x, int y)
             }
             return;
         }
-        p = m_graphique->getJeu()->dataMap()->ccase(x, y,m_graphique->getlmap(),m_graphique->gethmap(),m_graphique->getlcase(),m_graphique->gethcase());
+        p = m_graphique->getJeu()->dataMap()->ccase(x, y,m_graphique->getlmap(),m_graphique->gethmap(),m_graphique->getlcase(),m_graphique->gethcase(),true);
         if(p.x() != -1)//gere le deplacement sans changer de map
         {
             chem = m_dataMap->calculchemin(getJoueur(m_personnage->getNom())->posALaFin(), p);
@@ -200,7 +200,7 @@ void Jeu2d::cliqueGauche(int x, int y)
     }
     else if(m_combatOuPas == EnPlacement)
     {
-        QPoint p = m_graphique->getJeu()->dataMap()->ccase(x, y,m_graphique->getlmap(),m_graphique->gethmap(),m_graphique->getlcase(),m_graphique->gethcase());
+        QPoint p = m_graphique->getJeu()->dataMap()->ccase(x, y,m_graphique->getlmap(),m_graphique->gethmap(),m_graphique->getlcase(),m_graphique->gethcase(),true);
         if(m_dataMap->estCaseDeDepart(p.x(),p.y(),m_personnage->equipe()))
         {
             if(!m_graphique->contientJoueur(p))
@@ -213,7 +213,7 @@ void Jeu2d::cliqueGauche(int x, int y)
     {
         if(!m_sort_a_utiliser)
         {
-            QPoint arrivee = m_graphique->getJeu()->dataMap()->ccase(x, y,m_graphique->getlmap(),m_graphique->gethmap(),m_graphique->getlcase(),m_graphique->gethcase());
+            QPoint arrivee = m_graphique->getJeu()->dataMap()->ccase(x, y,m_graphique->getlmap(),m_graphique->gethmap(),m_graphique->getlcase(),m_graphique->gethcase(),true);
             QQueue<Dir> chem = m_dataMap->calculcheminCombat(getJoueur(m_personnage->getNom())->posALaFin(), arrivee, m_personnage->getPCCombat());
             if(!chem.isEmpty())
             {

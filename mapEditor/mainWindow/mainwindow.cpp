@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include <iostream>
+#include <QGraphicsSceneMouseEvent>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

@@ -114,9 +114,9 @@ void Jeu_graphique::redi(QSize const& nouvelle, DataMap *dataMap)
         for(int j = 0; j < NBR_CASES_H; j++)
         {
             m_casesDep[i] [j]->setPixmap(caseDep);
-            m_casesDep[i] [j]->setPos(m_parent->dataMap()->cposx(i,j,m_lcase)-m_mlcase, m_parent->dataMap()->cposy(j,m_hcase)-m_mhcase);
+            m_casesDep[i] [j]->setPos(m_parent->dataMap()->cposx(i,j,m_lcase,true)-m_mlcase, m_parent->dataMap()->cposy(j,m_hcase,true)-m_mhcase);
             m_casesPortee[i] [j]->setPixmap(casePortee);
-            m_casesPortee[i] [j]->setPos(m_parent->dataMap()->cposx(i,j,m_lcase)-m_mlcase, m_parent->dataMap()->cposy(j,m_hcase)-m_mhcase);
+            m_casesPortee[i] [j]->setPos(m_parent->dataMap()->cposx(i,j,m_lcase,true)-m_mlcase, m_parent->dataMap()->cposy(j,m_hcase,true)-m_mhcase);
 
             for(int x = 0; x < 3; x++)
             {
@@ -130,14 +130,14 @@ void Jeu_graphique::redi(QSize const& nouvelle, DataMap *dataMap)
     {
         for(int j = 0; j < MAX_PAR_EQUIP; j++)
         {
-            m_imgcasescbt[i] [j]->setPos(m_parent->dataMap()->cposx(dataMap->caseCombat(i,j).x(),dataMap->caseCombat(i,j).y(),m_lcase)-m_mlcase, m_parent->dataMap()->cposy(dataMap->caseCombat(i,j).y(),m_hcase)-m_mhcase);
+            m_imgcasescbt[i] [j]->setPos(m_parent->dataMap()->cposx(dataMap->caseCombat(i,j).x(),dataMap->caseCombat(i,j).y(),m_lcase,true)-m_mlcase, m_parent->dataMap()->cposy(dataMap->caseCombat(i,j).y(),m_hcase,true)-m_mhcase);
         }
     }
 
     for(QMap<QPoint, QGraphicsPixmapItem*>::iterator i = m_lesimagestransports.begin(); i != m_lesimagestransports.end(); i++)
     {
         i.value()->setPixmap(QPixmap("../data/interface/transporteur.png").scaled(m_lcase, m_hcase));
-        i.value()->setPos(m_parent->dataMap()->cposx(i.key().x(), i.key().y(),m_lcase)-m_mlcase, m_parent->dataMap()->cposy(i.key().y(),m_hcase)-m_mhcase);
+        i.value()->setPos(m_parent->dataMap()->cposx(i.key().x(), i.key().y(),m_lcase,true)-m_mlcase, m_parent->dataMap()->cposy(i.key().y(),m_hcase,true)-m_mhcase);
     }
     fondEgal(m_nomfond);
 }
@@ -211,14 +211,14 @@ void Jeu_graphique::caseEgale(int i, int j, Objet *objet, int fond)
         m_lesobjets[fond] [i] [j]->setVisible(true);
         if(fond == 2)
         {
-            m_lesobjets[fond] [i] [j]->setPos(m_parent->dataMap()->cposx(i,j,m_lcase)-m_lesobjets[fond] [i] [j]->pixmap().width()/2, m_parent->dataMap()->cposy(j,m_hcase)-m_lesobjets[fond] [i] [j]->pixmap().height()+m_hcase*ECART);
+            m_lesobjets[fond] [i] [j]->setPos(m_parent->dataMap()->cposx(i,j,m_lcase,true)-m_lesobjets[fond] [i] [j]->pixmap().width()/2, m_parent->dataMap()->cposy(j,m_hcase,true)-m_lesobjets[fond] [i] [j]->pixmap().height()+m_hcase*ECART);
             if(objet->nom().isEmpty())
                 m_lesobjets[fond] [i] [j]->inutile();
             else
                 m_lesobjets[fond] [i] [j]->utile(objet->nom());
         }
         else
-            m_lesobjets[fond] [i] [j]->setPos(m_parent->dataMap()->cposx(i,j,m_lcase)-m_lesobjets[fond] [i] [j]->pixmap().width()/2, m_parent->dataMap()->cposy(j,m_hcase)-m_lesobjets[fond] [i] [j]->pixmap().height()/2);
+            m_lesobjets[fond] [i] [j]->setPos(m_parent->dataMap()->cposx(i,j,m_lcase,true)-m_lesobjets[fond] [i] [j]->pixmap().width()/2, m_parent->dataMap()->cposy(j,m_hcase,true)-m_lesobjets[fond] [i] [j]->pixmap().height()/2);
     }
 }
 
@@ -262,7 +262,7 @@ void Jeu_graphique::nouvelle()
 void Jeu_graphique::ajouteTranspo(QPoint const& pos)
 {
     m_lesimagestransports[pos] = addPixmap(QPixmap("../data/interface/transporteur.png").scaled(m_lcase, m_hcase));
-    m_lesimagestransports[pos]->setPos(m_parent->dataMap()->cposx(pos.x(), pos.y(),m_lcase)-m_mlcase, m_parent->dataMap()->cposy(pos.y(),m_hcase)-m_mhcase);
+    m_lesimagestransports[pos]->setPos(m_parent->dataMap()->cposx(pos.x(), pos.y(),m_lcase,true)-m_mlcase, m_parent->dataMap()->cposy(pos.y(),m_hcase,true)-m_mhcase);
     m_lesimagestransports[pos]->setZValue(4);
 }
 
@@ -368,46 +368,46 @@ void Jeu_graphique::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         m_posFleche.setY(-1);
         if(x < m_mlcase)
         {
-            m_posFleche = m_parent->dataMap()->case_gauche(m_parent->dataMap()->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase));
+            m_posFleche = m_parent->dataMap()->case_gauche(m_parent->dataMap()->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true));
             if(m_posFleche.x() != -1)
             {
                 m_directionChangeMap = G;
                 m_fleche->setVisible(true);
                 m_fleche->setPixmap(QPixmap("../data/interface/flecheg.png").scaled(QSize(50,75)));
-                m_fleche->setPos(0, m_parent->dataMap()->cposy(m_posFleche.y(),m_hcase)-m_fleche->pixmap().height()/2);
+                m_fleche->setPos(0, m_parent->dataMap()->cposy(m_posFleche.y(),m_hcase,true)-m_fleche->pixmap().height()/2);
             }
         }
         else if(x > m_lmap-m_mlcase)
         {
-            m_posFleche = m_parent->dataMap()->case_droite(m_parent->dataMap()->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase));
+            m_posFleche = m_parent->dataMap()->case_droite(m_parent->dataMap()->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true));
             if(m_posFleche.x() != -1)
             {
                 m_directionChangeMap = D;
                 m_fleche->setVisible(true);
                 m_fleche->setPixmap(QPixmap("../data/interface/fleched.png").scaled(QSize(50,75)));
-                m_fleche->setPos(m_lmap-m_fleche->pixmap().width(), m_parent->dataMap()->cposy(m_posFleche.y(),m_hcase)-m_fleche->pixmap().height()/2);
+                m_fleche->setPos(m_lmap-m_fleche->pixmap().width(), m_parent->dataMap()->cposy(m_posFleche.y(),m_hcase,true)-m_fleche->pixmap().height()/2);
             }
         }
         else if(y < m_mhcase)
         {
-            m_posFleche = m_parent->dataMap()->case_haut(m_parent->dataMap()->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase));
+            m_posFleche = m_parent->dataMap()->case_haut(m_parent->dataMap()->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true));
             if(m_posFleche.x() != -1)
             {
                 m_directionChangeMap = O;
                 m_fleche->setVisible(true);
                 m_fleche->setPixmap(QPixmap("../data/interface/flecheo.png").scaled(QSize(75,50)));
-                m_fleche->setPos(m_parent->dataMap()->cposx(m_posFleche.x(), m_posFleche.y(),m_lcase)-m_fleche->pixmap().width()/2, 0);
+                m_fleche->setPos(m_parent->dataMap()->cposx(m_posFleche.x(), m_posFleche.y(),m_lcase,true)-m_fleche->pixmap().width()/2, 0);
             }
         }
         else if(y > (int) ((double) m_hcase * (double) (NBR_CASES_H-CASESCACHEESY*2)/2))
         {
-            m_posFleche = m_parent->dataMap()->case_bas(m_parent->dataMap()->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase));
+            m_posFleche = m_parent->dataMap()->case_bas(m_parent->dataMap()->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true));
             if(m_posFleche.x() != -1)
             {
                 m_directionChangeMap = B;
                 m_fleche->setVisible(true);
                 m_fleche->setPixmap(QPixmap("../data/interface/flecheb.png").scaled(QSize(75,50)));
-                m_fleche->setPos(m_parent->dataMap()->cposx(m_posFleche.x(), m_posFleche.y(),m_lcase)-m_fleche->pixmap().width()/2, m_hmap-m_fleche->pixmap().height());
+                m_fleche->setPos(m_parent->dataMap()->cposx(m_posFleche.x(), m_posFleche.y(),m_lcase,true)-m_fleche->pixmap().width()/2, m_hmap-m_fleche->pixmap().height());
             }
         }
     }
@@ -438,12 +438,12 @@ void Jeu_graphique::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             }
             if(m_posCaseVisee.x() == -1)
             {
-                m_posCaseVisee = m_parent->dataMap()->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase);
+                m_posCaseVisee = m_parent->dataMap()->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true);
             }
             if(caseExiste(m_posCaseVisee.x(),m_posCaseVisee.y()) && m_cases_ateignables[m_posCaseVisee.x()][m_posCaseVisee.y()])
             {
                 m_imgCaseVisee->setVisible(true);
-                m_imgCaseVisee->setPos(m_parent->dataMap()->cposx(m_posCaseVisee.x(),m_posCaseVisee.y(),m_lcase)-m_mlcase, m_parent->dataMap()->cposy(m_posCaseVisee.y(),m_hcase)-m_mhcase);
+                m_imgCaseVisee->setPos(m_parent->dataMap()->cposx(m_posCaseVisee.x(),m_posCaseVisee.y(),m_lcase,true)-m_mlcase, m_parent->dataMap()->cposy(m_posCaseVisee.y(),m_hcase,true)-m_mhcase);
             }
             else
             {
@@ -462,7 +462,7 @@ void Jeu_graphique::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             }
             if(m_parent->monTour() && m_persos[m_nom]->isImobile())
             {
-                QPoint arrivee = m_parent->dataMap()->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase);
+                QPoint arrivee = m_parent->dataMap()->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true);
                 if(arrivee.x() != -1)
                 {
                     if(arrivee != m_ancienne)
@@ -594,7 +594,7 @@ void Jeu_graphique::afficheCasesCombat(DataMap *dataMap)
             QPoint p = dataMap->caseCombat(i,j);
             if(p.x() != -1)
             {
-                m_imgcasescbt[i] [j]->setPos(m_parent->dataMap()->cposx(p.x(),p.y(),m_lcase)-m_mlcase, m_parent->dataMap()->cposy(p.y(),m_hcase)-m_mhcase);
+                m_imgcasescbt[i] [j]->setPos(m_parent->dataMap()->cposx(p.x(),p.y(),m_lcase,true)-m_mlcase, m_parent->dataMap()->cposy(p.y(),m_hcase,true)-m_mhcase);
                 m_imgcasescbt[i] [j]->setVisible(true);
             }
         }
