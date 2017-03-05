@@ -1028,3 +1028,37 @@ QMap<QPoint, Objet *> DataMap::posCollectedResources()
     }
     return collectedObjetcs;
 }
+
+Dir orientation_vers_objet(QPoint const& pos, QPoint const& pos_obj)
+{
+    if(pos.y() == pos_obj.y()+2)
+        return O;
+    else if(pos.y() == pos_obj.y()-2)
+        return B;
+    else if(pos.y() == pos_obj.y() && pos.x() == pos_obj.x()+1)
+        return G;
+    else if(pos.y() == pos_obj.y() && pos.x() == pos_obj.x()-1)
+        return D;
+    else if(pos.y()%2==0)
+    {
+        if(pos.x() == pos_obj.x() && pos.y() == pos_obj.y()+1)
+            return OD;
+        else if(pos.x() == pos_obj.x() && pos.y() == pos_obj.y()-1)
+            return BD;
+        else if(pos.x() == pos_obj.x()+1 && pos.y() == pos_obj.y()+1)
+            return OG;
+        else
+            return BG;
+    }
+    else
+    {
+        if(pos.x() == pos_obj.x() && pos.y() == pos_obj.y()+1)
+            return OG;
+        else if(pos.x() == pos_obj.x() && pos.y() == pos_obj.y()-1)
+            return BG;
+        else if(pos.x() == pos_obj.x()-1 && pos.y() == pos_obj.y()+1)
+            return OD;
+        else
+            return BD;
+    }
+}

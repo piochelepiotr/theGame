@@ -106,6 +106,7 @@ double calculAngle(int x, int y);
 bool auMilieu(double petitAngle,double grandAngle,double milieu,int d);
 void droiteExtremes(QList<double>droites,double &max,double &min);
 void calculContoursCase(int x,int y,int mlcase,int mhcase,double &max,double &min);
+Dir orientation_vers_objet(QPoint const& pos, QPoint const& pos_obj);
 
 
 #endif // DATAMAP_H

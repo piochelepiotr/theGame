@@ -30,6 +30,7 @@ public slots:
     void ajouteEvent();
 public:
     GameScene(QSize const& size, QLabel *texte, Donnees_editeur *donnees_editeur);
+    ~GameScene();
     DataMap *dataMap() const { return m_dataMap; }
     void redi(QSize const& nouvelle);
     void actualise();
@@ -66,6 +67,17 @@ public:
     void masque_casesPO();
 
     bool zoom() const { return m_zoom_active; }
+    void updateObjet(int i,int j, Objet *objet);
+    void imagesuivante();
+    void changePlayerMap(int largX, int largY);
+    void ajouteChemin(QString const& nom, QQueue<Dir> const& chemin);
+    QString contientJoueur();
+    void ajouteUnPerso(InfoPerVis perso);
+    void supprimeUnPerso(QString const& nom);
+    void afficheChemin(QPoint dep, QQueue<Dir>chem);
+    void effaceChemin();
+    void stopUtiliseSort();
+
 protected:
     void zoomChanged();
     QGraphicsRectItem *m_cadred;
@@ -73,12 +85,14 @@ protected:
     QGraphicsRectItem *m_cadreb;
     QGraphicsRectItem *m_cadreh;
     QGraphicsPixmapItem *m_caseImmarchables[NBR_CASES_L] [NBR_CASES_H];
+    QGraphicsPixmapItem *m_casesDep[NBR_CASES_L] [NBR_CASES_H];
     QGraphicsPixmapItem *m_casesPortee[NBR_CASES_L] [NBR_CASES_H];
     QGraphicsPixmapItem *m_imgcasescbt[2] [MAX_PAR_EQUIP];
     QGraphicsPolygonItem *m_grille[NBR_CASES_L] [NBR_CASES_H];
-    QGraphicsPixmapItem *m_imagesObjets [3] [NBR_CASES_L] [NBR_CASES_H];
+    ObjSurScene *m_imagesObjets [3] [NBR_CASES_L] [NBR_CASES_H];
     QGraphicsPixmapItem *m_fond;
     QMap <QPoint, QGraphicsPixmapItem*>m_lesimagestransports;
+    QGraphicsPixmapItem *m_imgCaseVisee;
     int m_lcase;
     int m_hcase;
     int m_mlcase;
@@ -96,6 +110,8 @@ protected:
     bool m_zoom_active;
     int m_equipe;
     DataMap *m_dataMap;
+    QPoint m_ancienne;
+    QPoint m_posCaseVisee;
 };
 
 #endif // GAMESCENE_H

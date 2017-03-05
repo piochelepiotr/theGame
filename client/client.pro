@@ -11,8 +11,6 @@ SOURCES += \
     additionalWindows/fairerecettes.cpp \
     additionalWindows/interjoueur.cpp \
     graphicGame/actions_personnage.cpp \
-    graphicGame/jeu_graphique.cpp \
-    graphicGame/lejeu2d.cpp \
     mainWindow/fenprin.cpp \
     network/compte.cpp \
     network/reseau.cpp \
@@ -21,7 +19,8 @@ SOURCES += \
     combats/combat.cpp \
     graphicGame/tooltip.cpp \
     additionalWindows/windowendfight.cpp \
-    graphicGame/layoutbarreoutil.cpp
+    graphicGame/layoutbarreoutil.cpp \
+    graphicGame/gamefield.cpp
 
 HEADERS += \
     additionalWindows/caracteristiques.h \
@@ -31,8 +30,6 @@ HEADERS += \
     additionalWindows/fairerecettes.h \
     additionalWindows/interjoueur.h \
     graphicGame/actions_personnage.h \
-    graphicGame/jeu_graphique.h \
-    graphicGame/lejeu2d.h \
     mainWindow/fenprin.h \
     network/compte.h \
     network/reseau.h \
@@ -41,7 +38,8 @@ HEADERS += \
     combats/combat.h \
     graphicGame/tooltip.h \
     additionalWindows/windowendfight.h \
-    graphicGame/layoutbarreoutil.h
+    graphicGame/layoutbarreoutil.h \
+    graphicGame/gamefield.h
 
 FORMS += \
     additionalWindows/caracteristiques.ui \

@@ -122,8 +122,8 @@ void FenPrin::jeu()
 
     this->setWindowTitle(m_compte->getPerso(m_persoActuel)->getNom());
 
-    m_jeu = new Jeu2d(QSize(size.width(),size.height()-HAUTEUR_BARRE_OUTIL), m_compte->getPerso(m_persoActuel), m_reseau->socket(), m_donneesediteur);
-    m_jeuui->jeu2d->setScene(m_jeu->graphique());
+    m_jeu = new GameField(QSize(size.width(),size.height()-HAUTEUR_BARRE_OUTIL), m_compte->getPerso(m_persoActuel), m_reseau->socket(), m_donneesediteur);
+    m_jeuui->jeu2d->setScene(m_jeu);
     m_jeuui->jeu2d->setSceneRect(0,0,size.width(),size.height()-HAUTEUR_BARRE_OUTIL);
 
 
@@ -137,7 +137,7 @@ void FenPrin::jeu()
     connect(m_jeuui->menu_jeu_changerPerso, SIGNAL(triggered()), this, SLOT(choixPerso()));
     connect(m_reseau, SIGNAL(nouveauJoueur(InfoPerVis)), m_jeu, SLOT(ajouteUnPerso(InfoPerVis)));
     connect(m_reseau, SIGNAL(decJoueur(QString)), m_jeu, SLOT(supprimeUnPerso(QString)));
-    connect(m_reseau, SIGNAL(coupe(QString,QString,int,int)), m_jeu->graphique(), SLOT(recolte(QString,QString,int,int)));
+    connect(m_reseau, SIGNAL(coupe(QString,QString,int,int)), m_jeu, SLOT(recolte(QString,QString,int,int)));
     connect(m_reseau, SIGNAL(ressource_coupe(QPoint)), m_jeu, SLOT(ressourceRecoltee(QPoint)));
     connect(m_reseau, SIGNAL(ressource_repousse(int,int)), m_jeu, SLOT(ressource_repousse(int,int)));
     connect(m_reseau, SIGNAL(infos_map(QString)), m_jeu, SLOT(infos_map(QString)));
@@ -153,7 +153,7 @@ void FenPrin::jeu()
     connect(m_reseau,SIGNAL(commenceCombat()),this,SLOT(commenceCombat()));
     connect(m_reseau,SIGNAL(changeVie(QString,int)),this,SLOT(changeVie(QString,int)));
     connect(m_reseau,SIGNAL(meurt(QString)),this,SLOT(meurt(QString)));
-    connect(m_reseau,SIGNAL(changePos(QString,int,int)),m_jeu->graphique(),SLOT(changePos(QString,int,int)));
+    connect(m_reseau,SIGNAL(changePos(QString,int,int)),m_jeu,SLOT(changePos(QString,int,int)));
     connect(m_reseau,SIGNAL(finCombat(QString)),this,SLOT(finCombat(QString)));
 
     QTimer *timer = new QTimer(m_jeu);
@@ -163,7 +163,7 @@ void FenPrin::jeu()
 
     m_jeuui->jeu2d->setMouseTracking(true);
 
-    m_jeu->graphique()->installEventFilter(this);
+    m_jeu->installEventFilter(this);
 
     m_etat = Jeu;
 
@@ -352,7 +352,7 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
             m_jeuui->jeu2d->setSceneRect(0,0,width2,height2);
             return true;
         }
-        else if(obj == m_jeu->graphique() && event->type() == QEvent::GraphicsSceneMousePress)
+        else if(obj == m_jeu && event->type() == QEvent::GraphicsSceneMousePress)
         {
             QGraphicsSceneMouseEvent *mouseEvent = static_cast<QGraphicsSceneMouseEvent *>(event);
             if(mouseEvent->button() == Qt::LeftButton)
@@ -396,7 +396,7 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
             }
             return QMainWindow::eventFilter(obj, event);
         }
-        /*else if(obj == m_jeu->graphique() && event->type() == QEvent::GraphicsSceneMove)
+        /*else if(obj == m_jeu && event->type() == QEvent::GraphicsSceneMove)
         {
             //QGraphicsSceneMouseEvent *mouseEvent = static_cast<QGraphicsSceneMouseEvent *>(event);
             //QPoint p = m_jeu->getGraphique()->ccase(mouseEvent->scenePos().x(), mouseEvent->scenePos().y());
@@ -609,7 +609,7 @@ void FenPrin::deplacement(QString qui, QPoint ou)
 {
     if(m_jeu->phase() == HorsCombat)
     {
-        m_jeu->graphique()->deplace(qui, m_jeu->dataMap()->calculchemin(m_jeu->getJoueur(qui)->posALaFin(),ou));
+        m_jeu->deplace(qui, m_jeu->dataMap()->calculchemin(m_jeu->getJoueur(qui)->posALaFin(),ou));
     }
     else if(m_jeu->phase() == EnPlacement)
     {
@@ -728,7 +728,7 @@ void FenPrin::meurt(QString const& nom)
         if(m_jeu->monTour())
             tu_dois_passe_tour();
     }
-    m_jeu->graphique()->meurt(nom);
+    m_jeu->meurt(nom);
 }
 
 void FenPrin::finCombat(QString const& texte)
@@ -739,7 +739,7 @@ void FenPrin::finCombat(QString const& texte)
 
 void FenPrin::changeVie(QString const& nom, int vie)
 {
-    m_jeu->graphique()->setVie(nom,vie);
+    m_jeu->setVie(nom,vie);
     if(nom == m_compte->getPerso(m_persoActuel)->getNom())
     {
         m_layoutBarreOutil->setVie(vie);

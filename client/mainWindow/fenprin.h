@@ -22,7 +22,7 @@
 
 #include "additionalActions/constantes.h"
 #include "network/compte.h"
-#include "graphicGame/lejeu2d.h"
+#include "graphicGame/gamefield.h"
 #include "ui_comainwindow.h"
 #include "ui_choixmainwindow.h"
 #include "ui_jeumainwindow.h"
@@ -56,7 +56,7 @@ public:
     void analyseTexte(QString & texte);
     void analyseReponsePnj(QString const& reponse);
     Ui::JeuMainWindow *getJeuUi() const { return m_jeuui; }
-    Jeu2d *getJeu() const { return m_jeu; }
+    GameField *getJeu() const { return m_jeu; }
 
 public slots:
 
@@ -146,7 +146,7 @@ private:
     QMessageBox *m_boxannul;
     QMessageBox *m_boxquestion;
 
-    Jeu2d *m_jeu;
+    GameField *m_jeu;
 
 
 protected:

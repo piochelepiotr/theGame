@@ -3,6 +3,8 @@
 
 GameScene::GameScene(const QSize &size, QLabel *texte, Donnees_editeur *donnees_editeur)
 {
+    m_posCaseVisee = QPoint(-1,-1);
+    m_ancienne = QPoint(-1,-1);
     m_donnees_editeur = donnees_editeur;
     m_lmap = size.width();
     m_hmap = size.height();
@@ -23,9 +25,16 @@ GameScene::GameScene(const QSize &size, QLabel *texte, Donnees_editeur *donnees_
     QPixmap casePortee("../data/interface/casePO.png");
     QPixmap casecbt1("../data/interface/casecbt0.png");
     QPixmap casecbt2("../data/interface/casecbt1.png");
+    QPixmap caseDep("../data/interface/caseDep.png");
 
     m_fond = addPixmap(QPixmap());
     m_fond->setPos(0,0);
+
+
+    m_imgCaseVisee = addPixmap(casecbt2);
+    m_imgCaseVisee->setZValue(5);
+    m_imgCaseVisee->setVisible(false);
+    m_imgCaseVisee->setOpacity(0.5);
 
     for(int j = 0; j < MAX_PAR_EQUIP; j++)
     {
@@ -44,6 +53,11 @@ GameScene::GameScene(const QSize &size, QLabel *texte, Donnees_editeur *donnees_
     {
         for(int j = 0; j < NBR_CASES_H; j++)
         {
+            m_casesDep[i] [j] = addPixmap(caseDep);
+            m_casesDep[i] [j]->setZValue(4);
+            m_casesDep[i] [j]->setVisible(false);
+            m_casesDep[i] [j]->setOpacity(0.5);
+
             m_caseImmarchables[i] [j] = addPixmap(caseim);
             m_caseImmarchables[i] [j]->setZValue(5+NBR_CASES_H);
             m_caseImmarchables[i] [j]->setVisible(false);
@@ -97,6 +111,11 @@ GameScene::GameScene(const QSize &size, QLabel *texte, Donnees_editeur *donnees_
     zoomChanged();
 }
 
+GameScene::~GameScene()
+{
+
+}
+
 void GameScene::zoomChanged()
 {
     m_cadred->setVisible(!m_zoom_active);
@@ -125,6 +144,7 @@ void GameScene::redi(QSize const& nouvelle)
     largethautcase();
     m_donnees_editeur->decor->resize(m_lcase, m_hcase);
     grille();
+    QPixmap caseDep = QPixmap("../data/interface/caseDep.png").scaled(m_lcase, m_hcase);
     QPixmap caseim = QPixmap("../data/interface/caseim.png").scaled(m_lcase, m_hcase);
     QPixmap casePortee = QPixmap("../data/interface/casePO.png").scaled(m_lcase, m_hcase);
     QPixmap casecbt1 = QPixmap("../data/interface/casecbt0.png").scaled(m_lcase, m_hcase);
@@ -144,6 +164,8 @@ void GameScene::redi(QSize const& nouvelle)
             {
                 caseEgale(i, j, m_dataMap->objet(i,j,x), x);
             }
+            m_casesDep[i] [j]->setPixmap(caseDep);
+            m_casesDep[i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase,m_zoom_active)-m_mlcase, m_dataMap->cposy(j,m_hcase,m_zoom_active)-m_mhcase);
 
             m_caseImmarchables[i] [j]->setPixmap(caseim);
             m_caseImmarchables[i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase,m_zoom_active)-m_mlcase, m_dataMap->cposy(j,m_hcase,m_zoom_active)-m_mhcase);
@@ -599,3 +621,124 @@ void GameScene::masque_casesPO()
     }
 }
 
+void GameScene::updateObjet(int i,int j, Objet *objet)
+{
+    delete m_imagesObjets[2] [i] [j];
+    m_imagesObjets[2] [i] [j] = new ObjSurScene(this, m_lmap, QPoint(i,j));
+    m_imagesObjets[2] [i] [j]->setZValue(j+4);
+    caseEgale(i,j,objet,2);
+}
+
+void GameScene::imagesuivante()
+{
+    for(QMap<QString, AfficheJoueur*>::iterator i = m_persos.begin(); i != m_persos.end(); i++)
+    {
+       i.value()->suivante();
+    }
+}
+
+void GameScene::changePlayerMap(int largX, int largY)
+{
+    m_persos[m_nom]->changePos(largX, largY);
+    QStringList asuprr;
+    for(QMap<QString,AfficheJoueur*>::iterator i = m_persos.begin(); i != m_persos.end(); i++)
+    {
+        if(i.key() != m_nom)
+        {
+            asuprr.append(i.key());
+        }
+    }
+    while(!asuprr.isEmpty())
+    {
+        supprimeUnPerso(asuprr.first());
+        asuprr.pop_front();
+    }
+}
+
+void GameScene::ajouteChemin(QString const& nom, QQueue<Dir> const& chemin)
+{
+    m_persos[nom]->nouveauchemin(chemin);
+}
+
+QString GameScene::contientJoueur()
+{
+    for(QMap<QString, AfficheJoueur*>::iterator i = m_persos.begin(); i != m_persos.end(); i++)
+    {
+        if(i.value()->isUnderMouse())
+        {
+            return i.key();
+        }
+    }
+    return "";
+}
+
+bool GameScene::contientJoueur(QPoint const& pos)
+{
+    for(QMap<QString,AfficheJoueur*>::iterator it = m_persos.begin(); it != m_persos.end();it++)
+    {
+        if(it.value()->posALaFin() == pos)
+            return true;
+    }
+    return false;
+}
+
+void GameScene::ajouteUnPerso(InfoPerVis perso)
+{
+    m_persos[perso.nom] = new AfficheJoueur(m_donneesediteur->ressources->getClasse(perso.classe) ,perso.nom, QSize(m_lcase, m_hcase), perso.posmap, this);
+    this->addItem(m_persos[perso.nom]);
+    if(perso.nom == m_nom)
+        connect(m_persos[perso.nom], SIGNAL(estSurTranspo(QPoint)), m_parent, SLOT(VaChangerDeMap(QPoint)));
+}
+
+void GameScene::supprimeUnPerso(QString const& nom)
+{
+    delete m_persos[nom];
+    m_persos.remove(nom);
+}
+
+void GameScene::effaceChemin()
+{
+    for(int i = 0; i < NBR_CASES_L; i++)
+    {
+        for(int j = 0; j < NBR_CASES_H; j++)
+        {
+
+            m_casesDep[i] [j]->setVisible(false);
+        }
+    }
+}
+
+void GameScene::afficheChemin(QPoint dep, QQueue<Dir>chem)
+{
+    int x = dep.x();
+    int y = dep.y();
+    for(int i = 0; i < chem.size(); i++)
+    {
+        case_suivante(&x,&y,chem.at(i));
+        m_casesDep[x] [y]->setVisible(true);
+    }
+}
+
+void GameScene::stopUtiliseSort()
+{
+    m_imgCaseVisee->setVisible(false);
+    for(int i = 0; i < NBR_CASES_L; i++)
+    {
+        for(int j = 0; j < NBR_CASES_H; j++)
+        {
+            m_cases_ateignables[i] [j] = false;
+            m_casesPortee[i][j]->setVisible(false);
+        }
+    }
+}
+
+void GameScene::affichePortee()
+{
+    for(int i = 0; i < NBR_CASES_L; i++)
+    {
+        for(int j = 0; j < NBR_CASES_H; j++)
+        {
+            m_casesPortee[i][j]->setVisible(m_cases_ateignables[i][j]);
+        }
+    }
+}
