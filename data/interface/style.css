@@ -1,0 +1,67 @@
+@font-face {
+
+    font-family: 'policePrin';
+
+    src: url('policeprin.ttf');
+
+}
+
+QPushButton
+{
+	/*padding: 4 4 4 4;
+	background-color: rgb(50,50,50);
+	border-radius: 2px;
+	color: rgb(200,10,10);*/
+}
+
+QPushButton:hover
+{
+	/*background-color: rgb(60,60,60);
+	color: rgb(210,20,20);*/
+}
+
+QPushButton:focus
+{
+	
+}
+
+QMainWindow
+{
+	/*background-color: rgb(200,200,200);*/
+}
+
+QTableWidget::item
+{
+	/*border-radius: 5px;
+	background-color: rgb(90,90,90);*/
+}
+
+QLineEdit {
+	  /*font-family: 'policePrin';
+     border-radius: 0px;
+     background-color: rgb(0,0,0);
+     color: rgb(200,10,10);*/
+ }
+
+ QProgressBar {
+     /*border: 2px solid grey;
+     border-radius: 1px;
+     background-color: rgb(50,50,50);*/
+     text-align: center;
+     /*color: rgb(150,150,150);*/
+ }
+ 
+ QProgressBar::chunk {
+     /*background-color: rgb(200,10,10);
+     width: 20px;*/
+ }
+ 
+ QWidget
+ {
+		/*background-color: rgb(50,50,50);
+		color: rgb(200,10,10); */
+ }
+ 
+ /*QFrame{
+ 	border: 2px solid black;
+ 	}*/
