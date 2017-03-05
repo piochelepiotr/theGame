@@ -105,7 +105,7 @@ Sort *Creature::getSort(QString const& nom)
     }
     else
     {
-        qDebug("SORT DEMANDER N'EXISTE PAS");
+        qDebug("SORT DEMANDE N'EXISTE PAS");
         return m_donnees_editeur->ressources->getSort("Coup de poing")->sortNiveau(1);
     }
 }

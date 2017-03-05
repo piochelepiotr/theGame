@@ -9,7 +9,7 @@
 
 void perso()
 {
-    QFile style("style.css");
+    QFile style("../data/interface/style.css");
     if(!style.open(QIODevice::ReadOnly))
     {
         qDebug() << "fichier style.css non trouve";

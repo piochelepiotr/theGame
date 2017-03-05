@@ -7,7 +7,7 @@ DataBase::DataBase(Donnees_editeur *donneesEditeur) : QSqlDatabase(QSqlDatabase:
     setHostName("localhost");
     setUserName("piotr");
     setPassword("lralvalueatlr");
-    setDatabaseName("/home/piotr/Documents/projetWeb/jeu/db.sqlite3");
+    setDatabaseName("../data/db.sqlite3");
     if(open())
     {
         qDebug() << "ouverture de la base a réussi !";

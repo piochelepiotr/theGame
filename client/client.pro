@@ -55,9 +55,9 @@ FORMS += \
     mainWindow/jeumainwindow.ui \
     additionalWindows/windowendfight.ui
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../build-gameLibrary-Desktop-Debug/release/ -lgameLibrary
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../build-gameLibrary-Desktop-Debug/debug/ -lgameLibrary
-else:unix: LIBS += -L$$PWD/../build-gameLibrary-Desktop-Debug/ -lgameLibrary
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../data-shared/release/ -lshared
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../data-shared/debug/ -lshared
+else:unix: LIBS += -L$$PWD/../data-shared -lshared
 
-INCLUDEPATH += $$PWD/../gameLibrary
-DEPENDPATH += $$PWD/../gameLibrary
+INCLUDEPATH += $$PWD/../shared
+DEPENDPATH += $$PWD/../shared

@@ -17,9 +17,9 @@ void enregistreMap(int cooX, int cooY,int cooZ, Objet *objets[3] [NBR_CASES_L] [
 {
     QFile fichier;
     if(undo != -1)
-        fichier.setFileName("maps/undo/"+QString::number(undo)+".bin");
+        fichier.setFileName("../data/maps/undo/"+QString::number(undo)+".bin");
     else
-        fichier.setFileName("maps/["+QString::number(cooX)+";"+QString::number(cooY)+";"+QString::number(cooZ)+"].bin");
+        fichier.setFileName("../data/maps/["+QString::number(cooX)+";"+QString::number(cooY)+";"+QString::number(cooZ)+"].bin");
 
     if(fichier.open(QIODevice::WriteOnly))
     {
@@ -97,9 +97,9 @@ bool chargeMap(Decors *decors, int cooX, int cooY,int cooZ, Objet *objets[3] [NB
 {
     QFile fichier;
     if(undo != -1)
-        fichier.setFileName("maps/undo/"+QString::number(undo-1)+".bin");
+        fichier.setFileName("../data/maps/undo/"+QString::number(undo-1)+".bin");
     else
-        fichier.setFileName("maps/["+QString::number(cooX)+";"+QString::number(cooY)+";"+QString::number(cooZ)+"].bin");
+        fichier.setFileName("../data/maps/["+QString::number(cooX)+";"+QString::number(cooY)+";"+QString::number(cooZ)+"].bin");
     if(!fichier.exists())
         return false;
 
@@ -188,7 +188,7 @@ bool chargeMap(Decors *decors, int cooX, int cooY,int cooZ, Objet *objets[3] [NB
 
 void ajouteUnTheme(QString const& nom)
 {
-    QFile fichier("objets/themes.txt");
+    QFile fichier("../data/objets/themes.txt");
 
     if(fichier.open(QIODevice::WriteOnly | QIODevice::Append))
     {
@@ -200,7 +200,7 @@ void ajouteUnTheme(QString const& nom)
 
 qint16 trouveNumero()
 {
-    QString chemin = "objets/";
+    QString chemin = "../data/objets/";
     qint16 numero = 1;
     while(QFile::exists(chemin+QString::number((int)numero)+".png"))
     {
@@ -213,8 +213,8 @@ void ajouteObjet(Objet *objet, QString const& chemin_vers_image)
 {
     QString ligne;
     QString texte = QString::number((int)objet->numero()) + '/' + objet->nom() + '/' + objet->categorie() + '/' + QString::number(objet->propx()) + '/' + QString::number(objet->propy());
-    QFile ancien_fichier("objets/objets.txt");
-    QFile nouveau_fichier("objets/objets2.txt");
+    QFile ancien_fichier("../data/objets/objets.txt");
+    QFile nouveau_fichier("../data/objets/objets2.txt");
 
 
     if(ancien_fichier.open(QIODevice::ReadOnly) && nouveau_fichier.open(QIODevice::WriteOnly))
@@ -239,8 +239,8 @@ void ajouteObjet(Objet *objet, QString const& chemin_vers_image)
         ancien_fichier.close();
         nouveau_fichier.close();
 
-        QFile::remove("objets/objets.txt");
-        QFile::rename("objets/objets2.txt", "objets/objets.txt");
+        QFile::remove("../data/objets/objets.txt");
+        QFile::rename("../data/objets/objets2.txt", "../data/objets/objets.txt");
     }
 
     QFile::copy(chemin_vers_image, "objets/"+QString::number((int) objet->numero())+ ".png");
@@ -251,8 +251,8 @@ void editerUnObjet(Objet *objet)
 {
     QString ligne, texte = QString::number((int)objet->numero()) + '/' + objet->nom() + '/' + objet->categorie() + '/' + QString::number(objet->propx()) + '/' + QString::number(objet->propy());
 
-    QFile ancien_fichier("objets/objets.txt");
-    QFile nouveau_fichier("objets/objets2.txt");
+    QFile ancien_fichier("../data/objets/objets.txt");
+    QFile nouveau_fichier("../data/objets/objets2.txt");
 
     if(ancien_fichier.open(QIODevice::ReadOnly) && nouveau_fichier.open(QIODevice::WriteOnly))
     {
@@ -273,8 +273,8 @@ void editerUnObjet(Objet *objet)
         ancien_fichier.close();
         nouveau_fichier.close();
 
-        QFile::remove("objets/objets.txt");
-        QFile::rename("objets/objets2.txt", "objets/objets.txt");
+        QFile::remove("../data/objets/objets.txt");
+        QFile::rename("../data/objets/objets2.txt", "../data/objets/objets.txt");
     }
 }
 
@@ -282,8 +282,8 @@ void supprimerObjet(Decors *decors, Objet *objet)
 {
     QString ligne;
 
-    QFile fichier_ancien("objets/objets.txt");
-    QFile fichier_nouveau("objets/objets2.txt");
+    QFile fichier_ancien("../data/objets/objets.txt");
+    QFile fichier_nouveau("../data/objets/objets2.txt");
 
     if(fichier_ancien.open(QIODevice::ReadOnly) && fichier_nouveau.open(QIODevice::WriteOnly))
     {
@@ -302,8 +302,8 @@ void supprimerObjet(Decors *decors, Objet *objet)
         fichier_ancien.close();
         fichier_nouveau.close();
 
-        QFile::remove("objets/objets.txt");
-        QFile::rename("objets/objets2.txt", "objets/objets.txt");
+        QFile::remove("../data/objets/objets.txt");
+        QFile::rename("../data/objets/objets2.txt", "../data/objets/objets.txt");
     }
 
     Objet *objets[3] [NBR_CASES_L] [NBR_CASES_H];
@@ -341,7 +341,7 @@ void supprimerObjet(Decors *decors, Objet *objet)
             }
         }
     }
-    QString nom = "objets/"+QString::number((int)objet->numero())+".png";
+    QString nom = "../data/objets/"+QString::number((int)objet->numero())+".png";
     decors->supprimeObjet(objet);
     QFile::remove(nom);
 }
@@ -350,6 +350,6 @@ bool mapexiste(int x, int y, int z)
 {
     if(x < 0 || y < 0 || z < 0 || x > NBR_DE_MAPS_X-1 || y > NBR_DE_MAPS_Y-1 || z > NBR_DE_MAPS_Z-1)
         return false;
-    QFile fichier("maps/["+QString::number(x)+";"+QString::number(y)+";"+QString::number(z)+"].bin");
+    QFile fichier("../data/maps/["+QString::number(x)+";"+QString::number(y)+";"+QString::number(z)+"].bin");
     return fichier.exists();
 }

@@ -6,7 +6,7 @@ Images_action::Images_action(QString const& nom_classe,QString const& nom_action
     m_nomClasse = nom_classe;
     m_nomAction = nom_action;
     definieEnMouvement();
-    QString chemin = "imagesdespersos/"+ m_nomClasse+"/"+ m_nomAction + "/", chemin2;
+    QString chemin = "../data/imagesdespersos/"+ m_nomClasse+"/"+ m_nomAction + "/", chemin2;
     int j;
     QPixmap p;
     for(int i = 0; i < 8; i++)
@@ -25,7 +25,7 @@ bool Images_action::redimentionne(QSize const& nouvelle)
 {
     if(m_nbrUtilisateur < 1)
         return false;
-    QString chemin = "imagesdespersos/"+ m_nomClasse +"/"+ m_nomAction + "/", chemin2;
+    QString chemin = "../data/imagesdespersos/"+ m_nomClasse +"/"+ m_nomAction + "/", chemin2;
     for(int i = 0; i < 8; i++)
     {
         chemin2 = chemin + QString::number(i) + '/';

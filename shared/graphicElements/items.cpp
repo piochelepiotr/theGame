@@ -143,7 +143,7 @@ void Items::scrool(int valeure)
 
 void Items::remplire(int valeure)
 {
-    QPixmap pix = QPixmap("vide.png").scaled(40,40);
+    QPixmap pix = QPixmap("../data/interface/vide.png").scaled(40,40);
     int v;
 
     for(int y = 0; y < m_nbrv; y++)
