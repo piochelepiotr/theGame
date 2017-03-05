@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>JeuMainWindow</class>
+ <widget class="QMainWindow" name="JeuMainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>655</width>
+    <height>632</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>le jeu</string>
+  </property>
+  <widget class="QWidget" name="lay_prin">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QGraphicsView" name="jeu2d">
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="barreoutil">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menu">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>655</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_jeu">
+    <property name="title">
+     <string>jeu</string>
+    </property>
+    <addaction name="menu_jeu_quitter"/>
+    <addaction name="menu_jeu_deco"/>
+    <addaction name="menu_jeu_changerPerso"/>
+   </widget>
+   <addaction name="menu_jeu"/>
+  </widget>
+  <action name="menu_jeu_quitter">
+   <property name="text">
+    <string>Quitter le jeu</string>
+   </property>
+  </action>
+  <action name="menu_jeu_deco">
+   <property name="text">
+    <string>Se déconnecter</string>
+   </property>
+  </action>
+  <action name="menu_jeu_changerPerso">
+   <property name="text">
+    <string>Changer de personnage</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

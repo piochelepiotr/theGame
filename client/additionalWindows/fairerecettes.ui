@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FaireRecettes</class>
+ <widget class="QDialog" name="FaireRecettes">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>801</width>
+    <height>505</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QWidget" name="recettes" native="true"/>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="lay_milieu">
+     <item>
+      <widget class="QPushButton" name="lancer">
+       <property name="text">
+        <string>Lancer 1 fois</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="lay_lancer_tout">
+       <item>
+        <widget class="QPushButton" name="lancer_tout">
+         <property name="text">
+          <string>Lancer tout</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="stoper">
+         <property name="text">
+          <string>Stoper</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="texte_lancer_tout">
+         <property name="text">
+          <string>quantité</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="quantite"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="lay_objet_cree">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>objet crée</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QPushButton" name="fermer">
+       <property name="text">
+        <string>Fermer</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>fermer</sender>
+   <signal>clicked()</signal>
+   <receiver>FaireRecettes</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>575</x>
+     <y>94</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>855</x>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

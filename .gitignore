@@ -8,3 +8,7 @@ server/Makefile
 mapEditor/Makefile
 ui_*.h
 *.stash
+data-shared
+data-client
+data-server
+data-mapEditor

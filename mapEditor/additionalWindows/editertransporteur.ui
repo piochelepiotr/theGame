@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EditerTransporteur</class>
+ <widget class="QDialog" name="EditerTransporteur">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="lay_nom">
+     <item>
+      <widget class="QLabel" name="text_nom">
+       <property name="text">
+        <string>nom :</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="bar_nom"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="lay_arr">
+     <item>
+      <widget class="QLabel" name="text_arr">
+       <property name="text">
+        <string>nom de l'arrivée :</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="bar_arr"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="lay_cooX">
+     <item>
+      <widget class="QLabel" name="text_cooX">
+       <property name="text">
+        <string>Coordonnées arrivé X</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="nbr_cooX"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="lay_cooY">
+     <item>
+      <widget class="QLabel" name="text_cooY">
+       <property name="text">
+        <string>Coordonées arrivé Y</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="nbr_cooY"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="lay_cooZ">
+     <item>
+      <widget class="QLabel" name="text_cooZ">
+       <property name="text">
+        <string>Coordonées arrivé Z</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="nbr_cooZ"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="lay_largage">
+     <item>
+      <widget class="QLabel" name="text_largage">
+       <property name="text">
+        <string>point de largage</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comb_largage">
+       <item>
+        <property name="text">
+         <string>haut</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>haut_gauche</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>gauche</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>bas_gauche</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>bas</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>bas_droite</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>droite</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>haut_droite</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QPushButton" name="bout_suprr">
+     <property name="text">
+      <string>Supprimer</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="lesboutons">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>lesboutons</sender>
+   <signal>accepted()</signal>
+   <receiver>EditerTransporteur</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lesboutons</sender>
+   <signal>rejected()</signal>
+   <receiver>EditerTransporteur</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

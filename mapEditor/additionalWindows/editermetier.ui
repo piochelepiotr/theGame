@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EditerMetier</class>
+ <widget class="QDialog" name="EditerMetier">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>822</width>
+    <height>531</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="lay_nom">
+     <item>
+      <widget class="QPushButton" name="supprime_metier">
+       <property name="text">
+        <string>Supprimer le metier actuel</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="select_metier"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ajoute_metier">
+       <property name="text">
+        <string>Ajouter</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="lay_prin">
+     <item>
+      <layout class="QVBoxLayout" name="lay_objs">
+       <item>
+        <widget class="QPushButton" name="ajoute_obj">
+         <property name="text">
+          <string>Ajouter un objet coupable</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="tableau_objets">
+         <column>
+          <property name="text">
+           <string>Ressource</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Objet</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>&quot;souche&quot;</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Niveau</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string/>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="lay_recettes">
+       <item>
+        <layout class="QHBoxLayout" name="lay_action_recette">
+         <item>
+          <widget class="QPushButton" name="ajoute_recette">
+           <property name="text">
+            <string>Ajouter une recette</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="select_recette"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="supprime_recette">
+           <property name="text">
+            <string>Supprimer la recette actuelle</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="ajoute_ingredient">
+           <property name="text">
+            <string>Ajouter ingrédient</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="tableau_recettes">
+         <column>
+          <property name="text">
+           <string>Ingrédient</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Quantité</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string/>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="lay_arme">
+         <item>
+          <widget class="QLabel" name="texte_arme">
+           <property name="text">
+            <string>Arme pour récolter</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="arme"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="lay_verbe">
+         <item>
+          <widget class="QLabel" name="texte_verbe">
+           <property name="text">
+            <string>Verbe</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="verbe"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="lay_machine">
+         <item>
+          <widget class="QLabel" name="text_machine">
+           <property name="text">
+            <string>Objet pour faire les recettes</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="machine"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="lay_verbe_recette">
+         <item>
+          <widget class="QLabel" name="text_verbe_recette">
+           <property name="text">
+            <string>Verbe recette</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="verbe_recette"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="lay_rac">
+         <item>
+          <widget class="QLabel" name="text_rac">
+           <property name="text">
+            <string>Raccourcis en 3 lettres</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="rac"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>EditerMetier</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>EditerMetier</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
