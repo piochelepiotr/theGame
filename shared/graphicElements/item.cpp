@@ -57,7 +57,7 @@ Item::Item(ArmeBase *arme_base,int quantite, int num)
 
 Item::Item(bool enable)
 {
-    setPixmap(QPixmap("vide.png").scaled(40,40));
+    setPixmap(QPixmap("../data/interface/vide.png").scaled(40,40));
     if(!enable)
         setEnabled(false);
 }

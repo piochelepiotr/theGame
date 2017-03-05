@@ -8,7 +8,7 @@ DataMap::DataMap(Donnees_editeur *donnees_editeur,int cooX, int cooY, int cooZ)
     m_cooX = cooX;
     m_cooY = cooY;
     m_cooZ = cooZ;
-    charge("maps/["+QString::number(cooX)+";"+QString::number(cooY)+";"+QString::number(cooZ)+"].bin");
+    charge("../data/maps/["+QString::number(cooX)+";"+QString::number(cooY)+";"+QString::number(cooZ)+"].bin");
     m_estEnregistree = true;
 }
 
@@ -18,7 +18,7 @@ void DataMap::chargeMap(int x,int y,int z)
     m_cooX = x;
     m_cooY = y;
     m_cooZ = z;
-    charge("maps/["+QString::number(m_cooX)+";"+QString::number(m_cooY)+";"+QString::number(m_cooZ)+"].bin");
+    charge("../data/maps/["+QString::number(m_cooX)+";"+QString::number(m_cooY)+";"+QString::number(m_cooZ)+"].bin");
     m_estEnregistree = true;
 }
 
@@ -103,7 +103,7 @@ void DataMap::charge(QString const& nomFichier)
         }
         charge_contours();
         if(m_undo != -1)
-            QFile::remove("maps/undo/"+QString::number(m_undo)+".bin");
+            QFile::remove("../data/maps/undo/"+QString::number(m_undo)+".bin");
     }
     else
     {
@@ -118,7 +118,7 @@ bool DataMap::undo()
     {
         m_undo--;
         nouvelleMap();
-        charge("maps/undo/"+QString::number(m_undo)+".bin");
+        charge("../data/maps/undo/"+QString::number(m_undo)+".bin");
         //fichier.setFileName();
         return true;
     }
@@ -165,16 +165,16 @@ bool DataMap::exist(int cooX,int cooY,int cooZ,int undo/*=-1*/)
 {
     QFile fichier;
     if(undo != -1)
-        fichier.setFileName("maps/undo/"+QString::number(undo-1)+".bin");
+        fichier.setFileName("../data/maps/undo/"+QString::number(undo-1)+".bin");
     else
-        fichier.setFileName("maps/["+QString::number(cooX)+";"+QString::number(cooY)+";"+QString::number(cooZ)+"].bin");
+        fichier.setFileName("../data/maps/["+QString::number(cooX)+";"+QString::number(cooY)+";"+QString::number(cooZ)+"].bin");
     return fichier.exists();
 }
 
 void DataMap::casePleineDeMap(int cooX, int cooY, int cooZ, qint8 casesPleines[NBR_CASES_L] [NBR_CASES_H])
 {
     QFile fichier;
-    fichier.setFileName("maps/["+QString::number(cooX)+";"+QString::number(cooY)+";"+QString::number(cooZ)+"].bin");
+    fichier.setFileName("../data/maps/["+QString::number(cooX)+";"+QString::number(cooY)+";"+QString::number(cooZ)+"].bin");
     if(!fichier.exists())
     {
         qDebug() << "erreur au chargement de la map d'à coté!";
@@ -219,11 +219,11 @@ void DataMap::enregistre(bool undo/* = -1*/)
     if(undo)
     {
         m_undo++;
-        fichier.setFileName("maps/undo/"+QString::number(undo)+".bin");
+        fichier.setFileName("../data/maps/undo/"+QString::number(undo)+".bin");
     }
     else
     {
-        fichier.setFileName("maps/["+QString::number(m_cooX)+";"+QString::number(m_cooY)+";"+QString::number(m_cooZ)+"].bin");
+        fichier.setFileName("../data/maps/["+QString::number(m_cooX)+";"+QString::number(m_cooY)+";"+QString::number(m_cooZ)+"].bin");
         m_estEnregistree = true;
     }
 

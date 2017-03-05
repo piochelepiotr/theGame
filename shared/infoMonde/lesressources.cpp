@@ -4,9 +4,9 @@ LesRessources::LesRessources()
 {
     QStringList liste;
     QString ligne;
-    QFile fichier_ressources("Ressources/ressources.txt");
-    QFile fichier_equipements("Ressources/equipements.txt");
-    QFile fichier_armes("Ressources/armes.txt");
+    QFile fichier_ressources("../data/Ressources/ressources.txt");
+    QFile fichier_equipements("../data/Ressources/equipements.txt");
+    QFile fichier_armes("../data/Ressources/armes.txt");
 
     QFile fichier_sorts(QString(DONNEES)+QString("sorts.txt"));
     if(fichier_sorts.open(QIODevice::ReadOnly))

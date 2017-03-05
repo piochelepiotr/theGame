@@ -8,10 +8,10 @@ QT       += widgets network sql
 
 QT       -= gui
 
-TARGET = gameLibrary
+TARGET = shared
 TEMPLATE = lib
 
-DEFINES += GAMELIBRARY_LIBRARY
+DEFINES += SHARED_LIBRARY
 
 SOURCES += \
     infoJoueur/arme.cpp \

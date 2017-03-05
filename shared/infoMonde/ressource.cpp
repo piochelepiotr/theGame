@@ -7,8 +7,8 @@ Ressource::Ressource(const QString &nom, int pods, const QString &description, i
     m_description = description;
     m_niveau = niveau;
     m_categorie = categorie;
-    m_imageg = QPixmap("Ressources/images/"+m_nom+".png").scaled(150,150);
-    m_imagep = QPixmap("Ressources/images/"+m_nom+".png").scaled(40,40);
+    m_imageg = QPixmap("../data/Ressources/images/"+m_nom+".png").scaled(150,150);
+    m_imagep = QPixmap("../data/Ressources/images/"+m_nom+".png").scaled(40,40);
 }
 
 QString Ressource::enString(Resss const& resss)
@@ -26,16 +26,16 @@ Resss Ressource::chargeRess(int nbr, Ressource *ressource)
 
 Ressource *Ressource::nouvelle(QString const& nom, const QString &chemin)
 {
-    QFile::copy(chemin, "Ressources/images/"+nom+".png");
+    QFile::copy(chemin, "../data/Ressources/images/"+nom+".png");
     return new Ressource(nom, 1, "", 1, "ressources");
 }
 
 void Ressource::setImage(QString const& chemin)
 {
-    QFile::remove("Ressources/images/"+m_nom+".png");
-    QFile::copy(chemin, "Ressources/images/"+m_nom+".png");
-    m_imageg = QPixmap("Ressources/images/"+m_nom+".png").scaled(150,150);
-    m_imagep = QPixmap("Ressources/images/"+m_nom+".png").scaled(40,40);
+    QFile::remove("../data/Ressources/images/"+m_nom+".png");
+    QFile::copy(chemin, "../data/Ressources/images/"+m_nom+".png");
+    m_imageg = QPixmap("../data/Ressources/images/"+m_nom+".png").scaled(150,150);
+    m_imagep = QPixmap("../data/Ressources/images/"+m_nom+".png").scaled(40,40);
 }
 
 QString Ressource::longue_description()

@@ -16,7 +16,7 @@ void Decors::charge()
     QStringList liste;
     double propx, propy;
 
-    QFile fichier_themes("objets/themes.txt");
+    QFile fichier_themes("../data/objets/themes.txt");
     if(fichier_themes.open(QIODevice::ReadOnly))
     {
         QTextStream stream_themes(&fichier_themes);
@@ -30,7 +30,7 @@ void Decors::charge()
         }
         fichier_themes.close();
     }
-    QFile fichier_objets("objets/objets.txt");
+    QFile fichier_objets("../data/objets/objets.txt");
     if(fichier_objets.open(QIODevice::ReadOnly))
     {
         QTextStream stream_objets(&fichier_objets);

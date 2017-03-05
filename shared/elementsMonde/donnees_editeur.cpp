@@ -1,4 +1,5 @@
 #include "donnees_editeur.h"
+#include <iostream>
 
 Donnees_editeur::Donnees_editeur(int lcase, int hcase)
 {

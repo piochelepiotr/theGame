@@ -25,7 +25,9 @@ Objet::Objet()
 QPixmap Objet::image()
 {
     if(m_image.isNull())
-        m_image = QPixmap("objets/"+QString::number(m_numero)).scaled(m_largeur, m_hauteur);
+    {
+        m_image = QPixmap("../data/objets/"+QString::number(m_numero)).scaled(m_largeur, m_hauteur);
+    }
     return m_image;
 }
 

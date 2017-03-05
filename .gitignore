@@ -2,6 +2,9 @@
 *.o
 *.so*
 moc_*
-data-gameLibrary/Makefile
+shared/Makefile
+client/Makefile
+server/Makefile
+mapEditor/Makefile
 ui_*.h
 *.stash

@@ -7,7 +7,7 @@
 
 //emplacement des ressources
 
-#define DOSSIER_IMAGES_SORTS "imagesSorts/"
+#define DOSSIER_IMAGES_SORTS "../data/imagesSorts/"
 
 //général
 
@@ -43,7 +43,7 @@
 #define NBR_IMAGES_SECONDE 20
 #define MAX_PAR_EQUIP 15
 #define ECART 1/5
-#define DONNEES "donnees/"
+#define DONNEES "../data/donnees/"
 #define NBR_LVL_SORTS 10
 #define INTERVALE_RECETTE 1000
 #define HAUTEUR_BARRE_OUTIL 70
