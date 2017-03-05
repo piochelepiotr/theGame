@@ -629,6 +629,11 @@ void GameScene::updateObjet(int i,int j, Objet *objet)
     caseEgale(i,j,objet,2);
 }
 
+void GameScene::updateObjet(QPoint pos)
+{
+    updateObjet(pos.x(),pos.y(),m_dataMap->objet(pos.x(),pos.y(),2));
+}
+
 void GameScene::effaceChemin()
 {
     for(int i = 0; i < NBR_CASES_L; i++)

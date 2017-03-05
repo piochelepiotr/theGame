@@ -1,7 +1,8 @@
 #include "affichejoueur.h"
-#include "jeu_graphique.h"
+#include "gamefield.h"
+#include <QGraphicsSceneMouseEvent>
 
-AfficheJoueur::AfficheJoueur(UneCreature *creature, QString const& nom, QSize const& size,int *poscasex, int*poscasey, Jeu_graphique *parent) : QGraphicsPixmapItem()
+AfficheJoueur::AfficheJoueur(UneCreature *creature, QString const& nom, QSize const& size,int *poscasex, int*poscasey, GameField *parent) : QGraphicsPixmapItem()
 {
     m_color = QColor(255,255,255,0);
     m_decalageX = 0;
@@ -17,7 +18,7 @@ AfficheJoueur::AfficheJoueur(UneCreature *creature, QString const& nom, QSize co
     creationBulleAide(nom);
 }
 
-AfficheJoueur::AfficheJoueur(UneCreature *creature, QString const& nom, QSize const& size,QPoint const& poscase, Jeu_graphique *parent) : QGraphicsPixmapItem()
+AfficheJoueur::AfficheJoueur(UneCreature *creature, QString const& nom, QSize const& size, QPoint const& poscase, GameField *parent) : QGraphicsPixmapItem()
 {
     m_color = QColor(255,255,255,0);
     m_decalageX = 0;
@@ -53,8 +54,8 @@ void AfficheJoueur::suivante()
         setPixmap(m_perso->getImage());
         if(*m_caseY != ancienneY)
             setZValue(4+(*m_caseY));
-        setPos(m_parent->getJeu()->dataMap()->cposx(*m_caseX, *m_caseY,m_parent->getlcase(),true)-pixmap().width()/2+m_decalageX, m_parent->getJeu()->dataMap()->cposy(*m_caseY,m_parent->gethcase(),true)-pixmap().height()+m_parent->gethcase()*ECART+m_decalageY);
-        if(m_perso->imobile() && m_parent->contientTranspo(QPoint(*m_caseX, *m_caseY)))
+        setPos(m_parent->dataMap()->cposx(*m_caseX, *m_caseY,m_parent->getlcase(),true)-pixmap().width()/2+m_decalageX, m_parent->dataMap()->cposy(*m_caseY,m_parent->gethcase(),true)-pixmap().height()+m_parent->gethcase()*ECART+m_decalageY);
+        if(m_perso->imobile() && m_parent->dataMap()->contientTranspo(QPoint(*m_caseX, *m_caseY)))
         {
             emit estSurTranspo(QPoint(*m_caseX, *m_caseY));
         }
@@ -75,7 +76,7 @@ void AfficheJoueur::suivante()
         }
         else if(action == Actions_personnage::ARecolter)
         {
-            m_parent->a_recolte();
+            m_parent->a_coupe();
         }
     }
 }
@@ -111,7 +112,7 @@ void AfficheJoueur::affiche()
 {
     setPixmap(m_perso->getImage());
     setPos(0,0);
-    setPos(m_parent->getJeu()->dataMap()->cposx(*m_caseX, *m_caseY,m_parent->getlcase(),true)-pixmap().width()/2+m_decalageX, m_parent->getJeu()->dataMap()->cposy(*m_caseY,m_parent->gethcase(),true)-pixmap().height()+m_parent->gethcase()*ECART+m_decalageY);
+    setPos(m_parent->dataMap()->cposx(*m_caseX, *m_caseY,m_parent->getlcase(),true)-pixmap().width()/2+m_decalageX, m_parent->dataMap()->cposy(*m_caseY,m_parent->gethcase(),true)-pixmap().height()+m_parent->gethcase()*ECART+m_decalageY);
 }
 
 void AfficheJoueur::changePos(int casex, int casey)
@@ -119,7 +120,7 @@ void AfficheJoueur::changePos(int casex, int casey)
     *m_caseX = casex;
     *m_caseY = casey;
     setZValue(4+(*m_caseY));
-    setPos(m_parent->getJeu()->dataMap()->cposx(*m_caseX, *m_caseY,m_parent->getlcase(),true)-pixmap().width()/2+m_decalageX, m_parent->getJeu()->dataMap()->cposy(*m_caseY,m_parent->gethcase(),true)-pixmap().height()+m_parent->gethcase()*ECART+m_decalageY);
+    setPos(m_parent->dataMap()->cposx(*m_caseX, *m_caseY,m_parent->getlcase(),true)-pixmap().width()/2+m_decalageX, m_parent->dataMap()->cposy(*m_caseY,m_parent->gethcase(),true)-pixmap().height()+m_parent->gethcase()*ECART+m_decalageY);
 }
 
 void AfficheJoueur::mousePressEvent ( QGraphicsSceneMouseEvent *event)

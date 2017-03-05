@@ -1,4 +1,7 @@
 #include "gamefield.h"
+#include "affichejoueur.h"
+#include <QGraphicsSceneMouseEvent>
+#include "network/reseau.h"
 
 GameField::GameField(const QSize &size, Personnage *pers, QTcpSocket *sock, Donnees_editeur *donnees_editeur) : GameScene(size,0,donnees_editeur)
 {
@@ -6,10 +9,8 @@ GameField::GameField(const QSize &size, Personnage *pers, QTcpSocket *sock, Donn
     m_combat = 0;
     m_nomMetier = "";
     m_combatOuPas = HorsCombat;
-    m_donnees_editeur = donneesediteur;
     m_socket = sock;
     m_personnage = pers;
-    m_graphique = new GameField(size, pers->getNom(), this, donneesediteur);
     charge(pers->getPosX(), pers->getPosY(), pers->getPosZ());
     InfoPerVis inf;
     inf.classe = pers->getClasse();
@@ -86,7 +87,7 @@ void GameField::cliqueGauche(int x, int y)
             }
             return;
         }
-        p = getJeu()->dataMap()->ccase(x, y,getlmap(),gethmap(),getlcase(),gethcase(),true);
+        p = m_dataMap->ccase(x, y,getlmap(),gethmap(),getlcase(),gethcase(),true);
         if(p.x() != -1)//gere le deplacement sans changer de map
         {
             chem = m_dataMap->calculchemin(getJoueur(m_personnage->getNom())->posALaFin(), p);
@@ -99,7 +100,7 @@ void GameField::cliqueGauche(int x, int y)
     }
     else if(m_combatOuPas == EnPlacement)
     {
-        QPoint p = getJeu()->dataMap()->ccase(x, y,getlmap(),gethmap(),getlcase(),gethcase(),true);
+        QPoint p = m_dataMap->ccase(x, y,getlmap(),gethmap(),getlcase(),gethcase(),true);
         if(m_dataMap->estCaseDeDepart(p.x(),p.y(),m_personnage->equipe()))
         {
             if(!contientJoueur(p))
@@ -112,7 +113,7 @@ void GameField::cliqueGauche(int x, int y)
     {
         if(!m_sort_a_utiliser)
         {
-            QPoint arrivee = getJeu()->dataMap()->ccase(x, y,getlmap(),gethmap(),getlcase(),gethcase(),true);
+            QPoint arrivee = m_dataMap->ccase(x, y,getlmap(),gethmap(),getlcase(),gethcase(),true);
             QQueue<Dir> chem = m_dataMap->calculcheminCombat(getJoueur(m_personnage->getNom())->posALaFin(), arrivee, m_personnage->getPCCombat());
             if(!chem.isEmpty())
             {
@@ -157,21 +158,21 @@ void GameField::phasePlacement(Combat *combat,int equipe)
 {
     m_personnage->setEquipe(equipe);
     m_combatOuPas = EnPlacement;
-    afficheCasesCombat(m_dataMap);
+    affiche_casesCombat();
     setMonTour(false);
 }
 
 void GameField::phaseCombat()
 {
     m_combatOuPas = EnCombat;
-    masqueCaseCombat();
-    marche_pas(m_dataMap);
+    masque_casesCombat();
+    marche_pas();
 }
 
 void GameField::phaseFinCombat()
 {
     if(m_combatOuPas == EnPlacement)
-        masqueCaseCombat();
+        masque_casesCombat();
     m_combatOuPas = HorsCombat;
     m_combat = 0;
     effaceChemin();
@@ -194,19 +195,12 @@ void GameField::changeDeMap(int mapx, int mapy, int mapz, int coox,int cooy)
     envoyerM(m_socket, mess);
 }
 
-void GameField::ajouteUnPerso(InfoPerVis perso)
-{
-    ajouteUnPerso(perso);
-}
-
-void GameField::supprimeUnPerso(QString const& nom)
-{
-    supprimeUnPerso(nom);
-}
-
 AfficheJoueur *GameField::getJoueur(QString const& nom)
 {
-    return getJoueur(nom);
+    if(m_persos.contains(nom))
+        return m_persos[nom];
+    else
+        qDebug() << "perso doesn't exist : " << nom;
 }
 
 void GameField::utileClique(QPoint const& pos)
@@ -353,7 +347,7 @@ void GameField::infos_map(QString infos)
 void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
     int x = mouseEvent->scenePos().x(), y = mouseEvent->scenePos().y();
-    if(m_parent->phase() == HorsCombat)
+    if(phase() == HorsCombat)
     {
         for(QMap<QString,AfficheJoueur*>::iterator it = m_persos.begin();it != m_persos.end(); it++)
         {
@@ -367,50 +361,50 @@ void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         m_posFleche.setY(-1);
         if(x < m_mlcase)
         {
-            m_posFleche = m_parent->dataMap()->case_gauche(m_parent->dataMap()->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true));
+            m_posFleche = m_dataMap->case_gauche(m_dataMap->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true));
             if(m_posFleche.x() != -1)
             {
                 m_directionChangeMap = G;
                 m_fleche->setVisible(true);
                 m_fleche->setPixmap(QPixmap("../data/interface/flecheg.png").scaled(QSize(50,75)));
-                m_fleche->setPos(0, m_parent->dataMap()->cposy(m_posFleche.y(),m_hcase,true)-m_fleche->pixmap().height()/2);
+                m_fleche->setPos(0, m_dataMap->cposy(m_posFleche.y(),m_hcase,true)-m_fleche->pixmap().height()/2);
             }
         }
         else if(x > m_lmap-m_mlcase)
         {
-            m_posFleche = m_parent->dataMap()->case_droite(m_parent->dataMap()->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true));
+            m_posFleche = m_dataMap->case_droite(m_dataMap->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true));
             if(m_posFleche.x() != -1)
             {
                 m_directionChangeMap = D;
                 m_fleche->setVisible(true);
                 m_fleche->setPixmap(QPixmap("../data/interface/fleched.png").scaled(QSize(50,75)));
-                m_fleche->setPos(m_lmap-m_fleche->pixmap().width(), m_parent->dataMap()->cposy(m_posFleche.y(),m_hcase,true)-m_fleche->pixmap().height()/2);
+                m_fleche->setPos(m_lmap-m_fleche->pixmap().width(), m_dataMap->cposy(m_posFleche.y(),m_hcase,true)-m_fleche->pixmap().height()/2);
             }
         }
         else if(y < m_mhcase)
         {
-            m_posFleche = m_parent->dataMap()->case_haut(m_parent->dataMap()->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true));
+            m_posFleche = m_dataMap->case_haut(m_dataMap->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true));
             if(m_posFleche.x() != -1)
             {
                 m_directionChangeMap = O;
                 m_fleche->setVisible(true);
                 m_fleche->setPixmap(QPixmap("../data/interface/flecheo.png").scaled(QSize(75,50)));
-                m_fleche->setPos(m_parent->dataMap()->cposx(m_posFleche.x(), m_posFleche.y(),m_lcase,true)-m_fleche->pixmap().width()/2, 0);
+                m_fleche->setPos(m_dataMap->cposx(m_posFleche.x(), m_posFleche.y(),m_lcase,true)-m_fleche->pixmap().width()/2, 0);
             }
         }
         else if(y > (int) ((double) m_hcase * (double) (NBR_CASES_H-CASESCACHEESY*2)/2))
         {
-            m_posFleche = m_parent->dataMap()->case_bas(m_parent->dataMap()->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true));
+            m_posFleche = m_dataMap->case_bas(m_dataMap->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true));
             if(m_posFleche.x() != -1)
             {
                 m_directionChangeMap = B;
                 m_fleche->setVisible(true);
                 m_fleche->setPixmap(QPixmap("../data/interface/flecheb.png").scaled(QSize(75,50)));
-                m_fleche->setPos(m_parent->dataMap()->cposx(m_posFleche.x(), m_posFleche.y(),m_lcase,true)-m_fleche->pixmap().width()/2, m_hmap-m_fleche->pixmap().height());
+                m_fleche->setPos(m_dataMap->cposx(m_posFleche.x(), m_posFleche.y(),m_lcase,true)-m_fleche->pixmap().width()/2, m_hmap-m_fleche->pixmap().height());
             }
         }
     }
-    else if(m_parent->phase() == EnPlacement)
+    else if(phase() == EnPlacement)
     {
         for(QMap<QString,AfficheJoueur*>::iterator it = m_persos.begin();it != m_persos.end(); it++)
         {
@@ -420,9 +414,9 @@ void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 it.value()->desaide();
         }
     }
-    else if(m_parent->phase() == EnCombat)
+    else if(phase() == EnCombat)
     {
-        if(m_parent->sort())
+        if(sort())
         {
             m_posCaseVisee = QPoint(-1,-1);
             for(QMap<QString,AfficheJoueur*>::iterator it = m_persos.begin();it != m_persos.end(); it++)
@@ -437,12 +431,12 @@ void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             }
             if(m_posCaseVisee.x() == -1)
             {
-                m_posCaseVisee = m_parent->dataMap()->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true);
+                m_posCaseVisee = m_dataMap->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true);
             }
             if(caseExiste(m_posCaseVisee.x(),m_posCaseVisee.y()) && m_cases_ateignables[m_posCaseVisee.x()][m_posCaseVisee.y()])
             {
                 m_imgCaseVisee->setVisible(true);
-                m_imgCaseVisee->setPos(m_parent->dataMap()->cposx(m_posCaseVisee.x(),m_posCaseVisee.y(),m_lcase,true)-m_mlcase, m_parent->dataMap()->cposy(m_posCaseVisee.y(),m_hcase,true)-m_mhcase);
+                m_imgCaseVisee->setPos(m_dataMap->cposx(m_posCaseVisee.x(),m_posCaseVisee.y(),m_lcase,true)-m_mlcase, m_dataMap->cposy(m_posCaseVisee.y(),m_hcase,true)-m_mhcase);
             }
             else
             {
@@ -459,16 +453,16 @@ void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 else
                     it.value()->desaide();
             }
-            if(m_parent->monTour() && m_persos[m_nom]->isImobile())
+            if(monTour() && m_persos[m_nom]->isImobile())
             {
-                QPoint arrivee = m_parent->dataMap()->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true);
+                QPoint arrivee = m_dataMap->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true);
                 if(arrivee.x() != -1)
                 {
                     if(arrivee != m_ancienne)
                     {
                         effaceChemin();
                         m_ancienne = arrivee;
-                        QQueue<Dir> chem = m_parent->dataMap()->calculcheminCombat(getJoueur(m_nom)->posALaFin(), arrivee, m_parent->getPerso()->getPCCombat());
+                        QQueue<Dir> chem = m_dataMap->calculcheminCombat(getJoueur(m_nom)->posALaFin(), arrivee, getPerso()->getPCCombat());
                         if(!chem.isEmpty())
                         {
                             afficheChemin(getJoueur(m_nom)->posALaFin(), chem);
@@ -501,16 +495,16 @@ void GameField::deplace(QString const& nom, const QQueue<Dir> &chem, Actions_per
 
 void GameField::utiliseSort(Sort *sort)
 {
-    portee(m_cases_ateignables, m_persos[m_nom]->posALaFin().x(), m_persos[m_nom]->posALaFin().y(),sort->portee_min(), sort->portee_max());
+    m_dataMap->calculPortee(m_cases_ateignables, m_persos[m_nom]->posALaFin().x(), m_persos[m_nom]->posALaFin().y(),sort->portee_min(), sort->portee_max());
     affichePortee();
 }
 
-void GameField::marche_pas(DataMap *dataMap)
+void GameField::marche_pas()
 {
     for(QMap<QString,AfficheJoueur*>::iterator it = m_persos.begin(); it != m_persos.end(); it++)
     {
         QPoint p = it.value()->posALaFin();
-        dataMap->setCasePleineCombat(p.x(),p.y(),2);
+        m_dataMap->setCasePleineCombat(p.x(),p.y(),2);
     }
 }
 
@@ -522,11 +516,6 @@ void GameField::recolte(const QString &nom, QString const& verbe, Dir orientatio
 void GameField::recolte(const QString &nom, QString const& verbe, int orientation, int nombre_coups, Actions_personnage::DerniereAction derniere_action)
 {
     recolte(nom, verbe, (Dir)orientation, nombre_coups, derniere_action);
-}
-
-void GameField::changePos(QString const& qui, int x, int y)
-{
-    m_persos[qui]->changePos(x,y);
 }
 
 void GameField::setVie(QString const& nom, int vie)
@@ -594,14 +583,24 @@ bool GameField::contientJoueur(QPoint const& pos)
 
 void GameField::ajouteUnPerso(InfoPerVis perso)
 {
-    m_persos[perso.nom] = new AfficheJoueur(m_donneesediteur->ressources->getClasse(perso.classe) ,perso.nom, QSize(m_lcase, m_hcase), perso.posmap, this);
+    m_persos[perso.nom] = new AfficheJoueur(m_donnees_editeur->ressources->getClasse(perso.classe) ,perso.nom, QSize(m_lcase, m_hcase), perso.posmap, this);
     this->addItem(m_persos[perso.nom]);
     if(perso.nom == m_nom)
-        connect(m_persos[perso.nom], SIGNAL(estSurTranspo(QPoint)), m_parent, SLOT(VaChangerDeMap(QPoint)));
+        connect(m_persos[perso.nom], SIGNAL(estSurTranspo(QPoint)), this, SLOT(VaChangerDeMap(QPoint)));
 }
 
 void GameField::supprimeUnPerso(QString const& nom)
 {
     delete m_persos[nom];
     m_persos.remove(nom);
+}
+
+void GameField::changePos(QString const& qui, int x, int y)
+{
+    m_persos[qui]->changePos(x,y);
+}
+
+void GameField::faitRecettes()
+{
+    emit faitRecette(m_nomMetier);
 }

@@ -69,11 +69,13 @@ public:
 
     bool zoom() const { return m_zoom_active; }
     void updateObjet(int i,int j, Objet *objet);
+    void updateObjet(QPoint pos);
     void afficheChemin(QPoint dep, QQueue<Dir>chem);
     void effaceChemin();
     void stopUtiliseSort();
     void affichePortee();
     virtual void utileClique(QPoint const& pos);
+    Donnees_editeur *donneesediteur() { return m_donnees_editeur; }
 
 protected:
     void zoomChanged();

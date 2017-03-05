@@ -1,5 +1,5 @@
 #include "mainWindow/fenprin.h"
-
+#include "graphicGame/affichejoueur.h"
 #include <QDateTime>
 
 
@@ -340,14 +340,14 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
             //QMainWindow::eventFilter(obj,event);
             int width2 = this->width();
             int height2 = this->height()-HAUTEUR_BARRE_OUTIL;
-            if(width2 > (int)(((double)height2)*screenFormat))
+            /*if(width2 > (int)(((double)height2)*screenFormat))
             {
                 width2 = (int)(((double)height2)*screenFormat);
             }
             else
             {
                 height2 = (int)(((double)width2)/screenFormat);
-            }
+            }*/
             m_jeu->redi(QSize(width2,height2));
             m_jeuui->jeu2d->setSceneRect(0,0,width2,height2);
             return true;
@@ -361,7 +361,7 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
             }
             else if(m_jeu->phase() == HorsCombat)
             {
-                QString nom = m_jeu->getGraphique()->contientJoueur();
+                QString nom = m_jeu->contientJoueur();
                 if(nom != m_compte->getPerso(m_persoActuel)->getNom() && !nom.isEmpty())
                 {
                     Inter inter;
@@ -388,7 +388,7 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
             }
             else if(m_jeu->monTour())
             {
-                QString nom = m_jeu->getGraphique()->contientJoueur();
+                QString nom = m_jeu->contientJoueur();
                 if(!nom.isEmpty())
                 {
 
@@ -399,7 +399,7 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
         /*else if(obj == m_jeu && event->type() == QEvent::GraphicsSceneMove)
         {
             //QGraphicsSceneMouseEvent *mouseEvent = static_cast<QGraphicsSceneMouseEvent *>(event);
-            //QPoint p = m_jeu->getGraphique()->ccase(mouseEvent->scenePos().x(), mouseEvent->scenePos().y());
+            //QPoint p = m_jeu->ccase(mouseEvent->scenePos().x(), mouseEvent->scenePos().y());
             //m_bout_passer_tour->setText("x:"+QString::number(p.x())+";y:"+QString::number(p.y()));
             //m_jeu->souris_bouge(mouseEvent->scenePos().x(), mouseEvent->scenePos().y());
         }*/
@@ -613,7 +613,7 @@ void FenPrin::deplacement(QString qui, QPoint ou)
     }
     else if(m_jeu->phase() == EnPlacement)
     {
-        m_jeu->getGraphique()->changePos(qui,ou.x(),ou.y());
+        m_jeu->changePos(qui,ou.x(),ou.y());
     }
     else if(m_jeu->phase() == EnCombat)
     {

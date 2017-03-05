@@ -6,15 +6,15 @@
 #include "actions_personnage.h"
 #include "tooltip.h"
 
-class Jeu_graphique;
+class GameField;
 
 class AfficheJoueur : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public :
 
-    AfficheJoueur(UneCreature *creature,QString const& nom, const QSize &size,int *poscasex, int*poscasey,Jeu_graphique *parent);
-    AfficheJoueur(UneCreature *creature,QString const& nom, const QSize &size,QPoint const& posmap,Jeu_graphique *parent);
+    AfficheJoueur(UneCreature *creature, QString const& nom, const QSize &size, int *poscasex, int*poscasey, GameField *parent);
+    AfficheJoueur(UneCreature *creature,QString const& nom, const QSize &size,QPoint const& posmap,GameField *parent);
     void suivante();
     void affiche();
     void redi(int lcase, int hcase);
@@ -43,7 +43,7 @@ private:
     int *m_caseY;
     int m_decalageX;
     int m_decalageY;
-    Jeu_graphique *m_parent;
+    GameField *m_parent;
     bool m_pasentier;
     ToolTip *m_toolTip;
     QPixmap m_image;
