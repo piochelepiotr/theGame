@@ -2,6 +2,7 @@
 #include "affichejoueur.h"
 #include <QGraphicsSceneMouseEvent>
 #include "network/reseau.h"
+#define ARROW_DISPLAY_DIST 40
 
 GameField::GameField(const QSize &size, Personnage *pers, QTcpSocket *sock, Donnees_editeur *donnees_editeur) : GameScene(size,0,donnees_editeur)
 {
@@ -193,6 +194,8 @@ void GameField::changeDeMap(int mapx, int mapy, int mapz, int coox,int cooy)
     changePlayerMap(coox, cooy);
     QString mess = "cdm/"+QString::number(mapx)+"/"+QString::number(mapy)+"/"+QString::number(mapz)+"/"+QString::number(coox)+"/"+QString::number(cooy);
     envoyerM(m_socket, mess);
+    m_posFleche = QPoint(-1,-1);
+    m_fleche->setVisible(false);
 }
 
 AfficheJoueur *GameField::getJoueur(QString const& nom)
@@ -359,7 +362,7 @@ void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         m_fleche->setVisible(false);
         m_posFleche.setX(-1);
         m_posFleche.setY(-1);
-        if(x < m_mlcase)
+        if(x < ARROW_DISPLAY_DIST)
         {
             m_posFleche = m_dataMap->case_gauche(m_dataMap->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true));
             if(m_posFleche.x() != -1)
@@ -370,7 +373,7 @@ void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 m_fleche->setPos(0, m_dataMap->cposy(m_posFleche.y(),m_hcase,true)-m_fleche->pixmap().height()/2);
             }
         }
-        else if(x > m_lmap-m_mlcase)
+        else if(x > m_lmap-ARROW_DISPLAY_DIST)
         {
             m_posFleche = m_dataMap->case_droite(m_dataMap->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true));
             if(m_posFleche.x() != -1)
@@ -381,7 +384,7 @@ void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 m_fleche->setPos(m_lmap-m_fleche->pixmap().width(), m_dataMap->cposy(m_posFleche.y(),m_hcase,true)-m_fleche->pixmap().height()/2);
             }
         }
-        else if(y < m_mhcase)
+        else if(y < ARROW_DISPLAY_DIST)
         {
             m_posFleche = m_dataMap->case_haut(m_dataMap->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true));
             if(m_posFleche.x() != -1)
@@ -392,7 +395,7 @@ void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 m_fleche->setPos(m_dataMap->cposx(m_posFleche.x(), m_posFleche.y(),m_lcase,true)-m_fleche->pixmap().width()/2, 0);
             }
         }
-        else if(y > (int) ((double) m_hcase * (double) (NBR_CASES_H-CASESCACHEESY*2)/2))
+        else if(y > m_hmap - ARROW_DISPLAY_DIST)
         {
             m_posFleche = m_dataMap->case_bas(m_dataMap->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true));
             if(m_posFleche.x() != -1)
