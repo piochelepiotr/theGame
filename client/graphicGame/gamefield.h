@@ -76,7 +76,6 @@ private:
     int m_debut_tour;
     Combat *m_combat;
     Sort *m_sort_a_utiliser;
-    QString m_nom;
     QPoint m_posFleche;
     Dir m_directionChangeMap;
     QGraphicsPixmapItem *m_fleche;

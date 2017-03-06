@@ -453,7 +453,7 @@ void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 else
                     it.value()->desaide();
             }
-            if(monTour() && m_persos[m_nom]->isImobile())
+            if(monTour() && m_persos[m_personnage->getNom()]->isImobile())
             {
                 QPoint arrivee = m_dataMap->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true);
                 if(arrivee.x() != -1)
@@ -462,10 +462,10 @@ void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                     {
                         effaceChemin();
                         m_ancienne = arrivee;
-                        QQueue<Dir> chem = m_dataMap->calculcheminCombat(getJoueur(m_nom)->posALaFin(), arrivee, getPerso()->getPCCombat());
+                        QQueue<Dir> chem = m_dataMap->calculcheminCombat(getJoueur(m_personnage->getNom())->posALaFin(), arrivee, getPerso()->getPCCombat());
                         if(!chem.isEmpty())
                         {
-                            afficheChemin(getJoueur(m_nom)->posALaFin(), chem);
+                            afficheChemin(getJoueur(m_personnage->getNom())->posALaFin(), chem);
                         }
                     }
                 }
@@ -495,7 +495,7 @@ void GameField::deplace(QString const& nom, const QQueue<Dir> &chem, Actions_per
 
 void GameField::utiliseSort(Sort *sort)
 {
-    m_dataMap->calculPortee(m_cases_ateignables, m_persos[m_nom]->posALaFin().x(), m_persos[m_nom]->posALaFin().y(),sort->portee_min(), sort->portee_max());
+    m_dataMap->calculPortee(m_cases_ateignables, m_persos[m_personnage->getNom()]->posALaFin().x(), m_persos[m_personnage->getNom()]->posALaFin().y(),sort->portee_min(), sort->portee_max());
     affichePortee();
 }
 
@@ -538,11 +538,11 @@ void GameField::imagesuivante()
 
 void GameField::changePlayerMap(int largX, int largY)
 {
-    m_persos[m_nom]->changePos(largX, largY);
+    m_persos[m_personnage->getNom()]->changePos(largX, largY);
     QStringList asuprr;
     for(QMap<QString,AfficheJoueur*>::iterator i = m_persos.begin(); i != m_persos.end(); i++)
     {
-        if(i.key() != m_nom)
+        if(i.key() != m_personnage->getNom())
         {
             asuprr.append(i.key());
         }
@@ -585,7 +585,7 @@ void GameField::ajouteUnPerso(InfoPerVis perso)
 {
     m_persos[perso.nom] = new AfficheJoueur(m_donnees_editeur->ressources->getClasse(perso.classe) ,perso.nom, QSize(m_lcase, m_hcase), perso.posmap, this);
     this->addItem(m_persos[perso.nom]);
-    if(perso.nom == m_nom)
+    if(perso.nom == m_personnage->getNom())
         connect(m_persos[perso.nom], SIGNAL(estSurTranspo(QPoint)), this, SLOT(VaChangerDeMap(QPoint)));
 }
 

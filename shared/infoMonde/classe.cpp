@@ -5,7 +5,6 @@ Classe::Classe(QString const& donnees, const QMap<QString, UnSort *> &sorts)
 {
     QStringList liste = donnees.split('/');
     m_classe = liste[0];
-    qDebug() << "classe creation : "<< m_classe;
     liste.pop_front();
     m_arme = liste.front();
     liste.pop_front();

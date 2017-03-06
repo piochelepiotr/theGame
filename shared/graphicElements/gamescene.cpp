@@ -68,11 +68,14 @@ GameScene::GameScene(const QSize &size, QLabel *texte, Donnees_editeur *donnees_
             m_casesPortee[i] [j]->setVisible(false);
             m_casesPortee[i] [j]->setOpacity(0.5);
 
-            for(int x = 0; x < 3; x++)
+            for(int x = 0; x < 2; x++)
             {
                 m_imagesObjets[x] [i] [j] = new ObjSurScene(this,m_lmap);
                 m_imagesObjets[x] [i] [j]->setVisible(false);
             }
+
+            m_imagesObjets[2] [i] [j] = new ObjSurScene(this,m_lmap,QPoint(i,j));
+            m_imagesObjets[2] [i] [j]->setVisible(false);
 
             m_imagesObjets[0] [i] [j]->setZValue(1);
             m_imagesObjets[1] [i] [j]->setZValue(2);
@@ -340,7 +343,13 @@ void GameScene::caseEgale(int i, int j, Objet *objet, int fond)
         m_imagesObjets[fond] [i] [j]->setPixmap(objet->image());
         m_imagesObjets[fond] [i] [j]->setVisible(true);
         if(fond == 2)
+        {
             m_imagesObjets[fond] [i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().width()/2, m_dataMap->cposy(j,m_hcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().height()+m_hcase*ECART);
+            if(objet->nom().isEmpty())
+                m_imagesObjets[fond][i][j]->inutile();
+            else
+                m_imagesObjets[fond][i][j]->utile(objet->nom());
+        }
         else
             m_imagesObjets[fond] [i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().width()/2, m_dataMap->cposy(j,m_hcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().height()/2);
     }
