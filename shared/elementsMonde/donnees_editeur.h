@@ -10,8 +10,8 @@
 class Donnees_editeur
 {
 public:
-    void redidecors(int lcase, int hcase);
-    Donnees_editeur(int lcase, int hcase);
+    void redidecors(int lcase, int hcase, int mapWidth, int mapHeight);
+    Donnees_editeur(int lcase, int hcase, int mapWidth, int mapHeight);
     ~Donnees_editeur();
     Decors *decor;
     TouslesPnj *touslespnj;

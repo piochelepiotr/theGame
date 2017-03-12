@@ -17,6 +17,7 @@ ObjectsTab::ObjectsTab(MainWindow *mainWindow, Jeu2d *gamePanel) :
     m_lay_imagesObjets = new QHBoxLayout;
     m_scroll_imagesObjets = new QScrollArea();
     m_scroll_imagesObjets->setWidgetResizable(true);
+    m_scroll_imagesObjets->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_wid_imagesObjets = new QWidget;
     m_lay_actions_objet = new QVBoxLayout;
     m_lay_actions_objet->addWidget(m_effaceurobjet);

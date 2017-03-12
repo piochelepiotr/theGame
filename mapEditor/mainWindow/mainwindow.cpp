@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     m_outil = Outil_objets;
-    m_donnees_editeur = new Donnees_editeur(this->size().width(),this->size().height());
+    m_donnees_editeur = new Donnees_editeur(this->size().width(),this->size().height(),this->size().width(),this->size().height());
     m_jeu = new Jeu2d(this->size(), ui->texte,m_donnees_editeur);
     ui->carte->setScene(m_jeu);
     ui->carte->setMouseTracking(true);

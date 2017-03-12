@@ -145,7 +145,7 @@ void GameScene::redi(QSize const& nouvelle)
     m_lmap = nouvelle.width();
     m_hmap = nouvelle.height();
     largethautcase();
-    m_donnees_editeur->decor->resize(m_lcase, m_hcase);
+    m_donnees_editeur->decor->resize(m_lcase, m_hcase,m_lmap,m_hmap);
     grille();
     QPixmap caseDep = QPixmap("../data/interface/caseDep.png").scaled(m_lcase, m_hcase);
     QPixmap caseim = QPixmap("../data/interface/caseim.png").scaled(m_lcase, m_hcase);

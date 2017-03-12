@@ -57,7 +57,8 @@ SOURCES += \
     graphicElements/bouton.cpp \
     graphicElements/boutonimgString.cpp \
     graphicElements/gamescene.cpp \
-    graphicElements/objsurscene.cpp
+    graphicElements/objsurscene.cpp \
+    elementsMonde/object.cpp
 
 HEADERS += \
     infoJoueur/arme.h \
@@ -104,7 +105,8 @@ HEADERS += \
     graphicElements/bouton.h \
     graphicElements/boutonimgString.h \
     graphicElements/gamescene.h \
-    graphicElements/objsurscene.h
+    graphicElements/objsurscene.h \
+    elementsMonde/object.h
 
 unix {
     target.path = /usr/lib

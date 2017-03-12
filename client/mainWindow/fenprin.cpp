@@ -6,7 +6,7 @@
 FenPrin::FenPrin(QWidget *parent) : QMainWindow(parent)
 {
     m_combat = 0;
-    m_donneesediteur = new Donnees_editeur(0,0);
+    m_donneesediteur = new Donnees_editeur(0,0,0,0);
     m_reseau = new Reseau();
     m_threadReseau = new QThread;
     m_reseau->moveToThread(m_threadReseau);

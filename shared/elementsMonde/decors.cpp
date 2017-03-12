@@ -1,10 +1,26 @@
 #include "decors.h"
 
-Decors::Decors(int lcase, int hcase)
+Decors::Decors(int lcase, int hcase,int mapWidth, int mapHeight)
 {
     m_lcase = lcase;
     m_hcase = hcase;
     charge();
+    loadObjects(mapWidth,mapHeight);
+}
+
+void Decors::loadObjects(int mapWidth, int mapHeight)
+{
+    QDir dir("../data/objects");
+    if(!dir.exists())
+    {
+        qDebug() << "Impossible to open path with objects";
+        return;
+    }
+    QFileInfoList files = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::Files);
+    foreach(QFileInfo file,files)
+    {
+        m_objects[file.fileName()] = new Object(file.fileName(),mapWidth,mapHeight);
+    }
 }
 
 void Decors::charge()
@@ -79,13 +95,17 @@ Decors::~Decors()
     }
 }
 
-void Decors::resize(int lcase, int hcase)
+void Decors::resize(int lcase, int hcase,int mapWidth, int mapHeight)
 {
     m_lcase = lcase;
     m_hcase  = hcase;
-    for(QMap<qint16, Objet*>::iterator it = m_objets.begin(); it != m_objets.end(); it++)
+    for(auto it : m_objets)
     {
-        it.value()->resize(lcase, hcase);
+        it->resize(lcase, hcase);
+    }
+    for(auto it : m_objects)
+    {
+        it->resize(mapWidth,mapHeight);
     }
 }
 

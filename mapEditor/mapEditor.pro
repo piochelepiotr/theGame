@@ -25,7 +25,8 @@ SOURCES += \
     mainWindow/varioustab.cpp \
     mainWindow/walkableframestab.cpp \
     additionalWindows/editercreature.cpp \
-    additionalWindows/nouvelleressourcemonstre.cpp
+    additionalWindows/nouvelleressourcemonstre.cpp \
+    mainWindow/buttonobject.cpp
 
 HEADERS += \
     additionalWindows/creerpnj.h \
@@ -51,7 +52,8 @@ HEADERS += \
     mainWindow/varioustab.h \
     mainWindow/walkableframestab.h \
     additionalWindows/editercreature.h \
-    additionalWindows/nouvelleressourcemonstre.h
+    additionalWindows/nouvelleressourcemonstre.h \
+    mainWindow/buttonobject.h
 
 FORMS += \
     additionalWindows/creerpnj.ui \

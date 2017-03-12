@@ -2,7 +2,7 @@
 
 Ecran::Ecran() : QWidget()
 {
-    m_donnees_editeur = new Donnees_editeur(0,0);
+    m_donnees_editeur = new Donnees_editeur(0,0,0,0);
     setWindowTitle(trUtf8("serveur DU jeu"));
     m_infoServeur = new QLabel;
     m_infojoueurs = new QListWidget;
