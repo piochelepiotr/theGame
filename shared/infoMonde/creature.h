@@ -17,7 +17,7 @@ class Donnees_editeur;
 class Creature
 {
 public:
-    Creature(const QString &nom, QString classe, Donnees_editeur *donnees_editeur);
+    Creature(const QString &nom, QString const& classe, Donnees_editeur *donnees_editeur);
     ~Creature();
     QString getNom() const { return m_nom; }
     QString getClasse() const { return m_classe; }

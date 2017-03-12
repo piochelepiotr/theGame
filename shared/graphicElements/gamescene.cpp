@@ -3,6 +3,7 @@
 
 GameScene::GameScene(const QSize &size, QLabel *texte, Donnees_editeur *donnees_editeur)
 {
+    m_displayGrid = true;
     m_posCaseVisee = QPoint(-1,-1);
     m_ancienne = QPoint(-1,-1);
     m_donnees_editeur = donnees_editeur;
@@ -203,6 +204,8 @@ void GameScene::redi(QSize const& nouvelle)
 
 void GameScene::grille()
 {
+    if(m_displayGrid)
+    {
     if(m_zoom_active)
     {
         for(int i=0; i < NBR_CASES_L; i++)
@@ -251,6 +254,17 @@ void GameScene::grille()
                 p.clear();
                 p<<QPoint(posx, posy-m_mhcase)<<QPoint(posx+m_mlcase,posy)<<QPoint(posx, posy+m_mhcase)<<QPoint(posx-m_mlcase, posy);
                 m_grille[i] [j]->setPolygon(p);
+            }
+        }
+    }
+    }
+    else
+    {
+        for(int i=0; i < NBR_CASES_L; i++)
+        {
+            for(int j = 0; j < NBR_CASES_H; j++)
+            {
+                m_grille[i] [j]->setVisible(false);
             }
         }
     }

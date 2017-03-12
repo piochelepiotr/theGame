@@ -27,6 +27,7 @@ public:
     Classe *getClasse(QString const& nom) const;
     QMap<QString, Classe*>classes() const { return m_classes; }
     UnMonstre *getMonstre(QString const& nom) const;
+    UneCreature *getCreature(QString const& name) const;
     QMap<QString,UnMonstre*>monstres() const { return m_monstres; }
 
     void ajouteRessource(Ressource *ressource);

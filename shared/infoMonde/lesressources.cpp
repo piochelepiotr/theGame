@@ -197,6 +197,14 @@ UnMonstre *LesRessources::getMonstre(QString const& nom) const
     return m_monstres[nom];
 }
 
+UneCreature *LesRessources::getCreature(QString const& name) const
+{
+    UneCreature *creature = getMonstre(name);
+    if(!creature)
+        creature = getClasse(name);
+    return creature;
+}
+
 QStringList LesRessources::sorts() const
 {
     QStringList liste;

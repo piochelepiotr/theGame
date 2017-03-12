@@ -78,6 +78,7 @@ public:
     Donnees_editeur *donneesediteur() { return m_donnees_editeur; }
 
 protected:
+    bool m_displayGrid;
     void zoomChanged();
     QGraphicsRectItem *m_cadred;
     QGraphicsRectItem *m_cadreg;

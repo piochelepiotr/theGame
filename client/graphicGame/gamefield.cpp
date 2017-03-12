@@ -6,6 +6,7 @@
 
 GameField::GameField(const QSize &size, Personnage *pers, QTcpSocket *sock, Donnees_editeur *donnees_editeur) : GameScene(size,0,donnees_editeur)
 {
+    m_displayGrid = false;
     m_sort_a_utiliser = 0;
     m_combat = 0;
     m_nomMetier = "";

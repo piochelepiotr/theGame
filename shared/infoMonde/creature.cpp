@@ -1,7 +1,7 @@
 #include "creature.h"
 #include "elementsMonde/donnees_editeur.h"
 
-Creature::Creature(const QString &nom, QString classe, Donnees_editeur *donnees_editeur)
+Creature::Creature(const QString &nom, QString const& classe, Donnees_editeur *donnees_editeur)
 {
     m_enCombat = false;
     m_donnees_editeur = donnees_editeur;
@@ -18,7 +18,7 @@ Creature::Creature(const QString &nom, QString classe, Donnees_editeur *donnees_
     m_posmapx = 0;
     m_posmapy = 1;
     m_niveau = 1;
-    QMap<QString,UnSort*> sorts = m_donnees_editeur->ressources->getClasse(classe)->sorts();
+    QMap<QString,UnSort*> sorts = m_donnees_editeur->ressources->getCreature(classe)->sorts();
     for(QMap<QString,UnSort*>::const_iterator it = sorts.begin(); it != sorts.end() ; it++)
     {
         m_sorts[it.value()->nom()] = it.value()->sortNiveau(1);
