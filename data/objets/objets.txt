@@ -15,13 +15,13 @@
 15/souche olivier boheme orange/Anna/0.8/1.4
 16//Anna/6.5/10
 17//Anna/4/4
-18//Anna/1/2
+18//Anna/3/5
 19//Anna/1/2
 20//Anna/3.5/6
 21/baobab/Anna/2.5/7
 22//Anna/2.5/4.5
 23//Anna/2/5
-24//Anna/1.5/1.3
+24//Anna/1.2/1.9
 25//Anna/3/6
 26//Anna/2.5/5
 27//Anna/1/1.5
@@ -37,6 +37,8 @@
 37//adele/1.4/5
 38//adele/1.4/4
 39//adele/1.5/3.5
+40//Anna/7/15
+41//Anna/1/1
 42//adele/2/2
 43//adele/2/5
 44//adele/1/2.5
@@ -44,3 +46,7 @@
 46//adele/1.1/1.5
 47//adele/1.3/5
 48//adele/1/1.5
+49//Anna/5/10
+50//Anna/5/10
+51//Anna/5/10
+52//Anna/3/8

@@ -216,7 +216,6 @@ void ajouteObjet(Objet *objet, QString const& chemin_vers_image)
     QFile ancien_fichier("../data/objets/objets.txt");
     QFile nouveau_fichier("../data/objets/objets2.txt");
 
-
     if(ancien_fichier.open(QIODevice::ReadOnly) && nouveau_fichier.open(QIODevice::WriteOnly))
     {
         QTextStream ancien_stream(&ancien_fichier);
@@ -243,7 +242,7 @@ void ajouteObjet(Objet *objet, QString const& chemin_vers_image)
         QFile::rename("../data/objets/objets2.txt", "../data/objets/objets.txt");
     }
 
-    QFile::copy(chemin_vers_image, "objets/"+QString::number((int) objet->numero())+ ".png");
+    QFile::copy(chemin_vers_image, "../data/objets/"+QString::number((int) objet->numero())+ ".png");
 }
 
 

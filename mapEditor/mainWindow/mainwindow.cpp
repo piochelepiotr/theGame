@@ -108,7 +108,6 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     {
         QMainWindow::eventFilter(obj,event);
         QGraphicsSceneMouseEvent *mouseEvent = static_cast<QGraphicsSceneMouseEvent *>(event);
-        qDebug() << "zoom : " << m_jeu->zoom();
         QPoint poscase = m_jeu->dataMap()->ccase(mouseEvent->scenePos().x(), mouseEvent->scenePos().y(),m_jeu->getlmap(),m_jeu->gethmap(),m_jeu->getlcase(),m_jeu->gethcase(),m_jeu->zoom());
         if(m_appuyer)
         {
@@ -289,7 +288,7 @@ void MainWindow::nouveauObjetPourTheme()
 
     QString chemin;
 
-    chemin = "/home/piotr/Documents/Qt/editeur_maps-Desktop-Debug/";
+    chemin = "";
 
 
 
@@ -302,7 +301,6 @@ void MainWindow::nouveauObjetPourTheme()
     EditerUnObjet boite(this, &ok, objet, true,m_jeu->getlcase(), m_jeu->gethcase(), &chemin);
     if(ok)
     {
-
         m_jeu->dataMap()->enregistre();
         ajouteObjet(objet, chemin);
         m_jeu->decors()->ajouteObjet(objet);
