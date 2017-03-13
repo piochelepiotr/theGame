@@ -228,10 +228,15 @@ void Map::connectPlayer(Joueur *joueur,bool hasJustChangedMap)
     if(!hasJustChangedMap)
         joueur->joue();
     QList<Joueur*>pasEnCombat = joueursPasEnCombat();
+    QList<Monstre*>monstersNotFighting = monsterNotFighting();
     QString message = "ttt/"+ressources_coupees()+'/';
     for(int i = 0; i < pasEnCombat.size(); i++)
     {
         message += pasEnCombat[i]->getPersoActuel()->important()+'/';
+    }
+    for(auto const& i : monstersNotFighting)
+    {
+        message += i->important() + '/';
     }
     joueur->envoi(message);
     m_joueurs[joueur->getPersoActuel()->getNom()] = joueur;
@@ -263,6 +268,17 @@ QList<Joueur*> Map::joueursPasEnCombat()
             joueursPasEnCombat.append(it.value());
     }
     return joueursPasEnCombat;
+}
+
+QList<Monstre*> Map::monsterNotFighting()
+{
+    QList<Monstre*>monsterNotFighting;
+    for(auto const& i : m_monstres)
+    {
+        if(!i->enCombat())
+            monsterNotFighting.append(i);
+    }
+    return monsterNotFighting;
 }
 
 void envoiGroupe(QList<Joueur*> const& receveurs, QString const& message, const QString &nom)

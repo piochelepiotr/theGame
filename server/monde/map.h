@@ -29,6 +29,7 @@ public:
     void connectPlayer(Joueur *joueur, bool hasJustChangedMap = false);
     void disconnectPlayer(QString const& nom);
     QList<Joueur*> joueursPasEnCombat();
+    QList<Monstre*>monsterNotFighting();
     void receiveMessage(Joueur *player,QString const& begin, QString const& message);
     void analyseCombat(QString debut,QString fin,Joueur *joueur);
     void analyseReponsePnj(QString const& reponse, Joueur *player);

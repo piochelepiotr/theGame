@@ -87,6 +87,7 @@ Personnage::Personnage(QString const& donnees, Donnees_editeur *donnees_editeur)
     //SORTS
     while(donnees.section('/',i,i) != "FIN")
     {
+        qDebug() << "sort : " << donnees.section('/',i,i) << " niv : "<<donnees.section('/',i+1,i+1);
         m_sorts[donnees.section('/',i,i)] = m_donnees_editeur->ressources->getSort(donnees.section('/',i,i))->sortNiveau(donnees.section('/',i+1,i+1).toInt());
         i += 2;
     }

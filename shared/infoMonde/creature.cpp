@@ -7,7 +7,6 @@ Creature::Creature(const QString &nom, QString const& classe, Donnees_editeur *d
     m_donnees_editeur = donnees_editeur;
     m_nom = nom;
     m_classe = classe;
-    qDebug() << "classe :"<<classe;
     m_posX = 0;
     m_posY = 0;
     m_posZ = 0;
