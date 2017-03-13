@@ -25,7 +25,7 @@ void Map::addMonstre()
     {
         QString nom = nomMonstre(monstre->classe());
         QPoint p = m_dataMap->caseLibre();
-        m_monstres[nom] = monstre->genereMonstre(m_dataMap->x(),m_dataMap->y(),m_dataMap->z(),p.x(),p.y(),m_donnees_editeur);
+        m_monstres[nom] = monstre->genereMonstre(m_dataMap->x(),m_dataMap->y(),m_dataMap->z(),p.x(),p.y(),m_donnees_editeur,nom);
     }
 }
 

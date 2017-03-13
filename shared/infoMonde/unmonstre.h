@@ -15,7 +15,7 @@ class UnMonstre : public UneCreature
 public:
     UnMonstre(QString const& text, const QMap<QString, UnSort *> &sorts);
     QMap<QString,double>ressourcesDropables() const { return m_ressourcesDropables; }
-    Monstre *genereMonstre(int posX, int posY, int posZ, int posMapX, int posMapY, Donnees_editeur *donnees_editeur);
+    Monstre *genereMonstre(int posX, int posY, int posZ, int posMapX, int posMapY, Donnees_editeur *donnees_editeur, const QString &name);
 
 private:
     int m_niveauMin;

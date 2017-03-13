@@ -2,6 +2,7 @@
 #include "affichejoueur.h"
 #include <QGraphicsSceneMouseEvent>
 #include "network/reseau.h"
+#include <QDebug>
 #define ARROW_DISPLAY_DIST 40
 
 GameField::GameField(const QSize &size, Personnage *pers, QTcpSocket *sock, Donnees_editeur *donnees_editeur) : GameScene(size,0,donnees_editeur)
@@ -587,10 +588,11 @@ bool GameField::contientJoueur(QPoint const& pos)
 
 void GameField::ajouteUnPerso(InfoPerVis perso)
 {
-    m_persos[perso.nom] = new AfficheJoueur(m_donnees_editeur->ressources->getClasse(perso.classe) ,perso.nom, QSize(m_lcase, m_hcase), perso.posmap, this);
+    qDebug() << "ajoute : "<< perso.nom;
+    m_persos[perso.nom] = new AfficheJoueur(m_donnees_editeur->ressources->getCreature(perso.classe) ,perso.nom, QSize(m_lcase, m_hcase), perso.posmap, this);
     this->addItem(m_persos[perso.nom]);
-    if(perso.nom == m_personnage->getNom())
-        connect(m_persos[perso.nom], SIGNAL(estSurTranspo(QPoint)), this, SLOT(VaChangerDeMap(QPoint)));
+    /*if(perso.nom == m_personnage->getNom())
+        connect(m_persos[perso.nom], SIGNAL(estSurTranspo(QPoint)), this, SLOT(VaChangerDeMap(QPoint)));*/
 }
 
 void GameField::supprimeUnPerso(QString const& nom)
