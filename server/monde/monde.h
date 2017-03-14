@@ -1,12 +1,12 @@
 #ifndef MONDE_H
 #define MONDE_H
 
-#include "additionalActions/constantes.h"
+#include "scenery/constants.h"
 #include <QMap>
 #include <QObject>
 #include "elementsMonde/decors.h"
 #include "additionalActions/actionObjets.h"
-#include "additionalActions/point.h"
+#include "map/point.h"
 #include <QTimer>
 #include <QSignalMapper>
 #include "monde/combat.h"

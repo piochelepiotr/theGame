@@ -9,7 +9,7 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QInputDialog>
-#include "additionalActions/constantes.h"
+#include "scenery/constants.h"
 #include "additionalActions/actionObjets.h"
 #include <QMouseEvent>
 

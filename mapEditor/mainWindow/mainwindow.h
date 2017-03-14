@@ -28,7 +28,7 @@
 #include "additionalWindows/editerclasses.h"
 #include "additionalWindows/editersorts.h"
 #include "additionalWindows/editerressources.h"
-#include "infoMonde/lesressources.h"
+#include "inventory/resources.h"
 #include <QPixmap>
 #include <QtDebug>
 #include <QTime>

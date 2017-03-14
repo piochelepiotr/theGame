@@ -12,9 +12,9 @@
 #include <QCloseEvent>
 #include <QComboBox>
 #include <QSpinBox>
-#include "additionalActions/constantes.h"
+#include "scenery/constants.h"
 #include "elementsMonde/decors.h"
-#include "infoMonde/lesressources.h"
+#include "inventory/resources.h"
 #include "graphicElements/bouton.h"
 
 namespace Ui {

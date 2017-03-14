@@ -20,7 +20,7 @@
 #include <QStatusBar>
 #include <QProgressBar>
 
-#include "additionalActions/constantes.h"
+#include "scenery/constants.h"
 #include "network/compte.h"
 #include "graphicGame/gamefield.h"
 #include "ui_comainwindow.h"
@@ -30,7 +30,7 @@
 #include "additionalWindows/echange.h"
 #include "network/reseau.h"
 #include "additionalWindows/caracteristiques.h"
-#include "infoMonde/lesressources.h"
+#include "inventory/resources.h"
 #include "infoMonde/persnonj.h"
 #include "additionalWindows/dialoguepnj.h"
 #include "additionalWindows/fairerecettes.h"

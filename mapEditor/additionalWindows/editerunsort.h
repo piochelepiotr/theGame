@@ -4,8 +4,8 @@
 #include <QDialog>
 #include <QFile>
 #include <QTextStream>
-#include "additionalActions/constantes.h"
-#include "infoMonde/lesressources.h"
+#include "scenery/constants.h"
+#include "inventory/resources.h"
 
 namespace Ui {
 class EditerUnSort;

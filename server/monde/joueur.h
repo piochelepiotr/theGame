@@ -8,7 +8,7 @@
 
 #include "network/compte.h"
 #include "infoJoueur/personnage.h"
-#include "infoMonde/lesressources.h"
+#include "inventory/resources.h"
 
 class Joueur : public QObject
 {

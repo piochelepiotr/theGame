@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QInputDialog>
-#include "infoMonde/lesressources.h"
+#include "inventory/resources.h"
 #include <QFileDialog>
 
 namespace Ui {

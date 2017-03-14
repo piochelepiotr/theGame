@@ -11,7 +11,7 @@
 #include <QMap>
 #include <QMultiMap>
 #include "monde/joueur.h"
-#include "infoMonde/lesressources.h"
+#include "inventory/resources.h"
 #include <QMessageBox>
 #include "elementsMonde/decors.h"
 #include "monde/monde.h"

@@ -6,8 +6,8 @@
 #include "graphicElements/bouton.h"
 #include <QInputDialog>
 #include <QMessageBox>
-#include "additionalActions/constantes.h"
-#include "infoMonde/lesressources.h"
+#include "scenery/constants.h"
+#include "inventory/resources.h"
 
 namespace Ui {
 class EditerCreature;

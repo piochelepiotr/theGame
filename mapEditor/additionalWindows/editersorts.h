@@ -4,7 +4,7 @@
 #include <QDialog>
 #include "editermetier.h"
 #include "editerunsort.h"
-#include "infoMonde/lesressources.h"
+#include "inventory/resources.h"
 
 namespace Ui {
 class EditerSorts;

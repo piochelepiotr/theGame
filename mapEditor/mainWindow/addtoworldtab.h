@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QGridLayout>
-#include "infoMonde/lesressources.h"
+#include "inventory/resources.h"
 
 class MainWindow;
 class Jeu2d;

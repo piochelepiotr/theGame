@@ -4,7 +4,7 @@
 #include <QString>
 #include <QVector>
 #include "infoJoueur/personnage.h"
-#include "infoMonde/lesressources.h"
+#include "inventory/resources.h"
 #include "elementsMonde/decors.h"
 #include "network/database.h"
 

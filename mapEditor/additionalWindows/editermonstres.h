@@ -5,7 +5,7 @@
 #include "editercreature.h"
 #include "graphicElements/bouton.h"
 #include <QComboBox>
-#include "infoMonde/lesressources.h"
+#include "inventory/resources.h"
 #include <QDoubleSpinBox>
 
 namespace Ui {
