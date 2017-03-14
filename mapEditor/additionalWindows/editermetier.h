@@ -13,9 +13,9 @@
 #include <QComboBox>
 #include <QSpinBox>
 #include "scenery/constants.h"
-#include "elementsMonde/decors.h"
+#include "scenery/scenery.h"
 #include "inventory/resources.h"
-#include "graphicElements/bouton.h"
+#include "graphic/numberButton.h"
 
 namespace Ui {
 class EditerMetier;

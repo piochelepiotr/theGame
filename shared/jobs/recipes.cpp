@@ -1,4 +1,4 @@
-#include "recettes.h"
+#include "jobs/recipes.h"
 
 AfficheRecette::AfficheRecette(Recette *recette, Metier *metier, LesRessources *lesressources, int num)
 {

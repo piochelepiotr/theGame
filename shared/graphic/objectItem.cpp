@@ -1,4 +1,4 @@
-#include "objsurscene.h"
+#include "graphic/objectItem.h"
 #include "gamescene.h"
 
 ObjSurScene::ObjSurScene(GameScene *parent, int largeurScene, QPoint const& pos) : QGraphicsPixmapItem()

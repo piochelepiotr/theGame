@@ -1,4 +1,4 @@
-#include "datamap.h"
+#include "map/map.h"
 
 DataMap::DataMap(Donnees_editeur *donnees_editeur,int cooX, int cooY, int cooZ)
 {

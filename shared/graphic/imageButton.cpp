@@ -1,4 +1,4 @@
-#include "boutonimgString.h"
+#include "graphic/imageButton.h"
 
 BoutonImgString::BoutonImgString(QString nom,QString const& cheminImage) : QPushButton()
 {

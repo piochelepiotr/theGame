@@ -1,7 +1,7 @@
 #ifndef TOUSLESPNJ_H
 #define TOUSLESPNJ_H
 
-#include "infoMonde/persnonj.h"
+#include "entities/npc.h"
 #include <QMap>
 #include <QFile>
 #include <QTextStream>

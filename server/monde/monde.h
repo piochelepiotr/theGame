@@ -4,13 +4,13 @@
 #include "scenery/constants.h"
 #include <QMap>
 #include <QObject>
-#include "elementsMonde/decors.h"
-#include "additionalActions/actionObjets.h"
+#include "scenery/scenery.h"
+#include "scenery/sceneryChange.h"
 #include "map/point.h"
 #include <QTimer>
 #include <QSignalMapper>
 #include "monde/combat.h"
-#include "additionalActions/datamap.h"
+#include "map/map.h"
 #include "monde/map.h"
 
 class Monde : public QObject

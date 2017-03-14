@@ -1,5 +1,4 @@
-#include "items.h"
-
+#include "graphic/resourceItems.h"
 #include "inventory/resources.h"
 
 Items::Items(QVector<Resss>ressources, int nbrobjh, int nbrobjv, LesRessources *lesressources)

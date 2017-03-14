@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QPushButton>
-#include "infoMonde/persnonj.h"
+#include "entities/npc.h"
 #include <QPlainTextEdit>
 #include <QVBoxLayout>
 

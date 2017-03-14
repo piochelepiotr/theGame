@@ -2,18 +2,18 @@
 #define CARACTERISTIQUES_H
 
 #include <QDialog>
-#include "infoJoueur/personnage.h"
-#include "graphicElements/items.h"
+#include "entities/character.h"
+#include "graphic/resourceItems.h"
 #include "network/reseau.h"
-#include "infoJoueur/inventaire.h"
-#include "elementsMonde/decors.h"
+#include "inventory/inventory.h"
+#include "scenery/scenery.h"
 #include <QTableWidgetItem>
 #include <QCursor>
 #include <QtTest/QTest>
 #include <QMessageBox>
 #include "infoMonde/recettes.h"
-#include "description_sort.h"
-#include "graphicElements/layoutdescriptionsort.h"
+#include "graphic/spellDescription.h"
+#include "graphic/layoutdescriptionsort.h"
 
 namespace Ui {
 class Caracteristiques;

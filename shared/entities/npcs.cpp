@@ -1,4 +1,4 @@
-#include "touslespnj.h"
+#include "entities/npcs.h"
 
 TouslesPnj::TouslesPnj()
 {

@@ -3,7 +3,7 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
-#include "infoJoueur/personnage.h"
+#include "entities/character.h"
 
 class GainUnPersoCombat : public QHBoxLayout
 {

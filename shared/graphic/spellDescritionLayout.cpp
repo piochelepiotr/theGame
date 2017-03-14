@@ -1,4 +1,4 @@
-#include "layoutdescriptionsort.h"
+#include "graphic/spellDescriptionLayout.h"
 
 LayoutDescriptionSort::LayoutDescriptionSort(Personnage *personnage) :
     QHBoxLayout()

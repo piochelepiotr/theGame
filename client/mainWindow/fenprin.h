@@ -31,7 +31,7 @@
 #include "network/reseau.h"
 #include "additionalWindows/caracteristiques.h"
 #include "inventory/resources.h"
-#include "infoMonde/persnonj.h"
+#include "entities/npc.h"
 #include "additionalWindows/dialoguepnj.h"
 #include "additionalWindows/fairerecettes.h"
 #include "combats/combat.h"

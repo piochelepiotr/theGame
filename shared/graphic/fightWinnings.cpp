@@ -1,4 +1,4 @@
-#include "gainunpersocombat.h"
+#include "graphic/fightWinnings.h"
 
 GainUnPersoCombat::GainUnPersoCombat(QString const& text,Personnage *perso) :
     QHBoxLayout()

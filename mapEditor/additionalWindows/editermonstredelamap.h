@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QMap>
 #include <QString>
-#include "graphicElements/bouton.h"
+#include "graphic/numberButton.h"
 #include <QComboBox>
 #include <QDoubleSpinBox>
 

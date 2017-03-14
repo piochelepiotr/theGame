@@ -5,9 +5,9 @@
 #include <QDir>
 #include <QTextStream>
 #include <QDataStream>
-#include "elementsMonde/decors.h"
+#include "scenery/scenery.h"
 #include "scenery/constants.h"
-#include "elementsMonde/transporteur.h"
+#include "map/gate.h"
 
 bool operator<(QPoint const &a, QPoint const& b);
 bool mapexiste(int x, int y, int z);

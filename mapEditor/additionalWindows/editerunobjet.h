@@ -2,8 +2,8 @@
 #define EDITERUNOBJET_H
 
 #include <QDialog>
-#include "elementsMonde/decors.h"
-#include "additionalActions/actionObjets.h"
+#include "scenery/scenery.h"
+#include "scenery/sceneryChange.h"
 #include <QFileDialog>
 
 

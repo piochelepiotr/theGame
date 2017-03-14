@@ -1,4 +1,4 @@
-#include "monstre.h"
+#include "entities/monster.h"
 #include "scenery/data.h"
 
 Monstre::Monstre(const QString &nom, const QString &classe, Donnees_editeur *donnees_editeur,int posX,int posY,int posZ,int posMapX,int posMapY,int vie,int niveau) : Creature(nom,classe,donnees_editeur)

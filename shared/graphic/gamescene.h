@@ -4,8 +4,8 @@
 #include <QGraphicsScene>
 #include "scenery/constants.h"
 #include <QLabel>
-#include "additionalActions/datamap.h"
-#include "objsurscene.h"
+#include "map/map.h"
+#include "graphic/objectItem.h"
 
 
 class GameScene : public QGraphicsScene

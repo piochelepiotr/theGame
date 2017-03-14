@@ -6,8 +6,8 @@
 #include <QProgressBar>
 #include <QListWidget>
 #include <QLabel>
-#include "graphicElements/boutonimgString.h"
-#include "infoJoueur/personnage.h"
+#include "graphic/boutonimgString.h"
+#include "entities/character.h"
 
 class FenPrin;
 

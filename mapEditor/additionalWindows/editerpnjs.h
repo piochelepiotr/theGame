@@ -4,7 +4,7 @@
 #include <QDialog>
 #include "editerunobjet.h"
 #include "creerpnj.h"
-#include "elementsMonde/decors.h"
+#include "scenery/scenery.h"
 #include <QTableWidgetItem>
 
 namespace Ui {

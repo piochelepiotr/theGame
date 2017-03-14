@@ -1,5 +1,5 @@
 #include "inventory/weaponModel.h"
-#include "lesressources.h"
+#include "inventory/resources.h"
 
 ArmeBase::ArmeBase(EquipementBase *equipementBase, UnSort *sortBase)
 {

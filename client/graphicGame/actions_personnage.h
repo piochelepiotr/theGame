@@ -1,8 +1,8 @@
 #ifndef ACTIONS_PERSONNAGE_H
 #define ACTIONS_PERSONNAGE_H
 
-#include "infoMonde/images_classe.h"
-#include "elementsMonde/decors.h"
+#include "entities/entityImage.h"
+#include "scenery/scenery.h"
 #include <QQueue>
 
 class Action

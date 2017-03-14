@@ -1,7 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include "additionalActions/datamap.h"
+#include "map/map.h"
 #include "monde/combat.h"
 #include "infoMonde/unmonstre.h"
 #include "infoMonde/monstre.h"

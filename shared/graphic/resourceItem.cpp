@@ -1,4 +1,4 @@
-#include "item.h"
+#include "graphic/resourceItem.h"
 
 Item::Item(Ressource *ressource, int quantite, int num) : QLabel()
 {

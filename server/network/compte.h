@@ -3,9 +3,9 @@
 
 #include <QString>
 #include <QVector>
-#include "infoJoueur/personnage.h"
+#include "entities/character.h"
 #include "inventory/resources.h"
-#include "elementsMonde/decors.h"
+#include "scenery/scenery.h"
 #include "network/database.h"
 
 class Compte

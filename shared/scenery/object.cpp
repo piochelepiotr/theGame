@@ -1,4 +1,4 @@
-#include "objet.h"
+#include "scenery/object.h"
 
 Objet::Objet(qint16 numero, const QString &nom, const QString &categorie, double propx, double propy, int lcase, int hcase)
 {

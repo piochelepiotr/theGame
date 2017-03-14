@@ -9,7 +9,7 @@
 #include <QPushButton>
 #include "scenery/constants.h"
 #include <qmath.h>
-#include "item.h"
+#include "graphic/resourceItem.h"
 #include "inventory/outfit.h"
 #include "inventory/weapon.h"
 #include <qmath.h>

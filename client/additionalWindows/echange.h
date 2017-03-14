@@ -2,8 +2,8 @@
 #define ECHANGE_H
 
 #include <QDialog>
-#include "infoJoueur/personnage.h"
-#include "infoJoueur/inventaire.h"
+#include "entities/character.h"
+#include "inventory/inventory.h"
 #include "network/reseau.h"
 
 namespace Ui {

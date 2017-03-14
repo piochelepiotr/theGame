@@ -15,10 +15,10 @@
 #include <QGroupBox>
 #include <QAction>
 #include <QMenu>
-#include "elementsMonde/decors.h"
+#include "scenery/scenery.h"
 #include "additionalWindows/editerunobjet.h"
 #include "additionalWindows/editertransporteur.h"
-#include "additionalActions/actionObjets.h"
+#include "scenery/sceneryChange.h"
 #include <QFileDialog>
 #include "additionalWindows/editerpnjs.h"
 #include "additionalWindows/editermonstredelamap.h"
@@ -33,7 +33,7 @@
 #include <QtDebug>
 #include <QTime>
 #include "mainWindow/bottomtab.h"
-#include "additionalActions/rechercheChemin.h"
+#include "map/computePath.h"
 #include "boutonimg.h"
 
 

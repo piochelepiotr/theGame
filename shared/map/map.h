@@ -5,12 +5,12 @@
 #include <QMap>
 #include <QPoint>
 #include "scenery/constants.h"
-#include "additionalActions/actionObjets.h"
-#include "rechercheChemin.h"
+#include "scenery/sceneryChange.h"
+#include "map/computePath.h"
 #include "point.h"
 #include "scenery/data.h"
 #include <QtCore>
-#include "elementsMonde/transporteur.h"
+#include "map/gate.h"
 
 class DataMap
 {

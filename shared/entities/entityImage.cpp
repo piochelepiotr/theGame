@@ -1,4 +1,4 @@
-#include "infoMonde/images_classe.h"
+#include "entities/entityImage.h"
 
 Images_action::Images_action(QString const& nom_classe,QString const& nom_action, QSize const& size)
 {

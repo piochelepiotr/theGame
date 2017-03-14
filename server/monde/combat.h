@@ -4,7 +4,7 @@
 #include <QString>
 #include <QMap>
 #include "monde/joueur.h"
-#include "additionalActions/datamap.h"
+#include "map/map.h"
 #include <QObject>
 
 enum PhaseCombat{EnDemande,EnPlacement,EnCombat,CombatFini};

@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include "editercreature.h"
-#include "graphicElements/bouton.h"
+#include "graphic/numberButton.h"
 #include <QComboBox>
 #include "inventory/resources.h"
 #include <QDoubleSpinBox>

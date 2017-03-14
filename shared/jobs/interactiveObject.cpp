@@ -1,4 +1,4 @@
-#include "objet_coupable.h"
+#include "jobs/interactiveObject.h"
 
 Objet_coupable::Objet_coupable(Objet *objet, Objet*souche, Ressource *ressource, int lvl)
 {

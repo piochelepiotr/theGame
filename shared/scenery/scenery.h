@@ -9,8 +9,8 @@
 #include <QtAlgorithms>
 #include <QPushButton>
 #include "scenery/constants.h"
-#include "objet.h"
-#include "categorie.h"
+#include "scenery/object.h"
+#include "scenery/objectGroup.h"
 #include "object.h"
 #include "qdir.h"
 
@@ -39,7 +39,6 @@ private:
     void loadObjects(int mapWidth, int mapHeight);
     QMap<QString, Categorie*>m_categories;
     QMap<qint16, Objet*>m_objets;
-    QMap<QString,Object*>m_objects;
     int m_lcase;
     int m_hcase;
 

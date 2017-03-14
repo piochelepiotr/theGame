@@ -1,7 +1,7 @@
 #ifndef OBJET_COUPABLE_H
 #define OBJET_COUPABLE_H
 
-#include "objet.h"
+#include "scenery/object.h"
 #include "inventory/resource.h"
 
 class Objet_coupable

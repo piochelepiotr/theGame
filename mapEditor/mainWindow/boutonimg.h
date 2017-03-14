@@ -2,7 +2,7 @@
 #define BOUTONIMG_H
 
 #include <QPushButton>
-#include "elementsMonde/decors.h"
+#include "scenery/scenery.h"
 
 class BoutonImg : public QPushButton
 {

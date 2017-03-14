@@ -1,9 +1,9 @@
 #ifndef GAMEFIELD_H
 #define GAMEFIELD_H
 
-#include "graphicElements/gamescene.h"
+#include "graphic/gamescene.h"
 #include <QTcpSocket>
-#include "infoJoueur/personnage.h"
+#include "entities/character.h"
 #include "combats/combat.h"
 #include "actions_personnage.h"
 

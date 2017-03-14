@@ -1,7 +1,7 @@
 #ifndef JEU2D_H
 #define JEU2D_H
 
-#include "graphicElements/gamescene.h"
+#include "graphic/gamescene.h"
 
 
 

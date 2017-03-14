@@ -2,7 +2,7 @@
 #define COMBAT_H
 
 #include <QString>
-#include "infoJoueur/personnage.h"
+#include "entities/character.h"
 
 //enum PhaseCombat { EnDemande, EnPlacement,EnCombat };
 

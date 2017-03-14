@@ -1,4 +1,4 @@
-#include "infoJoueur/inventaire.h"
+#include "inventory/inventory.h"
 
 Inventaire_complet::Inventaire_complet(Personnage *perso, LesRessources *ressources) : Inventaire(perso, ressources)
 {

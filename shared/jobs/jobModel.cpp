@@ -1,6 +1,6 @@
-#include "infoMonde/metier_base.h"
-#include "lesressources.h"
-#include "elementsMonde/decors.h"
+#include "jobs/jobModel.h"
+#include "inventory/resources.h"
+#include "scenery/scenery.h"
 
 Metier_Base::Metier_Base(const QString &donnees, Decors *decors, LesRessources *ressources)
 {

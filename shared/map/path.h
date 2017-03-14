@@ -3,7 +3,7 @@
 
 #include <QQueue>
 #include <QPoint>
-#include "constantes.h"
+#include "scenery/constants.h"
 
 class UnChemin
 {

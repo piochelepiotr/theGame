@@ -2,8 +2,8 @@
 #define TOUSLESMETIERS_H
 
 #include "inventory/resources.h"
-#include "decors.h"
-#include "infoMonde/metier_base.h"
+#include "scenery/scenery.h"
+#include "jobs/jobModel.h"
 
 class TouslesMetiers
 {

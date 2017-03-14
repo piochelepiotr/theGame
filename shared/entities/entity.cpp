@@ -1,4 +1,4 @@
-#include "creature.h"
+#include "entities/entity.h"
 #include "scenery/data.h"
 
 Creature::Creature(const QString &nom, QString const& classe, Donnees_editeur *donnees_editeur)

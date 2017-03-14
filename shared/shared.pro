@@ -35,7 +35,6 @@ SOURCES += \
     graphic/spellDescritionLayout.cpp \
     graphic/spellDescritpion.cpp \
     graphic/spellLayout.cpp \
-    graphic/toolBarLayout.cpp \
     inventory/inventory.cpp \
     inventory/outfit.cpp \
     inventory/outfitModel.cpp \
@@ -72,7 +71,7 @@ HEADERS += \
     entities/npcs.h \
     entities/spell.h \
     entities/spellModel.h \
-    graphic/fightWinning.h \
+    graphic/fightWinnings.h \
     graphic/gamescene.h \
     graphic/imageButton.h \
     graphic/numberButton.h \
@@ -82,7 +81,6 @@ HEADERS += \
     graphic/spellDescription.h \
     graphic/spellDescriptionLayout.h \
     graphic/spellLayout.h \
-    graphic/toolBarLayout.h \
     inventory/inventory.h \
     inventory/outfit.h \
     inventory/outfitModel.h \

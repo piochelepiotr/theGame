@@ -3,8 +3,8 @@
 
 #include <QString>
 #include "inventory/resource.h"
-#include "elementsMonde/objet_coupable.h"
-#include "infoMonde/recette.h"
+#include "jobs/interactiveObject.h"
+#include "jobs/recipe.h"
 
 #define METIER_NBR_CASES_DEPART 1
 #define METIER_LVLS_1CASEENPLUS 15

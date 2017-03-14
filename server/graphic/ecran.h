@@ -13,7 +13,7 @@
 #include "monde/joueur.h"
 #include "inventory/resources.h"
 #include <QMessageBox>
-#include "elementsMonde/decors.h"
+#include "scenery/scenery.h"
 #include "monde/monde.h"
 #include "monde/combat.h"
 #include <QTimer>

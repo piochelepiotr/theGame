@@ -1,4 +1,4 @@
-#include "recette.h"
+#include "jobs/recipe.h"
 #include "inventory/resources.h"
 
 Recette::Recette(Ressource *objet_cree, QStringList & ingredients, LesRessources *ressources)

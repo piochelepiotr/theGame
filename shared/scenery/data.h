@@ -1,10 +1,10 @@
 #ifndef DONNEES_EDITEUR_H
 #define DONNEES_EDITEUR_H
 
-#include "decors.h"
-#include "touslesmetiers.h"
-#include "touslespnj.h"
-#include "infoMonde/images_classe.h"
+#include "scenery/scenery.h"
+#include "jobs/jobs.h"
+#include "entities/npcs.h"
+#include "entities/entityImage.h"
 #include "inventory/resources.h"
 
 class Donnees_editeur

@@ -3,7 +3,7 @@
 
 #include <QVBoxLayout>
 #include "jobs/job.h"
-#include "graphicElements/items.h"
+#include "graphic/resourceItems.h"
 
 class AfficheRecette : public QWidget
 {

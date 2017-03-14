@@ -2,9 +2,9 @@
 #define LAYOUTDESCRIPTIONSORT_H
 
 #include <QHBoxLayout>
-#include "graphicElements/description_sort.h"
-#include "infoJoueur/personnage.h"
-#include "layoutunsort.h"
+#include "graphic/spellDescription.h"
+#include "entities/character.h"
+#include "spellLayout.h"
 
 class LayoutDescriptionSort : public QHBoxLayout
 {

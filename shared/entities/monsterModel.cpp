@@ -1,5 +1,5 @@
 #include "entities/monsterModel.h"
-#include "monstre.h"
+#include "entities/monster.h"
 #include "scenery/data.h"
 
 UnMonstre::UnMonstre(const QString &text, const QMap<QString, UnSort *> &sorts)

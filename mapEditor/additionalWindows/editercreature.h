@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QFile>
-#include "graphicElements/bouton.h"
+#include "graphic/numberButton.h"
 #include <QInputDialog>
 #include <QMessageBox>
 #include "scenery/constants.h"

@@ -2,7 +2,7 @@
 #define EDITERTRANSPORTEUR_H
 
 #include <QDialog>
-#include "elementsMonde/transporteur.h"
+#include "map/gate.h"
 
 namespace Ui {
 class EditerTransporteur;

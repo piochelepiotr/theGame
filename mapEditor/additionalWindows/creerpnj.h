@@ -10,7 +10,7 @@
 #include <QPushButton>
 #include <QInputDialog>
 #include "scenery/constants.h"
-#include "additionalActions/actionObjets.h"
+#include "scenery/sceneryChange.h"
 #include <QMouseEvent>
 
 namespace Ui {

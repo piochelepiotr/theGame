@@ -1,4 +1,4 @@
-#include "decors.h"
+#include "scenery/scenery.h"
 
 Decors::Decors(int lcase, int hcase,int mapWidth, int mapHeight)
 {
@@ -10,7 +10,7 @@ Decors::Decors(int lcase, int hcase,int mapWidth, int mapHeight)
 
 void Decors::loadObjects(int mapWidth, int mapHeight)
 {
-    QDir dir("../data/objects");
+    /*QDir dir("../data/objects");
     if(!dir.exists())
     {
         qDebug() << "Impossible to open path with objects";
@@ -20,7 +20,7 @@ void Decors::loadObjects(int mapWidth, int mapHeight)
     foreach(QFileInfo file,files)
     {
         m_objects[file.fileName()] = new Object(file.fileName(),mapWidth,mapHeight);
-    }
+    }*/
 }
 
 void Decors::charge()
@@ -103,10 +103,10 @@ void Decors::resize(int lcase, int hcase,int mapWidth, int mapHeight)
     {
         it->resize(lcase, hcase);
     }
-    for(auto it : m_objects)
+    /*for(auto it : m_objects)
     {
         it->resize(mapWidth,mapHeight);
-    }
+    }*/
 }
 
 void Decors::ajouteObjet(Objet *objet)

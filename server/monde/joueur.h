@@ -7,7 +7,7 @@
 #include <QSettings>
 
 #include "network/compte.h"
-#include "infoJoueur/personnage.h"
+#include "entities/character.h"
 #include "inventory/resources.h"
 
 class Joueur : public QObject

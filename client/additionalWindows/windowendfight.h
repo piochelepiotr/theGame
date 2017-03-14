@@ -2,8 +2,8 @@
 #define WINDOWENDFIGHT_H
 
 #include <QDialog>
-#include "graphicElements/gainunpersocombat.h"
-#include "infoJoueur/personnage.h"
+#include "graphic/gainunpersocombat.h"
+#include "entities/character.h"
 
 namespace Ui {
 class WindowEndFight;

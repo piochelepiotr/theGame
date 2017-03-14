@@ -1,4 +1,4 @@
-#include "categorie.h"
+#include "scenery/objectGroup.h"
 
 Categorie::Categorie(const QString &nom)
 {

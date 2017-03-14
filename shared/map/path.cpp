@@ -1,4 +1,4 @@
-#include "unchemin.h"
+#include "map/path.h"
 
 UnChemin::UnChemin(UnChemin parent, Dir const& dir, int xp, int yp)
 {

@@ -1,5 +1,5 @@
-#include "description_sort.h"
-#include "ui_description_sort.h"
+#include "graphic/spellDescription.h"
+#include "ui_spellDescription.h"
 
 Description_sort::Description_sort(UnSort *sort) :
     ui(new Ui::Description_sort)

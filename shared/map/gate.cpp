@@ -1,4 +1,4 @@
-#include "transporteur.h"
+#include "map/gate.h"
 
 Transporteur::Transporteur(QString const& nom, QString const& nomarr, int mapx, int mapy,int mapz, Dir largage, int posx, int posy)
 {

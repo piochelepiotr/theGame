@@ -2,7 +2,7 @@
 #define METIER_H
 
 #include <QString>
-#include "infoMonde/metier_base.h"
+#include "jobs/jobModel.h"
 #include <qmath.h>
 
 #define PUISSANCE_METIER 3

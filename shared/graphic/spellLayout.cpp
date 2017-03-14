@@ -1,4 +1,4 @@
-#include "layoutunsort.h"
+#include "spellLayout.h"
 
 LayoutUnSort::LayoutUnSort(Sort *sort) : QWidget()
 {

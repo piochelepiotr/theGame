@@ -1,7 +1,7 @@
 #ifndef MONSTRE_H
 #define MONSTRE_H
 
-#include "creature.h"
+#include "entities/entity.h"
 
 class Donnees_editeur;
 

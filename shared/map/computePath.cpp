@@ -1,4 +1,4 @@
-#include "additionalActions/rechercheChemin.h"
+#include "map/computePath.h"
 
 
 bool caseExiste(int x, int y)

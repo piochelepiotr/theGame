@@ -1,7 +1,7 @@
 #ifndef CATEGORIE_H
 #define CATEGORIE_H
 
-#include "objet.h"
+#include "scenery/object.h"
 #include <QMap>
 
 class Categorie

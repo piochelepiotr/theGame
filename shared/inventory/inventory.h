@@ -2,8 +2,8 @@
 #define INVENTAIRE_H
 
 #include <QTabWidget>
-#include "infoJoueur/personnage.h"
-#include "graphicElements/items.h"
+#include "entities/character.h"
+#include "graphic/resourceItems.h"
 #include "scenery/constants.h"
 
 class Inventaire : public QTabWidget

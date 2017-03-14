@@ -1,4 +1,4 @@
-#include "donnees_editeur.h"
+#include "scenery/data.h"
 #include <iostream>
 
 Donnees_editeur::Donnees_editeur(int lcase, int hcase,int mapWidth,int mapHeight)

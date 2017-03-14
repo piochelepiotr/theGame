@@ -1,4 +1,4 @@
-#include "bouton.h"
+#include "graphic/numberButton.h"
 
 Bouton::Bouton(const QString &texte, int num) : QPushButton(texte)
 {

@@ -1,5 +1,5 @@
-#include "metier.h"
-#include "elementsMonde/touslesmetiers.h"
+#include "jobs/jobs.h"
+#include "jobs/job.h"
 
 int xpMinlvl(int lvl)
 {

@@ -1,4 +1,4 @@
-#include "infoMonde/persnonj.h"
+#include "entities/npc.h"
 
 bool repliqueFinale(QString const& replique)
 {

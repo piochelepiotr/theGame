@@ -5,7 +5,7 @@
 #include "inventory/resource.h"
 #include "inventory/weapon.h"
 #include <QEvent>
-#include "infoMonde/armebase.h"
+#include "inventory/weaponModel.h"
 #include <QPainter>
 
 class Item : public QLabel
