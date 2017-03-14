@@ -5,7 +5,7 @@
 #include "scenery/scenery.h"
 #include "entities/character.h"
 #include "inventory/inventory.h"
-#include "infoMonde/recettes.h"
+#include "jobs/recipes.h"
 #include "network/reseau.h"
 #include <QTimer>
 

@@ -2,7 +2,7 @@
 #define WINDOWENDFIGHT_H
 
 #include <QDialog>
-#include "graphic/gainunpersocombat.h"
+#include "graphic/fightWinnings.h"
 #include "entities/character.h"
 
 namespace Ui {

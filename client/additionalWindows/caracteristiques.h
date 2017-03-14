@@ -11,9 +11,9 @@
 #include <QCursor>
 #include <QtTest/QTest>
 #include <QMessageBox>
-#include "infoMonde/recettes.h"
+#include "jobs/recipes.h"
 #include "graphic/spellDescription.h"
-#include "graphic/layoutdescriptionsort.h"
+#include "graphic/spellDescriptionLayout.h"
 
 namespace Ui {
 class Caracteristiques;
