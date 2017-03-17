@@ -537,6 +537,7 @@ void GameField::imagesuivante()
 {
     for(QMap<QString, AfficheJoueur*>::iterator i = m_persos.begin(); i != m_persos.end(); i++)
     {
+        qDebug() << i.key();
        i.value()->suivante();
     }
 }

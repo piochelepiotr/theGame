@@ -15,6 +15,7 @@ Actions_personnage::Actions_personnage(UneCreature *uneCreature, const QSize &ta
     m_immobile = true;
     m_taille_case = taille_case;
     m_imageActuelle = 0;
+    m_derniere_action = Aucune;
 }
 
 Actions_personnage::~Actions_personnage()
