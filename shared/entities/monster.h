@@ -3,12 +3,12 @@
 
 #include "entities/entity.h"
 
-class Donnees_editeur;
+class Data;
 
-class Monstre : public Creature
+class Monster : public Entity
 {
 public:
-    Monstre(const QString &nom,const QString &classe, Donnees_editeur *donnees_editeur,int posX,int posY,int posZ,int posMapX,int posMapY,int vie,int niveau);
+    Monster(const QString &nom,const QString &classe, Data *donnees_editeur,int posX,int posY,int posZ,int posMapX,int posMapY,int vie,int niveau);
 private:
     QMap<QString,double>m_ressourcesDropables;
 };

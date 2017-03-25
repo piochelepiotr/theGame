@@ -1,6 +1,6 @@
 #include "map/map.h"
 
-DataMap::DataMap(Donnees_editeur *donnees_editeur,int cooX, int cooY, int cooZ)
+Map::Map(Data *donnees_editeur,int cooX, int cooY, int cooZ)
 {
     m_estEnregistree = true;
     m_undo = 0;
@@ -12,7 +12,7 @@ DataMap::DataMap(Donnees_editeur *donnees_editeur,int cooX, int cooY, int cooZ)
     m_estEnregistree = true;
 }
 
-void DataMap::chargeMap(int x,int y,int z)
+void Map::chargeMap(int x,int y,int z)
 {
     m_undo = 0;
     m_cooX = x;
@@ -22,7 +22,7 @@ void DataMap::chargeMap(int x,int y,int z)
     m_estEnregistree = true;
 }
 
-void DataMap::charge(QString const& nomFichier)
+void Map::charge(QString const& nomFichier)
 {
     QFile fichier;
     fichier.setFileName(nomFichier);
@@ -99,7 +99,7 @@ void DataMap::charge(QString const& nomFichier)
 
         for(int i = 0; i < liste.size()-2; i+=8)
         {
-             m_transpos[QPoint(liste[i+6].toInt(), liste[i+7].toInt())] = Transporteur(liste[i], liste[i+1], liste[i+2].toInt(), liste[i+3].toInt(), liste[i+4].toInt(), (Dir)liste[i+5].toInt(), liste[i+6].toInt(), liste[i+7].toInt());
+             m_transpos[QPoint(liste[i+6].toInt(), liste[i+7].toInt())] = Gate(liste[i], liste[i+1], liste[i+2].toInt(), liste[i+3].toInt(), liste[i+4].toInt(), (Dir)liste[i+5].toInt(), liste[i+6].toInt(), liste[i+7].toInt());
         }
         charge_contours();
         if(m_undo != -1)
@@ -112,7 +112,7 @@ void DataMap::charge(QString const& nomFichier)
     }
 }
 
-bool DataMap::undo()
+bool Map::undo()
 {
     if(m_undo > 1)
     {
@@ -125,7 +125,7 @@ bool DataMap::undo()
     return false;
 }
 
-void DataMap::nouvelleMap()
+void Map::nouvelleMap()
 {
     m_estEnregistree = false;
     for(int i = 0; i < NBR_CASES_L; i++)
@@ -161,7 +161,7 @@ void DataMap::nouvelleMap()
     m_transpos.clear();
 }
 
-bool DataMap::exist(int cooX,int cooY,int cooZ,int undo/*=-1*/)
+bool Map::exist(int cooX,int cooY,int cooZ,int undo/*=-1*/)
 {
     QFile fichier;
     if(undo != -1)
@@ -171,7 +171,7 @@ bool DataMap::exist(int cooX,int cooY,int cooZ,int undo/*=-1*/)
     return fichier.exists();
 }
 
-void DataMap::casePleineDeMap(int cooX, int cooY, int cooZ, qint8 casesPleines[NBR_CASES_L] [NBR_CASES_H])
+void Map::casePleineDeMap(int cooX, int cooY, int cooZ, qint8 casesPleines[NBR_CASES_L] [NBR_CASES_H])
 {
     QFile fichier;
     fichier.setFileName("../data/maps/["+QString::number(cooX)+";"+QString::number(cooY)+";"+QString::number(cooZ)+"].bin");
@@ -213,7 +213,7 @@ void DataMap::casePleineDeMap(int cooX, int cooY, int cooZ, qint8 casesPleines[N
 }
 
 
-void DataMap::enregistre(bool undo/* = -1*/)
+void Map::enregistre(bool undo/* = -1*/)
 {
     QFile fichier;
     if(undo)
@@ -274,7 +274,7 @@ void DataMap::enregistre(bool undo/* = -1*/)
 
         reste += "FINMONSTRES/";
 
-        for(QMap<QPoint, Transporteur>::const_iterator it = m_transpos.begin(); it != m_transpos.end(); it++)
+        for(QMap<QPoint, Gate>::const_iterator it = m_transpos.begin(); it != m_transpos.end(); it++)
         {
             reste += it.value().getNom();
             reste += '/';
@@ -298,7 +298,7 @@ void DataMap::enregistre(bool undo/* = -1*/)
     }
 }
 
-void DataMap::coupable(QMap<QPoint, bool> *objetsCoupables)
+void Map::coupable(QMap<QPoint, bool> *objetsCoupables)
 {
     for(int i = CASESCACHEESX; i < NBR_CASES_L-CASESCACHEESX; i++)
     {
@@ -312,7 +312,7 @@ void DataMap::coupable(QMap<QPoint, bool> *objetsCoupables)
     }
 }
 
-bool DataMap::estCaseDeDepart(int x,int y,int equipe)
+bool Map::estCaseDeDepart(int x,int y,int equipe)
 {
     QPoint p(x,y);
     for(int i = 0; i < MAX_PAR_EQUIP;i++)
@@ -324,7 +324,7 @@ bool DataMap::estCaseDeDepart(int x,int y,int equipe)
 }
 
 
-QVector<QPoint> DataMap::cases_autour(QPoint const& p)
+QVector<QPoint> Map::cases_autour(QPoint const& p)
 {
     QVector<QPoint>cases;
 
@@ -362,7 +362,7 @@ QVector<QPoint> DataMap::cases_autour(QPoint const& p)
     return cases;
 }
 
-void DataMap::vide()
+void Map::vide()
 {
     videObjets();
     videCasesCombat();
@@ -373,7 +373,7 @@ void DataMap::vide()
     m_transpos.clear();
 }
 
-void DataMap::videObjets()
+void Map::videObjets()
 {
     for(int i = 0; i < NBR_CASES_L; i++)
     {
@@ -387,7 +387,7 @@ void DataMap::videObjets()
     }
 }
 
-void DataMap::videCasesCombat()
+void Map::videCasesCombat()
 {
     QPoint p(-1,-1);
 
@@ -400,7 +400,7 @@ void DataMap::videCasesCombat()
     }
 }
 
-void DataMap::videCasesPleines()
+void Map::videCasesPleines()
 {
     for(int i = 0; i < NBR_CASES_L; i++)
     {
@@ -412,7 +412,7 @@ void DataMap::videCasesPleines()
     }
 }
 
-QQueue<Dir> DataMap::calculchemin(QPoint const& dep, QPoint const& arr)
+QQueue<Dir> Map::calculchemin(QPoint const& dep, QPoint const& arr)
 {
     bool casesmarchees[NBR_CASES_L] [NBR_CASES_H];
     for(int i = 0; i < NBR_CASES_L; i++)
@@ -426,14 +426,14 @@ QQueue<Dir> DataMap::calculchemin(QPoint const& dep, QPoint const& arr)
         }
     }
 
-    QVector <UnChemin>leschem;
-    leschem.push_back(UnChemin(dep));
+    QVector <Path>leschem;
+    leschem.push_back(Path(dep));
 
     return faitechem(casesmarchees, arr, leschem);
 
 }
 
-QQueue<Dir> DataMap::calculcheminJusquaLObjet(QPoint const& dep, QPoint const& position_objet, QPoint *arrivee)
+QQueue<Dir> Map::calculcheminJusquaLObjet(QPoint const& dep, QPoint const& position_objet, QPoint *arrivee)
 {
     bool casesmarchees[NBR_CASES_L] [NBR_CASES_H];
     for(int i = 0; i < NBR_CASES_L; i++)
@@ -446,8 +446,8 @@ QQueue<Dir> DataMap::calculcheminJusquaLObjet(QPoint const& dep, QPoint const& p
                 casesmarchees[i] [j] = true;
         }
     }
-    QVector <UnChemin>leschem;
-    leschem.push_back(UnChemin(dep));
+    QVector <Path>leschem;
+    leschem.push_back(Path(dep));
     QVector<QPoint>arrivees = cases_autour(position_objet);
 
 
@@ -456,7 +456,7 @@ QQueue<Dir> DataMap::calculcheminJusquaLObjet(QPoint const& dep, QPoint const& p
 }
 
 
-QQueue<Dir> DataMap::calculcheminCombat(QPoint const& dep, QPoint const& arr, int max_dep)
+QQueue<Dir> Map::calculcheminCombat(QPoint const& dep, QPoint const& arr, int max_dep)
 {
     bool casesmarchees[NBR_CASES_L] [NBR_CASES_H];
     for(int i = 0; i < NBR_CASES_L; i++)
@@ -470,14 +470,14 @@ QQueue<Dir> DataMap::calculcheminCombat(QPoint const& dep, QPoint const& arr, in
         }
     }
 
-    QVector <UnChemin>leschem;
-    leschem.push_back(UnChemin(dep));
+    QVector <Path>leschem;
+    leschem.push_back(Path(dep));
 
     return faitechemCombat(casesmarchees, arr, leschem, max_dep);
 
 }
 
-QQueue<Dir> DataMap::calculcheminJusquaLObjetCombat(QPoint const& dep, QPoint const& position_objet, QPoint *arrivee)
+QQueue<Dir> Map::calculcheminJusquaLObjetCombat(QPoint const& dep, QPoint const& position_objet, QPoint *arrivee)
 {
     bool casesmarchees[NBR_CASES_L] [NBR_CASES_H];
     for(int i = 0; i < NBR_CASES_L; i++)
@@ -490,8 +490,8 @@ QQueue<Dir> DataMap::calculcheminJusquaLObjetCombat(QPoint const& dep, QPoint co
                 casesmarchees[i] [j] = true;
         }
     }
-    QVector <UnChemin>leschem;
-    leschem.push_back(UnChemin(dep));
+    QVector <Path>leschem;
+    leschem.push_back(Path(dep));
     QVector<QPoint>arrivees = cases_autour(position_objet);
 
 
@@ -499,19 +499,19 @@ QQueue<Dir> DataMap::calculcheminJusquaLObjetCombat(QPoint const& dep, QPoint co
     return faitechemCombat(casesmarchees, arrivees, leschem, arrivee);
 }
 
-void DataMap::setCasePleine(int i,int j,int value)
+void Map::setCasePleine(int i,int j,int value)
 {
     m_estEnregistree = false;
     m_casepleines[i][j] = value;
     m_casepleinesCombat[i][j] = value;
 }
 
-void DataMap::setCasePleineCombat(int i,int j,int value)
+void Map::setCasePleineCombat(int i,int j,int value)
 {
     m_casepleinesCombat[i][j] = value;
 }
 
-void DataMap::charge_contours()
+void Map::charge_contours()
 {
     m_estEnregistree = false;
     for(int i = 0; i < (NBR_CASES_L-CASESCACHEESX)*2; i++)
@@ -527,7 +527,7 @@ void DataMap::charge_contours()
     }
 
     qint8 casesPleines[NBR_CASES_L] [NBR_CASES_H];
-    if(DataMap::exist(m_cooX, m_cooY-1, m_cooZ))
+    if(Map::exist(m_cooX, m_cooY-1, m_cooZ))
     {
         casePleineDeMap(m_cooX,m_cooY-1,m_cooZ,casesPleines);
         for(int i = 0; i < NBR_CASES_L-CASESCACHEESX*2; i++)
@@ -542,7 +542,7 @@ void DataMap::charge_contours()
             }
         }
     }
-    if(DataMap::exist(m_cooX, m_cooY+1, m_cooZ))
+    if(Map::exist(m_cooX, m_cooY+1, m_cooZ))
     {
         casePleineDeMap(m_cooX,m_cooY+1,m_cooZ,casesPleines);
         for(int i = 0; i < NBR_CASES_L-CASESCACHEESX*2; i++)
@@ -557,7 +557,7 @@ void DataMap::charge_contours()
             }
         }
     }
-    if(DataMap::exist(m_cooX-1, m_cooY, m_cooZ))
+    if(Map::exist(m_cooX-1, m_cooY, m_cooZ))
     {
         casePleineDeMap(m_cooX-1,m_cooY,m_cooZ,casesPleines);
         for(int j = 0; j < NBR_CASES_H-CASESCACHEESY*2+1; j++)
@@ -568,7 +568,7 @@ void DataMap::charge_contours()
             }
         }
     }
-    if(DataMap::exist(m_cooX+1, m_cooY, m_cooZ))
+    if(Map::exist(m_cooX+1, m_cooY, m_cooZ))
     {
         casePleineDeMap(m_cooX+1,m_cooY,m_cooZ,casesPleines);
         for(int j = 0; j < NBR_CASES_H-CASESCACHEESY*2+1; j++)
@@ -581,7 +581,7 @@ void DataMap::charge_contours()
     }
 }
 
-QPoint DataMap::case_haut(QPoint lacase)
+QPoint Map::case_haut(QPoint lacase)
 {
     int actuelle = (lacase.x()-CASESCACHEESX)*2;
     if(lacase.y() == CASESCACHEESY+1)
@@ -614,7 +614,7 @@ QPoint DataMap::case_haut(QPoint lacase)
     return p;
 }
 
-QPoint DataMap::case_bas(QPoint lacase)
+QPoint Map::case_bas(QPoint lacase)
 {
     int actuelle = (lacase.x()-CASESCACHEESX)*2;
     if(lacase.y() == NBR_CASES_H-CASESCACHEESY)
@@ -647,7 +647,7 @@ QPoint DataMap::case_bas(QPoint lacase)
     return p;
 }
 
-QPoint DataMap::case_gauche(QPoint lacase)
+QPoint Map::case_gauche(QPoint lacase)
 {
     int actuelle = lacase.y()-CASESCACHEESY;
     if(actuelle < 0)
@@ -673,7 +673,7 @@ QPoint DataMap::case_gauche(QPoint lacase)
     return p;
 }
 
-QPoint DataMap::case_droite(QPoint lacase)
+QPoint Map::case_droite(QPoint lacase)
 {
     int actuelle = lacase.y()-CASESCACHEESY;
     if(actuelle < 0)
@@ -702,7 +702,7 @@ QPoint DataMap::case_droite(QPoint lacase)
     return p;
 }
 
-QPoint DataMap::posDep(int equipe)
+QPoint Map::posDep(int equipe)
 {
     QPoint p(-1,-1);
     for(int i = 0; i < MAX_PAR_EQUIP; i++)
@@ -713,7 +713,7 @@ QPoint DataMap::posDep(int equipe)
     return p;
 }
 
-void DataMap::initialisePortee(bool cases_ateignables[NBR_CASES_L] [NBR_CASES_H], int xdep, int ydep, int min_portee, int max_portee)
+void Map::initialisePortee(bool cases_ateignables[NBR_CASES_L] [NBR_CASES_H], int xdep, int ydep, int min_portee, int max_portee)
 {
     int cases_ateignables2[NBR_CASES_L][NBR_CASES_H];
     for(int i = 0; i < NBR_CASES_L; i++)
@@ -772,7 +772,7 @@ void DataMap::initialisePortee(bool cases_ateignables[NBR_CASES_L] [NBR_CASES_H]
     }
 }
 
-void DataMap::calculPortee(bool cases_ateignables[NBR_CASES_L] [NBR_CASES_H], int xdep, int ydep, int min_portee, int max_portee)
+void Map::calculPortee(bool cases_ateignables[NBR_CASES_L] [NBR_CASES_H], int xdep, int ydep, int min_portee, int max_portee)
 {
     // on créer une map avec des dimentions différentes
     int lcase = 40,hcase = 40;
@@ -816,7 +816,7 @@ void DataMap::calculPortee(bool cases_ateignables[NBR_CASES_L] [NBR_CASES_H], in
     }
 }
 
-int DataMap::cposx(int casex, int casey,int lcase,bool zoom)
+int Map::cposx(int casex, int casey,int lcase,bool zoom)
 {
     int mlcase = lcase/2;
     if(zoom)
@@ -831,7 +831,7 @@ int DataMap::cposx(int casex, int casey,int lcase,bool zoom)
     }
 }
 
-int DataMap::cposy(int casey, int hcase, bool zoom)
+int Map::cposy(int casey, int hcase, bool zoom)
 {
     int mhcase = hcase/2;
     if(zoom)
@@ -839,7 +839,7 @@ int DataMap::cposy(int casey, int hcase, bool zoom)
     return mhcase*(casey);
 }
 
-QPoint DataMap::ccase(int posx, int posy,int lmap,int hmap,int lcase,int hcase,bool zoom)
+QPoint Map::ccase(int posx, int posy,int lmap,int hmap,int lcase,int hcase,bool zoom)
 {
     int mhcase = hcase/2;
     int mlcase = lcase/2;
@@ -923,7 +923,7 @@ QPoint DataMap::ccase(int posx, int posy,int lmap,int hmap,int lcase,int hcase,b
     return lacase;
 }
 
-QPoint DataMap::caseLibre()
+QPoint Map::caseLibre()
 {
     int x = 0;
     int y = 0;
@@ -935,7 +935,7 @@ QPoint DataMap::caseLibre()
     return QPoint(x,y);
 }
 
-UnMonstre *DataMap::nouveauMonstre()
+MonsterModel *Map::nouveauMonstre()
 {
     double total = 0;
     for(QMap<QString,double>::iterator it = m_monstres.begin(); it != m_monstres.end(); it++)
@@ -1013,9 +1013,9 @@ void droiteExtremes(QList<double>droites,double &max,double &min)
     max = droites.at(0)+2*pi;
 }
 
-QMap<QPoint, Objet *> DataMap::posCollectedResources()
+QMap<QPoint, Object *> Map::posCollectedResources()
 {
-    QMap<QPoint,Objet*>collectedObjetcs;
+    QMap<QPoint,Object*>collectedObjetcs;
     for(int i = 0; i < NBR_CASES_L; i++)
     {
         for(int j = 0; j < NBR_CASES_H; j++)

@@ -3,12 +3,12 @@
 
 #include <QPushButton>
 
-class BoutonImgString : public QPushButton
+class ImageButtonString : public QPushButton
 {
     Q_OBJECT
 
 public:
-    BoutonImgString(QString nom,QString const& cheminImage);
+    ImageButtonString(QString nom,QString const& cheminImage);
 
 public slots:
     void clique();

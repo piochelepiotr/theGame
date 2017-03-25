@@ -27,7 +27,7 @@ public:
     QString getPseudo() const { return m_compte->getPseudo(); }
     Etat getEtat() const { return m_etat; }
     Compte *getCompte() const { return m_compte; }
-    Personnage *getPersoActuel() const;
+    Character *getPersoActuel() const;
 
     void setPersoActuel(int num) { m_persoactuel=num; }
 
@@ -35,7 +35,7 @@ public:
     void envoi(QString const& message) const;
 
     void connexion(Compte *compte);
-    void connexion(QString donnees, QString ndc, Donnees_editeur *donnees_editeur);
+    void connexion(QString donnees, QString ndc, Data *donnees_editeur);
     void deconnexion();
     void joue();
     void changePerso();

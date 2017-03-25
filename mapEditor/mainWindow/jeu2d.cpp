@@ -1,6 +1,6 @@
 #include "jeu2d.h"
 
-Jeu2d::Jeu2d(QSize const& size, QLabel *texte,Donnees_editeur *donnees_editeur) : GameScene(size,texte,donnees_editeur)
+Jeu2d::Jeu2d(QSize const& size, QLabel *texte,Data *donnees_editeur) : GameScene(size,texte,donnees_editeur)
 {
 
 }

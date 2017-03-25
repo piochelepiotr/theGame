@@ -3,11 +3,11 @@
 
 #include "scenery/constants.h"
 
-class Transporteur
+class Gate
 {
 public :
 
-    Transporteur(QString const& nom = "", QString const& nomarr = "", int mapx = 0, int mapy = 0, int mapz = 0, Dir largage = B, int posx = 0, int posy = 0);
+    Gate(QString const& nom = "", QString const& nomarr = "", int mapx = 0, int mapy = 0, int mapz = 0, Dir largage = B, int posx = 0, int posy = 0);
     QString getNom() const { return m_nom; }
     QString getNomArr() const { return m_nom_arr; }
     int getMapX() const { return m_maparrX; }

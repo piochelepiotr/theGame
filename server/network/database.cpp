@@ -1,7 +1,7 @@
 #include "database.h"
 #include "network/compte.h"
 
-DataBase::DataBase(Donnees_editeur *donneesEditeur) : QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"))//::addDatabase("QSQLITE")
+DataBase::DataBase(Data *donneesEditeur) : QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"))//::addDatabase("QSQLITE")
 {
     m_donnees_editeur = donneesEditeur;
     setHostName("localhost");

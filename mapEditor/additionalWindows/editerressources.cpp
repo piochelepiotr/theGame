@@ -6,7 +6,7 @@
 
 
 
-EditerRessources::EditerRessources(QWidget *parent, LesRessources *ressources) :
+EditerRessources::EditerRessources(QWidget *parent, Resources *ressources) :
     QDialog(parent),
     ui(new Ui::EditerRessources)
 {
@@ -31,7 +31,7 @@ EditerRessources::~EditerRessources()
     delete ui;
 }
 
-void EditerRessources::ajouteRessource(Ressource *ressource)
+void EditerRessources::ajouteRessource(Resource *ressource)
 {
     m_ressources->ajouteRessource(ressource);
     QFile fichier("Ressources/ressources.txt");
@@ -47,7 +47,7 @@ void EditerRessources::ajouteRessource(Ressource *ressource)
     ui->select_ressource->insertItem(endroit, ressource->nom());
 }
 
-void EditerRessources::ajouteEquipement(EquipementBase *equipement)
+void EditerRessources::ajouteEquipement(OutfitModel *equipement)
 {
     ajouteRessource(equipement->getRessource());
     m_ressources->ajouteEquipement(equipement);
@@ -60,7 +60,7 @@ void EditerRessources::ajouteEquipement(EquipementBase *equipement)
     }
 }
 
-void EditerRessources::ajouteArme(ArmeBase *arme)
+void EditerRessources::ajouteArme(WeaponModel *arme)
 {
     ajouteEquipement(arme->getEquipement());
     m_ressources->ajouteArme(arme);
@@ -164,7 +164,7 @@ void EditerRessources::supprimeArme(QString const& nom)
     supprimeEquipement(nom);
 }
 
-void EditerRessources::editeRessource(Ressource *ressource)
+void EditerRessources::editeRessource(Resource *ressource)
 {
     QFile fichier("Ressources/ressources.txt");
     QFile fichier2("Ressources/ressources2.txt");
@@ -194,7 +194,7 @@ void EditerRessources::editeRessource(Ressource *ressource)
     }
 }
 
-void EditerRessources::editeEquipement(EquipementBase *equipement)
+void EditerRessources::editeEquipement(OutfitModel *equipement)
 {
     QFile fichier("Ressources/equipements.txt");
     QFile fichier2("Ressources/equipements2.txt");
@@ -224,7 +224,7 @@ void EditerRessources::editeEquipement(EquipementBase *equipement)
     }
 }
 
-void EditerRessources::editeArme(ArmeBase *arme)
+void EditerRessources::editeArme(WeaponModel *arme)
 {
     QFile fichier("Ressources/armes.txt");
     QFile fichier2("Ressources/armes2.txt");
@@ -264,9 +264,9 @@ void EditerRessources::nouvelle_selection(QString const& nom)
 void EditerRessources::charge(QString const& nom)
 {
     clear();
-    Ressource *ressource = m_ressources->getRessource(nom);
-    EquipementBase *equipement = m_ressources->getEquipement(nom);
-    ArmeBase *arme = m_ressources->getArme(nom);
+    Resource *ressource = m_ressources->getRessource(nom);
+    OutfitModel *equipement = m_ressources->getEquipement(nom);
+    WeaponModel *arme = m_ressources->getArme(nom);
     if(ressource)
     {
         ui->categorie->setText(ressource->categorie());
@@ -294,7 +294,7 @@ void EditerRessources::charge(QString const& nom)
 
 void EditerRessources::enregistre(QString const& nom)
 {
-    Ressource *ressource = m_ressources->getRessource(nom);
+    Resource *ressource = m_ressources->getRessource(nom);
     if(ressource)
     {
         ressource->setCategorie(ui->categorie->text());
@@ -303,7 +303,7 @@ void EditerRessources::enregistre(QString const& nom)
         ressource->setDescription(ui->description->toPlainText());
         editeRessource(ressource);
 
-        EquipementBase *equipement = m_ressources->getEquipement(nom);
+        OutfitModel *equipement = m_ressources->getEquipement(nom);
         if(equipement)
         {
             equipement->setBonusForce(0, ui->force_min->value());
@@ -315,7 +315,7 @@ void EditerRessources::enregistre(QString const& nom)
             editeEquipement(equipement);
         }
 
-        ArmeBase *arme = m_ressources->getArme(nom);
+        WeaponModel *arme = m_ressources->getArme(nom);
         if(arme)
         {
             arme->setSort(m_ressources->getSort(ui->sort->currentText()));
@@ -363,15 +363,15 @@ void EditerRessources::ajoute()
         {
             if(action == "nouvelle ressource")
             {
-                ajouteRessource(Ressource::nouvelle(nom, chemin));
+                ajouteRessource(Resource::nouvelle(nom, chemin));
             }
             else if(action == "nouvel equipement")
             {
-                ajouteEquipement(EquipementBase::nouvel(nom, chemin));
+                ajouteEquipement(OutfitModel::nouvel(nom, chemin));
             }
             else if(action == "nouvelle arme")
             {
-                ajouteArme(ArmeBase::nouvelle(nom,chemin, m_ressources));
+                ajouteArme(WeaponModel::nouvelle(nom,chemin, m_ressources));
             }
         }
     }
@@ -380,9 +380,9 @@ void EditerRessources::ajoute()
 void EditerRessources::supprime()
 {
     QString nom = ui->select_ressource->currentText();
-    ArmeBase *arme = m_ressources->getArme(nom);
-    EquipementBase *equipement = m_ressources->getEquipement(nom);
-    Ressource *ressource = m_ressources->getRessource(nom);
+    WeaponModel *arme = m_ressources->getArme(nom);
+    OutfitModel *equipement = m_ressources->getEquipement(nom);
+    Resource *ressource = m_ressources->getRessource(nom);
     if(arme)
     {
         supprimeArme(nom);
@@ -400,7 +400,7 @@ void EditerRessources::supprime()
 void EditerRessources::nouvelleImage()
 {
     QString chemin = QFileDialog::getOpenFileName(this, "Selectionnez l'image", QString(), "Images (*.png)");
-    Ressource *ressource = m_ressources->getRessource(m_ressourceActuelle);
+    Resource *ressource = m_ressources->getRessource(m_ressourceActuelle);
     if(ressource && QFile::exists(chemin))
     {
         ressource->setImage(chemin);

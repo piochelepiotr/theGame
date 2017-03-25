@@ -5,7 +5,7 @@
 #include <QDebug>
 #define ARROW_DISPLAY_DIST 40
 
-GameField::GameField(const QSize &size, Personnage *pers, QTcpSocket *sock, Donnees_editeur *donnees_editeur) : GameScene(size,0,donnees_editeur)
+GameField::GameField(const QSize &size, Character *pers, QTcpSocket *sock, Data *donnees_editeur) : GameScene(size,0,donnees_editeur)
 {
     m_displayGrid = false;
     m_sort_a_utiliser = 0;
@@ -13,7 +13,7 @@ GameField::GameField(const QSize &size, Personnage *pers, QTcpSocket *sock, Donn
     m_nomMetier = "";
     m_combatOuPas = HorsCombat;
     m_socket = sock;
-    m_personnage = pers;
+    m_character = pers;
     charge(pers->getPosX(), pers->getPosY(), pers->getPosZ());
     InfoPerVis inf;
     inf.classe = pers->getClasse();
@@ -22,8 +22,8 @@ GameField::GameField(const QSize &size, Personnage *pers, QTcpSocket *sock, Donn
     m_fleche = addPixmap(QPixmap());
     m_fleche->setZValue(4+NBR_CASES_H);
     m_posFleche = QPoint(-1,-1);
-    ajouteUnPerso(inf);
-    redi(size);
+    addEntity(inf);
+    resize(size);
 }
 
 GameField::~GameField()
@@ -34,12 +34,12 @@ GameField::~GameField()
     }
 }
 
-void GameField::redi(QSize const& nouvelle)
+void GameField::resize(QSize const& newSize)
 {
-    GameScene::redi(nouvelle);
+    GameScene::resize(newSize);
     for(QMap<QString,AfficheJoueur*>::iterator i = m_persos.begin(); i != m_persos.end(); i++)
     {
-        i.value()->redi(m_lcase, m_hcase);
+        i.value()->resize(m_lcase, m_hcase);
     }
 }
 
@@ -51,10 +51,10 @@ void GameField::cliqueGauche(int x, int y)
         QQueue<Dir> chem;
         if(p.x() != -1)//gere la fleche et le changement de map
         {
-            chem = m_dataMap->calculchemin(getJoueur(m_personnage->getNom())->posALaFin(), p);
+            chem = m_dataMap->calculchemin(getJoueur(m_character->getNom())->posALaFin(), p);
             if(!chem.isEmpty())
-                envoyerM(m_socket, "dep/"+m_personnage->getNom()+'*'+QString::number(p.x())+QString::number(p.y()));
-            if(!chem.isEmpty() || p == getJoueur(m_personnage->getNom())->posALaFin())
+                envoyerM(m_socket, "dep/"+m_character->getNom()+'*'+QString::number(p.x())+QString::number(p.y()));
+            if(!chem.isEmpty() || p == getJoueur(m_character->getNom())->posALaFin())
             {
                 m_maparrx = m_dataMap->x();
                 m_maparry = m_dataMap->y();
@@ -82,29 +82,29 @@ void GameField::cliqueGauche(int x, int y)
                     m_maparrx++;
                     m_cooarrx = CASESCACHEESX;
                 }
-                deplace(m_personnage->getNom(), chem, Actions_personnage::ChangeDeMap);
+                deplace(m_character->getNom(), chem, Actions_personnage::ChangeDeMap);
             }
             else
             {
-                deplace(m_personnage->getNom(), chem);
+                deplace(m_character->getNom(), chem);
             }
             return;
         }
         p = m_dataMap->ccase(x, y,getlmap(),gethmap(),getlcase(),gethcase(),true);
         if(p.x() != -1)//gere le deplacement sans changer de map
         {
-            chem = m_dataMap->calculchemin(getJoueur(m_personnage->getNom())->posALaFin(), p);
+            chem = m_dataMap->calculchemin(getJoueur(m_character->getNom())->posALaFin(), p);
             if(!chem.isEmpty())
             {
-                deplace(m_personnage->getNom(), chem);
-                envoyerM(m_socket, "dep/"+m_personnage->getNom()+'*'+QString::number(p.x()) +'*'+QString::number(p.y()));
+                deplace(m_character->getNom(), chem);
+                envoyerM(m_socket, "dep/"+m_character->getNom()+'*'+QString::number(p.x()) +'*'+QString::number(p.y()));
             }
         }
     }
     else if(m_combatOuPas == EnPlacement)
     {
         QPoint p = m_dataMap->ccase(x, y,getlmap(),gethmap(),getlcase(),gethcase(),true);
-        if(m_dataMap->estCaseDeDepart(p.x(),p.y(),m_personnage->equipe()))
+        if(m_dataMap->estCaseDeDepart(p.x(),p.y(),m_character->equipe()))
         {
             if(!contientJoueur(p))
             {
@@ -112,16 +112,16 @@ void GameField::cliqueGauche(int x, int y)
             }
         }
     }
-    else if(m_combatOuPas == EnCombat && m_personnage->monTour() && getJoueur(m_personnage->getNom())->isImobile())
+    else if(m_combatOuPas == EnCombat && m_character->monTour() && getJoueur(m_character->getNom())->isImobile())
     {
         if(!m_sort_a_utiliser)
         {
             QPoint arrivee = m_dataMap->ccase(x, y,getlmap(),gethmap(),getlcase(),gethcase(),true);
-            QQueue<Dir> chem = m_dataMap->calculcheminCombat(getJoueur(m_personnage->getNom())->posALaFin(), arrivee, m_personnage->getPCCombat());
+            QQueue<Dir> chem = m_dataMap->calculcheminCombat(getJoueur(m_character->getNom())->posALaFin(), arrivee, m_character->getPCCombat());
             if(!chem.isEmpty())
             {
-                m_personnage->use_pc(chem.size());
-                emit changePC(m_personnage->getPCCombat());
+                m_character->use_pc(chem.size());
+                emit changePC(m_character->getPCCombat());
                 envoyerM(m_socket, "combat/dep/"+QString::number(arrivee.x())+"*"+QString::number(arrivee.y()));
             }
         }
@@ -131,8 +131,8 @@ void GameField::cliqueGauche(int x, int y)
             stopUtiliseSort();
             if(p.x() != -1)
             {
-                m_personnage->use_pc(m_sort_a_utiliser->points_combat());
-                emit changePC(m_personnage->getPCCombat());
+                m_character->use_pc(m_sort_a_utiliser->points_combat());
+                emit changePC(m_character->getPCCombat());
                 envoyerM(m_socket,"combat/attaque/"+m_sort_a_utiliser->nom()+"/"+QString::number(p.x())+"/"+QString::number(p.y()));
             }
             m_sort_a_utiliser = 0;
@@ -143,15 +143,14 @@ void GameField::cliqueGauche(int x, int y)
 void GameField::setMonTour(bool monTour)
 {
     effaceChemin();
-    m_personnage->nouveau_tour();
-    m_personnage->setTour(monTour);
+    m_character->nouveau_tour();
+    m_character->setTour(monTour);
     m_sort_a_utiliser = 0;
-    emit changePC(m_personnage->getPCCombat());
+    emit changePC(m_character->getPCCombat());
 }
 
-void GameField::veut_utiliserSort(Sort *sort)
+void GameField::veut_utiliserSort(Spell *sort)
 {
-    qDebug() << "nom sort : " << sort->nom();
     effaceChemin();
     m_sort_a_utiliser = sort;
     utiliseSort(sort);
@@ -159,7 +158,7 @@ void GameField::veut_utiliserSort(Sort *sort)
 
 void GameField::phasePlacement(Combat *combat,int equipe)
 {
-    m_personnage->setEquipe(equipe);
+    m_character->setEquipe(equipe);
     m_combatOuPas = EnPlacement;
     affiche_casesCombat();
     setMonTour(false);
@@ -205,7 +204,10 @@ AfficheJoueur *GameField::getJoueur(QString const& nom)
     if(m_persos.contains(nom))
         return m_persos[nom];
     else
+    {
         qDebug() << "perso doesn't exist : " << nom;
+        return 0;
+    }
 }
 
 void GameField::utileClique(QPoint const& pos)
@@ -213,7 +215,7 @@ void GameField::utileClique(QPoint const& pos)
     if(m_combatOuPas == HorsCombat)
     {
         qDebug() << "clique utile !";
-        Objet *obj = m_dataMap->objet(pos.x(),pos.y(),2);
+        Object *obj = m_dataMap->objet(pos.x(),pos.y(),2);
         if(obj->categorie() == "pnj")
         {
             qDebug() << "pnj";
@@ -221,22 +223,22 @@ void GameField::utileClique(QPoint const& pos)
         }
         else if(obj->categorie() == "forge")
         {
-            Metier_Base *metier = m_donnees_editeur->metiers->forge_to_metier(obj);
+            JobModel *metier = m_donnees_editeur->metiers->forge_to_metier(obj);
             if(metier)
             {
-                if(!m_personnage->arme())
+                if(!m_character->arme())
                 {
                     emit pourChat(QObject::trUtf8("Vous n'avez pas l'arme appropriée pour exercer ce métier : ")+metier->arme());
                 }
-                else if(m_personnage->arme()->getEquipement()->getRessource()->categorie() == metier->arme())
+                else if(m_character->arme()->getEquipement()->getRessource()->categorie() == metier->arme())
                 {
                     m_nomMetier = metier->nom();//pour les recettes
                     QPoint p;
-                    QQueue<Dir> chemin = m_dataMap->calculcheminJusquaLObjet(getJoueur(m_personnage->getNom())->posALaFin() , pos, &p);
+                    QQueue<Dir> chemin = m_dataMap->calculcheminJusquaLObjet(getJoueur(m_character->getNom())->posALaFin() , pos, &p);
                     if(!chemin.isEmpty())
                     {
-                        deplace(m_personnage->getNom(), chemin, Actions_personnage::Recettes);
-                        envoyerM(m_socket, "dep/"+m_personnage->getNom()+'*'+QString::number(p.x()) +'*'+QString::number(p.y()));
+                        deplace(m_character->getNom(), chemin, Actions_personnage::Recettes);
+                        envoyerM(m_socket, "dep/"+m_character->getNom()+'*'+QString::number(p.x()) +'*'+QString::number(p.y()));
                     }
                     else if(p.x())
                     {
@@ -253,22 +255,22 @@ void GameField::utileClique(QPoint const& pos)
         {
             m_pos_ressource = pos;
             qDebug() << obj->numero();
-            Metier_Base *metier = m_donnees_editeur->metiers->objet_coupable_to_metier(obj);
+            JobModel *metier = m_donnees_editeur->metiers->objet_coupable_to_metier(obj);
             if(metier)
             {
-                if(!m_personnage->arme())
+                if(!m_character->arme())
                 {
                     emit pourChat(QObject::trUtf8("Vous ne pouvez pas pas récolter cette ressource"));
                 }
-                else if(m_personnage->arme()->getEquipement()->getRessource()->categorie() == metier->arme() && m_personnage->getMetier(metier->nom()) != 0 && metier->objet_coupable(obj->numero())->lvl() <= m_personnage->getMetier(metier->nom())->getLvl())
+                else if(m_character->arme()->getEquipement()->getRessource()->categorie() == metier->arme() && m_character->getMetier(metier->nom()) != 0 && metier->objet_coupable(obj->numero())->lvl() <= m_character->getMetier(metier->nom())->getLvl())
                 {
                     QPoint p;
-                    QQueue<Dir> chemin = m_dataMap->calculcheminJusquaLObjet(getJoueur(m_personnage->getNom())->posALaFin() , pos, &p);
+                    QQueue<Dir> chemin = m_dataMap->calculcheminJusquaLObjet(getJoueur(m_character->getNom())->posALaFin() , pos, &p);
                     if(!chemin.isEmpty())
                     {
-                        deplace(m_personnage->getNom(), chemin, Actions_personnage::Recolter);
+                        deplace(m_character->getNom(), chemin, Actions_personnage::Recolter);
                         m_orientation = orientation_vers_objet(p, pos);
-                        envoyerM(m_socket, "dep/"+m_personnage->getNom()+'*'+QString::number(p.x()) +'*'+QString::number(p.y()));
+                        envoyerM(m_socket, "dep/"+m_character->getNom()+'*'+QString::number(p.x()) +'*'+QString::number(p.y()));
                         m_nomMetier = metier->nom();//pour la recolte
                     }
                     else if(p.x() != 0)
@@ -302,8 +304,8 @@ void GameField::fait_recettes()
 void GameField::doit_recolter()
 {
     int orientation = m_orientation;
-    recolte(m_personnage->getNom(), m_personnage->getMetier(m_nomMetier)->getMetierBase()->verbe(), m_orientation, m_personnage->getMetier(m_nomMetier)->nbrCoups(), Actions_personnage::ARecolter);
-    envoyerM(m_socket, "cut/"+m_personnage->getNom()+'*'+m_personnage->getMetier(m_nomMetier)->getMetierBase()->verbe()+'*'+QString::number(orientation)+'*'+QString::number(m_personnage->getMetier(m_nomMetier)->nbrCoups()));
+    recolte(m_character->getNom(), m_character->getMetier(m_nomMetier)->getMetierBase()->verbe(), m_orientation, m_character->getMetier(m_nomMetier)->nbrCoups(), Actions_personnage::ARecolter);
+    envoyerM(m_socket, "cut/"+m_character->getNom()+'*'+m_character->getMetier(m_nomMetier)->getMetierBase()->verbe()+'*'+QString::number(orientation)+'*'+QString::number(m_character->getMetier(m_nomMetier)->nbrCoups()));
 }
 
 void GameField::ressourceRecoltee(QPoint pos)
@@ -319,11 +321,11 @@ void GameField::ressource_repousse(int posx, int posy)
 void GameField::a_coupe()
 {
     qint16 numobj = m_dataMap->objet(m_pos_ressource.x(),m_pos_ressource.y(),2)->numero();
-    Metier *metier = m_personnage->getMetier(m_nomMetier);
+    Job *metier = m_character->getMetier(m_nomMetier);
     int xp = xpCoupeRessource(metier->getMetierBase()->objet_coupable(numobj)->lvl());
     int nombre_ressources = metier->nombre_ressources(numobj);
     metier->gagneXp(xp);
-    QString ajoutees = m_personnage->gagneRessources(metier->getMetierBase()->objet_coupable(numobj)->getRessource(), nombre_ressources);
+    QString ajoutees = m_character->gagneRessources(metier->getMetierBase()->objet_coupable(numobj)->getRessource(), nombre_ressources);
     ressourceRecoltee(m_pos_ressource);
     envoyerM(m_socket, "cop/"+QString::number(m_pos_ressource.x())+'*'+QString::number(m_pos_ressource.y())+'/'+metier->getNomMetier()+'/'+QString::number(xp)+'/'+ajoutees);
 }
@@ -344,23 +346,24 @@ void GameField::infos_map(QString infos)
         perso.nom = unJoueur.section('*', 0, 0);
         perso.classe = unJoueur.section('*', 1, 1);
         perso.posmap = QPoint(unJoueur.section('*', 2,2).toInt(), unJoueur.section('*', 3, 3).toInt());
-        ajouteUnPerso(perso);
+        addEntity(perso);
         infos = infos.section('/', 1);
     }
 }
 
 void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
+    QGraphicsScene::mouseMoveEvent(mouseEvent);
     int x = mouseEvent->scenePos().x(), y = mouseEvent->scenePos().y();
     if(phase() == HorsCombat)
     {
-        for(QMap<QString,AfficheJoueur*>::iterator it = m_persos.begin();it != m_persos.end(); it++)
+        /*for(QMap<QString,AfficheJoueur*>::iterator it = m_persos.begin();it != m_persos.end(); it++)
         {
             if(it.value()->isUnderMouse())
-                it.value()->aide();
+                it.value()->displayToolTip();
             else
-                it.value()->desaide();
-        }
+                it.value()->hideToolTip();
+        }*/
         m_fleche->setVisible(false);
         m_posFleche.setX(-1);
         m_posFleche.setY(-1);
@@ -411,29 +414,29 @@ void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     }
     else if(phase() == EnPlacement)
     {
-        for(QMap<QString,AfficheJoueur*>::iterator it = m_persos.begin();it != m_persos.end(); it++)
+        /*for(QMap<QString,AfficheJoueur*>::iterator it = m_persos.begin();it != m_persos.end(); it++)
         {
             if(it.value()->isUnderMouse())
-                it.value()->aide();
+                it.value()->displayToolTip();
             else
-                it.value()->desaide();
-        }
+                it.value()->hideToolTip();
+        }*/
     }
     else if(phase() == EnCombat)
     {
         if(sort())
         {
             m_posCaseVisee = QPoint(-1,-1);
-            for(QMap<QString,AfficheJoueur*>::iterator it = m_persos.begin();it != m_persos.end(); it++)
+            /*for(QMap<QString,AfficheJoueur*>::iterator it = m_persos.begin();it != m_persos.end(); it++)
             {
                 if(it.value()->isUnderMouse())
                 {
-                    it.value()->aide();
+                    it.value()->displayToolTip();
                     m_posCaseVisee = it.value()->posALaFin();
                 }
                 else
-                    it.value()->desaide();
-            }
+                    it.value()->hideToolTip();
+            }*/
             if(m_posCaseVisee.x() == -1)
             {
                 m_posCaseVisee = m_dataMap->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true);
@@ -454,11 +457,11 @@ void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             for(QMap<QString,AfficheJoueur*>::iterator it = m_persos.begin();it != m_persos.end(); it++)
             {
                 if(it.value()->isUnderMouse())
-                    it.value()->aide();
+                    it.value()->displayToolTip();
                 else
-                    it.value()->desaide();
+                    it.value()->hideToolTip();
             }
-            if(monTour() && m_persos[m_personnage->getNom()]->isImobile())
+            if(monTour() && m_persos[m_character->getNom()]->isImobile())
             {
                 QPoint arrivee = m_dataMap->ccase(x,y,m_lmap,m_hmap,m_lcase,m_hcase,true);
                 if(arrivee.x() != -1)
@@ -467,10 +470,10 @@ void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                     {
                         effaceChemin();
                         m_ancienne = arrivee;
-                        QQueue<Dir> chem = m_dataMap->calculcheminCombat(getJoueur(m_personnage->getNom())->posALaFin(), arrivee, getPerso()->getPCCombat());
+                        QQueue<Dir> chem = m_dataMap->calculcheminCombat(getJoueur(m_character->getNom())->posALaFin(), arrivee, getPerso()->getPCCombat());
                         if(!chem.isEmpty())
                         {
-                            afficheChemin(getJoueur(m_personnage->getNom())->posALaFin(), chem);
+                            afficheChemin(getJoueur(m_character->getNom())->posALaFin(), chem);
                         }
                     }
                 }
@@ -498,9 +501,9 @@ void GameField::deplace(QString const& nom, const QQueue<Dir> &chem, Actions_per
     m_persos[nom]->nouveauchemin(chem, action);
 }
 
-void GameField::utiliseSort(Sort *sort)
+void GameField::utiliseSort(Spell *sort)
 {
-    m_dataMap->calculPortee(m_cases_ateignables, m_persos[m_personnage->getNom()]->posALaFin().x(), m_persos[m_personnage->getNom()]->posALaFin().y(),sort->portee_min(), sort->portee_max());
+    m_dataMap->calculPortee(m_cases_ateignables, m_persos[m_character->getNom()]->posALaFin().x(), m_persos[m_character->getNom()]->posALaFin().y(),sort->portee_min(), sort->portee_max());
     affichePortee();
 }
 
@@ -525,7 +528,7 @@ void GameField::recolte(const QString &nom, QString const& verbe, int orientatio
 
 void GameField::setVie(QString const& nom, int vie)
 {
-    m_persos[nom]->setTexteAide(nom+" ("+QString::number(vie)+")");
+    m_persos[nom]->changeToolTip(nom+" ("+QString::number(vie)+")");
 }
 
 void GameField::meurt(QString const& nom)
@@ -537,25 +540,24 @@ void GameField::imagesuivante()
 {
     for(QMap<QString, AfficheJoueur*>::iterator i = m_persos.begin(); i != m_persos.end(); i++)
     {
-        qDebug() << i.key();
        i.value()->suivante();
     }
 }
 
 void GameField::changePlayerMap(int largX, int largY)
 {
-    m_persos[m_personnage->getNom()]->changePos(largX, largY);
+    m_persos[m_character->getNom()]->changePos(largX, largY);
     QStringList asuprr;
     for(QMap<QString,AfficheJoueur*>::iterator i = m_persos.begin(); i != m_persos.end(); i++)
     {
-        if(i.key() != m_personnage->getNom())
+        if(i.key() != m_character->getNom())
         {
             asuprr.append(i.key());
         }
     }
     while(!asuprr.isEmpty())
     {
-        supprimeUnPerso(asuprr.first());
+        removeEntity(asuprr.first());
         asuprr.pop_front();
     }
 }
@@ -587,16 +589,14 @@ bool GameField::contientJoueur(QPoint const& pos)
     return false;
 }
 
-void GameField::ajouteUnPerso(InfoPerVis perso)
+void GameField::addEntity(InfoPerVis perso)
 {
-    qDebug() << "ajoute : "<< perso.nom;
-    m_persos[perso.nom] = new AfficheJoueur(m_donnees_editeur->ressources->getCreature(perso.classe) ,perso.nom, QSize(m_lcase, m_hcase), perso.posmap, this);
-    this->addItem(m_persos[perso.nom]);
+    m_persos[perso.nom] = new AfficheJoueur(m_donnees_editeur->ressources->getCreature(perso.classe) ,perso.nom, QSize(m_lcase, m_hcase), perso.posmap, this,m_lmap);
     /*if(perso.nom == m_personnage->getNom())
         connect(m_persos[perso.nom], SIGNAL(estSurTranspo(QPoint)), this, SLOT(VaChangerDeMap(QPoint)));*/
 }
 
-void GameField::supprimeUnPerso(QString const& nom)
+void GameField::removeEntity(QString const& nom)
 {
     delete m_persos[nom];
     m_persos.remove(nom);

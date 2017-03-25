@@ -3,12 +3,12 @@
 
 #include <QPushButton>
 
-class Bouton : public QPushButton
+class NumberButton : public QPushButton
 {
     Q_OBJECT
 
 public:
-    Bouton(QString const& texte, int num);
+    NumberButton(QString const& texte, int num);
     void moinsnum() { m_num--; }
 
 public slots:

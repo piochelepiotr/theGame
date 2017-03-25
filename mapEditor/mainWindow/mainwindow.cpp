@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     m_outil = Outil_objets;
-    m_donnees_editeur = new Donnees_editeur(this->size().width(),this->size().height(),this->size().width(),this->size().height());
+    m_donnees_editeur = new Data(this->size().width(),this->size().height(),this->size().width(),this->size().height());
     m_jeu = new Jeu2d(this->size(), ui->texte,m_donnees_editeur);
     ui->carte->setScene(m_jeu);
     ui->carte->setMouseTracking(true);
@@ -101,7 +101,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     if(obj == this && event->type() == QEvent::Resize)
     {
         QMainWindow::eventFilter(obj,event);
-        m_jeu->redi(ui->carte->size());
+        m_jeu->resize(ui->carte->size());
         return true;
     }
     else if(obj == m_jeu && event->type() == QEvent::GraphicsSceneMouseMove)
@@ -292,7 +292,7 @@ void MainWindow::nouveauObjetPourTheme()
 
 
 
-    Objet *objet = new Objet(trouveNumero(), "", m_tabbar->m_widobjets->m_themesObjet->itemText(m_tabbar->m_widobjets->m_themesObjet->currentIndex()), 1, 1, m_jeu->getlcase(), m_jeu->gethcase());
+    Object *objet = new Object(trouveNumero(), "", m_tabbar->m_widobjets->m_themesObjet->itemText(m_tabbar->m_widobjets->m_themesObjet->currentIndex()), 1, 1, m_jeu->getlcase(), m_jeu->gethcase());
     //QPixmap image(chemin+QString::number(i)+".png");
     //objet->setPropx((image.size().width())/ 80.0, m_jeu->getlcase(),m_jeu->gethcase());
     //objet->setPropy((image.size().height())/ 42.0, m_jeu->getlcase(),m_jeu->gethcase());
@@ -363,9 +363,9 @@ void MainWindow::chargeThemeObjet(int num)
 
     if(!theme.isEmpty())
     {
-        QMap<qint16, Objet*>objets = m_jeu->decors()->categorie(theme)->objets();
+        QMap<qint16, Object*>objets = m_jeu->decors()->categorie(theme)->objets();
         BoutonImg *bout;
-        for(QMap<qint16, Objet*>::iterator it = objets.begin(); it != objets.end(); it++)
+        for(QMap<qint16, Object*>::iterator it = objets.begin(); it != objets.end(); it++)
         {
 
             bout = new BoutonImg(it.value());
@@ -389,7 +389,7 @@ void MainWindow::editerObjet()
     if(m_jeu->getObjActuel()->numero())
     {
         bool ok = false, supprimer = false;
-        Objet *objet = m_jeu->getObjActuel();
+        Object *objet = m_jeu->getObjActuel();
         EditerUnObjet boite(this, &ok, objet, false,m_jeu->getlcase(), m_jeu->gethcase(), 0, &supprimer);
         if(ok)
         {
@@ -413,7 +413,7 @@ void MainWindow::editerObjet()
 void MainWindow::ajouteUnTransporteur(int x, int y, bool editer)
 {
     bool ok, suppr;
-    Transporteur transpo;
+    Gate transpo;
     if(editer)
     {
         transpo = m_jeu->dataMap()->getTranspo(QPoint(x,y));
@@ -623,7 +623,7 @@ void MainWindow::nouvelle()
         z = QInputDialog::getInt (this, "Nouvelle", trUtf8("Rentre les coordonées Z de la map : "), m_jeu->dataMap()->z(), -100,100,1,&ok);
     if(ok)
     {
-        if(DataMap::exist(x,y,z))
+        if(Map::exist(x,y,z))
         {
              if(QMessageBox::question(this, trUtf8("Attention !"), trUtf8("Attention ! La map en question existe déjà, voulez-vous l'écraser ?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
              {

@@ -1,6 +1,6 @@
 #include "character.h"
 
-Personnage::Personnage(const QString &nom, QString classe, Donnees_editeur *donnees_editeur) : Creature(nom,classe,donnees_editeur)///////////////////////////////////juste pour le client
+Character::Character(const QString &nom, QString classe, Data *donnees_editeur) : Entity(nom,classe,donnees_editeur)///////////////////////////////////juste pour le client
 {
     m_met_anneau_gauche = false;
     m_argent = 0;
@@ -17,7 +17,7 @@ Personnage::Personnage(const QString &nom, QString classe, Donnees_editeur *donn
 
 
 
-Personnage::Personnage(QString const& donnees, Donnees_editeur *donnees_editeur) : Creature(donnees.section('/',1,1),donnees.section('/',2,2),donnees_editeur)
+Character::Character(QString const& donnees, Data *donnees_editeur) : Entity(donnees.section('/',1,1),donnees.section('/',2,2),donnees_editeur)
 {
     m_donnees_editeur = donnees_editeur;
     m_met_anneau_gauche = false;
@@ -36,22 +36,22 @@ Personnage::Personnage(QString const& donnees, Donnees_editeur *donnees_editeur)
     m_xp = donnees.section('/',13,13).toInt();
     metAJourNiveau();
     int i = 14;
-    m_cape = Equipement::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
+    m_cape = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
     i += 4;
-    m_coiffe = Equipement::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
+    m_coiffe = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
     i += 4;
-    m_anod = Equipement::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
+    m_anod = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
     i += 4;
-    m_anog = Equipement::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
+    m_anog = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
     i += 4;
-    m_amulette = Equipement::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
+    m_amulette = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
     i += 4;
-    m_ceinture = Equipement::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
+    m_ceinture = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
     i += 4;
-    m_bottes = Equipement::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
+    m_bottes = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
     i += 4;
     if(donnees.section('/', i, i) != "-1")
-        m_arme = Arme::chargeArme(donnees.section('/', i, i+5), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)), donnees_editeur->ressources->getSort(donnees.section('/', i+4,i+4))->sortNiveau(donnees.section('/', i+5, i+5).toInt()));
+        m_arme = Weapon::chargeArme(donnees.section('/', i, i+5), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)), donnees_editeur->ressources->getSort(donnees.section('/', i+4,i+4))->sortNiveau(donnees.section('/', i+5, i+5).toInt()));
     else
         m_arme = 0;
     i += 6;
@@ -59,41 +59,40 @@ Personnage::Personnage(QString const& donnees, Donnees_editeur *donnees_editeur)
     i++;
     while(donnees.section('/',i,i) != "RESSOURCES")
     {
-        m_metiers[donnees.section('/', i, i)] = Metier::chargeMetier(donnees.section('/', i, i+1), donnees_editeur->metiers);
+        m_metiers[donnees.section('/', i, i)] = Job::chargeMetier(donnees.section('/', i, i+1), donnees_editeur->metiers);
         i += 2;
     }
     //RESSOURCES
     i++;
     while(donnees.section('/',i,i) != "OBJETS")
     {
-        m_ressources.push_back(Ressource::chargeRess(donnees.section('/', i, i).toInt(), donnees_editeur->ressources->getRessource(donnees.section('/', i+1, i+1))));
+        m_ressources.push_back(Resource::chargeRess(donnees.section('/', i, i).toInt(), donnees_editeur->ressources->getRessource(donnees.section('/', i+1, i+1))));
         i += 2;
     }
     //OBJETS
     i++;
     while(donnees.section('/',i,i) != "ARMES")
     {
-        m_equipements.push_back(Equipement::chargeEquipements(donnees.section('/', i,i+4), donnees_editeur->ressources->getRessource(donnees.section('/', i+1, i+1))));
+        m_equipements.push_back(Outfit::chargeEquipements(donnees.section('/', i,i+4), donnees_editeur->ressources->getRessource(donnees.section('/', i+1, i+1))));
         i += 5;
     }
     //ARMES
     i++;
     while(donnees.section('/',i,i) != "SORTS")
     {
-        m_armes.push_back(Arme::chargeArmes(donnees.section('/', i,i+6), donnees_editeur->ressources->getRessource(donnees.section('/', i+1, i+1)), donnees_editeur->ressources->getSort(donnees.section('/', i+5,i+5))->sortNiveau(donnees.section('/', i+6,i+6).toInt())));
+        m_armes.push_back(Weapon::chargeArmes(donnees.section('/', i,i+6), donnees_editeur->ressources->getRessource(donnees.section('/', i+1, i+1)), donnees_editeur->ressources->getSort(donnees.section('/', i+5,i+5))->sortNiveau(donnees.section('/', i+6,i+6).toInt())));
         i += 7;
     }
     i++;
     //SORTS
     while(donnees.section('/',i,i) != "FIN")
     {
-        qDebug() << "sort : " << donnees.section('/',i,i) << " niv : "<<donnees.section('/',i+1,i+1);
         m_sorts[donnees.section('/',i,i)] = m_donnees_editeur->ressources->getSort(donnees.section('/',i,i))->sortNiveau(donnees.section('/',i+1,i+1).toInt());
         i += 2;
     }
 }
 
-Personnage::~Personnage()
+Character::~Character()
 {
     for(int i = 0; i < m_equipements.size(); i++)
     {
@@ -103,7 +102,7 @@ Personnage::~Personnage()
     {
         delete m_armes[i].arme;
     }
-    for(QMap<QString,Metier*>::iterator it = m_metiers.begin(); it != m_metiers.end(); it++)
+    for(QMap<QString,Job*>::iterator it = m_metiers.begin(); it != m_metiers.end(); it++)
     {
         delete it.value();
     }
@@ -126,7 +125,7 @@ Personnage::~Personnage()
 }
 
 
-QString Personnage::enString() const
+QString Character::toString() const
 {
     QString donnees;//=>>>>>>>>>>>>>>>>    nom/classe/posmondeX/posmondeY/posmondeZ/posmapx/posmapy/vie/base_vie/base_force/base_pc/argent/xp/lvl
 
@@ -146,36 +145,36 @@ QString Personnage::enString() const
     donnees += QString::number(m_argent) + '/';
     donnees += QString::number(m_xp) + '/';
 
-    donnees += Equipement::enString(m_cape);
-    donnees += Equipement::enString(m_coiffe);
-    donnees += Equipement::enString(m_anod);
-    donnees += Equipement::enString(m_anog);
-    donnees += Equipement::enString(m_amulette);
-    donnees += Equipement::enString(m_ceinture);
-    donnees += Equipement::enString(m_bottes);
-    donnees += Arme::enString(m_arme);
+    donnees += Outfit::enString(m_cape);
+    donnees += Outfit::enString(m_coiffe);
+    donnees += Outfit::enString(m_anod);
+    donnees += Outfit::enString(m_anog);
+    donnees += Outfit::enString(m_amulette);
+    donnees += Outfit::enString(m_ceinture);
+    donnees += Outfit::enString(m_bottes);
+    donnees += Weapon::enString(m_arme);
     donnees += "METIERS/";
-    for(QMap<QString,Metier*>::const_iterator i = m_metiers.begin(); i != m_metiers.end(); i++)
+    for(QMap<QString,Job*>::const_iterator i = m_metiers.begin(); i != m_metiers.end(); i++)
     {
-        donnees += Metier::enString(i.value());
+        donnees += Job::enString(i.value());
     }
     donnees += "RESSOURCES/";
     for(int i = 0; i < m_ressources.size(); i++)
     {
-        donnees += Ressource::enString(m_ressources[i]);
+        donnees += Resource::enString(m_ressources[i]);
     }
     donnees += "OBJETS/";
     for(int i = 0; i < m_equipements.size(); i++)
     {
-        donnees += Equipement::enString(m_equipements[i]);
+        donnees += Outfit::enString(m_equipements[i]);
     }
     donnees += "ARMES/";
     for(int i = 0; i < m_armes.size(); i++)
     {
-        donnees += Arme::enString(m_armes[i]);
+        donnees += Weapon::enString(m_armes[i]);
     }
     donnees += "SORTS/";
-    for(QMap<QString,Sort*>::const_iterator it = m_sorts.begin(); it != m_sorts.end(); it++)
+    for(QMap<QString,Spell*>::const_iterator it = m_sorts.begin(); it != m_sorts.end(); it++)
     {
            donnees += it.value()->enString();
     }
@@ -184,7 +183,7 @@ QString Personnage::enString() const
     return donnees;
 }
 
-int Personnage::ajouterRessource(Resss const& resss)
+int Character::ajouterRessource(Resss const& resss)
 {
     for(int i = 0; i < m_ressources.size(); i++)
     {
@@ -198,7 +197,7 @@ int Personnage::ajouterRessource(Resss const& resss)
     return m_ressources.size()-1;
 }
 
-void Personnage::enleverRessource(int num, int nbr)
+void Character::enleverRessource(int num, int nbr)
 {
     m_ressources[num].nbr -= nbr;
     if(m_ressources[num].nbr < 1)
@@ -207,7 +206,7 @@ void Personnage::enleverRessource(int num, int nbr)
     }
 }
 
-int Personnage::ajouterEquipement(Eqips const& equipement)
+int Character::ajouterEquipement(Eqips const& equipement)
 {
     for(int i = 0; i < m_equipements.size(); i++)
     {
@@ -222,7 +221,7 @@ int Personnage::ajouterEquipement(Eqips const& equipement)
     return m_equipements.size()-1;
 }
 
-int Personnage::ajouterArme(Armes const& armes)
+int Character::ajouterArme(Armes const& armes)
 {
     for(int i = 0; i < m_armes.size(); i++)
     {
@@ -237,7 +236,7 @@ int Personnage::ajouterArme(Armes const& armes)
     return m_armes.size()-1;
 }
 
-int Personnage::ajouterArme(Arme *arme)
+int Character::ajouterArme(Weapon *arme)
 {
     Armes armes;
     armes.arme = arme;
@@ -245,7 +244,7 @@ int Personnage::ajouterArme(Arme *arme)
     return ajouterArme(armes);
 }
 
-int Personnage::ajouterEquipement(Equipement *equipement)
+int Character::ajouterEquipement(Outfit *equipement)
 {
     Eqips eqips;
     eqips.equipement = equipement;
@@ -253,7 +252,7 @@ int Personnage::ajouterEquipement(Equipement *equipement)
     return ajouterEquipement(eqips);
 }
 
-int Personnage::ajouterRessource(Ressource *ressource)
+int Character::ajouterRessource(Resource *ressource)
 {
     Resss ressources;
     ressources.ress = ressource;
@@ -262,7 +261,7 @@ int Personnage::ajouterRessource(Ressource *ressource)
 }
 
 
-void Personnage::enleverEquipement(int num, int nbr)
+void Character::enleverEquipement(int num, int nbr)
 {
     m_equipements[num].nbr -= nbr;
     if(m_equipements[num].nbr < 1)
@@ -272,7 +271,7 @@ void Personnage::enleverEquipement(int num, int nbr)
     }
 }
 
-void Personnage::enleverArme(int num, int nbr)
+void Character::enleverArme(int num, int nbr)
 {
     m_armes[num].nbr -= nbr;
     if(m_armes[num].nbr < 1)
@@ -282,7 +281,7 @@ void Personnage::enleverArme(int num, int nbr)
     }
 }
 
-int Personnage::equipeEquipement(int num, const QString &categorie, bool *anneau_gauche)
+int Character::equipeEquipement(int num, const QString &categorie, bool *anneau_gauche)
 {
     Eqips vieux_equip;
     vieux_equip.nbr = 1;
@@ -290,27 +289,27 @@ int Personnage::equipeEquipement(int num, const QString &categorie, bool *anneau
     if(categorie == "coiffe")
     {
         vieux_equip.equipement = m_coiffe;
-        m_coiffe = new Equipement(*m_equipements[num].equipement);
+        m_coiffe = new Outfit(*m_equipements[num].equipement);
     }
     else if(categorie == "cape")
     {
         vieux_equip.equipement = m_cape;
-        m_cape = new Equipement(*m_equipements[num].equipement);
+        m_cape = new Outfit(*m_equipements[num].equipement);
     }
     else if(categorie == "ceinture")
     {
         vieux_equip.equipement = m_ceinture;
-        m_ceinture = new Equipement(*m_equipements[num].equipement);
+        m_ceinture = new Outfit(*m_equipements[num].equipement);
     }
     else if(categorie == "amulette")
     {
         vieux_equip.equipement = m_amulette;
-        m_amulette = new Equipement(*m_equipements[num].equipement);
+        m_amulette = new Outfit(*m_equipements[num].equipement);
     }
     else if(categorie == "bottes")
     {
         vieux_equip.equipement = m_bottes;
-        m_bottes = new Equipement(*m_equipements[num].equipement);
+        m_bottes = new Outfit(*m_equipements[num].equipement);
     }
     else if(categorie == "anneau")
     {
@@ -327,7 +326,7 @@ int Personnage::equipeEquipement(int num, const QString &categorie, bool *anneau
             if(anneau_gauche)
                 *anneau_gauche = true;
             vieux_equip.equipement = m_anog;
-            m_anog = new Equipement(*m_equipements[num].equipement);
+            m_anog = new Outfit(*m_equipements[num].equipement);
             m_met_anneau_gauche = false;
         }
         else
@@ -335,7 +334,7 @@ int Personnage::equipeEquipement(int num, const QString &categorie, bool *anneau
             if(anneau_gauche)
                 *anneau_gauche = false;
             vieux_equip.equipement = m_anod;
-            m_anod = new Equipement(*m_equipements[num].equipement);
+            m_anod = new Outfit(*m_equipements[num].equipement);
             m_met_anneau_gauche = true;
         }
     }
@@ -348,12 +347,12 @@ int Personnage::equipeEquipement(int num, const QString &categorie, bool *anneau
         return -2;
 }
 
-int Personnage::equipeArme(int num)
+int Character::equipeArme(int num)
 {
     Armes vielle_arme;
     vielle_arme.arme = m_arme;
     vielle_arme.nbr = 1;
-    m_arme = new Arme(*m_armes[num].arme);
+    m_arme = new Weapon(*m_armes[num].arme);
     enleverArme(num,1);
 
     if(vielle_arme.arme)
@@ -362,7 +361,7 @@ int Personnage::equipeArme(int num)
         return -2;
 }
 
-int Personnage::desequipe(int num)
+int Character::desequipe(int num)
 {
     Eqips equipement;
     equipement.nbr = 1;
@@ -405,7 +404,7 @@ int Personnage::desequipe(int num)
     return ajouterEquipement(equipement);
 }
 
-int Personnage::desequipeArme()
+int Character::desequipeArme()
 {
     Armes arme;
     arme.nbr = 1;
@@ -414,7 +413,7 @@ int Personnage::desequipeArme()
     return ajouterArme(arme);
 }
 
-int Personnage::getBonusVie() const
+int Character::getBonusVie() const
 {
     int bon = 0;
     if(m_cape)
@@ -436,7 +435,7 @@ int Personnage::getBonusVie() const
     return bon;
 }
 
-int Personnage::getBonusForce() const
+int Character::getBonusForce() const
 {
     int bon = 0;
     if(m_cape)
@@ -458,7 +457,7 @@ int Personnage::getBonusForce() const
     return bon;
 }
 
-int Personnage::getBonusPC() const
+int Character::getBonusPC() const
 {
     int bon = 0;
     if(m_cape)
@@ -480,7 +479,7 @@ int Personnage::getBonusPC() const
     return bon;
 }
 
-int Personnage::getPods() const
+int Character::getPods() const
 {
     int pods = 0;
 
@@ -515,7 +514,7 @@ int Personnage::getPods() const
     return pods;
 }
 
-QString Personnage::gagneRessources(Ressource *ressource, int nombre, int *indexDernier)
+QString Character::gagneRessources(Resource *ressource, int nombre, int *indexDernier)
 {
     int place = 0;
     QString texte;
@@ -526,27 +525,27 @@ QString Personnage::gagneRessources(Ressource *ressource, int nombre, int *index
         if(m_donnees_editeur->ressources->estUneArme(ressource->nom()))
         {
             texte += "a/";
-            ArmeBase *arme = m_donnees_editeur->ressources->getArme(ressource->nom());
+            WeaponModel *arme = m_donnees_editeur->ressources->getArme(ressource->nom());
             Armes armes;
             armes.nbr = 1;
             for(int i = 0; i < nombre; i++)
             {
                 armes.arme = arme->genere();
                 place = ajouterArme(armes);
-                texte += Arme::enString(armenum(place));
+                texte += Weapon::enString(armenum(place));
             }
         }
         else
         {
             texte += "e/";
-            EquipementBase *equipement = m_donnees_editeur->ressources->getEquipement(ressource->nom());
+            OutfitModel *equipement = m_donnees_editeur->ressources->getEquipement(ressource->nom());
             Eqips equipements;
             equipements.nbr = 1;
             for(int i = 0; i < nombre; i++)
             {
                 equipements.equipement = equipement->genere();
                 place = ajouterEquipement(equipements);
-                texte += Equipement::enString(equipement_num(place));
+                texte += Outfit::enString(equipement_num(place));
             }
         }
     }
@@ -557,14 +556,14 @@ QString Personnage::gagneRessources(Ressource *ressource, int nombre, int *index
         ressources.ress = ressource;
         ressources.nbr = nombre;
         ajouterRessource(ressources);
-        texte += Ressource::enString(ressources);
+        texte += Resource::enString(ressources);
     }
     if(indexDernier)
         *indexDernier = place;
     return texte;
 }
 
-int Personnage::indexRessource(Ressource *ressource, int *quantite)
+int Character::indexRessource(Resource *ressource, int *quantite)
 {
     int index = 0;
     while(index < m_ressources.size() && m_ressources[index].ress != ressource)
@@ -582,7 +581,7 @@ int Personnage::indexRessource(Ressource *ressource, int *quantite)
     return index;
 }
 
-int Personnage::indexEquipement(Equipement *equipement, int *quantite)
+int Character::indexEquipement(Outfit *equipement, int *quantite)
 {
     int index = 0;
     while(index < m_equipements.size() && m_equipements[index].equipement != equipement)
@@ -600,7 +599,7 @@ int Personnage::indexEquipement(Equipement *equipement, int *quantite)
     return index;
 }
 
-int Personnage::indexArme(Arme *arme, int *quantite)
+int Character::indexArme(Weapon *arme, int *quantite)
 {
     int index = 0;
     while(index < m_armes.size() && m_armes[index].arme != arme)
@@ -618,78 +617,32 @@ int Personnage::indexArme(Arme *arme, int *quantite)
     return index;
 }
 
-bool Personnage::peutequipe(Equipement *equip)
+bool Character::peutequipe(Outfit *equip)
 {
     if(equip->getRessource()->niveau() > m_niveau)
         return false;
     return true;
 }
 
-/*QString Personnage::caracteristiques() const
-{
-    QString caracteristiques;
-    caracteristiques += QObject::trUtf8("vie : ")+QString::number(getTotalVie())+ " ("+QString::number(getBaseVie()) + "+" + QString::number(getBonusVie())+ "), ";
-    caracteristiques += QObject::trUtf8("force : ") + QString::number(getTotalForce())+ " ("+QString::number(getBaseForce()) + "+" + QString::number(getBonusForce())+"), ";
-    caracteristiques += QObject::trUtf8("PC : ") + QString::number(getTotalPC())+ " ("+QString::number(getBasePC()) + "+" + QString::number(getBonusPC())+")";
-    return caracteristiques;
-}
-
-QString Personnage::important()
-{
-    QString texte;
-    texte += m_nom+'*';
-    texte += m_classe+'*';
-    texte += QString::number(m_posmapx)+'*';
-    texte += QString::number(m_posmapy)+'*';
-    return texte;
-}*/
-
-void Personnage::apprendMetier(QString nom)
+void Character::learnJob(QString nom)
 {
     if(!m_metiers.contains(nom))
     {
-        m_metiers[nom] = new Metier(m_donnees_editeur->metiers->metier(nom), 0);
+        m_metiers[nom] = new Job(m_donnees_editeur->metiers->metier(nom), 0);
     }
 }
 
-QStringList Personnage::getMetiers()
+QStringList Character::getJobs()
 {
     QStringList list;
-    for(QMap<QString,Metier*>::iterator it = m_metiers.begin(); it != m_metiers.end(); it++)
+    for(QMap<QString,Job*>::iterator it = m_metiers.begin(); it != m_metiers.end(); it++)
     {
         list.append(it.key());
     }
     return list;
 }
 
-/*void Personnage::setEnCombat(bool enCombat)
-{
-    if(enCombat)
-    {
-        m_vie = getTotalVie();
-        m_posHorsCombat = QPoint(m_posmapx,m_posmapy);
-    }
-    else
-    {
-        m_posmapx = m_posHorsCombat.x();
-        m_posmapy = m_posHorsCombat.y();
-    }
-    m_enCombat = enCombat;
-}
-
-void Personnage::perdVie(int degats)
-{
-    m_vie -= degats;
-    if(m_vie < 0)
-        m_vie = 0;
-}
-
-bool Personnage::peutUtiliserSort(QString const& nom)
-{
-    return m_pc_combat >= getSort(nom)->points_combat();
-}*/
-
-Sort *Personnage::getSort(QString const& nom)
+Spell *Character::getSort(QString const& nom)
 {
     if(nom == "cac")
     {
@@ -709,18 +662,18 @@ Sort *Personnage::getSort(QString const& nom)
     }
 }
 
-void Personnage::metAJourNiveau()
+void Character::metAJourNiveau()
 {
     m_niveau = int(pow((double) m_xp,0.25))+1;
 }
 
-void Personnage::gagneXp(int xp)
+void Character::gagneXp(int xp)
 {
     m_xp += xp;
     metAJourNiveau();
 }
 
-QString Personnage::gagneFinCombat(int niveauAutreEquipe,bool victoire)
+QString Character::gagneFinCombat(int niveauAutreEquipe,bool victoire)
 {
     if(victoire)
     {
@@ -734,12 +687,12 @@ QString Personnage::gagneFinCombat(int niveauAutreEquipe,bool victoire)
     }
 }
 
-int Personnage::xpDeNiveau(int niveau)
+int Character::xpDeNiveau(int niveau)
 {
     return pow(niveau-1,4);
 }
 
-int Personnage::getPodsMax() const
+int Character::getPodsMax() const
 {
     return NBR_PODS_LVL*m_niveau+BASE_POD;
 }

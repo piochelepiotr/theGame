@@ -1,7 +1,7 @@
 #include "additionalWindows/echange.h"
 #include "ui_echange.h"
 
-Echange::Echange(Personnage *personnage, QString const& nom_autre, Reseau *reseau) :
+Echange::Echange(Character *personnage, QString const& nom_autre, Reseau *reseau) :
     ui(new Ui::Echange)
 {
     ui->setupUi(this);

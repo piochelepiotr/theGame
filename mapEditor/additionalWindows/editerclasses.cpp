@@ -105,7 +105,7 @@ void EditerClasses::ajouterSort()
     if(m_classeActuelle != -1)
     {
         ui->tab_sorts->insertRow(m_nbrSorts);
-        Bouton *bout = new Bouton("supprimer", m_nbrSorts);
+        NumberButton *bout = new NumberButton("supprimer", m_nbrSorts);
         ui->tab_sorts->setCellWidget(m_nbrSorts, 1, bout);
         ui->tab_sorts->setItem(m_nbrSorts, 0, new QTableWidgetItem(""));
         m_boutonsSorts.push_back(bout);

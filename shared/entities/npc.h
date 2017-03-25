@@ -4,48 +4,48 @@
 #include <QString>
 #include <QVector>
 
-class Reponses;
-class Piste;
+class Answers;
+class Dialog;
 
-class Reponses
+class Answers
 {
 public:
-    Reponses(QString donnee, QString *reste);
-    ~Reponses();
+    Answers(QString donnee, QString *reste);
+    ~Answers();
     int nbrpistes() const { return m_pistes.size(); }
-    Piste *pistenum(int i) const { return m_pistes[i]; }
+    Dialog *pistenum(int i) const { return m_pistes[i]; }
 
 private:
-    QVector<Piste*>m_pistes;
+    QVector<Dialog*>m_pistes;
 };
 
-class Piste
+class Dialog
 {
 public:
-    Piste(QString donnees, QString *reste);
-    ~Piste();
-    Reponses *reponses() const { return m_reponses; }
+    Dialog(QString donnees, QString *reste);
+    ~Dialog();
+    Answers *reponses() const { return m_reponses; }
     QString replique() const { return m_replique; }
     QString reponse() const { return m_reponse; }
 
 private:
     QString m_reponse;
     QString m_replique;
-    Reponses *m_reponses;
+    Answers *m_reponses;
 };
 
-class PersNonJ
+class NPC
 {
 public:
-    PersNonJ(QString donnes);
-    ~PersNonJ();
+    NPC(QString donnes);
+    ~NPC();
     QString replique() const { return m_replique; }
-    Reponses *reponses() const { return m_reponses; }
+    Answers *reponses() const { return m_reponses; }
     QString nom() const { return m_nom; }
 
 private:
     QString m_replique;
-    Reponses *m_reponses;
+    Answers *m_reponses;
     QString m_nom;
 };
 

@@ -1,6 +1,6 @@
 #include "graphic/imageButton.h"
 
-BoutonImgString::BoutonImgString(QString nom,QString const& cheminImage) : QPushButton()
+ImageButtonString::ImageButtonString(QString nom,QString const& cheminImage) : QPushButton()
 {
     m_nom = nom;
     setIconSize(QSize(20,20));
@@ -8,7 +8,7 @@ BoutonImgString::BoutonImgString(QString nom,QString const& cheminImage) : QPush
     connect(this, SIGNAL(clicked()), this, SLOT(clique()));
 }
 
-void BoutonImgString::clique()
+void ImageButtonString::clique()
 {
     emit clique(m_nom);
 }

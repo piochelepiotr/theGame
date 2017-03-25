@@ -1,6 +1,6 @@
 #include "monde.h"
 
-Monde::Monde(Donnees_editeur *donnees_editeur,Ecran *ecran)
+Monde::Monde(Data *donnees_editeur,Ecran *ecran)
 {
     m_ecran = ecran;
     m_donnees_editeur = donnees_editeur;
@@ -11,10 +11,10 @@ Monde::Monde(Donnees_editeur *donnees_editeur,Ecran *ecran)
         {
             for(int z = 0; z < NBR_DE_MAPS_Z; z++)
             {
-                if(DataMap::exist(i,j,z))
+                if(Map::exist(i,j,z))
                 {
                     Point p(i,j,z);
-                    m_maps[p] = new Map(donnees_editeur, this, p,ecran);
+                    m_maps[p] = new ServerMap(donnees_editeur, this, p,ecran);
                 }
             }
         }
@@ -28,9 +28,9 @@ Monde::Monde(Donnees_editeur *donnees_editeur,Ecran *ecran)
 
 Monde::~Monde()
 {
-    for(QMap<Point,Map*>::iterator it = m_maps.begin(); it != m_maps.end(); it++)
+    for(auto it : m_maps)
     {
-        delete it.value();
+        delete it;
     }
 }
 

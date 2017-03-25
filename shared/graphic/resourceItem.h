@@ -8,16 +8,16 @@
 #include "inventory/weaponModel.h"
 #include <QPainter>
 
-class Item : public QLabel
+class ResourceItem : public QLabel
 {
     Q_OBJECT
 public:
-    Item(Ressource *ressource, int quantite, int num = -1);
-    Item(Equipement *equipement, int quantite, int num = -1);
-    Item(Arme *arme, int quantite, int num = -1);
-    Item(EquipementBase *equipement_base, int quantite, int num = -1);
-    Item(ArmeBase *arme_base, int quantite, int num = -1);
-    Item(bool enable = true
+    ResourceItem(Resource *ressource, int quantite, int num = -1);
+    ResourceItem(Outfit *equipement, int quantite, int num = -1);
+    ResourceItem(Weapon *arme, int quantite, int num = -1);
+    ResourceItem(OutfitModel *equipement_base, int quantite, int num = -1);
+    ResourceItem(WeaponModel *arme_base, int quantite, int num = -1);
+    ResourceItem(bool enable = true
             );
     void enleve(int quantite);
     void ajoute(int quantite);

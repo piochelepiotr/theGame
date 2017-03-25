@@ -1,6 +1,6 @@
 #include "jobs/recipes.h"
 
-AfficheRecette::AfficheRecette(Recette *recette, Metier *metier, LesRessources *lesressources, int num)
+DisplayRecipe::DisplayRecipe(Recipe *recette, Job *metier, Resources *lesressources, int num)
 {
     m_num = num;
     QVector<Resss> ingredients = recette->ingredients();
@@ -18,7 +18,7 @@ AfficheRecette::AfficheRecette(Recette *recette, Metier *metier, LesRessources *
     }
     for(; k <METIER_NBR_CASES_DEPART+METIER_LVL_MAX/METIER_LVLS_1CASEENPLUS; k++)
     {
-        layout_ingredients->addWidget(new Item());
+        layout_ingredients->addWidget(new ResourceItem());
     }
 
     setLayout(layout_recette);
@@ -32,11 +32,11 @@ AfficheRecette::AfficheRecette(Recette *recette, Metier *metier, LesRessources *
 }
 
 
-Recettes::Recettes(Metier *metier, LesRessources *lesressources)
+Recipes::Recipes(Job *metier, Resources *lesressources)
 {
     QStringList recettes = metier->getMetierBase()->recettes();
     for(int j = 0; j < recettes.size(); j++)
     {
-        addWidget(new AfficheRecette(metier->getMetierBase()->recette(recettes[j]), metier, lesressources, j));
+        addWidget(new DisplayRecipe(metier->getMetierBase()->recette(recettes[j]), metier, lesressources, j));
     }
 }

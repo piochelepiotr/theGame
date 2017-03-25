@@ -7,10 +7,10 @@
 #include <QMap>
 #include "entities/entityModel.h"
 
-class Images_action
+class ImagesAction
 {
 public:
-    Images_action(QString const& nom_classe, const QString &nom_action, const QSize &size);
+    ImagesAction(QString const& nom_classe, const QString &nom_action, const QSize &size);
     int nombre_images(Dir orientation) const { return m_images[(int)orientation].size(); }
     bool redimentionne(QSize const& nouvelle);
     QPixmap getImage(int num, Dir orientation) const;
@@ -26,27 +26,27 @@ private:
     bool m_enMouvement;
 };
 
-class Images_Classe
+class ImagesEntity
 {
 public:
-    Images_Classe(UneCreature *uneCreature, const QSize &taille);
-    Images_action *getImagesAction(QString const& nomAction);
+    ImagesEntity(EntityModel *uneCreature, const QSize &taille);
+    ImagesAction *getImagesAction(QString const& nomAction);
     void redimentionne(QSize const& nouvelle);
 private:
     QSize m_taille;
-    UneCreature *m_uneCreature;
-    QMap<QString,Images_action*>m_images;
+    EntityModel *m_uneCreature;
+    QMap<QString,ImagesAction*>m_images;
 };
 
-class Images_Classes
+class ImagesEntities
 {
 public:
-    Images_Classes(QMap<QString, UneCreature*>creatures, QSize const& taille);
-    Images_Classe *getImagesUneCreature(QString const& nom) const;
+    ImagesEntities(QMap<QString, EntityModel*>creatures, QSize const& taille);
+    ImagesEntity *getImagesUneCreature(QString const& nom) const;
     void redimentionne(QSize const& taille);
-    ~Images_Classes();
+    ~ImagesEntities();
 private:
-    QMap<QString,Images_Classe*>m_creatures;
+    QMap<QString,ImagesEntity*>m_creatures;
 };
 
 #endif // IMAGES_CLASSE_H

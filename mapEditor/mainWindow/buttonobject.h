@@ -11,7 +11,7 @@
 class ButtonObject : public QAbstractButton
 {
 public:
-    ButtonObject(Objet *object);
+    ButtonObject(Object *object);
 };
 
 #endif // BUTTONOBJECT_H

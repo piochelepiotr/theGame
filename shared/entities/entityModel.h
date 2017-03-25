@@ -5,17 +5,17 @@
 #include <QMap>
 #include "entities/spellModel.h"
 
-class UneCreature
+class EntityModel
 {
 public:
-    UneCreature();
-    QMap<QString,UnSort*>sorts() const { return m_sorts; }
+    EntityModel();
+    QMap<QString,SpellModel*>sorts() const { return m_sorts; }
     double propX() const { return m_propX; }
     double propY() const { return m_propY; }
     QString classe() const { return m_classe; }
 protected:
     QString m_classe;
-    QMap<QString,UnSort*>m_sorts;
+    QMap<QString,SpellModel*>m_sorts;
     double m_propX;
     double m_propY;
 };

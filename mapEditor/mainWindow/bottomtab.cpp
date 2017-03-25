@@ -1,7 +1,7 @@
 #include "bottomtab.h"
 #include "mainwindow.h"
 
-BottomTab::BottomTab(MainWindow *mainWindow, Jeu2d *gamePanel, LesRessources *ressources) :
+BottomTab::BottomTab(MainWindow *mainWindow, Jeu2d *gamePanel, Resources *ressources) :
     QTabWidget(mainWindow)
 {
     m_widdivers = new VariousTab(mainWindow);

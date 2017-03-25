@@ -8,7 +8,7 @@
 class Action
 {
 public:
-    Action(QString const& nom, Dir orientation, Images_Classe *images);
+    Action(QString const& nom, Dir orientation, ImagesEntity *images);
     QPixmap getImage(int num) { return m_images->getImage(num, m_orientation); }
     bool enMouvement() const { return m_images->enMouvement(); }
     int nombre_images() const { return m_nbrImages; }
@@ -17,7 +17,7 @@ public:
 private:
     QString m_nom;
     Dir m_orientation;
-    Images_action *m_images;
+    ImagesAction *m_images;
     int m_nbrImages;
 };
 
@@ -27,7 +27,7 @@ class Actions_personnage
 
     enum DerniereAction{Aucune,ChangeDeMap, Recettes, Recolter, ARecolter};
 
-    Actions_personnage(UneCreature *uneCreature, QSize const& taille_case);
+    Actions_personnage(EntityModel *uneCreature, QSize const& taille_case);
     ~Actions_personnage();
     QPixmap getImage() const { return m_actionActuelle->getImage(m_imageActuelle); }
     bool suivante(int *decalageX, int *decalageY, int *caseX, int *caseY, DerniereAction *action);
@@ -43,7 +43,7 @@ class Actions_personnage
 
 private:
     Action *m_actionActuelle;
-    Images_Classe *m_images;
+    ImagesEntity *m_images;
     bool m_immobile;
     QSize m_taille_case;
     QQueue<Action*>m_lesactions;

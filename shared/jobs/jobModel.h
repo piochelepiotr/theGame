@@ -14,26 +14,26 @@
 #define METIER_BONUS_LVL_MAX 8
 #define METIER_LVL_MAX 150
 
-class LesRessources;
-class Decors;
+class Resources;
+class Scenery;
 
-class Metier_Base
+class JobModel
 {
 public:
-    Metier_Base(QString const& donnees, Decors *decors, LesRessources *ressources);
-    ~Metier_Base();
+    JobModel(QString const& donnees, Scenery *decors, Resources *ressources);
+    ~JobModel();
     QString nom() const { return m_nom; }
     QVector<qint16> ressources_coupables(int lvl);
-    Objet_coupable *objet_coupable(qint16 num) const { return m_objets_coupables[num]; }
+    InteractiveObject *objet_coupable(qint16 num) const { return m_objets_coupables[num]; }
     QString arme() const { return m_arme; }
     QString verbe() const { return m_verbe; }
     QString raccourci() const { return m_raccourci; }
     QString verbe_recettes() const { return m_verbe_recettes; }
     QStringList recettes() const { return m_recettes.keys(); }
-    Recette *recette(QString const& nom) const { return m_recettes[nom]; }
-    Objet *objet_recette() const { return m_objet_recettes; }
-    QMap<qint16,Objet*> objets_coupables() const;
-    QMap<qint16, Objet_coupable*>get_objets_coupables() const { return m_objets_coupables; }
+    Recipe *recette(QString const& nom) const { return m_recettes[nom]; }
+    Object *objet_recette() const { return m_objet_recettes; }
+    QMap<qint16,Object*> objets_coupables() const;
+    QMap<qint16, InteractiveObject*>get_objets_coupables() const { return m_objets_coupables; }
     bool coupe(qint16 num) const { return m_objets_coupables.contains(num); }
 private:
     QString m_verbe_recettes;
@@ -41,9 +41,9 @@ private:
     QString m_verbe;
     QString m_nom;
     QString m_raccourci;
-    Objet *m_objet_recettes;
-    QMap<qint16,Objet_coupable*>m_objets_coupables;
-    QMap<QString,Recette*>m_recettes;
+    Object *m_objet_recettes;
+    QMap<qint16,InteractiveObject*>m_objets_coupables;
+    QMap<QString,Recipe*>m_recettes;
 };
 
 #endif // METIER_BASE_H

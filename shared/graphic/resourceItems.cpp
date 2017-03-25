@@ -1,7 +1,7 @@
 #include "graphic/resourceItems.h"
 #include "inventory/resources.h"
 
-Items::Items(QVector<Resss>ressources, int nbrobjh, int nbrobjv, LesRessources *lesressources)
+ResourceItems::ResourceItems(QVector<Resss>ressources, int nbrobjh, int nbrobjv, Resources *lesressources)
 {
     m_lesRessources = lesressources;
     m_nbrh = nbrobjh;
@@ -25,19 +25,19 @@ Items::Items(QVector<Resss>ressources, int nbrobjh, int nbrobjv, LesRessources *
     {
         if(ressources[i].ress)
         {
-            m_items.push_back(new Item(ressources[i].ress, ressources[i].nbr, i));
+            m_items.push_back(new ResourceItem(ressources[i].ress, ressources[i].nbr, i));
             connect(m_items[i], SIGNAL(clique(int)), this, SLOT(cliqueObjet(int)));
             connect(m_items[i], SIGNAL(dbclique(int)), this, SLOT(dbcliqueObjet(int)));
         }
         else
-            m_items.push_back(new Item());
+            m_items.push_back(new ResourceItem());
     }
     remplire(0);
 
     connect(m_scroll, SIGNAL(valueChanged(int)), this, SLOT(scrool(int)));
 }
 
-Items::Items(QVector<Eqips>equipements, int nbrobjh, int nbrobjv, LesRessources *lesressources)
+ResourceItems::ResourceItems(QVector<Eqips>equipements, int nbrobjh, int nbrobjv, Resources *lesressources)
 {
     m_lesRessources = lesressources;
     m_nbrh = nbrobjh;
@@ -61,19 +61,19 @@ Items::Items(QVector<Eqips>equipements, int nbrobjh, int nbrobjv, LesRessources 
     {
         if(equipements[i].equipement)
         {
-            m_items.push_back(new Item(equipements[i].equipement, equipements[i].nbr, i));
+            m_items.push_back(new ResourceItem(equipements[i].equipement, equipements[i].nbr, i));
             connect(m_items[i], SIGNAL(clique(int)), this, SLOT(cliqueObjet(int)));
             connect(m_items[i], SIGNAL(dbclique(int)), this, SLOT(dbcliqueObjet(int)));
         }
         else
-            m_items.push_back(new Item());
+            m_items.push_back(new ResourceItem());
     }
     remplire(0);
 
     connect(m_scroll, SIGNAL(valueChanged(int)), this, SLOT(scrool(int)));
 }
 
-Items::Items(QVector<Armes>armes, int nbrobjh, int nbrobjv, LesRessources *lesressources)
+ResourceItems::ResourceItems(QVector<Armes>armes, int nbrobjh, int nbrobjv, Resources *lesressources)
 {
     m_lesRessources = lesressources;
     m_nbrh = nbrobjh;
@@ -97,19 +97,19 @@ Items::Items(QVector<Armes>armes, int nbrobjh, int nbrobjv, LesRessources *lesre
     {
         if(armes[i].arme)
         {
-            m_items.push_back(new Item(armes[i].arme, armes[i].nbr, i));
+            m_items.push_back(new ResourceItem(armes[i].arme, armes[i].nbr, i));
             connect(m_items[i], SIGNAL(clique(int)), this, SLOT(cliqueObjet(int)));
             connect(m_items[i], SIGNAL(dbclique(int)), this, SLOT(dbcliqueObjet(int)));
         }
         else
-            m_items.push_back(new Item());
+            m_items.push_back(new ResourceItem());
     }
     remplire(0);
 
     connect(m_scroll, SIGNAL(valueChanged(int)), this, SLOT(scrool(int)));
 }
 
-Items::Items(int nbrPossible, int nbrMax, LesRessources *lesressources)
+ResourceItems::ResourceItems(int nbrPossible, int nbrMax, Resources *lesressources)
 {
     m_nbrh = nbrMax;
     m_nbrv = 1;
@@ -126,21 +126,21 @@ Items::Items(int nbrPossible, int nbrMax, LesRessources *lesressources)
 
     for(int i = 0; i < nbrPossible; i++)
     {
-        m_items.push_back(new Item());
+        m_items.push_back(new ResourceItem());
     }
     for(int i = nbrPossible; i < nbrMax; i++)
     {
-        m_items.push_back(new Item(false));
+        m_items.push_back(new ResourceItem(false));
     }
     remplire(0);
 }
 
-void Items::scrool(int valeure)
+void ResourceItems::scrool(int valeure)
 {
     remplire(valeure);
 }
 
-void Items::remplire(int valeure)
+void ResourceItems::remplire(int valeure)
 {
     QPixmap pix = QPixmap("../data/interface/vide.png").scaled(40,40);
     int v;
@@ -184,17 +184,17 @@ void Items::remplire(int valeure)
 }
 
 
-void Items::cliqueObjet(int num)
+void ResourceItems::cliqueObjet(int num)
 {
     emit ressclique(num);
 }
 
-void Items::dbcliqueObjet(int num)
+void ResourceItems::dbcliqueObjet(int num)
 {
     emit ressdbclique(num);
 }
 
-void Items::enlevRess(int num, int nbr)
+void ResourceItems::enlevRess(int num, int nbr)
 {
     int n = 0;
     m_items[num]->enleve(nbr);
@@ -223,14 +223,14 @@ void Items::enlevRess(int num, int nbr)
 }
 
 
-void Items::ajouteRess(Resss const& a, int num)
+void ResourceItems::ajouteRess(Resss const& a, int num)
 {
     int n = 0;
     if(m_scroll->isVisible())
         n = m_scroll->value();
     if(num >= m_items.size())
     {
-        m_items.push_back(new Item(a.ress, a.nbr, num));
+        m_items.push_back(new ResourceItem(a.ress, a.nbr, num));
         connect(m_items[num], SIGNAL(clique(int)), this, SLOT(cliqueObjet(int)));
         connect(m_items[num], SIGNAL(dbclique(int)), this, SLOT(dbcliqueObjet(int)));
         if(m_items.size() > (m_scroll->maximum()+m_nbrv)*m_nbrh)
@@ -246,14 +246,14 @@ void Items::ajouteRess(Resss const& a, int num)
     remplire(n);
 }
 
-void Items::ajouteEquipement(Eqips const& a, int num)
+void ResourceItems::ajouteEquipement(Eqips const& a, int num)
 {
     int n = 0;
     if(m_scroll->isVisible() && m_scroll->value() > 0)
         n = m_scroll->value();
     if(num >= m_items.size())
     {
-        m_items.push_back(new Item(a.equipement, a.nbr, num));
+        m_items.push_back(new ResourceItem(a.equipement, a.nbr, num));
         connect(m_items[num], SIGNAL(clique(int)), this, SLOT(cliqueObjet(int)));
         connect(m_items[num], SIGNAL(dbclique(int)), this, SLOT(dbcliqueObjet(int)));
         if(m_items.size() > (m_scroll->maximum()+m_nbrv)*m_nbrh)
@@ -269,14 +269,14 @@ void Items::ajouteEquipement(Eqips const& a, int num)
     remplire(n);
 }
 
-void Items::ajouteArme(Armes const& a, int num)
+void ResourceItems::ajouteArme(Armes const& a, int num)
 {
     int n = 0;
     if(m_scroll->isVisible())
         n = m_scroll->value();
     if(num >= m_items.size())
     {
-        m_items.push_back(new Item(a.arme, a.nbr, num));
+        m_items.push_back(new ResourceItem(a.arme, a.nbr, num));
         connect(m_items[num], SIGNAL(clique(int)), this, SLOT(cliqueObjet(int)));
         connect(m_items[num], SIGNAL(dbclique(int)), this, SLOT(dbcliqueObjet(int)));
         if(m_items.size() > (m_scroll->maximum()+m_nbrv)*m_nbrh)
@@ -292,84 +292,84 @@ void Items::ajouteArme(Armes const& a, int num)
     remplire(n);
 }
 
-void Items::setItemRessource(int num, const Resss &resss)
+void ResourceItems::setItemRessource(int num, const Resss &resss)
 {
     setItemRessource(num, resss.ress, resss.nbr);
 }
 
-void Items::setItemEquipement(int num, Eqips const& equipements)
+void ResourceItems::setItemEquipement(int num, Eqips const& equipements)
 {
     setItemEquipement(num, equipements.equipement, equipements.nbr);
 }
 
-void Items::setItemArme(int num, Armes const& armes)
+void ResourceItems::setItemArme(int num, Armes const& armes)
 {
     setItemArme(num, armes.arme, armes.nbr);
 }
 
-void Items::setItemRessource(int num, Ressource *ressource, int nombre)
+void ResourceItems::setItemRessource(int num, Resource *ressource, int nombre)
 {
     m_layout->removeWidget(m_items[num]);
     delete m_items[num];
     if(!ressource || !nombre)
-        m_items[num] = new Item();
+        m_items[num] = new ResourceItem();
     else
     {
-        m_items[num] = new Item(ressource, nombre, num);
+        m_items[num] = new ResourceItem(ressource, nombre, num);
         connect(m_items[num], SIGNAL(clique(int)), this, SLOT(cliqueObjet(int)));
         connect(m_items[num], SIGNAL(dbclique(int)), this, SLOT(dbcliqueObjet(int)));
     }
     remplire(0);
 }
 
-void Items::setItemEquipement(int num, Equipement *equipement, int nombre)
+void ResourceItems::setItemEquipement(int num, Outfit *equipement, int nombre)
 {
     m_layout->removeWidget(m_items[num]);
     delete m_items[num];
     if(!equipement || !nombre)
-        m_items[num] = new Item();
+        m_items[num] = new ResourceItem();
     else
     {
-        m_items[num] = new Item(equipement, nombre, num);
+        m_items[num] = new ResourceItem(equipement, nombre, num);
         connect(m_items[num], SIGNAL(clique(int)), this, SLOT(cliqueObjet(int)));
         connect(m_items[num], SIGNAL(dbclique(int)), this, SLOT(dbcliqueObjet(int)));
     }
     remplire(0);
 }
 
-void Items::setItemArme(int num, Arme *arme, int nombre)
+void ResourceItems::setItemArme(int num, Weapon *arme, int nombre)
 {
     m_layout->removeWidget(m_items[num]);
     delete m_items[num];
     if(!arme || !nombre)
     {
-        m_items[num] = new Item();
+        m_items[num] = new ResourceItem();
     }
     else
     {
-        m_items[num] = new Item(arme, nombre, num);
+        m_items[num] = new ResourceItem(arme, nombre, num);
         connect(m_items[num], SIGNAL(clique(int)), this, SLOT(cliqueObjet(int)));
         connect(m_items[num], SIGNAL(dbclique(int)), this, SLOT(dbcliqueObjet(int)));
     }
     remplire(0);
 }
 
-Item *item(LesRessources *lesressources, Ressource *ressource, int quantite, int num)
+ResourceItem *item(Resources *lesressources, Resource *ressource, int quantite, int num)
 {
     if(lesressources->estUnEquipement(ressource->nom()))
     {
         if(lesressources->estUneArme(ressource->nom()))
         {
-            return new Item(lesressources->getArme(ressource->nom()), quantite, num);
+            return new ResourceItem(lesressources->getArme(ressource->nom()), quantite, num);
         }
         else
         {
-            return new Item(lesressources->getEquipement(ressource->nom()), quantite, num);
+            return new ResourceItem(lesressources->getEquipement(ressource->nom()), quantite, num);
         }
     }
     else
     {
-        return new Item(ressource, quantite, num);
+        return new ResourceItem(ressource, quantite, num);
     }
 }
 

@@ -7,42 +7,42 @@
 #include "scenery/constants.h"
 #include <QString>
 
-class LesRessources;
-class Equipement;
+class Resources;
+class Outfit;
 
 typedef struct Eqips Eqips;
 struct Eqips
 {
     int nbr;
-    Equipement *equipement;
+    Outfit *equipement;
 };
 
-class Equipement
+class Outfit
 {
 public:
-    Equipement(QString const& donnees,LesRessources *ressources);
-    Equipement(Ressource *ressource, int bonus_force, int bonus_vie, int bonus_points_combat);
-    Equipement(Equipement const& autre);
-    Ressource *getRessource() const { return m_ressource; }
+    Outfit(QString const& donnees,Resources *ressources);
+    Outfit(Resource *ressource, int bonus_force, int bonus_vie, int bonus_points_combat);
+    Outfit(Outfit const& autre);
+    Resource *getRessource() const { return m_ressource; }
     int getBonusForce() const { return m_bonus_force; }
     int getBonusVie() const { return m_bonus_vie; }
     int getBonusPointsCombat() const { return m_bonus_points_combat; }
     QString nom() const { return m_ressource->nom(); }
 
-    static QString descr_effet(Equipement *equipement);
+    static QString descr_effet(Outfit *equipement);
     static QString enString(Eqips const& equipements);
-    static QString enString(Equipement *equipement);
-    static Eqips chargeEquipements(QString const& donnees,Ressource *ressource);
-    static Equipement *chargeEquipement(const QString &donnees,Ressource *ressource);
+    static QString enString(Outfit *equipement);
+    static Eqips chargeEquipements(QString const& donnees,Resource *ressource);
+    static Outfit *chargeEquipement(const QString &donnees,Resource *ressource);
     QString longue_description();
 
 protected:
-    Ressource *m_ressource;
+    Resource *m_ressource;
     int m_bonus_force;
     int m_bonus_vie;
     int m_bonus_points_combat;
 };
 
-bool operator==(Equipement const& a, Equipement const& b);
+bool operator==(Outfit const& a, Outfit const& b);
 
 #endif // EQUIPEMENT_H

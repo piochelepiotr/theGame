@@ -4,7 +4,7 @@
 #define BUTTON_WIDTH 100
 #define BUTTON_HEIGHT 100
 
-ButtonObject::ButtonObject(Objet *object)
+ButtonObject::ButtonObject(Object *object)
 {
     /*QVBoxLayout *layout = new QVBoxLayout();
     setLayout(layout);

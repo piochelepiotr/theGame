@@ -1,8 +1,8 @@
-#include "additionalWindows/description_sort.h"
-#include "ui_description_sort.h"
+#include "graphic/spellDescription.h"
+#include "../data-shared/ui_spellDescription.h"
 
-Description_sort::Description_sort(UnSort *sort) :
-    ui(new Ui::Description_sort)
+SpellDescription::SpellDescription(SpellModel *sort) :
+    ui(new Ui::SpellDescription)
 {
     ui->setupUi(this);
     ui->textEdit_1->setReadOnly(true);
@@ -19,7 +19,7 @@ Description_sort::Description_sort(UnSort *sort) :
         setSort(sort);
 }
 
-void Description_sort::setSort(UnSort *sort)
+void SpellDescription::setSort(SpellModel *sort)
 {
     if(!sort)
     {
@@ -38,21 +38,21 @@ void Description_sort::setSort(UnSort *sort)
     }
     else
     {
-        ui->textEdit_1->setText(Sort::decrit(sort->sortNiveau(0)));
-        ui->textEdit_2->setText(Sort::decrit(sort->sortNiveau(1)));
-        ui->textEdit_3->setText(Sort::decrit(sort->sortNiveau(2)));
-        ui->textEdit_4->setText(Sort::decrit(sort->sortNiveau(3)));
-        ui->textEdit_5->setText(Sort::decrit(sort->sortNiveau(4)));
-        ui->textEdit_6->setText(Sort::decrit(sort->sortNiveau(5)));
-        ui->textEdit_7->setText(Sort::decrit(sort->sortNiveau(6)));
-        ui->textEdit_8->setText(Sort::decrit(sort->sortNiveau(7)));
-        ui->textEdit_9->setText(Sort::decrit(sort->sortNiveau(8)));
-        ui->textEdit_10->setText(Sort::decrit(sort->sortNiveau(9)));
+        ui->textEdit_1->setText(Spell::decrit(sort->sortNiveau(0)));
+        ui->textEdit_2->setText(Spell::decrit(sort->sortNiveau(1)));
+        ui->textEdit_3->setText(Spell::decrit(sort->sortNiveau(2)));
+        ui->textEdit_4->setText(Spell::decrit(sort->sortNiveau(3)));
+        ui->textEdit_5->setText(Spell::decrit(sort->sortNiveau(4)));
+        ui->textEdit_6->setText(Spell::decrit(sort->sortNiveau(5)));
+        ui->textEdit_7->setText(Spell::decrit(sort->sortNiveau(6)));
+        ui->textEdit_8->setText(Spell::decrit(sort->sortNiveau(7)));
+        ui->textEdit_9->setText(Spell::decrit(sort->sortNiveau(8)));
+        ui->textEdit_10->setText(Spell::decrit(sort->sortNiveau(9)));
         ui->nom_sort->setText(sort->nom());
     }
 }
 
-Description_sort::~Description_sort()
+SpellDescription::~SpellDescription()
 {
     delete ui;
 }

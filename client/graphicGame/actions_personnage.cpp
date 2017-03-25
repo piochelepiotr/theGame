@@ -1,6 +1,6 @@
 #include "actions_personnage.h"
 
-Action::Action(const QString &nom, Dir orientation, Images_Classe *images)
+Action::Action(const QString &nom, Dir orientation, ImagesEntity *images)
 {
     m_nom = nom;
     m_orientation = orientation;
@@ -8,9 +8,9 @@ Action::Action(const QString &nom, Dir orientation, Images_Classe *images)
     m_nbrImages = m_images->nombre_images(m_orientation);
 }
 
-Actions_personnage::Actions_personnage(UneCreature *uneCreature, const QSize &taille_case)
+Actions_personnage::Actions_personnage(EntityModel *uneCreature, const QSize &taille_case)
 {
-    m_images = new Images_Classe(uneCreature, taille_case);
+    m_images = new ImagesEntity(uneCreature, taille_case);
     m_actionActuelle = new Action("marcher", O, m_images);
     m_immobile = true;
     m_taille_case = taille_case;

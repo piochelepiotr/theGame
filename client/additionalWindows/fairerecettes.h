@@ -16,17 +16,17 @@ public:
     enum Type{AucunType, UneRessource,UnEquipement, UneArme};
 
     Ressource_type();
-    Ressource_type(Arme *arme, int nombre = 1);
-    Ressource_type(Equipement *equipement, int nombre = 1);
-    Ressource_type(Ressource *ressource, int nombre = 1);
+    Ressource_type(Weapon *arme, int nombre = 1);
+    Ressource_type(Outfit *equipement, int nombre = 1);
+    Ressource_type(Resource *ressource, int nombre = 1);
     void setVide();
-    void setArme(Arme *arme, int nombre = 1);
-    void setEquipement(Equipement *equipement, int nombre = 1);
-    void setRessource(Ressource *ressource, int nombre = 1);
+    void setArme(Weapon *arme, int nombre = 1);
+    void setEquipement(Outfit *equipement, int nombre = 1);
+    void setRessource(Resource *ressource, int nombre = 1);
     Type type() const { return m_type; }
-    Arme *arme() const { return m_arme; }
-    Equipement *equipement() const { return m_equipement; }
-    Ressource *ressource() const { return m_ressource; }
+    Weapon *arme() const { return m_arme; }
+    Outfit *equipement() const { return m_equipement; }
+    Resource *ressource() const { return m_ressource; }
     void ajoute(int nombre = 1) { m_nombre += nombre; }
     bool enleve(int nombre = 1);
     int nombre() const { return m_nombre; }
@@ -34,9 +34,9 @@ public:
 private:
 
     Type m_type;
-    Arme *m_arme;
-    Equipement *m_equipement;
-    Ressource *m_ressource;
+    Weapon *m_arme;
+    Outfit *m_equipement;
+    Resource *m_ressource;
     int m_nombre;
 };
 
@@ -50,9 +50,9 @@ class FaireRecettes : public QDialog
     Q_OBJECT
     
 public:
-    FaireRecettes(QWidget *parent,QString const& metier, Donnees_editeur *donnees_editeur, Personnage *personnage, Reseau *reseau);
+    FaireRecettes(QWidget *parent,QString const& metier, Data *donnees_editeur, Character *personnage, Reseau *reseau);
     ~FaireRecettes();
-    Recette *chercheRecette(int *quantite);
+    Recipe *chercheRecette(int *quantite);
     void metAJourRecette();
 
 public slots:
@@ -69,14 +69,14 @@ public slots:
 private:
     Reseau *m_reseau;
     Inventaire_complet *m_inventaire;
-    Items *m_items;
+    ResourceItems *m_items;
     Ui::FaireRecettes *ui;
-    Metier *m_metier;
-    Donnees_editeur *m_donnees_editeur;
-    Personnage *m_personnage;
+    Job *m_metier;
+    Data *m_donnees_editeur;
+    Character *m_personnage;
     QVector<Ressource_type>m_ingredients;
-    Item *m_objet_cree;
-    Recette *m_recette;
+    ResourceItem *m_objet_cree;
+    Recipe *m_recette;
 };
 
 #endif // FAIRERECETTES_H

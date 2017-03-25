@@ -1,6 +1,6 @@
 #include "combat.h"
 
-Combat::Combat(QString nomCombat,Personnage *moi)
+Combat::Combat(QString nomCombat,Character *moi)
 {
     m_nomCombat = nomCombat;
     m_moi = moi;

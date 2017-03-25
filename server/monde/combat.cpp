@@ -1,6 +1,6 @@
 #include "monde/combat.h"
 
-Combat::Combat(Personnage *leader1, Personnage *leader2, DataMap *dataMap) : QObject()
+Combat::Combat(Character *leader1, Character *leader2, Map *dataMap) : QObject()
 {
     m_dataMap = dataMap;
     leader1->setPret(false);
@@ -17,7 +17,7 @@ Combat::~Combat()
     finCombat();
 }
 
-void Combat::ajoutePerso(Personnage *perso)
+void Combat::ajoutePerso(Character *perso)
 {
     perso->setPret(false);
     m_combattants[perso->getNom()] = perso;
@@ -61,25 +61,25 @@ void Combat::deplace(QString nom, int x, int y)
     m_combattants[nom]->setPosMap(x,y);
     if(m_phase == EnPlacement)
     {
-        for(QMap<QString, Personnage*>::const_iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
+        for(QMap<QString, Character*>::const_iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
         {
             emit envoie(it.key(), "dep/"+nom+"*"+QString::number(x)+"*"+QString::number(y));
         }
     }
     else if(m_phase == EnCombat)
     {
-        for(QMap<QString, Personnage*>::const_iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
+        for(QMap<QString, Character*>::const_iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
         {
             emit envoie(it.key(), "dep/"+nom+"*"+QString::number(x)+"*"+QString::number(y));
         }
     }
 }
 
-Personnage *Combat::getCible(QPoint const& p)
+Character *Combat::getCible(QPoint const& p)
 {
     if(m_phase != EnCombat)
         return 0;
-    for(QMap<QString, Personnage*>::const_iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
+    for(QMap<QString, Character*>::const_iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
     {
         if(it.value()->getPosMap() == p)
             return it.value();
@@ -91,13 +91,13 @@ void Combat::attaque(QString nomAttaquant, QString nomSort, int x, int y)
 {
     if(m_phase != EnCombat)
         return;
-    Sort *sort = m_combattants[nomAttaquant]->getSort(nomSort);
-    Personnage *cible = getCible(QPoint(x,y));
+    Spell *sort = m_combattants[nomAttaquant]->getSort(nomSort);
+    Character *cible = getCible(QPoint(x,y));
     if(cible != 0)
     {
         int degats = sort->degats();
         cible->perdVie(degats);
-        for(QMap<QString, Personnage*>::const_iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
+        for(QMap<QString, Character*>::const_iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
         {
             emit envoie(it.key(),"combatVieDe/"+cible->getNom()+"/"+QString::number(cible->getVie()));
         }
@@ -126,7 +126,7 @@ bool Combat::contains(QString nom)
 bool Combat::personneSur(int x,int y)
 {
     QPoint p(x,y);
-    for(QMap<QString, Personnage*>::const_iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
+    for(QMap<QString, Character*>::const_iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
     {
         if(it.value()->getPosMap() == p)
         {
@@ -153,14 +153,14 @@ void Combat::enEquipe(int equipe1,int equipe2,QPoint const& pos1,QPoint const& p
 void Combat::combatCommence()
 {
     m_phase = EnCombat;
-    for(QMap<QString, Personnage*>::const_iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
+    for(QMap<QString, Character*>::const_iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
     {
         it.value()->setTour(false);
         emit envoie(it.value()->getNom(), "commenceCombat");
     }
-    for(QMap<QString,Personnage*>::const_iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
+    for(QMap<QString,Character*>::const_iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
     {
-        for(QMap<QString,Personnage*>::const_iterator it2 = m_combattants.begin(); it2 != m_combattants.end(); it2++)
+        for(QMap<QString,Character*>::const_iterator it2 = m_combattants.begin(); it2 != m_combattants.end(); it2++)
         {
             qDebug() << it2.value()->getVie() << "est la vie";
             qDebug() << it2.value()->getTotalVie() << "est le total";
@@ -174,7 +174,7 @@ void Combat::combatCommence()
 
 void Combat::toutLeMondeEstPret()
 {
-    for(QMap<QString,Personnage*>::iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
+    for(QMap<QString,Character*>::iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
     {
         if(!it.value()->pret())
         {
@@ -198,7 +198,7 @@ void Combat::pasPret(QString nom)
 void Combat::order()
 {
     m_nombreCombattants = 0;
-    for(QMap<QString,Personnage*>::iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
+    for(QMap<QString,Character*>::iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
     {
         m_ordre.append(it.key());
         m_nombreCombattants++;
@@ -222,7 +222,7 @@ void Combat::nextPlayer()
 QStringList Combat::combattants()
 {
     QStringList combattants;
-    for(QMap<QString,Personnage*>::iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
+    for(QMap<QString,Character*>::iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
     {
         combattants.append(it.key());
     }
@@ -266,7 +266,7 @@ bool Combat::finCombat()
         return false;
     int l = 0;
     int tailleEquipe0 = 0;
-    for(QMap<QString,Personnage*>::iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
+    for(QMap<QString,Character*>::iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
     {
         if(it.value()->getVie() != 0)
         {
@@ -286,7 +286,7 @@ bool Combat::finCombat()
 
 void Combat::envoieATous(QString const& message)
 {
-    for(QMap<QString,Personnage*>::iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
+    for(QMap<QString,Character*>::iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
     {
         emit envoie(it.key(),message);
     }
@@ -297,7 +297,7 @@ QString Combat::gainsFin()
     QString equipe0,equipe1;
     int niveauEquipe0 = 0,niveauEquipe1 = 0;
     int tailleEquipe0 = 0;
-    for(QMap<QString,Personnage*>::iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
+    for(QMap<QString,Character*>::iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
     {
         if(it.value()->equipe() == 0)
         {
@@ -315,7 +315,7 @@ QString Combat::gainsFin()
             }
         }
     }
-    for(QMap<QString,Personnage*>::iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
+    for(QMap<QString,Character*>::iterator it = m_combattants.begin(); it != m_combattants.end(); it++)
     {
         if(it.value()->equipe() == 0)
         {

@@ -1,5 +1,5 @@
 #include "entities/entityModel.h"
 
-UneCreature::UneCreature()
+EntityModel::EntityModel()
 {
 }

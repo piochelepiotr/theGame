@@ -1,5 +1,5 @@
-#ifndef MAP_H
-#define MAP_H
+#ifndef ServerMap_H
+#define ServerMap_H
 
 #include "map/map.h"
 #include "monde/combat.h"
@@ -9,16 +9,16 @@
 class Monde;
 class Ecran;
 
-class Map : public QObject
+class ServerMap : public QObject
 {
     Q_OBJECT
 
 public:
-    Map(Donnees_editeur *donnees_editeur, Monde *parent, Point const& pos, Ecran *ecran);
-    ~Map();
+    ServerMap(Data *donnees_editeur, Monde *parent, Point const& pos, Ecran *ecran);
+    ~ServerMap();
     void coupe(QPoint p);
     QString ressources_coupees() const;
-    void addCombat(Personnage *leader1, Personnage *leader2);
+    void addCombat(Character *leader1, Character *leader2);
     Combat *combat(QString nom);
     QString leaderDe(QString nom);
     void joueurChangePosDepart(QString nom, int x,int y);//pendant la phase de placement, demande une verification par le serveur
@@ -26,10 +26,10 @@ public:
     void envoieA(QStringList noms,QString message);
     QString nomMonstre(QString const& nomClasse);
     void addMonstre();
-    void connectPlayer(Joueur *joueur, bool hasJustChangedMap = false);
+    void connectPlayer(Joueur *joueur, bool hasJustChangedServerMap = false);
     void disconnectPlayer(QString const& nom);
     QList<Joueur*> joueursPasEnCombat();
-    QList<Monstre*>monsterNotFighting();
+    QList<Monster*>monsterNotFighting();
     void receiveMessage(Joueur *player,QString const& begin, QString const& message);
     void analyseCombat(QString debut,QString fin,Joueur *joueur);
     void analyseReponsePnj(QString const& reponse, Joueur *player);
@@ -44,19 +44,19 @@ public slots:
     void sendToPlayer(QString const& name,QString const& message);
 
 private:
-    DataMap *m_dataMap;
+    Map *m_map;
     QMap<QPoint, bool>m_objets_coupables;// =true si la ressource est coupé, oui c'est pas très logique je sais
     QSignalMapper *m_aide_timers;
     QMap<QPoint,QTimer*>m_timers;
     Monde *m_parent;
     Point m_pos;
     QMap<QString,Combat*>m_combats;
-    QMap<QString,Monstre*>m_monstres;
+    QMap<QString,Monster*>m_monstres;
     QMap<QString,Joueur*>m_joueurs;
     Ecran *m_ecran;
-    Donnees_editeur *m_donnees_editeur;
+    Data *m_donnees_editeur;
 };
 
 void envoiGroupe(QList<Joueur*> const& receveurs, QString const& message, QString const& nom = "");
 
-#endif // MAP_H
+#endif // ServerMap_H

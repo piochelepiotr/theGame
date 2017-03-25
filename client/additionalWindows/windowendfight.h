@@ -14,7 +14,7 @@ class WindowEndFight : public QDialog
     Q_OBJECT
 
 public:
-    explicit WindowEndFight(QString const& texte,QWidget *parent,Personnage *perso);
+    explicit WindowEndFight(QString const& texte,QWidget *parent,Character *perso);
     ~WindowEndFight();
 
 private:

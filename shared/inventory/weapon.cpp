@@ -1,42 +1,42 @@
 #include "inventory/weapon.h"
 #include "inventory/resources.h"
 
-Arme::Arme(const QString &donnees, LesRessources *ressources)
+Weapon::Weapon(const QString &donnees, Resources *ressources)
 {
-    m_equipement = new Equipement(donnees.section('/',0,3),ressources);
+    m_equipement = new Outfit(donnees.section('/',0,3),ressources);
     m_sort = ressources->getSort(donnees.section('/',4,4))->sortNiveau(donnees.section('/',5,5).toInt());
 }
 
-Arme::Arme(Equipement *equipement, Sort *sort)
+Weapon::Weapon(Outfit *equipement, Spell *sort)
 {
     m_equipement = equipement;
     m_sort = sort;
 }
 
-Arme::Arme(Arme const& autre)
+Weapon::Weapon(Weapon const& autre)
 {
-    m_equipement = new Equipement(*autre.getEquipement());
+    m_equipement = new Outfit(*autre.getEquipement());
     m_sort = autre.getSort();
 }
 
-Arme::~Arme()
+Weapon::~Weapon()
 {
     delete m_equipement;
 }
 
-QString Arme::enString(Armes const& armes)
+QString Weapon::enString(Armes const& armes)
 {
     return QString::number(armes.nbr)+ '/' + enString(armes.arme);
 }
 
-QString Arme::enString(Arme *arme)
+QString Weapon::enString(Weapon *arme)
 {
     if(arme)
-        return Equipement::enString(arme->getEquipement()) + arme->getSort()->nom() + '/' + QString::number(arme->getSort()->niveau()) + '/';
+        return Outfit::enString(arme->getEquipement()) + arme->getSort()->nom() + '/' + QString::number(arme->getSort()->niveau()) + '/';
     return "-1/-1/-1/-1/-1/-1/";
 }
 
-Armes Arme::chargeArmes(QString const& donnees,Ressource *ressource, Sort *sort)
+Armes Weapon::chargeArmes(QString const& donnees,Resource *ressource, Spell *sort)
 {
     Armes armes;
     armes.nbr = donnees.section('/', 0,0).toInt();
@@ -44,21 +44,21 @@ Armes Arme::chargeArmes(QString const& donnees,Ressource *ressource, Sort *sort)
     return armes;
 }
 
-Arme *Arme::chargeArme(QString const& donnees,Ressource *ressource, Sort *sort)
+Weapon *Weapon::chargeArme(QString const& donnees,Resource *ressource, Spell *sort)
 {
     if(donnees.section('/', 0, 0).toInt() == -1)
         return 0;
-    return new Arme(Equipement::chargeEquipement(donnees.section('/', 0, 3), ressource), sort);
+    return new Weapon(Outfit::chargeEquipement(donnees.section('/', 0, 3), ressource), sort);
 }
 
-QString Arme::longue_description()
+QString Weapon::longue_description()
 {
     QString texte = getEquipement()->longue_description();
     texte += getSort()->longue_description();
     return texte;
 }
 
-bool operator==(Arme const& a, Arme const& b)
+bool operator==(Weapon const& a, Weapon const& b)
 {
     if(a.getSort() != b.getSort())
         return false;

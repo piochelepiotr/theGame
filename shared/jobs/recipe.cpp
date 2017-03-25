@@ -1,7 +1,7 @@
 #include "jobs/recipe.h"
 #include "inventory/resources.h"
 
-Recette::Recette(Ressource *objet_cree, QStringList & ingredients, LesRessources *ressources)
+Recipe::Recipe(Resource *objet_cree, QStringList & ingredients, Resources *ressources)
 {
     m_objet_cree = objet_cree;
     Resss resss;

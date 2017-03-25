@@ -1,7 +1,7 @@
 #include "entities/characterModel.h"
 
 
-Classe::Classe(QString const& donnees, const QMap<QString, UnSort *> &sorts)
+CharacterModel::CharacterModel(QString const& donnees, const QMap<QString, SpellModel *> &sorts)
 {
     QStringList liste = donnees.split('/');
     m_classe = liste[0];

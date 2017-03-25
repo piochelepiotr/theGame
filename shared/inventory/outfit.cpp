@@ -1,7 +1,7 @@
 #include "inventory/outfit.h"
 #include "inventory/resources.h"
 
-Equipement::Equipement(QString const& donnees, LesRessources *ressources)
+Outfit::Outfit(QString const& donnees, Resources *ressources)
 {
     QStringList liste = donnees.split('/');
     m_ressource = ressources->getRessource(liste[0]);
@@ -10,7 +10,7 @@ Equipement::Equipement(QString const& donnees, LesRessources *ressources)
     m_bonus_points_combat = liste[3].toInt();
 }
 
-Equipement::Equipement(Ressource *ressource, int bonus_force, int bonus_vie, int bonus_points_combat)
+Outfit::Outfit(Resource *ressource, int bonus_force, int bonus_vie, int bonus_points_combat)
 {
     m_ressource = ressource;
     m_bonus_force = bonus_force;
@@ -18,7 +18,7 @@ Equipement::Equipement(Ressource *ressource, int bonus_force, int bonus_vie, int
     m_bonus_points_combat = bonus_points_combat;
 }
 
-Equipement::Equipement(Equipement const& autre)
+Outfit::Outfit(Outfit const& autre)
 {
     m_ressource = autre.m_ressource;
     m_bonus_force = autre.m_bonus_force;
@@ -26,7 +26,7 @@ Equipement::Equipement(Equipement const& autre)
     m_bonus_points_combat = autre.m_bonus_points_combat;
 }
 
-QString Equipement::descr_effet(Equipement *equipement)
+QString Outfit::descr_effet(Outfit *equipement)
 {
     QString effet;
     if(equipement->getBonusForce() < 0)
@@ -44,12 +44,12 @@ QString Equipement::descr_effet(Equipement *equipement)
     return effet;
 }
 
-QString Equipement::enString(Eqips const& equipements)
+QString Outfit::enString(Eqips const& equipements)
 {
     return QString::number(equipements.nbr)+ '/' + enString(equipements.equipement);
 }
 
-QString Equipement::enString(Equipement *equipement)
+QString Outfit::enString(Outfit *equipement)
 {
     QString texte;
     if(equipement)
@@ -67,7 +67,7 @@ QString Equipement::enString(Equipement *equipement)
 }
 
 
-Eqips Equipement::chargeEquipements(QString const& donnees,Ressource *ressource)
+Eqips Outfit::chargeEquipements(QString const& donnees,Resource *ressource)
 {
     Eqips objs;
     objs.nbr = donnees.section('/', 0,0).toInt();
@@ -75,23 +75,23 @@ Eqips Equipement::chargeEquipements(QString const& donnees,Ressource *ressource)
     return objs;
 }
 
-Equipement *Equipement::chargeEquipement(const QString &donnees,Ressource *ressource)
+Outfit *Outfit::chargeEquipement(const QString &donnees,Resource *ressource)
 {
     QStringList liste = donnees.split('/');
     if(liste[0].toInt() == -1)
         return 0;
-    return new Equipement(ressource, liste[1].toInt(), liste[2].toInt(), liste[3].toInt());
+    return new Outfit(ressource, liste[1].toInt(), liste[2].toInt(), liste[3].toInt());
 }
 
-QString Equipement::longue_description()
+QString Outfit::longue_description()
 {
     QString texte = getRessource()->longue_description();
     texte += "<p>Effets : </p>";
-    texte += Equipement::descr_effet(this);
+    texte += Outfit::descr_effet(this);
     return texte;
 }
 
-bool operator==(Equipement const& a, Equipement const& b)
+bool operator==(Outfit const& a, Outfit const& b)
 {
     if(a.getRessource() != b.getRessource())
         return false;

@@ -16,7 +16,7 @@ class EditerUnSort : public QDialog
     Q_OBJECT
     
 public:
-    explicit EditerUnSort(QWidget *parent, UnSort *sort, bool creation);
+    explicit EditerUnSort(QWidget *parent, SpellModel *sort, bool creation);
     ~EditerUnSort();
     void charge();
     void enregistre();
@@ -27,7 +27,7 @@ public slots:
 
 private:
     Ui::EditerUnSort *ui;
-    UnSort *m_sort;
+    SpellModel *m_sort;
     bool m_creation;
 };
 

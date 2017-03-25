@@ -7,20 +7,20 @@
 
 #define PUISSANCE_METIER 3
 
-class TouslesMetiers;
+class Jobs;
 
-class Metier
+class Job
 {
 public:
-    Metier(Metier_Base *metier_base,int xp);
-    static Metier *chargeMetier(QString const& donnees, TouslesMetiers *metiers);
-    static QString enString(Metier* metier);
+    Job(JobModel *metier_base,int xp);
+    static Job *chargeMetier(QString const& donnees, Jobs *metiers);
+    static QString enString(Job* metier);
     QString getNomMetier() const { return m_metier_base->nom(); }
     int getXp() const { return m_xp; }
     int getLvl() const { return m_lvl; }
     void gagneXp(int xpgagne);
     int getNbrCases();
-    Metier_Base *getMetierBase() const { return m_metier_base; }
+    JobModel *getMetierBase() const { return m_metier_base; }
     int nbrCoups() const;
     int minRessources(int lvl_ressource) const;
     int maxRessources(int lvl_ressource) const;
@@ -29,7 +29,7 @@ public:
     int maxRessources(qint16 objet) const;
     int nombre_ressources(qint16 objet) const;
 private:
-    Metier_Base *m_metier_base;
+    JobModel *m_metier_base;
     int m_xp;
     int m_lvl;
     int m_nbrCases;

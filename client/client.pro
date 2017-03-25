@@ -16,14 +16,13 @@ SOURCES += \
     network/reseau.cpp \
     graphicGame/affichejoueur.cpp \
     combats/combat.cpp \
-    graphicGame/tooltip.cpp \
     additionalWindows/windowendfight.cpp \
     graphicGame/layoutbarreoutil.cpp \
-    graphicGame/gamefield.cpp
+    graphicGame/gamefield.cpp \
+    additionalWindows/entityactions.cpp
 
 HEADERS += \
     additionalWindows/caracteristiques.h \
-    additionalWindows/description_sort.h \
     additionalWindows/dialoguepnj.h \
     additionalWindows/echange.h \
     additionalWindows/fairerecettes.h \
@@ -34,14 +33,13 @@ HEADERS += \
     network/reseau.h \
     graphicGame/affichejoueur.h \
     combats/combat.h \
-    graphicGame/tooltip.h \
     additionalWindows/windowendfight.h \
     graphicGame/layoutbarreoutil.h \
-    graphicGame/gamefield.h
+    graphicGame/gamefield.h \
+    additionalWindows/entityactions.h
 
 FORMS += \
     additionalWindows/caracteristiques.ui \
-    additionalWindows/description_sort.ui \
     additionalWindows/echange.ui \
     additionalWindows/fairerecettes.ui \
     additionalWindows/interjoueur.ui \

@@ -13,7 +13,7 @@ bool operator<(QPoint const &a, QPoint const& b)
         return false;
 }
 
-void enregistreMap(int cooX, int cooY,int cooZ, Objet *objets[3] [NBR_CASES_L] [NBR_CASES_H], QMap <QPoint, Transporteur> const& transpos, qint8 casepleines[NBR_CASES_L] [NBR_CASES_H], QString fond, QPoint casescbt[2] [MAX_PAR_EQUIP], QMap<QString, double>monstres, QVector<QString>musiques, int undo)
+void enregistreMap(int cooX, int cooY,int cooZ, Object *objets[3] [NBR_CASES_L] [NBR_CASES_H], QMap <QPoint, Gate> const& transpos, qint8 casepleines[NBR_CASES_L] [NBR_CASES_H], QString fond, QPoint casescbt[2] [MAX_PAR_EQUIP], QMap<QString, double>monstres, QVector<QString>musiques, int undo)
 {
     QFile fichier;
     if(undo != -1)
@@ -68,7 +68,7 @@ void enregistreMap(int cooX, int cooY,int cooZ, Objet *objets[3] [NBR_CASES_L] [
 
         reste += "FINMONSTRES/";
 
-        for(QMap<QPoint, Transporteur>::const_iterator it = transpos.begin(); it != transpos.end(); it++)
+        for(QMap<QPoint, Gate>::const_iterator it = transpos.begin(); it != transpos.end(); it++)
         {
             reste += it.value().getNom();
             reste += '/';
@@ -93,7 +93,7 @@ void enregistreMap(int cooX, int cooY,int cooZ, Objet *objets[3] [NBR_CASES_L] [
 }
 
 
-bool chargeMap(Decors *decors, int cooX, int cooY,int cooZ, Objet *objets[3] [NBR_CASES_L] [NBR_CASES_H], QMap <QPoint, Transporteur> & transpos, qint8 casepleines[NBR_CASES_L] [NBR_CASES_H], QString *fond, QPoint casescbt[2] [MAX_PAR_EQUIP], QMap<QString, double> *monstres, QVector<QString>*musiques, int undo)
+bool chargeMap(Scenery *decors, int cooX, int cooY,int cooZ, Object *objets[3] [NBR_CASES_L] [NBR_CASES_H], QMap <QPoint, Gate> & transpos, qint8 casepleines[NBR_CASES_L] [NBR_CASES_H], QString *fond, QPoint casescbt[2] [MAX_PAR_EQUIP], QMap<QString, double> *monstres, QVector<QString>*musiques, int undo)
 {
     QFile fichier;
     if(undo != -1)
@@ -173,7 +173,7 @@ bool chargeMap(Decors *decors, int cooX, int cooY,int cooZ, Objet *objets[3] [NB
 
         for(int i = 0; i < liste.size()-2; i+=8)
         {
-            transpos[QPoint(liste[i+6].toInt(), liste[i+7].toInt())] = Transporteur(liste[i], liste[i+1], liste[i+2].toInt(), liste[i+3].toInt(), liste[i+4].toInt(), (Dir)liste[i+5].toInt(), liste[i+6].toInt(), liste[i+7].toInt());
+            transpos[QPoint(liste[i+6].toInt(), liste[i+7].toInt())] = Gate(liste[i], liste[i+1], liste[i+2].toInt(), liste[i+3].toInt(), liste[i+4].toInt(), (Dir)liste[i+5].toInt(), liste[i+6].toInt(), liste[i+7].toInt());
         }
 
         if(undo != -1)
@@ -209,7 +209,7 @@ qint16 trouveNumero()
     return numero;
 }
 
-void ajouteObjet(Objet *objet, QString const& chemin_vers_image)
+void ajouteObjet(Object *objet, QString const& chemin_vers_image)
 {
     QString ligne;
     QString texte = QString::number((int)objet->numero()) + '/' + objet->nom() + '/' + objet->categorie() + '/' + QString::number(objet->propx()) + '/' + QString::number(objet->propy());
@@ -246,7 +246,7 @@ void ajouteObjet(Objet *objet, QString const& chemin_vers_image)
 }
 
 
-void editerUnObjet(Objet *objet)
+void editerUnObjet(Object *objet)
 {
     QString ligne, texte = QString::number((int)objet->numero()) + '/' + objet->nom() + '/' + objet->categorie() + '/' + QString::number(objet->propx()) + '/' + QString::number(objet->propy());
 
@@ -277,7 +277,7 @@ void editerUnObjet(Objet *objet)
     }
 }
 
-void supprimerObjet(Decors *decors, Objet *objet)
+void supprimerObjet(Scenery *decors, Object *objet)
 {
     QString ligne;
 
@@ -305,8 +305,8 @@ void supprimerObjet(Decors *decors, Objet *objet)
         QFile::rename("../data/objets/objets2.txt", "../data/objets/objets.txt");
     }
 
-    Objet *objets[3] [NBR_CASES_L] [NBR_CASES_H];
-    QMap <QPoint, Transporteur>transpos;
+    Object *objets[3] [NBR_CASES_L] [NBR_CASES_H];
+    QMap <QPoint, Gate>transpos;
     qint8 casepleines[NBR_CASES_L] [NBR_CASES_H];
     QString nomfond;
     QPoint casescbt [2] [MAX_PAR_EQUIP];

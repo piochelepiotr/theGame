@@ -3,11 +3,11 @@
 
 #include <QPixmap>
 
-class Objet
+class Object
 {
 public:
-    Objet(qint16 numero, QString const& nom, QString const& categorie, double propx, double propy, int lcase, int hcase);
-    Objet();
+    Object(qint16 numero, QString const& nom, QString const& categorie, double propx, double propy, int lcase, int hcase);
+    Object();
     qint16 numero() const { return m_numero; }
     QString nom() const { return m_nom; }
     QString categorie() const { return m_categorie; }
@@ -30,6 +30,6 @@ private:
     int m_hauteur;
 };
 
-bool ordreAlphabetique(Objet *a, Objet *b);
+bool ordreAlphabetique(Object *a, Object *b);
 
 #endif // OBJET_H

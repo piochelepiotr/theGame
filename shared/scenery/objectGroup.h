@@ -4,16 +4,16 @@
 #include "scenery/object.h"
 #include <QMap>
 
-class Categorie
+class ObjectGroup
 {
 public:
-    Categorie(QString const& nom);
-    void ajouteObjet(Objet *objet);
-    void supprimeObjet(Objet *objet);
+    ObjectGroup(QString const& nom);
+    void ajouteObjet(Object *objet);
+    void supprimeObjet(Object *objet);
     QString nom() const { return m_nom; }
-    QMap<qint16, Objet*> objets() { return m_objets; }
+    QMap<qint16, Object*> objets() { return m_objets; }
 private:
-    QMap<qint16, Objet*>m_objets;
+    QMap<qint16, Object*>m_objets;
     QString m_nom;
 };
 

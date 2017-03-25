@@ -19,13 +19,13 @@ class Compte;
 class DataBase : public QSqlDatabase
 {
 public:
-    DataBase(Donnees_editeur *donneesEditeur);
+    DataBase(Data *donneesEditeur);
     ~DataBase();
     Compte *tryConnection(QString pseudo, QString mdp, QString &message);//returns null pointer if the input data isn't correct
     //otherwise returns the account
     void savePlayer(QString const& pseudo, QString const& text);
 private:
-    Donnees_editeur *m_donnees_editeur;
+    Data *m_donnees_editeur;
 };
 
 #endif // DATEBASE_H

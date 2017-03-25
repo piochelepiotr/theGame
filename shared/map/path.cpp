@@ -1,6 +1,6 @@
 #include "map/path.h"
 
-UnChemin::UnChemin(UnChemin parent, Dir const& dir, int xp, int yp)
+Path::Path(Path parent, Dir const& dir, int xp, int yp)
 {
 
     while(!parent.m_chemin.isEmpty())
@@ -13,7 +13,7 @@ UnChemin::UnChemin(UnChemin parent, Dir const& dir, int xp, int yp)
     m_case.setY(m_case.y()+yp);
 }
 
-UnChemin::UnChemin(QPoint const& p)
+Path::Path(QPoint const& p)
 {
     m_case = p;
 }

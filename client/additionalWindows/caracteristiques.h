@@ -30,30 +30,30 @@ public slots:
     void coteddbclique(int num);
     void cotegdbclique(int num);
 
-    void decriRess(Ressource *ress);
-    void decriObj(Equipement *obj);
-    void decriArme(Arme *arme);
+    void decriRess(Resource *ress);
+    void decriObj(Outfit *obj);
+    void decriArme(Weapon *arme);
 
     void metEquip(int num);
     void metArme(int num);
 
     
 public:
-    Caracteristiques(QWidget *parent, Personnage *perso, Reseau *reseau, Donnees_editeur *donnees_editeur);
+    Caracteristiques(QWidget *parent, Character *perso, Reseau *reseau, Data *donnees_editeur);
     ~Caracteristiques();
     void caracteristiques();
     void competences();
     
 private:
     Ui::Caracteristiques *ui;
-    Inventaire *m_inventaire;
-    Items *m_equipementsD;
-    Items *m_equipementsG;
-    Personnage *m_perso;
+    Inventory *m_inventaire;
+    ResourceItems *m_equipementsD;
+    ResourceItems *m_equipementsG;
+    Character *m_perso;
     Reseau *m_reseau;
-    Donnees_editeur *m_donnees_editeur;
+    Data *m_donnees_editeur;
     QMap<QString,QLabel*>m_textes_metiers;
-    Description_sort *m_description_sort;
+    SpellDescription *m_description_sort;
 };
 
 #endif // CARACTERISTIQUES_H

@@ -60,7 +60,7 @@ private:
     bool m_appuyer;
     Outil m_outil;
     bool m_au_moins_une_case_en_glisser;
-    Donnees_editeur *m_donnees_editeur;
+    Data *m_donnees_editeur;
 
 //////////barre d'outil
 

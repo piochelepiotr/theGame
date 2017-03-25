@@ -13,7 +13,7 @@ void Bouton2::clique()
 }
 
 
-EditerPnjs::EditerPnjs(QWidget *parent, Decors *decors) :
+EditerPnjs::EditerPnjs(QWidget *parent, Scenery *decors) :
     QDialog(parent),
     ui(new Ui::EditerPnjs)
 {
@@ -53,7 +53,7 @@ void EditerPnjs::chargepnjs()
 
 void EditerPnjs::ajouterNouveau(qint16 num)
 {
-    Objet *objet = 0;
+    Object *objet = 0;
     bool ok = true;
     if(!num)
     {
@@ -61,7 +61,7 @@ void EditerPnjs::ajouterNouveau(qint16 num)
         if(ok)
         {
             QString chemin;
-            objet = new Objet(num, "", "pnj", 1, 1, m_decors->lcase(), m_decors->hcase());
+            objet = new Object(num, "", "pnj", 1, 1, m_decors->lcase(), m_decors->hcase());
             EditerUnObjet boite(this, &ok, objet, true,m_decors->lcase(), m_decors->hcase(), &chemin);
             ajouteObjet(objet, chemin);
             m_decors->ajouteObjet(objet);
@@ -97,7 +97,7 @@ void EditerPnjs::ajouterNouveau(qint16 num)
 void EditerPnjs::modifierpnj_objet(qint16 num)
 {
     bool ok = false, supprimer = false;
-    Objet *objet = m_decors->objet(num);
+    Object *objet = m_decors->objet(num);
     EditerUnObjet boite(this, &ok, objet, false,m_decors->lcase(), m_decors->hcase(), 0, &supprimer);
     if(ok)
     {

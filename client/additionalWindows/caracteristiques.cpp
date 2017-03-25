@@ -3,7 +3,7 @@
 #include <QFile>
 #include <QTextStream>
 
-Caracteristiques::Caracteristiques(QWidget *parent, Personnage *perso, Reseau *reseau, Donnees_editeur *donnees_editeur):
+Caracteristiques::Caracteristiques(QWidget *parent, Character *perso, Reseau *reseau, Data *donnees_editeur):
     QDialog(parent),
     ui(new Ui::Caracteristiques)
 {
@@ -13,7 +13,7 @@ Caracteristiques::Caracteristiques(QWidget *parent, Personnage *perso, Reseau *r
     m_perso = perso;
     ui->setupUi(this);
 
-    m_inventaire = new Inventaire(m_perso, m_donnees_editeur->ressources);
+    m_inventaire = new Inventory(m_perso, m_donnees_editeur->ressources);
     ui->lay_inventaire->addWidget(m_inventaire);
 
     ui->pod->setMaximum(m_perso->getPodsMax());
@@ -21,12 +21,12 @@ Caracteristiques::Caracteristiques(QWidget *parent, Personnage *perso, Reseau *r
     ui->pod->setFormat("%v / %m");
     ui->nom->setText(m_perso->getNom());
     ui->classe_lvl->setText(m_perso->getClasse()+", niveau "+QString::number(m_perso->getNiveau()));
-    ui->barre_xp->setMaximum(Personnage::xpDeNiveau(perso->getNiveau()+1));
-    ui->barre_xp->setMinimum(Personnage::xpDeNiveau(perso->getNiveau()));
+    ui->barre_xp->setMaximum(Character::xpDeNiveau(perso->getNiveau()+1));
+    ui->barre_xp->setMinimum(Character::xpDeNiveau(perso->getNiveau()));
     ui->barre_xp->setValue(perso->getXp());
     ui->barre_xp->setFormat("%v / %m");
 
-    m_description_sort = new Description_sort();
+    m_description_sort = new SpellDescription();
     ui->attaque->layout()->addWidget(m_description_sort);
 
     caracteristiques();
@@ -144,8 +144,8 @@ Caracteristiques::Caracteristiques(QWidget *parent, Personnage *perso, Reseau *r
 
 
 
-    m_equipementsG = new Items(equipeg, 1, 4, m_donnees_editeur->ressources);
-    m_equipementsD = new Items(equiped, 1, 4, m_donnees_editeur->ressources);
+    m_equipementsG = new ResourceItems(equipeg, 1, 4, m_donnees_editeur->ressources);
+    m_equipementsD = new ResourceItems(equiped, 1, 4, m_donnees_editeur->ressources);
 
     if(m_perso->arme())
     {
@@ -155,9 +155,9 @@ Caracteristiques::Caracteristiques(QWidget *parent, Personnage *perso, Reseau *r
     ui->objets_gauche->setLayout(m_equipementsG);
     ui->objets_droite->setLayout(m_equipementsD);
 
-    connect(m_inventaire, SIGNAL(s_ressclique(Ressource*)), this, SLOT(decriRess(Ressource*)));
-    connect(m_inventaire, SIGNAL(s_equipclique(Equipement*)), this, SLOT(decriObj(Equipement*)));
-    connect(m_inventaire, SIGNAL(s_armeclique(Arme*)), this, SLOT(decriArme(Arme*)));
+    connect(m_inventaire, SIGNAL(s_ressclique(Resource*)), this, SLOT(decriRess(Resource*)));
+    connect(m_inventaire, SIGNAL(s_equipclique(Outfit*)), this, SLOT(decriObj(Outfit*)));
+    connect(m_inventaire, SIGNAL(s_armeclique(Weapon*)), this, SLOT(decriArme(Weapon*)));
 
     connect(m_inventaire, SIGNAL(s_equipdblclique(int)), this, SLOT(metEquip(int)));
     connect(m_inventaire, SIGNAL(s_armedblclique(int)), this, SLOT(metArme(int)));
@@ -167,7 +167,7 @@ Caracteristiques::Caracteristiques(QWidget *parent, Personnage *perso, Reseau *r
     connect(m_equipementsD, SIGNAL(ressdbclique(int)), this, SLOT(coteddbclique(int)));
     connect(m_equipementsG, SIGNAL(ressdbclique(int)), this, SLOT(cotegdbclique(int)));
 
-    ui->widgetSort->setLayout(new LayoutDescriptionSort(m_perso));
+    ui->widgetSort->setLayout(new SpellDescriptionLayout(m_perso));
 
     this->exec();
 }
@@ -177,7 +177,7 @@ Caracteristiques::~Caracteristiques()
     delete ui;
 }
 
-void Caracteristiques::decriRess(Ressource *ress)
+void Caracteristiques::decriRess(Resource *ress)
 {
     ui->description->setPlainText(trUtf8("Catégorie : ") + ress->categorie() + '\n' + ress->description());
     ui->imageobjet->setPixmap(ress->imageg());
@@ -189,14 +189,14 @@ void Caracteristiques::decriRess(Ressource *ress)
 }
 
 
-void Caracteristiques::decriObj(Equipement *obj)
+void Caracteristiques::decriObj(Outfit *obj)
 {
-    Ressource *ress = obj->getRessource();
+    Resource *ress = obj->getRessource();
     decriRess(ress);
-    ui->descr_effet->setText(Equipement::descr_effet(obj));
+    ui->descr_effet->setText(Outfit::descr_effet(obj));
 }
 
-void Caracteristiques::decriArme(Arme *arme)
+void Caracteristiques::decriArme(Weapon *arme)
 {
     decriObj(arme->getEquipement());
     m_description_sort->setSort(m_donnees_editeur->ressources->getArme(arme->getEquipement()->getRessource()->nom())->getSort());
@@ -332,7 +332,7 @@ void Caracteristiques::caracteristiques()
 
 void Caracteristiques::competences()
 {
-    QStringList metiers = m_perso->getMetiers();
+    QStringList metiers = m_perso->getJobs();
     QLabel *label;
     QWidget *widget;
     QVBoxLayout *layout;
@@ -402,7 +402,7 @@ void Caracteristiques::competences()
         }
         lay_ressources->addWidget(ressources);
 
-        Recettes *recettes = new Recettes(m_perso->getMetier(metiers[i]), m_donnees_editeur->ressources);
+        Recipes *recettes = new Recipes(m_perso->getMetier(metiers[i]), m_donnees_editeur->ressources);
 
         onglet_ressources->setLayout(lay_ressources);
         onglet_recettes->setLayout(recettes);

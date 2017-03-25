@@ -1,7 +1,7 @@
 #include "editerunsort.h"
 #include "ui_editerunsort.h"
 
-EditerUnSort::EditerUnSort(QWidget *parent, UnSort *sort, bool creation) :
+EditerUnSort::EditerUnSort(QWidget *parent, SpellModel *sort, bool creation) :
     QDialog(parent),
     ui(new Ui::EditerUnSort)
 {

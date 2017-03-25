@@ -14,14 +14,14 @@
 #include "inventory/weapon.h"
 #include <qmath.h>
 
-class Items : public QHBoxLayout
+class ResourceItems : public QHBoxLayout
 {
     Q_OBJECT
 public:
-    Items(QVector<Resss>ressources, int nbrobjh, int nbrobjv, LesRessources *lesressources);
-    Items(QVector<Eqips>equipements, int nbrobjh, int nbrobjv, LesRessources *lesressources);
-    Items(QVector<Armes>armes, int nbrobjh, int nbrobjv, LesRessources *lesressources);
-    Items(int nbrPossible, int nbrMax, LesRessources *lesressources);
+    ResourceItems(QVector<Resss>ressources, int nbrobjh, int nbrobjv, Resources *lesressources);
+    ResourceItems(QVector<Eqips>equipements, int nbrobjh, int nbrobjv, Resources *lesressources);
+    ResourceItems(QVector<Armes>armes, int nbrobjh, int nbrobjv, Resources *lesressources);
+    ResourceItems(int nbrPossible, int nbrMax, Resources *lesressources);
     void enlevRess(int num, int nbr);
     void ajouteRess(Resss const& a, int num);
     void ajouteEquipement(Eqips const& a, int num);
@@ -29,9 +29,9 @@ public:
     void setItemRessource(int num, Resss const& resss);
     void setItemEquipement(int num, Eqips const& equipements);
     void setItemArme(int num, const Armes &armes);
-    void setItemRessource(int num, Ressource *ressource, int nombre = 1);
-    void setItemEquipement(int num, Equipement *equipement, int nombre = 1);
-    void setItemArme(int num, Arme *arme, int nombre = 1);
+    void setItemRessource(int num, Resource *ressource, int nombre = 1);
+    void setItemEquipement(int num, Outfit *equipement, int nombre = 1);
+    void setItemArme(int num, Weapon *arme, int nombre = 1);
     int scrollValue() const { return m_scroll->value(); }
     
 signals:
@@ -50,13 +50,13 @@ private:
 
     QScrollBar *m_scroll;
     QGridLayout *m_layout;
-    QVector<Item*>m_items;
+    QVector<ResourceItem*>m_items;
     QVector<QLabel*>m_vides;
     int m_nbrh;
     int m_nbrv;
-    LesRessources *m_lesRessources;
+    Resources *m_lesRessources;
 };
 
-Item *item(LesRessources *lesressources, Ressource *ressource, int quantite = 1, int num = -1);
+ResourceItem *item(Resources *lesressources, Resource *ressource, int quantite = 1, int num = -1);
 
 #endif // ITEMS_H

@@ -3,25 +3,32 @@
 
 #include <QObject>
 #include <QGraphicsPixmapItem>
+#include "graphic/tooltip.h"
 
 class GameScene;
 
-class ObjSurScene : public QGraphicsPixmapItem
+class ObjectItem : public QGraphicsPixmapItem
 {
 public:
-    ObjSurScene(GameScene *parent, int largeurScene, QPoint const& pos = QPoint(-1,-1));
-    void utile(QString const& aide);
-    void inutile();
-    void redi(int largeurScene);
+    ObjectItem(GameScene *parent, int mapWidth, QPoint const& pos = QPoint(-1,-1));
+    void resize(int mapWidth);
+    void displayToolTip();
+    void hideToolTip();
+    void changeToolTip(QString const& texte);
+    void moveToolTip();
 
 protected:
 
-    void mousePressEvent (QGraphicsSceneMouseEvent *);
-private:
-    bool m_utile;
-    int m_largeurScene;
-    QPoint m_pos;
+    virtual void mousePressEvent (QGraphicsSceneMouseEvent *);
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *);
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *);
     GameScene *m_parent;
+private:
+    void createToolTip();
+    int m_mapWidth;
+    QPoint m_pos;
+    ToolTip *m_toolTip;
+    QColor m_color;
 };
 
 #endif // OBJSURSCENE_H

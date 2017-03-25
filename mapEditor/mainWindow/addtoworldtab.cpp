@@ -1,7 +1,7 @@
 #include "addtoworldtab.h"
 #include "mainwindow.h"
 
-AddToWorldTab::AddToWorldTab(MainWindow *mainWindow, Jeu2d *gamePanel, LesRessources *ressources) :
+AddToWorldTab::AddToWorldTab(MainWindow *mainWindow, Jeu2d *gamePanel, Resources *ressources) :
     QWidget(mainWindow)
 {
     m_ressources = ressources;

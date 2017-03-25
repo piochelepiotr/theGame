@@ -1,6 +1,6 @@
 #include "graphic/fightWinnings.h"
 
-GainUnPersoCombat::GainUnPersoCombat(QString const& text,Personnage *perso) :
+FightWinnings::FightWinnings(QString const& text,Character *perso) :
     QHBoxLayout()
 {
     qDebug() << "texte combattant" << text;

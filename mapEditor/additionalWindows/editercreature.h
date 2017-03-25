@@ -18,7 +18,7 @@ class EditerCreature : public QWidget
     Q_OBJECT
 
 public:
-    explicit EditerCreature(QWidget *parent, LesRessources *lesRessources);
+    explicit EditerCreature(QWidget *parent, Resources *lesRessources);
     ~EditerCreature();
     QString classe_to_texte();
     void texte_to_classe(const QString &texte);
@@ -46,7 +46,7 @@ private:
     Ui::EditerCreature *ui;
     int m_classeActuelle;
     int m_nbrSorts;
-    LesRessources *m_lesRessources;
+    Resources *m_lesRessources;
 };
 
 #endif // EDITERCREATURE_H

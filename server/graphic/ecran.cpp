@@ -2,7 +2,7 @@
 
 Ecran::Ecran() : QWidget()
 {
-    m_donnees_editeur = new Donnees_editeur(0,0,0,0);
+    m_donnees_editeur = new Data(0,0,0,0);
     setWindowTitle(trUtf8("serveur DU jeu"));
     m_infoServeur = new QLabel;
     m_infojoueurs = new QListWidget;
@@ -143,7 +143,7 @@ void Ecran::donneesRecues()
             else if(debut == "new")
             {
                 //QMessageBox::critical(this, "titre", "message= "+fin);
-                joueur->getCompte()->ajouteUnPerso(new Personnage(fin, m_donnees_editeur));
+                joueur->getCompte()->ajouteUnPerso(new Character(fin, m_donnees_editeur));
             }
             else if(debut == "spr")
             {

@@ -7,15 +7,15 @@
 #include <QTextStream>
 #include "scenery/constants.h"
 
-class TouslesPnj
+class NPCs
 {
 public:
-    TouslesPnj();
-    ~TouslesPnj();
-    PersNonJ *getpnj(qint16 num) const { return m_pers[num]; }
+    NPCs();
+    ~NPCs();
+    NPC *getpnj(qint16 num) const { return m_pers[num]; }
 
 private:
-    QMap<qint16, PersNonJ*>m_pers;
+    QMap<qint16, NPC*>m_pers;
 };
 
 #endif // TOUSLESPNJ_H

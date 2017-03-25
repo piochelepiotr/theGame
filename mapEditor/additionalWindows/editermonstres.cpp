@@ -1,7 +1,7 @@
 #include "editermonstres.h"
 #include "ui_editermonstres.h"
 
-EditerMonstres::EditerMonstres(QWidget *parent, LesRessources *ressources) :
+EditerMonstres::EditerMonstres(QWidget *parent, Resources *ressources) :
     QDialog(parent),
     ui(new Ui::EditerMonstres)
 {
@@ -32,7 +32,7 @@ void EditerMonstres::ajouterRessource()
     QComboBox *ressources = new QComboBox;
     ressources->addItems(m_lesRessources->ressources());
     QDoubleSpinBox *proba = new QDoubleSpinBox;
-    Bouton *bout = new Bouton("supprimer", m_nbrRessources);
+    NumberButton *bout = new NumberButton("supprimer", m_nbrRessources);
     ui->tab_ressources->setCellWidget(m_nbrRessources, 0, ressources);
     ui->tab_ressources->setCellWidget(m_nbrRessources, 1, proba);
     ui->tab_ressources->setCellWidget(m_nbrRessources, 2, bout);
@@ -44,10 +44,10 @@ void EditerMonstres::ressourceSupprimme(int num)
 {
     ui->tab_ressources->removeRow(num);
     m_nbrRessources--;
-    Bouton *bout = 0;
+    NumberButton *bout = 0;
     for(int i = num; i < m_nbrRessources; i++)
     {
-        bout = (Bouton*) ui->tab_ressources->cellWidget(i,2);
+        bout = (NumberButton*) ui->tab_ressources->cellWidget(i,2);
         bout->moinsnum();
     }
 }

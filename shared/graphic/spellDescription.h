@@ -5,20 +5,20 @@
 #include "inventory/resources.h"
 
 namespace Ui {
-class Description_sort;
+class SpellDescription;
 }
 
-class Description_sort : public QFrame
+class SpellDescription : public QFrame
 {
     Q_OBJECT
     
 public:
-    explicit Description_sort(UnSort *sort = 0);
-    ~Description_sort();
-    void setSort(UnSort *sort);
+    explicit SpellDescription(SpellModel *sort = 0);
+    ~SpellDescription();
+    void setSort(SpellModel *sort);
     
 private:
-    Ui::Description_sort *ui;
+    Ui::SpellDescription *ui;
 };
 
 #endif // DESCRIPTION_SORT_H

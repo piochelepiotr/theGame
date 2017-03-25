@@ -5,12 +5,12 @@
 #include <QPoint>
 #include "scenery/constants.h"
 
-class UnChemin
+class Path
 {
 public:
 
-    UnChemin(UnChemin parent, Dir const& dir, int xp, int yp);
-    UnChemin(QPoint const& p = QPoint(0,0));
+    Path(Path parent, Dir const& dir, int xp, int yp);
+    Path(QPoint const& p = QPoint(0,0));
     QPoint lacase() const { return m_case; }
     QQueue<Dir> chemin() const { return m_chemin; }
 

@@ -1,25 +1,25 @@
 #include "inventory/weaponModel.h"
 #include "inventory/resources.h"
 
-ArmeBase::ArmeBase(EquipementBase *equipementBase, UnSort *sortBase)
+WeaponModel::WeaponModel(OutfitModel *equipementBase, SpellModel *sortBase)
 {
     m_equipement_base = equipementBase;
     m_sort_base = sortBase;
 }
 
-ArmeBase *ArmeBase::nouvelle(QString const& nom, const QString &chemin, LesRessources *ressources)
+WeaponModel *WeaponModel::nouvelle(QString const& nom, const QString &chemin, Resources *ressources)
 {
-    return new ArmeBase(EquipementBase::nouvel(nom, chemin), ressources->getSort("Coup de poing"));
+    return new WeaponModel(OutfitModel::nouvel(nom, chemin), ressources->getSort("Coup de poing"));
 }
 
-Arme *ArmeBase::genere()
+Weapon *WeaponModel::genere()
 {
-    return new Arme(getEquipement()->genere(), getSort()->sortNiveau(0));
+    return new Weapon(getEquipement()->genere(), getSort()->sortNiveau(0));
 }
 
-QString ArmeBase::longue_description()
+QString WeaponModel::longue_description()
 {
     QString texte = getEquipement()->longue_description();
-    texte += Sort::decrit(getSort()->sortNiveau(0));
+    texte += Spell::decrit(getSort()->sortNiveau(0));
     return texte;
 }

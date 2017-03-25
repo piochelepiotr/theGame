@@ -5,20 +5,20 @@
 #include "inventory/outfitModel.h"
 #include "inventory/weapon.h"
 
-class LesRessources;
+class Resources;
 
-class ArmeBase
+class WeaponModel
 {
 public:
-    ArmeBase(EquipementBase *equipementBase, UnSort *sortBase);
-    EquipementBase *getEquipement() const { return m_equipement_base; }
-    UnSort *getSort() const { return m_sort_base; }
-    static ArmeBase *nouvelle(QString const& nom,QString const& chemin, LesRessources *ressources);
-    void setSort(UnSort *sort) { m_sort_base = sort; }
-    Arme *genere();
+    WeaponModel(OutfitModel *equipementBase, SpellModel *sortBase);
+    OutfitModel *getEquipement() const { return m_equipement_base; }
+    SpellModel *getSort() const { return m_sort_base; }
+    static WeaponModel *nouvelle(QString const& nom,QString const& chemin, Resources *ressources);
+    void setSort(SpellModel *sort) { m_sort_base = sort; }
+    Weapon *genere();
     QString longue_description();
 private:
-    EquipementBase *m_equipement_base;
-    UnSort *m_sort_base;
+    OutfitModel *m_equipement_base;
+    SpellModel *m_sort_base;
 };
 #endif // ARMEBASE_H

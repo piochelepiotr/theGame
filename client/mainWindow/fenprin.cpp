@@ -6,7 +6,7 @@
 FenPrin::FenPrin(QWidget *parent) : QMainWindow(parent)
 {
     m_combat = 0;
-    m_donneesediteur = new Donnees_editeur(0,0,0,0);
+    m_donneesediteur = new Data(0,0,0,0);
     m_reseau = new Reseau();
     m_threadReseau = new QThread;
     m_reseau->moveToThread(m_threadReseau);
@@ -71,13 +71,21 @@ void FenPrin::inscription()
 
 void FenPrin::essaiconnexion()
 {
-    if(m_coui->bar_ndc->text().size() < 4 || m_coui->bar_mdp->text().size() < 4)
+    QString accountName = m_coui->bar_ndc->text();
+    QString password = m_coui->bar_mdp->text();
+    /*For the tests*/
+    if(accountName.isEmpty())
+    {
+        accountName = "piochelepiotr";
+        password = "jaioublier";
+    }
+    if(accountName.size() < 4 ||password.size()  < 4)
     {
         QMessageBox::critical(this, trUtf8("erreur lors de la connexion"), trUtf8("ERREUR : le pseudo et le mot de passe doivent contenir au minimum 4 caractères."));
     }
     else
     {
-       m_reseau->envoyer("ess/"+m_coui->bar_ndc->text()+'*'+m_coui->bar_mdp->text());
+       m_reseau->envoyer("ess/"+accountName+'*'+password);
     }
 }
 
@@ -121,7 +129,6 @@ void FenPrin::jeu()
     m_jeuui->setupUi(this);
 
     this->setWindowTitle(m_compte->getPerso(m_persoActuel)->getNom());
-
     m_jeu = new GameField(QSize(size.width(),size.height()-HAUTEUR_BARRE_OUTIL), m_compte->getPerso(m_persoActuel), m_reseau->socket(), m_donneesediteur);
     m_jeuui->jeu2d->setScene(m_jeu);
     m_jeuui->jeu2d->setSceneRect(0,0,size.width(),size.height()-HAUTEUR_BARRE_OUTIL);
@@ -131,12 +138,11 @@ void FenPrin::jeu()
     m_jeuui->barreoutil->setLayout(m_layoutBarreOutil);
     m_jeuui->barreoutil->setFixedHeight(HAUTEUR_BARRE_OUTIL);
 
-
     connect(m_jeuui->menu_jeu_quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(m_jeuui->menu_jeu_deco, SIGNAL(triggered()), this, SLOT(connexion()));
     connect(m_jeuui->menu_jeu_changerPerso, SIGNAL(triggered()), this, SLOT(choixPerso()));
-    connect(m_reseau, SIGNAL(nouveauJoueur(InfoPerVis)), m_jeu, SLOT(ajouteUnPerso(InfoPerVis)));
-    connect(m_reseau, SIGNAL(decJoueur(QString)), m_jeu, SLOT(supprimeUnPerso(QString)));
+    connect(m_reseau, SIGNAL(nouveauJoueur(InfoPerVis)), m_jeu, SLOT(addEntity(InfoPerVis)));
+    connect(m_reseau, SIGNAL(decJoueur(QString)), m_jeu, SLOT(removeEntity(QString)));
     connect(m_reseau, SIGNAL(coupe(QString,QString,int,int)), m_jeu, SLOT(recolte(QString,QString,int,int)));
     connect(m_reseau, SIGNAL(ressource_coupe(QPoint)), m_jeu, SLOT(ressourceRecoltee(QPoint)));
     connect(m_reseau, SIGNAL(ressource_repousse(int,int)), m_jeu, SLOT(ressource_repousse(int,int)));
@@ -198,8 +204,6 @@ void FenPrin::choixPerso()
         m_jeuui = 0;
         m_reseau->envoyer("cdp");
     }
-
-
 
     m_choixui = new Ui::ChoixMainWindow();
     m_choixui->setupUi(this);
@@ -348,7 +352,7 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
             {
                 height2 = (int)(((double)width2)/screenFormat);
             }*/
-            m_jeu->redi(QSize(width2,height2));
+            m_jeu->resize(QSize(width2,height2));
             m_jeuui->jeu2d->setSceneRect(0,0,width2,height2);
             return true;
         }
@@ -479,9 +483,9 @@ void FenPrin::supprimmePerso()
 void FenPrin::creerUnPerso()
 {
     QString texte="PERSO/";
-    Personnage *perso = new Personnage(m_creerui->bar_nom->text(), m_classeActuelle, m_donneesediteur);
+    Character *perso = new Character(m_creerui->bar_nom->text(), m_classeActuelle, m_donneesediteur);
     m_compte->ajouteUnPerso(perso);
-    texte += perso->enString();
+    texte += perso->toString();
 
     m_reseau->envoyer("new/"+texte);
     choixPerso();
@@ -624,7 +628,7 @@ void FenPrin::deplacement(QString qui, QPoint ou)
 void FenPrin::dialoguePnj(qint16 num, QPoint pos)
 {
     QString reponse;
-    PersNonJ *pers = m_jeu->donneesediteur()->touslespnj->getpnj(num);
+    NPC *pers = m_jeu->donneesediteur()->touslespnj->getpnj(num);
     Dialoguepnj boite(this, pers, &reponse);
     analyseReponsePnj(reponse);
     m_jeu->updateObjet(pos);
@@ -638,7 +642,7 @@ void FenPrin::analyseReponsePnj(QString const& reponse)
     }
     else if(reponse.section('_', 0, 0) == "metier")
     {
-        m_compte->getPerso(m_persoActuel)->apprendMetier(reponse.section('_', 1,1));
+        m_compte->getPerso(m_persoActuel)->learnJob(reponse.section('_', 1,1));
         m_reseau->envoyer("pnj/"+reponse);
     }
     else
@@ -708,12 +712,12 @@ void FenPrin::utiliseSort(QString nom)// à passer dans layoutBarreOutil
 
 void FenPrin::gagneEquipement(QString donnees)
 {
-    m_compte->getPerso(m_persoActuel)->ajouterEquipement(new Equipement(donnees,m_donneesediteur->ressources));
+    m_compte->getPerso(m_persoActuel)->ajouterEquipement(new Outfit(donnees,m_donneesediteur->ressources));
 }
 
 void FenPrin::gagneArme(QString donnees)
 {
-    m_compte->getPerso(m_persoActuel)->ajouterArme(new Arme(donnees,m_donneesediteur->ressources));
+    m_compte->getPerso(m_persoActuel)->ajouterArme(new Weapon(donnees,m_donneesediteur->ressources));
 }
 
 void FenPrin::gagneRessource(QString donnees)

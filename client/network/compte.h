@@ -12,11 +12,11 @@ class Compte
 
 public:
 
-    Compte(QString const& donnees, QString const& ndc, Donnees_editeur *donnees_editeur);
+    Compte(QString const& donnees, QString const& ndc, Data *donnees_editeur);
     ~Compte();
-    Personnage* getPerso(int num) const { return m_persos[num]; }
+    Character* getPerso(int num) const { return m_persos[num]; }
     int getNbrPerso() const { return m_persos.size(); }
-    void ajouteUnPerso(Personnage *nouveau);
+    void ajouteUnPerso(Character *nouveau);
     void supprimme(int i);
 
     QString getPseudo() const { return m_pseudo; }
@@ -24,10 +24,10 @@ public:
 
 private:
 
-    QVector<Personnage*>m_persos;
+    QVector<Character*>m_persos;
     QString m_pseudo;
     QString m_nomDeCompte;
-    Donnees_editeur *m_donnees_editeur;
+    Data *m_donnees_editeur;
 
 };
 

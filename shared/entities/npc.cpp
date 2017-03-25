@@ -7,30 +7,30 @@ bool repliqueFinale(QString const& replique)
     return false;
 }
 
-Piste::Piste(QString donnees, QString *reste)
+Dialog::Dialog(QString donnees, QString *reste)
 {
     m_reponse = donnees.section('/', 0,0);
     m_replique = donnees.section('/', 1,1);
     *reste = donnees.section('/', 2);
-    m_reponses = new Reponses(*reste, reste);
+    m_reponses = new Answers(*reste, reste);
 }
 
-Piste::~Piste()
+Dialog::~Dialog()
 {
     delete m_reponses;
 }
 
-Reponses::Reponses(QString donnees, QString *reste)
+Answers::Answers(QString donnees, QString *reste)
 {
     *reste = donnees;
     while(reste->section('/',0,0) != "fin")
     {
-        m_pistes.push_back(new Piste(*reste, reste));
+        m_pistes.push_back(new Dialog(*reste, reste));
     }
     *reste = reste->section('/', 1);
 }
 
-Reponses::~Reponses()
+Answers::~Answers()
 {
     for(int i = 0; i < m_pistes.size(); i++)
     {
@@ -38,15 +38,15 @@ Reponses::~Reponses()
     }
 }
 
-PersNonJ::PersNonJ(QString donnes)
+NPC::NPC(QString donnes)
 {
     QString reste;
     m_nom = donnes.section('/', 0,0);
     m_replique = donnes.section('/',1,1);
-    m_reponses = new Reponses(donnes.section('/', 2), &reste);
+    m_reponses = new Answers(donnes.section('/', 2), &reste);
 }
 
-PersNonJ::~PersNonJ()
+NPC::~NPC()
 {
     delete m_reponses;
 }

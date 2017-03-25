@@ -19,9 +19,9 @@ public:
 
 public:
 
-    Combat(Personnage *leader1, Personnage *leader2, DataMap *dataMap);
+    Combat(Character *leader1, Character *leader2, Map *dataMap);
     ~Combat();
-    void ajoutePerso(Personnage *perso);
+    void ajoutePerso(Character *perso);
     void enlevePerso(QString nom);
     void deplace(QString nom, int x, int y);
     void attaque(QString nomAttaquant,QString nomSort, int x, int y);
@@ -30,7 +30,7 @@ public:
     QString getNomLeader2() const { return m_leader2; }
     bool contains(QString nom);
     bool personneSur(int x,int y);
-    Personnage *getPersonnage(QString const& nom) const { return m_combattants[nom]; }
+    Character *getPersonnage(QString const& nom) const { return m_combattants[nom]; }
     void enEquipe(int equipe1, int equipe2, QPoint const& pos1, QPoint const& pos2);
     void pret(QString nom);
     void pasPret(QString nom);
@@ -39,7 +39,7 @@ public:
     void order();
     void nextPlayer();
     QStringList combattants();
-    Personnage *getCible(QPoint const& p);
+    Character *getCible(QPoint const& p);
     bool finCombat();
     void envoieATous(QString const& message);
     void meurt(QString const& nom, bool envoyer = true);
@@ -54,16 +54,16 @@ signals:
 
 private:
 
-    QMap<QString,Personnage *>m_combattants;
+    QMap<QString,Character *>m_combattants;
     QString m_leader1;
     QString m_leader2;
     QVector<QString> m_tours;
-    QMap<QString, Personnage *>::iterator m_tour;
+    QMap<QString, Character *>::iterator m_tour;
     QVector<QString>m_ordre;
     int m_nombreCombattants;
     int m_currentPlayer;
     PhaseCombat m_phase;
-    DataMap *m_dataMap;
+    Map *m_dataMap;
 };
 
 #endif // COMBAT_H

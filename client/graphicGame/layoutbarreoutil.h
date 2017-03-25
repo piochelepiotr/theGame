@@ -15,7 +15,7 @@ class LayoutBarreOutil : public QHBoxLayout
 {
     Q_OBJECT
 public:
-    explicit LayoutBarreOutil(FenPrin *parent,Personnage *perso);
+    explicit LayoutBarreOutil(FenPrin *parent,Character *perso);
     QListWidget *getChat() const { return m_chat; }
     QLineEdit *getLineEditChat() const { return m_bar_chat; }
     void phasePlacement();
@@ -38,7 +38,7 @@ private:
     QPushButton *m_bout_passer_tour;
     QProgressBar *m_bar_vie;
     QHBoxLayout *m_lay_sorts;
-    BoutonImgString *m_bout_cac;
+    ImageButtonString *m_bout_cac;
     QLabel *m_labelPC;
 };
 

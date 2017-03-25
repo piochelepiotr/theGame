@@ -1,7 +1,7 @@
 #include "windowendfight.h"
 #include "ui_windowendfight.h"
 
-WindowEndFight::WindowEndFight(const QString &texte, QWidget *parent, Personnage *perso) :
+WindowEndFight::WindowEndFight(const QString &texte, QWidget *parent, Character *perso) :
     QDialog(parent),
     ui(new Ui::WindowEndFight)
 {
@@ -9,7 +9,7 @@ WindowEndFight::WindowEndFight(const QString &texte, QWidget *parent, Personnage
     QStringList liste = texte.split('*');
     QStringList gagnants = liste[0].split("//");
     QStringList perdants = liste[1].split("//");
-    Personnage *perso2 = 0;
+    Character *perso2 = 0;
     for(int i = 0; i < gagnants.size(); i++)
     {
         if(!gagnants[i].isEmpty())
@@ -18,7 +18,7 @@ WindowEndFight::WindowEndFight(const QString &texte, QWidget *parent, Personnage
                 perso2 = perso;
             else
                 perso2 = 0;
-            ui->layout_gagnants->addLayout(new GainUnPersoCombat(gagnants[i],perso2));
+            ui->layout_gagnants->addLayout(new FightWinnings(gagnants[i],perso2));
         }
     }
     for(int i = 0; i < perdants.size(); i++)
@@ -29,7 +29,7 @@ WindowEndFight::WindowEndFight(const QString &texte, QWidget *parent, Personnage
                 perso2 = perso;
             else
                 perso2 = 0;
-            ui->layout_perdants->addLayout(new GainUnPersoCombat(perdants[i],perso2));
+            ui->layout_perdants->addLayout(new FightWinnings(perdants[i],perso2));
         }
     }
     this->exec();

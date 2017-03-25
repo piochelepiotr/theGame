@@ -1,6 +1,6 @@
 #include "network/compte.h"
 
-Compte::Compte(QString const& donnees, QString const& ndc, Donnees_editeur *donnees_editeur)
+Compte::Compte(QString const& donnees, QString const& ndc, Data *donnees_editeur)
 {
     m_donnees_editeur = donnees_editeur;
     m_nomDeCompte = ndc;
@@ -26,7 +26,7 @@ Compte::Compte(QString const& donnees, QString const& ndc, Donnees_editeur *donn
                 mot = donnees.section('/',i,i);
                 i++;
             }while(mot != "PERSO" && mot != "END");
-            m_persos.push_back(new Personnage(donnes, m_donnees_editeur));
+            m_persos.push_back(new Character(donnes, m_donnees_editeur));
             i--;
         }
     }
@@ -38,7 +38,7 @@ void Compte::save(DataBase *m_db)
     for(int i = 0; i < getNbrPerso(); i++)
     {
         texte+="PERSO/";
-        texte += getPerso(i)->enString();
+        texte += getPerso(i)->toString();
     }
     texte += "END/";
     m_db->savePlayer(m_pseudo,texte);
@@ -52,7 +52,7 @@ Compte::~Compte()
     }
 }
 
-void Compte::ajouteUnPerso(Personnage *nouveau)
+void Compte::ajouteUnPerso(Character *nouveau)
 {
     m_persos.push_back(nouveau);
 }

@@ -5,11 +5,11 @@
 #include <QLabel>
 #include "entities/character.h"
 
-class GainUnPersoCombat : public QHBoxLayout
+class FightWinnings : public QHBoxLayout
 {
     Q_OBJECT
 public:
-    explicit GainUnPersoCombat(QString const& text,Personnage *perso);
+    explicit FightWinnings(QString const& text,Character *perso);
 
 signals:
 

@@ -35,7 +35,7 @@ private:
     Ui::EditerClasses *ui;
     int m_classeActuelle;
     int m_nbrSorts;
-    QVector<Bouton*>m_boutonsSorts;
+    QVector<NumberButton*>m_boutonsSorts;
 };
 
 #endif // EDITERCLASSES_H

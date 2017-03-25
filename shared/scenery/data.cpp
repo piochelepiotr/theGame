@@ -1,15 +1,15 @@
 #include "scenery/data.h"
 #include <iostream>
 
-Donnees_editeur::Donnees_editeur(int lcase, int hcase,int mapWidth,int mapHeight)
+Data::Data(int lcase, int hcase,int mapWidth,int mapHeight)
 {
-    ressources = new LesRessources();
-    touslespnj = new TouslesPnj();
-    decor = new Decors(lcase, hcase,mapWidth,mapHeight);
-    metiers = new TouslesMetiers(ressources,decor);
+    ressources = new Resources();
+    touslespnj = new NPCs();
+    decor = new Scenery(lcase, hcase,mapWidth,mapHeight);
+    metiers = new Jobs(ressources,decor);
 }
 
-Donnees_editeur::~Donnees_editeur()
+Data::~Data()
 {
     delete decor;
     delete touslespnj;
@@ -17,7 +17,7 @@ Donnees_editeur::~Donnees_editeur()
     delete metiers;
 }
 
-void Donnees_editeur::redidecors(int lcase, int hcase, int mapWidth, int mapHeight)
+void Data::redidecors(int lcase, int hcase, int mapWidth, int mapHeight)
 {
     decor->resize(lcase, hcase,mapWidth,mapHeight);
 }

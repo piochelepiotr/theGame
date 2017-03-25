@@ -1,6 +1,6 @@
 #include "inventory/outfitModel.h"
 
-EquipementBase::EquipementBase(Ressource *ressource, int bonus_force_min, int bonus_force_max, int bonus_vie_min, int bonus_vie_max, int bonus_points_combat_min, int bonus_points_combat_max)
+OutfitModel::OutfitModel(Resource *ressource, int bonus_force_min, int bonus_force_max, int bonus_vie_min, int bonus_vie_max, int bonus_points_combat_min, int bonus_points_combat_max)
 {
     m_ressource = ressource;
     m_bonus_force[0] = bonus_force_min;
@@ -11,12 +11,12 @@ EquipementBase::EquipementBase(Ressource *ressource, int bonus_force_min, int bo
     m_bonus_points_combat[1] = bonus_points_combat_max;
 }
 
-EquipementBase* EquipementBase::nouvel(QString const& nom, const QString &chemin)
+OutfitModel* OutfitModel::nouvel(QString const& nom, const QString &chemin)
 {
-    return new EquipementBase(Ressource::nouvelle(nom, chemin), 0,0,0,0,0,0);
+    return new OutfitModel(Resource::nouvelle(nom, chemin), 0,0,0,0,0,0);
 }
 
-QString EquipementBase::description(EquipementBase *equipement)
+QString OutfitModel::description(OutfitModel *equipement)
 {
     QString texte;
     if(equipement->getBonusForce(0) < 0)
@@ -34,18 +34,18 @@ QString EquipementBase::description(EquipementBase *equipement)
     return texte;
 }
 
-QString EquipementBase::longue_description()
+QString OutfitModel::longue_description()
 {
     QString texte = getRessource()->longue_description();
     texte += "<p>Effets : </p>";
-    texte += EquipementBase::description(this);
+    texte += OutfitModel::description(this);
     return texte;
 }
 
-Equipement *EquipementBase::genere()
+Outfit *OutfitModel::genere()
 {
     int bonus_force = getBonusForce()+qrand()%(getBonusForce(1)-getBonusForce()+1);
     int bonus_vie = getBonusVie()+qrand()%(getBonusVie(1)-getBonusVie()+1);
     int bonus_points_combat = getBonusPointsCombat()+qrand()%(getBonusPointsCombat(1)-getBonusPointsCombat()+1);
-    return new Equipement(getRessource(), bonus_force, bonus_vie, bonus_points_combat);
+    return new Outfit(getRessource(), bonus_force, bonus_vie, bonus_points_combat);
 }

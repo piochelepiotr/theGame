@@ -7,11 +7,11 @@
 #include <QLabel>
 #include <QEvent>
 
-class LayoutUnSort : public QWidget
+class SpellLayout : public QWidget
 {
     Q_OBJECT
 public:
-    explicit LayoutUnSort(Sort *sort);
+    explicit SpellLayout(Spell *sort);
 
 signals:
 

@@ -16,7 +16,7 @@ class EditerUnObjet : public QDialog
     Q_OBJECT
 
 public:
-    explicit EditerUnObjet(QWidget *parent,bool *ok,Objet *objet, bool creation,int lcase, int hcase, QString *chemin = 0, bool *supprimer = 0);
+    explicit EditerUnObjet(QWidget *parent,bool *ok,Object *objet, bool creation,int lcase, int hcase, QString *chemin = 0, bool *supprimer = 0);
     ~EditerUnObjet();
     void valeurs();
 
@@ -24,7 +24,7 @@ private:
     Ui::EditerUnObjet *ui;
     bool *m_ok;
     bool *m_supprimer;
-    Objet *m_objet;
+    Object *m_objet;
     QString *m_chemin;
     int m_lcase;
     int m_hcase;

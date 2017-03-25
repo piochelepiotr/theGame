@@ -14,11 +14,11 @@ class AddToWorldTab : public QWidget
 {
     Q_OBJECT
 public:
-    explicit AddToWorldTab(MainWindow *mainWindow, Jeu2d *gamePanel,LesRessources *ressources);
+    explicit AddToWorldTab(MainWindow *mainWindow, Jeu2d *gamePanel,Resources *ressources);
 
     MainWindow *m_mainWindow;
     Jeu2d *m_jeu;
-    LesRessources *m_ressources;
+    Resources *m_ressources;
 
     QGridLayout *m_layajouteMonde;
     QPushButton *m_editeRessources;

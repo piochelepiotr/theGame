@@ -1,7 +1,7 @@
 #include "editercreature.h"
 #include "ui_editercreature.h"
 
-EditerCreature::EditerCreature(QWidget *parent, LesRessources *lesRessources) :
+EditerCreature::EditerCreature(QWidget *parent, Resources *lesRessources) :
     QWidget(parent),
     ui(new Ui::EditerCreature)
 {
@@ -60,7 +60,7 @@ void EditerCreature::ajouterSort()
     if(m_classeActuelle != -1)
     {
         ui->tab_sorts->insertRow(m_nbrSorts);
-        Bouton *bout = new Bouton("supprimer", m_nbrSorts);
+        NumberButton *bout = new NumberButton("supprimer", m_nbrSorts);
         QComboBox *sorts = new QComboBox();
         sorts->addItems(m_lesRessources->sorts());
         ui->tab_sorts->setCellWidget(m_nbrSorts, 1, bout);
@@ -74,10 +74,10 @@ void EditerCreature::supprimerSort(int num)
 {
     ui->tab_sorts->removeRow(num);
     m_nbrSorts--;
-    Bouton *bout = 0;
+    NumberButton *bout = 0;
     for(int i = num; i < m_nbrSorts; i++)
     {
-        bout = (Bouton*) ui->tab_sorts->cellWidget(i,1);
+        bout = (NumberButton*) ui->tab_sorts->cellWidget(i,1);
         bout->moinsnum();
     }
 }

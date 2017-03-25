@@ -1,6 +1,6 @@
 #include "inventory/resources.h"
 
-LesRessources::LesRessources()
+Resources::Resources()
 {
     QStringList liste;
     QString ligne;
@@ -17,7 +17,7 @@ LesRessources::LesRessources()
             ligne = stream_sorts.readLine();
             if(!ligne.isEmpty())
             {
-                m_sorts[ligne.section('/', 0, 0)] = new UnSort(ligne);
+                m_sorts[ligne.section('/', 0, 0)] = new SpellModel(ligne);
             }
         }
         fichier_sorts.close();
@@ -34,7 +34,7 @@ LesRessources::LesRessources()
             if(!ligne.isEmpty())
             {
                 liste = ligne.split('/');
-                m_ressources[liste[0]] = new Ressource(liste[0], liste[1].toInt(), liste[2], liste[3].toInt(), liste[4]);
+                m_ressources[liste[0]] = new Resource(liste[0], liste[1].toInt(), liste[2], liste[3].toInt(), liste[4]);
             }
         }
 
@@ -44,7 +44,7 @@ LesRessources::LesRessources()
             if(!ligne.isEmpty())
             {
                 liste = ligne.split('/');
-                m_equipements[liste[0]] = new EquipementBase(m_ressources[liste[0]], liste[1].toInt(), liste[2].toInt(), liste[3].toInt(), liste[4].toInt(), liste[5].toInt(), liste[6].toInt());
+                m_equipements[liste[0]] = new OutfitModel(m_ressources[liste[0]], liste[1].toInt(), liste[2].toInt(), liste[3].toInt(), liste[4].toInt(), liste[5].toInt(), liste[6].toInt());
             }
         }
 
@@ -54,7 +54,7 @@ LesRessources::LesRessources()
             if(!ligne.isEmpty())
             {
                 liste = ligne.split('/');
-                m_armes[liste[0]] = new ArmeBase(m_equipements[liste[0]], m_sorts[liste[1]]);
+                m_armes[liste[0]] = new WeaponModel(m_equipements[liste[0]], m_sorts[liste[1]]);
             }
         }
 
@@ -72,11 +72,11 @@ LesRessources::LesRessources()
             ligne = stream_classes.readLine();
             if(!ligne.isEmpty())
             {
-                m_classes[ligne.section('/', 0, 0)] = new Classe(ligne, m_sorts);
+                m_classes[ligne.section('/', 0, 0)] = new CharacterModel(ligne, m_sorts);
             }
         }
         fichier_classes.close();
-        for(QMap<QString, Classe*>::iterator it = m_classes.begin(); it != m_classes.end(); it++)
+        for(QMap<QString, CharacterModel*>::iterator it = m_classes.begin(); it != m_classes.end(); it++)
         {
             m_numClasses.push_back(it.key());
         }
@@ -90,36 +90,36 @@ LesRessources::LesRessources()
             ligne = stream_monstres.readLine();
             if(!ligne.isEmpty())
             {
-                m_monstres[ligne.section('/', 0, 0)] = new UnMonstre(ligne, m_sorts);
+                m_monstres[ligne.section('/', 0, 0)] = new MonsterModel(ligne, m_sorts);
             }
         }
         fichier_monstres.close();
     }
 }
 
-void LesRessources::ajouteRessource(Ressource *ressource)
+void Resources::ajouteRessource(Resource *ressource)
 {
     m_ressources[ressource->nom()] = ressource;
 }
 
-void LesRessources::ajouteEquipement(EquipementBase *equipement)
+void Resources::ajouteEquipement(OutfitModel *equipement)
 {
     ajouteRessource(equipement->getRessource());
     m_equipements[equipement->getRessource()->nom()] = equipement;
 }
 
-void LesRessources::ajouteArme(ArmeBase *arme)
+void Resources::ajouteArme(WeaponModel *arme)
 {
     ajouteEquipement(arme->getEquipement());
     m_armes[arme->getEquipement()->getRessource()->nom()] = arme;
 }
 
-void LesRessources::ajouteSort(UnSort *sort)
+void Resources::ajouteSort(SpellModel *sort)
 {
     m_sorts[sort->nom()] = sort;
 }
 
-void LesRessources::enleveRessource(QString const& nom)
+void Resources::enleveRessource(QString const& nom)
 {
     if(m_ressources.contains(nom))
     {
@@ -128,7 +128,7 @@ void LesRessources::enleveRessource(QString const& nom)
     }
 }
 
-void LesRessources::enleveEquipement(QString const& nom)
+void Resources::enleveEquipement(QString const& nom)
 {
     if(m_equipements.contains(nom))
     {
@@ -137,7 +137,7 @@ void LesRessources::enleveEquipement(QString const& nom)
     }
 }
 
-void LesRessources::enleveArme(QString const& nom)
+void Resources::enleveArme(QString const& nom)
 {
     if(m_armes.contains(nom))
     {
@@ -146,7 +146,7 @@ void LesRessources::enleveArme(QString const& nom)
     }
 }
 
-void LesRessources::enleveSort(QString const& nom)
+void Resources::enleveSort(QString const& nom)
 {
     if(m_sorts.contains(nom))
     {
@@ -155,77 +155,77 @@ void LesRessources::enleveSort(QString const& nom)
     }
 }
 
-Ressource *LesRessources::getRessource(QString const& nom) const
+Resource *Resources::getRessource(QString const& nom) const
 {
     if(nom == "-1" || !m_ressources.contains(nom))
         return 0;
     return m_ressources[nom];
 }
 
-EquipementBase *LesRessources::getEquipement(QString const& nom) const
+OutfitModel *Resources::getEquipement(QString const& nom) const
 {
     if(nom == "-1" || !m_equipements.contains(nom))
         return 0;
     return m_equipements[nom];
 }
 
-ArmeBase *LesRessources::getArme(QString const& nom) const
+WeaponModel *Resources::getArme(QString const& nom) const
 {
     if(nom == "-1" || !m_armes.contains(nom))
         return 0;
     return m_armes[nom];
 }
 
-UnSort *LesRessources::getSort(const QString &nom) const
+SpellModel *Resources::getSort(const QString &nom) const
 {
     if(nom == "-1" || !m_sorts.contains(nom))
         return 0;
     return m_sorts[nom];
 }
 
-Classe *LesRessources::getClasse(QString const& nom) const
+CharacterModel *Resources::getClasse(QString const& nom) const
 {
     if(!m_classes.contains(nom))
         return 0;
     return m_classes[nom];
 }
 
-UnMonstre *LesRessources::getMonstre(QString const& nom) const
+MonsterModel *Resources::getMonstre(QString const& nom) const
 {
     if(!m_monstres.contains(nom))
         return 0;
     return m_monstres[nom];
 }
 
-UneCreature *LesRessources::getCreature(QString const& name) const
+EntityModel *Resources::getCreature(QString const& name) const
 {
-    UneCreature *creature = getMonstre(name);
+    EntityModel *creature = getMonstre(name);
     if(!creature)
         creature = getClasse(name);
     return creature;
 }
 
-QStringList LesRessources::sorts() const
+QStringList Resources::sorts() const
 {
     QStringList liste;
-    for(QMap<QString, UnSort*>::const_iterator it = m_sorts.begin(); it != m_sorts.end(); it++)
+    for(QMap<QString, SpellModel*>::const_iterator it = m_sorts.begin(); it != m_sorts.end(); it++)
     {
         liste.push_back(it.key());
     }
     return liste;
 }
 
-QStringList LesRessources::ressources() const
+QStringList Resources::ressources() const
 {
     QStringList liste;
-    for(QMap<QString, Ressource*>::const_iterator it = m_ressources.begin(); it != m_ressources.end(); it++)
+    for(QMap<QString, Resource*>::const_iterator it = m_ressources.begin(); it != m_ressources.end(); it++)
     {
         liste.push_back(it.key());
     }
     return liste;
 }
 
-QString LesRessources::classeSuivante(QString const& actuelle)
+QString Resources::classeSuivante(QString const& actuelle)
 {
     int num = m_numClasses.indexOf(actuelle);
     num++;
@@ -234,7 +234,7 @@ QString LesRessources::classeSuivante(QString const& actuelle)
     return m_numClasses[num];
 }
 
-QString LesRessources::classePrecedente(QString const& actuelle)
+QString Resources::classePrecedente(QString const& actuelle)
 {
     int num = m_numClasses.indexOf(actuelle);
     num--;
@@ -243,25 +243,25 @@ QString LesRessources::classePrecedente(QString const& actuelle)
     return m_numClasses[num];
 }
 
-LesRessources::~LesRessources()
+Resources::~Resources()
 {
-    for(QMap<QString, Ressource*>::iterator it = m_ressources.begin(); it != m_ressources.end(); it++)
+    for(QMap<QString, Resource*>::iterator it = m_ressources.begin(); it != m_ressources.end(); it++)
     {
         delete it.value();
     }
-    for(QMap<QString, EquipementBase*>::iterator it = m_equipements.begin(); it != m_equipements.end(); it++)
+    for(QMap<QString, OutfitModel*>::iterator it = m_equipements.begin(); it != m_equipements.end(); it++)
     {
         delete it.value();
     }
-    for(QMap<QString, ArmeBase*>::iterator it = m_armes.begin(); it != m_armes.end(); it++)
+    for(QMap<QString, WeaponModel*>::iterator it = m_armes.begin(); it != m_armes.end(); it++)
     {
         delete it.value();
     }
-    for(QMap<QString, UnSort*>::iterator it = m_sorts.begin(); it != m_sorts.end(); it++)
+    for(QMap<QString, SpellModel*>::iterator it = m_sorts.begin(); it != m_sorts.end(); it++)
     {
         delete it.value();
     }
-    for(QMap<QString, Classe*>::iterator it = m_classes.begin(); it != m_classes.end(); it++)
+    for(QMap<QString, CharacterModel*>::iterator it = m_classes.begin(); it != m_classes.end(); it++)
     {
         delete it.value();
     }

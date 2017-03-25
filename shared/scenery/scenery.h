@@ -14,31 +14,31 @@
 #include "object.h"
 #include "qdir.h"
 
-class Decors
+class Scenery
 {
 
 public:
 
-    Decors(int lcase, int hcase, int mapWidth, int mapHeight);
-    ~Decors();
+    Scenery(int lcase, int hcase, int mapWidth, int mapHeight);
+    ~Scenery();
     void charge();
-    Objet *objet(qint16 num) const { return m_objets[num]; }
-    Categorie *categorie(QString const& nom) const { return m_categories[nom]; }
+    Object *objet(qint16 num) const { return m_objets[num]; }
+    ObjectGroup *categorie(QString const& nom) const { return m_categories[nom]; }
     QStringList categories() const;
     int lcase() const { return m_lcase; }
     int hcase() const { return m_hcase; }
     void resize(int lcase, int mcase, int mapWidth, int mapHeight);
-    void ajouteObjet(Objet *objet);
-    void supprimeObjet(Objet *objet);
+    void ajouteObjet(Object *objet);
+    void supprimeObjet(Object *objet);
     void ajouteCategorie(QString const& nom);
     QStringList objets() const;
-    QMap<QString, Objet*> objetsParNom() const;
+    QMap<QString, Object*> objetsParNom() const;
 
 private:
 
     void loadObjects(int mapWidth, int mapHeight);
-    QMap<QString, Categorie*>m_categories;
-    QMap<qint16, Objet*>m_objets;
+    QMap<QString, ObjectGroup*>m_categories;
+    QMap<qint16, Object*>m_objets;
     int m_lcase;
     int m_hcase;
 

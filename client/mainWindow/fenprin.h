@@ -120,7 +120,7 @@ public slots:
 
 private:
 
-    Donnees_editeur *m_donneesediteur;
+    Data *m_donneesediteur;
     Reseau *m_reseau;
     QThread *m_threadReseau;
     QTcpSocket *m_socket;

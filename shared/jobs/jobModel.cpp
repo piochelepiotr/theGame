@@ -2,7 +2,7 @@
 #include "inventory/resources.h"
 #include "scenery/scenery.h"
 
-Metier_Base::Metier_Base(const QString &donnees, Decors *decors, LesRessources *ressources)
+JobModel::JobModel(const QString &donnees, Scenery *decors, Resources *ressources)
 {
     QStringList liste = donnees.split('/');
     m_nom = liste[0];
@@ -30,21 +30,21 @@ Metier_Base::Metier_Base(const QString &donnees, Decors *decors, LesRessources *
         liste.pop_front();
         lvl = liste[0].toInt();
         liste.pop_front();
-        m_objets_coupables[numObj] = new Objet_coupable(decors->objet(numObj),decors->objet(numSouche), ressources->getRessource(ressource), lvl);
+        m_objets_coupables[numObj] = new InteractiveObject(decors->objet(numObj),decors->objet(numSouche), ressources->getRessource(ressource), lvl);
     }
     liste.pop_front();
     while(liste[0] != "FINRECETTES")
     {
         ressource = liste[0];
         liste.pop_front();
-        m_recettes[ressource] = new Recette(ressources->getRessource(ressource), liste, ressources);
+        m_recettes[ressource] = new Recipe(ressources->getRessource(ressource), liste, ressources);
     }
 }
 
-QVector<qint16> Metier_Base::ressources_coupables(int lvl)
+QVector<qint16> JobModel::ressources_coupables(int lvl)
 {
     QVector<qint16>objets;
-    for(QMap<qint16,Objet_coupable*>::iterator it = m_objets_coupables.begin(); it != m_objets_coupables.end(); it++)
+    for(QMap<qint16,InteractiveObject*>::iterator it = m_objets_coupables.begin(); it != m_objets_coupables.end(); it++)
     {
         if(it.value()->lvl() <= lvl)
         {
@@ -54,24 +54,24 @@ QVector<qint16> Metier_Base::ressources_coupables(int lvl)
     return objets;
 }
 
-QMap<qint16,Objet*> Metier_Base::objets_coupables() const
+QMap<qint16,Object*> JobModel::objets_coupables() const
 {
-    QMap<qint16, Objet*>objets;
-    for(QMap<qint16,Objet_coupable*>::const_iterator it = m_objets_coupables.begin(); it != m_objets_coupables.end(); it++)
+    QMap<qint16, Object*>objets;
+    for(QMap<qint16,InteractiveObject*>::const_iterator it = m_objets_coupables.begin(); it != m_objets_coupables.end(); it++)
     {
         objets[it.key()] = it.value()->getObjet();
     }
     return objets;
 }
 
-Metier_Base::~Metier_Base()
+JobModel::~JobModel()
 {
-    for(QMap<qint16,Objet_coupable*>::iterator it = m_objets_coupables.begin(); it != m_objets_coupables.end(); it++)
+    for(QMap<qint16,InteractiveObject*>::iterator it = m_objets_coupables.begin(); it != m_objets_coupables.end(); it++)
     {
         delete it.value();
     }
 
-    for(QMap<QString,Recette*>::iterator it = m_recettes.begin(); it != m_recettes.end(); it++)
+    for(QMap<QString,Recipe*>::iterator it = m_recettes.begin(); it != m_recettes.end(); it++)
     {
         delete it.value();
     }

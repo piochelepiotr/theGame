@@ -25,7 +25,7 @@ int lvlPourXCases(int nbr_cases)
     return qMax(1,(nbr_cases-METIER_NBR_CASES_DEPART)*METIER_LVLS_1CASEENPLUS);
 }
 
-Metier::Metier(Metier_Base *metier_base,int xp)
+Job::Job(JobModel *metier_base,int xp)
 {
     m_metier_base = metier_base;
     m_xp = xp;
@@ -33,29 +33,29 @@ Metier::Metier(Metier_Base *metier_base,int xp)
     m_nbrCases = casesparlvl(m_lvl);
 }
 
-Metier *Metier::chargeMetier(QString const& donnees, TouslesMetiers *metiers)
+Job *Job::chargeMetier(QString const& donnees, Jobs *metiers)
 {
-    return new Metier(metiers->metier(donnees.section('/', 0,0)),donnees.section('/', 1, 1).toInt());
+    return new Job(metiers->metier(donnees.section('/', 0,0)),donnees.section('/', 1, 1).toInt());
 }
 
-QString Metier::enString(Metier *metier)
+QString Job::enString(Job *metier)
 {
     return metier->getNomMetier() + '/' + QString::number(metier->m_xp) + '/';
 }
 
-void Metier::gagneXp(int xpgagne)
+void Job::gagneXp(int xpgagne)
 {
     m_xp += xpgagne;
     m_lvl = lvlparxpmetier(m_xp);
     m_nbrCases = casesparlvl(m_lvl);
 }
 
-int Metier::nbrCoups() const
+int Job::nbrCoups() const
 {
     return COUPS_DEPART-(m_lvl/METIER_LVLS_1COUPSENMOINS);
 }
 
-int Metier::minRessources(int lvl_ressource) const
+int Job::minRessources(int lvl_ressource) const
 {
     int min = 1;
     if(m_lvl == METIER_NBR_LVLS && m_lvl != lvl_ressource)
@@ -63,7 +63,7 @@ int Metier::minRessources(int lvl_ressource) const
     return min;
 }
 
-int Metier::maxRessources(int lvl_ressource) const
+int Job::maxRessources(int lvl_ressource) const
 {
     int max = (m_lvl-lvl_ressource)/METIER_LVLS_1COUPSENMOINS+2;
     if(m_lvl == METIER_NBR_LVLS && m_lvl != lvl_ressource)
@@ -71,23 +71,23 @@ int Metier::maxRessources(int lvl_ressource) const
     return max;
 }
 
-int Metier::minRessources(qint16 objet) const
+int Job::minRessources(qint16 objet) const
 {
     return minRessources(m_metier_base->objet_coupable(objet)->lvl());
 }
 
-int Metier::maxRessources(qint16 objet) const
+int Job::maxRessources(qint16 objet) const
 {
     return maxRessources(m_metier_base->objet_coupable(objet)->lvl());
 }
 
-int Metier::nombre_ressources(qint16 objet) const
+int Job::nombre_ressources(qint16 objet) const
 {
     int min = minRessources(objet), max = maxRessources(objet);
     return min + qrand()%(max-min+1);
 }
 
-int Metier::getNbrCases()
+int Job::getNbrCases()
 {
     return METIER_NBR_CASES_DEPART+m_lvl/METIER_LVLS_1CASEENPLUS;
 }

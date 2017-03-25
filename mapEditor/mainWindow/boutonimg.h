@@ -9,7 +9,7 @@ class BoutonImg : public QPushButton
     Q_OBJECT
 
 public:
-    BoutonImg(Objet *objet);
+    BoutonImg(Object *objet);
 
 public slots:
     void clique();

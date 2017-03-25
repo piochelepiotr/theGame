@@ -15,17 +15,17 @@ class EditerRessources : public QDialog
     Q_OBJECT
     
 public:
-    explicit EditerRessources(QWidget *parent, LesRessources *ressources);
+    explicit EditerRessources(QWidget *parent, Resources *ressources);
     ~EditerRessources();
-    void ajouteRessource(Ressource *ressource);
-    void ajouteEquipement(EquipementBase *equipement);
-    void ajouteArme(ArmeBase *arme);
+    void ajouteRessource(Resource *ressource);
+    void ajouteEquipement(OutfitModel *equipement);
+    void ajouteArme(WeaponModel *arme);
     void supprimeRessource(QString const& nom);
     void supprimeEquipement(QString const& nom);
     void supprimeArme(QString const& nom);
-    void editeRessource(Ressource *ressource);
-    void editeEquipement(EquipementBase *equipement);
-    void editeArme(ArmeBase *arme);
+    void editeRessource(Resource *ressource);
+    void editeEquipement(OutfitModel *equipement);
+    void editeArme(WeaponModel *arme);
     void charge(const QString &nom);
     void clear();
     void enregistre(QString const& nom);
@@ -41,7 +41,7 @@ public slots:
 private:
     QString m_ressourceActuelle;
     Ui::EditerRessources *ui;
-    LesRessources *m_ressources;
+    Resources *m_ressources;
 };
 
 #endif // EDITERRESSOURCES_H

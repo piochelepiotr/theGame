@@ -1,6 +1,6 @@
 #include "scenery/object.h"
 
-Objet::Objet(qint16 numero, const QString &nom, const QString &categorie, double propx, double propy, int lcase, int hcase)
+Object::Object(qint16 numero, const QString &nom, const QString &categorie, double propx, double propy, int lcase, int hcase)
 {
     m_numero = numero;
     m_nom = nom;
@@ -11,7 +11,7 @@ Objet::Objet(qint16 numero, const QString &nom, const QString &categorie, double
     m_hauteur = (int)((double)hcase*m_propy);
 }
 
-Objet::Objet()
+Object::Object()
 {
     m_numero = 0;
     m_nom = "";
@@ -22,7 +22,7 @@ Objet::Objet()
     m_hauteur = 0;
 }
 
-QPixmap Objet::image()
+QPixmap Object::image()
 {
     if(m_image.isNull())
     {
@@ -31,7 +31,7 @@ QPixmap Objet::image()
     return m_image;
 }
 
-void Objet::resize(int lcase, int hcase)
+void Object::resize(int lcase, int hcase)
 {
     m_largeur = (int)((double)lcase*m_propx);
     m_hauteur = (int)((double)hcase*m_propy);
@@ -41,21 +41,21 @@ void Objet::resize(int lcase, int hcase)
     }
 }
 
-void Objet::setPropx(double propx, int lcase, int hcase)
+void Object::setPropx(double propx, int lcase, int hcase)
 {
     m_propx = propx;
     m_largeur = (int)((double)lcase*m_propx);
     m_hauteur = (int)((double)hcase*m_propy);
 }
 
-void Objet::setPropy(double propy, int lcase, int hcase)
+void Object::setPropy(double propy, int lcase, int hcase)
 {
     m_propy = propy;
     m_largeur = (int)((double)lcase*m_propx);
     m_hauteur = (int)((double)hcase*m_propy);
 }
 
-bool ordreAlphabetique(Objet *a, Objet *b)
+bool ordreAlphabetique(Object *a, Object *b)
 {
     return QString::compare(a->nom(), b->nom(), Qt::CaseInsensitive) < 0;
 }

@@ -1,7 +1,7 @@
 #include "editersorts.h"
 #include "ui_editersorts.h"
 
-EditerSorts::EditerSorts(QWidget *parent, LesRessources *ressources) :
+EditerSorts::EditerSorts(QWidget *parent, Resources *ressources) :
     QDialog(parent),
     ui(new Ui::EditerSorts)
 {
@@ -49,7 +49,7 @@ void EditerSorts::ajouterNouveau(QString const& lenom)
         }
         if(ok)
         {
-            UnSort *sort = UnSort::nouveau(nom);
+            SpellModel *sort = SpellModel::nouveau(nom);
             EditerUnSort boite(this, sort, true);
             if(ok)
                 m_ressources->ajouteSort(sort);
@@ -59,7 +59,7 @@ void EditerSorts::ajouterNouveau(QString const& lenom)
     {
         int num = ui->tab_sorts->rowCount();
         ui->tab_sorts->insertRow(num);
-        Bouton *boutEditer = new Bouton(trUtf8("éditer"),num), *boutSupprimer = new Bouton(trUtf8("supprimer"), num);
+        NumberButton *boutEditer = new NumberButton(trUtf8("éditer"),num), *boutSupprimer = new NumberButton(trUtf8("supprimer"), num);
         connect(boutEditer, SIGNAL(clique(int)), this, SLOT(modifierSort(int)));
         connect(boutSupprimer, SIGNAL(clique(int)), this, SLOT(supprimeSort(int)));
         bouts_editer.push_back(boutEditer);

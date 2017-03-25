@@ -6,21 +6,21 @@
 #include <QMap>
 #include <QFile>
 
-class Ressource;
+class Resource;
 
 typedef struct Resss Resss;
 struct Resss
 {
     int nbr;
-    Ressource *ress;
+    Resource *ress;
 };
 
 bool operator==(Resss const &a, Resss const& b);
 
-class Ressource
+class Resource
 {
 public:
-    Ressource(QString const& nom, int pods, QString const& description, int niveau, QString const& categorie);
+    Resource(QString const& nom, int pods, QString const& description, int niveau, QString const& categorie);
     QString nom() const { return m_nom; }
     int pods() const { return m_pods; }
     QString description() const { return m_description; }
@@ -34,8 +34,8 @@ public:
     void setDescription(QString const& description) { m_description = description; }
     void setImage(QString const& chemin);
     static QString enString(Resss const& resss);
-    static Resss chargeRess(int nbr, Ressource *ressource);
-    static Ressource *nouvelle(const QString &nom, QString const& chemin);
+    static Resss chargeRess(int nbr, Resource *ressource);
+    static Resource *nouvelle(const QString &nom, QString const& chemin);
     QString longue_description();
 
 private:

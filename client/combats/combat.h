@@ -9,13 +9,13 @@
 class Combat
 {
 public:
-    Combat(QString nomCombat,Personnage *moi);
+    Combat(QString nomCombat,Character *moi);
     QString leader() const { return m_nomCombat; }
 
 
 private:
     QString m_nomCombat;
-    Personnage *m_moi;
+    Character *m_moi;
     bool m_iAmLeader;
 };
 

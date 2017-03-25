@@ -30,7 +30,7 @@ EditerMonstreDeLaMap::~EditerMonstreDeLaMap()
 void EditerMonstreDeLaMap::ajouter()
 {
     ui->tableau->insertRow(m_nbr);
-    Bouton *bout = new Bouton("supprimer",m_nbr);
+    NumberButton *bout = new NumberButton("supprimer",m_nbr);
     QComboBox *monstres = new QComboBox();
     monstres->addItems(m_nomMonstres);
     QDoubleSpinBox *proba = new QDoubleSpinBox();
@@ -47,10 +47,10 @@ void EditerMonstreDeLaMap::supprimer(int num)
 {
     ui->tableau->removeRow(num);
     m_nbr--;
-    Bouton *bout = 0;
+    NumberButton *bout = 0;
     for(int i = num; i < m_nbr;i++)
     {
-        bout = (Bouton*) ui->tableau->cellWidget(i,2);
+        bout = (NumberButton*) ui->tableau->cellWidget(i,2);
         bout->moinsnum();
     }
 }

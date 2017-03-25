@@ -24,7 +24,7 @@ class Dialoguepnj : public QDialog
 {
     Q_OBJECT
 public:
-    explicit Dialoguepnj(QWidget *parent, PersNonJ *pers, QString *rep);
+    explicit Dialoguepnj(QWidget *parent, NPC *pers, QString *rep);
     void affiche();
     
 signals:
@@ -35,7 +35,7 @@ public slots:
 
 private:
     QString *m_reponse;
-    Reponses *m_repactuelles;
+    Answers *m_repactuelles;
     QVector<Bouton_num*>m_reponses;
     QPlainTextEdit *m_replique;
     QVBoxLayout *m_lay;

@@ -6,11 +6,11 @@
 #include "entities/character.h"
 #include "spellLayout.h"
 
-class LayoutDescriptionSort : public QHBoxLayout
+class SpellDescriptionLayout : public QHBoxLayout
 {
     Q_OBJECT
 public:
-    explicit LayoutDescriptionSort(Personnage *personnage);
+    explicit SpellDescriptionLayout(Character *personnage);
 
 signals:
 
@@ -22,8 +22,8 @@ private:
     void chargeSorts();
 
     QVBoxLayout *m_differentsSorts;
-    Description_sort *m_descriptionSort;
-    Personnage *m_personnage;
+    SpellDescription *m_descriptionSort;
+    Character *m_personnage;
 };
 
 #endif // LAYOUTDESCRIPTIONSORT_H

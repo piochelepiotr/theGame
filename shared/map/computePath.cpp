@@ -6,9 +6,9 @@ bool caseExiste(int x, int y)
     return x >= 0 && y >= 0 && x < NBR_CASES_L && y < NBR_CASES_H;
 }
 
-QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const& arr, QVector<UnChemin>parents)
+QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const& arr, QVector<Path>parents)
 {
-    QVector<UnChemin>enfants;
+    QVector<Path>enfants;
     int x,y;
 
     for(int i = 0; i < parents.size(); i++)
@@ -28,7 +28,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
                 if(!casemarchees[x] [y-1])
                 {
                     casemarchees[x] [y-1] = true;
-                    enfants.push_back(UnChemin(parents[i], OD, 0, -1));
+                    enfants.push_back(Path(parents[i], OD, 0, -1));
                 }
             }
             if(y+1 < NBR_CASES_H)
@@ -36,7 +36,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
                 if(!casemarchees[x] [y+1])
                 {
                     casemarchees[x] [y+1] = true;
-                    enfants.push_back(UnChemin(parents[i], BD, 0, 1));
+                    enfants.push_back(Path(parents[i], BD, 0, 1));
                 }
             }
             if(x-1 >= 0 && y-1 >= 0)
@@ -44,7 +44,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
                 if(!casemarchees[x-1] [y-1])
                 {
                     casemarchees[x-1] [y-1] = true;
-                    enfants.push_back(UnChemin(parents[i], OG,-1, -1));
+                    enfants.push_back(Path(parents[i], OG,-1, -1));
                 }
             }
             if(x-1 >= 0 && y+1 < NBR_CASES_H)
@@ -52,7 +52,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
                 if(!casemarchees[x-1] [y+1])
                 {
                     casemarchees[x-1] [y+1] = true;
-                    enfants.push_back(UnChemin(parents[i], BG, -1, 1));
+                    enfants.push_back(Path(parents[i], BG, -1, 1));
                 }
             }
         }
@@ -63,7 +63,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
                 if(!casemarchees[x+1] [y-1])
                 {
                     casemarchees[x+1] [y-1] = true;
-                    enfants.push_back(UnChemin(parents[i], OD, 1, -1));
+                    enfants.push_back(Path(parents[i], OD, 1, -1));
                 }
             }
             if(x+1 < NBR_CASES_L && y+1 < NBR_CASES_H)
@@ -71,7 +71,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
                 if(!casemarchees[x+1] [y+1])
                 {
                     casemarchees[x+1] [y+1] = true;
-                    enfants.push_back(UnChemin(parents[i], BD, 1, 1));
+                    enfants.push_back(Path(parents[i], BD, 1, 1));
                 }
             }
             if(y-1 >= 0)
@@ -79,7 +79,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
                 if(!casemarchees[x] [y-1])
                 {
                     casemarchees[x] [y-1] = true;
-                    enfants.push_back(UnChemin(parents[i], OG, 0, -1));
+                    enfants.push_back(Path(parents[i], OG, 0, -1));
                 }
             }
             if(y+1 < NBR_CASES_H)
@@ -87,7 +87,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
                 if(!casemarchees[x] [y+1])
                 {
                     casemarchees[x] [y+1] = true;
-                    enfants.push_back(UnChemin(parents[i], BG, 0, 1));
+                    enfants.push_back(Path(parents[i], BG, 0, 1));
                 }
             }
         }
@@ -96,7 +96,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
             if(!casemarchees[x] [y+2])
             {
                 casemarchees[x] [y+2] = true;
-                enfants.push_back(UnChemin(parents[i], B, 0, 2));
+                enfants.push_back(Path(parents[i], B, 0, 2));
             }
         }
         if(y-2 >= 0)
@@ -104,7 +104,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
             if(!casemarchees[x] [y-2])
             {
                 casemarchees[x] [y-2] = true;
-                enfants.push_back(UnChemin(parents[i], O, 0, -2));
+                enfants.push_back(Path(parents[i], O, 0, -2));
             }
         }
         if(x+1 < NBR_CASES_L)
@@ -112,7 +112,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
             if(!casemarchees[x+1] [y])
             {
                 casemarchees[x+1] [y] = true;
-                enfants.push_back(UnChemin(parents[i], D, 1, 0));
+                enfants.push_back(Path(parents[i], D, 1, 0));
             }
         }
         if(x-1 >= 0)
@@ -120,7 +120,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
             if(!casemarchees[x-1] [y])
             {
                 casemarchees[x-1] [y] = true;
-                enfants.push_back(UnChemin(parents[i], G, -1, 0));
+                enfants.push_back(Path(parents[i], G, -1, 0));
             }
         }
     }
@@ -134,9 +134,9 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
 }
 
 
-QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const& arr, QVector<UnChemin>parents, int max_dep)
+QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const& arr, QVector<Path>parents, int max_dep)
 {
-    QVector<UnChemin>enfants;
+    QVector<Path>enfants;
     int x,y;
     if(max_dep > 0)
     {
@@ -157,7 +157,7 @@ QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint
                     if(!casemarchees[x] [y-1])
                     {
                         casemarchees[x] [y-1] = true;
-                        enfants.push_back(UnChemin(parents[i], OD, 0, -1));
+                        enfants.push_back(Path(parents[i], OD, 0, -1));
                     }
                 }
                 if(y+1 < NBR_CASES_H)
@@ -165,7 +165,7 @@ QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint
                     if(!casemarchees[x] [y+1])
                     {
                         casemarchees[x] [y+1] = true;
-                        enfants.push_back(UnChemin(parents[i], BD, 0, 1));
+                        enfants.push_back(Path(parents[i], BD, 0, 1));
                     }
                 }
                 if(x-1 >= 0 && y-1 >= 0)
@@ -173,7 +173,7 @@ QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint
                     if(!casemarchees[x-1] [y-1])
                     {
                         casemarchees[x-1] [y-1] = true;
-                        enfants.push_back(UnChemin(parents[i], OG,-1, -1));
+                        enfants.push_back(Path(parents[i], OG,-1, -1));
                     }
                 }
                 if(x-1 >= 0 && y+1 < NBR_CASES_H)
@@ -181,7 +181,7 @@ QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint
                     if(!casemarchees[x-1] [y+1])
                     {
                         casemarchees[x-1] [y+1] = true;
-                        enfants.push_back(UnChemin(parents[i], BG, -1, 1));
+                        enfants.push_back(Path(parents[i], BG, -1, 1));
                     }
                 }
             }
@@ -192,7 +192,7 @@ QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint
                     if(!casemarchees[x+1] [y-1])
                     {
                         casemarchees[x+1] [y-1] = true;
-                        enfants.push_back(UnChemin(parents[i], OD, 1, -1));
+                        enfants.push_back(Path(parents[i], OD, 1, -1));
                     }
                 }
                 if(x+1 < NBR_CASES_L && y+1 < NBR_CASES_H)
@@ -200,7 +200,7 @@ QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint
                     if(!casemarchees[x+1] [y+1])
                     {
                         casemarchees[x+1] [y+1] = true;
-                        enfants.push_back(UnChemin(parents[i], BD, 1, 1));
+                        enfants.push_back(Path(parents[i], BD, 1, 1));
                     }
                 }
                 if(y-1 >= 0)
@@ -208,7 +208,7 @@ QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint
                     if(!casemarchees[x] [y-1])
                     {
                         casemarchees[x] [y-1] = true;
-                        enfants.push_back(UnChemin(parents[i], OG, 0, -1));
+                        enfants.push_back(Path(parents[i], OG, 0, -1));
                     }
                 }
                 if(y+1 < NBR_CASES_H)
@@ -216,7 +216,7 @@ QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint
                     if(!casemarchees[x] [y+1])
                     {
                         casemarchees[x] [y+1] = true;
-                        enfants.push_back(UnChemin(parents[i], BG, 0, 1));
+                        enfants.push_back(Path(parents[i], BG, 0, 1));
                     }
                 }
             }
@@ -232,9 +232,9 @@ QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint
 }
 
 
-QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoint>const& arrivees, QVector<UnChemin>parents, QPoint *arrivee)//on doit arriver à une des cases
+QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoint>const& arrivees, QVector<Path>parents, QPoint *arrivee)//on doit arriver à une des cases
 {
-    QVector<UnChemin>enfants;
+    QVector<Path>enfants;
     int x,y;
 
     for(int i = 0; i < parents.size(); i++)
@@ -256,7 +256,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
                 if(!casemarchees[x] [y-1])
                 {
                     casemarchees[x] [y-1] = true;
-                    enfants.push_back(UnChemin(parents[i], OD, 0, -1));
+                    enfants.push_back(Path(parents[i], OD, 0, -1));
                 }
             }
             if(y+1 < NBR_CASES_H)
@@ -264,7 +264,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
                 if(!casemarchees[x] [y+1])
                 {
                     casemarchees[x] [y+1] = true;
-                    enfants.push_back(UnChemin(parents[i], BD, 0, 1));
+                    enfants.push_back(Path(parents[i], BD, 0, 1));
                 }
             }
             if(x-1 >= 0 && y-1 >= 0)
@@ -272,7 +272,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
                 if(!casemarchees[x-1] [y-1])
                 {
                     casemarchees[x-1] [y-1] = true;
-                    enfants.push_back(UnChemin(parents[i], OG,-1, -1));
+                    enfants.push_back(Path(parents[i], OG,-1, -1));
                 }
             }
             if(x-1 >= 0 && y+1 < NBR_CASES_H)
@@ -280,7 +280,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
                 if(!casemarchees[x-1] [y+1])
                 {
                     casemarchees[x-1] [y+1] = true;
-                    enfants.push_back(UnChemin(parents[i], BG, -1, 1));
+                    enfants.push_back(Path(parents[i], BG, -1, 1));
                 }
             }
         }
@@ -291,7 +291,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
                 if(!casemarchees[x+1] [y-1])
                 {
                     casemarchees[x+1] [y-1] = true;
-                    enfants.push_back(UnChemin(parents[i], OD, 1, -1));
+                    enfants.push_back(Path(parents[i], OD, 1, -1));
                 }
             }
             if(x+1 < NBR_CASES_L && y+1 < NBR_CASES_H)
@@ -299,7 +299,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
                 if(!casemarchees[x+1] [y+1])
                 {
                     casemarchees[x+1] [y+1] = true;
-                    enfants.push_back(UnChemin(parents[i], BD, 1, 1));
+                    enfants.push_back(Path(parents[i], BD, 1, 1));
                 }
             }
             if(y-1 >= 0)
@@ -307,7 +307,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
                 if(!casemarchees[x] [y-1])
                 {
                     casemarchees[x] [y-1] = true;
-                    enfants.push_back(UnChemin(parents[i], OG, 0, -1));
+                    enfants.push_back(Path(parents[i], OG, 0, -1));
                 }
             }
             if(y+1 < NBR_CASES_H)
@@ -315,7 +315,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
                 if(!casemarchees[x] [y+1])
                 {
                     casemarchees[x] [y+1] = true;
-                    enfants.push_back(UnChemin(parents[i], BG, 0, 1));
+                    enfants.push_back(Path(parents[i], BG, 0, 1));
                 }
             }
         }
@@ -324,7 +324,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
             if(!casemarchees[x] [y+2])
             {
                 casemarchees[x] [y+2] = true;
-                enfants.push_back(UnChemin(parents[i], B, 0, 2));
+                enfants.push_back(Path(parents[i], B, 0, 2));
             }
         }
         if(y-2 >= 0)
@@ -332,7 +332,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
             if(!casemarchees[x] [y-2])
             {
                 casemarchees[x] [y-2] = true;
-                enfants.push_back(UnChemin(parents[i], O, 0, -2));
+                enfants.push_back(Path(parents[i], O, 0, -2));
             }
         }
         if(x+1 < NBR_CASES_L)
@@ -340,7 +340,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
             if(!casemarchees[x+1] [y])
             {
                 casemarchees[x+1] [y] = true;
-                enfants.push_back(UnChemin(parents[i], D, 1, 0));
+                enfants.push_back(Path(parents[i], D, 1, 0));
             }
         }
         if(x-1 >= 0)
@@ -348,7 +348,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
             if(!casemarchees[x-1] [y])
             {
                 casemarchees[x-1] [y] = true;
-                enfants.push_back(UnChemin(parents[i], G, -1, 0));
+                enfants.push_back(Path(parents[i], G, -1, 0));
             }
         }
     }
@@ -362,9 +362,9 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
 }
 
 
-QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoint>const& arrivees, QVector<UnChemin>parents, QPoint *arrivee)//on doit arriver à une des cases
+QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoint>const& arrivees, QVector<Path>parents, QPoint *arrivee)//on doit arriver à une des cases
 {
-    QVector<UnChemin>enfants;
+    QVector<Path>enfants;
     int x,y;
 
     for(int i = 0; i < parents.size(); i++)
@@ -386,7 +386,7 @@ QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVecto
                 if(!casemarchees[x] [y-1])
                 {
                     casemarchees[x] [y-1] = true;
-                    enfants.push_back(UnChemin(parents[i], OD, 0, -1));
+                    enfants.push_back(Path(parents[i], OD, 0, -1));
                 }
             }
             if(y+1 < NBR_CASES_H)
@@ -394,7 +394,7 @@ QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVecto
                 if(!casemarchees[x] [y+1])
                 {
                     casemarchees[x] [y+1] = true;
-                    enfants.push_back(UnChemin(parents[i], BD, 0, 1));
+                    enfants.push_back(Path(parents[i], BD, 0, 1));
                 }
             }
             if(x-1 >= 0 && y-1 >= 0)
@@ -402,7 +402,7 @@ QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVecto
                 if(!casemarchees[x-1] [y-1])
                 {
                     casemarchees[x-1] [y-1] = true;
-                    enfants.push_back(UnChemin(parents[i], OG,-1, -1));
+                    enfants.push_back(Path(parents[i], OG,-1, -1));
                 }
             }
             if(x-1 >= 0 && y+1 < NBR_CASES_H)
@@ -410,7 +410,7 @@ QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVecto
                 if(!casemarchees[x-1] [y+1])
                 {
                     casemarchees[x-1] [y+1] = true;
-                    enfants.push_back(UnChemin(parents[i], BG, -1, 1));
+                    enfants.push_back(Path(parents[i], BG, -1, 1));
                 }
             }
         }
@@ -421,7 +421,7 @@ QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVecto
                 if(!casemarchees[x+1] [y-1])
                 {
                     casemarchees[x+1] [y-1] = true;
-                    enfants.push_back(UnChemin(parents[i], OD, 1, -1));
+                    enfants.push_back(Path(parents[i], OD, 1, -1));
                 }
             }
             if(x+1 < NBR_CASES_L && y+1 < NBR_CASES_H)
@@ -429,7 +429,7 @@ QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVecto
                 if(!casemarchees[x+1] [y+1])
                 {
                     casemarchees[x+1] [y+1] = true;
-                    enfants.push_back(UnChemin(parents[i], BD, 1, 1));
+                    enfants.push_back(Path(parents[i], BD, 1, 1));
                 }
             }
             if(y-1 >= 0)
@@ -437,7 +437,7 @@ QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVecto
                 if(!casemarchees[x] [y-1])
                 {
                     casemarchees[x] [y-1] = true;
-                    enfants.push_back(UnChemin(parents[i], OG, 0, -1));
+                    enfants.push_back(Path(parents[i], OG, 0, -1));
                 }
             }
             if(y+1 < NBR_CASES_H)
@@ -445,7 +445,7 @@ QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVecto
                 if(!casemarchees[x] [y+1])
                 {
                     casemarchees[x] [y+1] = true;
-                    enfants.push_back(UnChemin(parents[i], BG, 0, 1));
+                    enfants.push_back(Path(parents[i], BG, 0, 1));
                 }
             }
         }

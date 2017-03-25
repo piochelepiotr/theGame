@@ -19,7 +19,7 @@ public slots:
     void supprimer();
 
 public:
-    explicit EditerTransporteur(QWidget *parent, Transporteur *transpo,bool *ok, bool *supprimer);
+    explicit EditerTransporteur(QWidget *parent, Gate *transpo,bool *ok, bool *supprimer);
     ~EditerTransporteur();
     void valeurs();
     
@@ -27,7 +27,7 @@ private:
     Ui::EditerTransporteur *ui;
     bool *m_ok;
     bool *m_supr;
-    Transporteur *m_transpo;
+    Gate *m_transpo;
 
 };
 

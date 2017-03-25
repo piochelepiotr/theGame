@@ -4,19 +4,19 @@
 #include "scenery/object.h"
 #include "inventory/resource.h"
 
-class Objet_coupable
+class InteractiveObject
 {
 public:
-    Objet_coupable(Objet *objet, Objet*souche, Ressource *ressource, int lvl);
-    Objet *getObjet() const { return m_objet; }
-    Objet *getSouche() const { return m_souche; }
-    Ressource *getRessource() const { return m_ressource; }
+    InteractiveObject(Object *objet, Object*souche, Resource *ressource, int lvl);
+    Object *getObjet() const { return m_objet; }
+    Object *getSouche() const { return m_souche; }
+    Resource *getRessource() const { return m_ressource; }
     int lvl() const { return m_lvl; }
 
 private:
-    Objet *m_objet;
-    Objet *m_souche;
-    Ressource *m_ressource;
+    Object *m_objet;
+    Object *m_souche;
+    Resource *m_ressource;
     int m_lvl;
 };
 

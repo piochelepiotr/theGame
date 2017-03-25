@@ -22,8 +22,8 @@ signals:
     //void s_envoie(QString qui,QString message);
 
 public:
-    Monde(Donnees_editeur *donnees_editeur, Ecran *ecran);
-    Map *map(Point const& p) const { return m_maps[p]; }
+    Monde(Data *donnees_editeur, Ecran *ecran);
+    ServerMap *map(Point const& p) const { return m_maps[p]; }
     void connectPlayer(Joueur *player);
     void disconnectPlayer(QString const& nom);
     void sendMessage(QString const& nom, QString const& message);
@@ -31,8 +31,8 @@ public:
 public slots:
     //void envoie(QString qui,QString message);
 private:
-    QMap<Point, Map*>m_maps;
-    Donnees_editeur *m_donnees_editeur;
+    QMap<Point, ServerMap*>m_maps;
+    Data *m_donnees_editeur;
     Ecran *m_ecran;
     QMap<QString, Joueur *>m_players;
 };

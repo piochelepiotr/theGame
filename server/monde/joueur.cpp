@@ -30,7 +30,7 @@ Joueur::~Joueur()
         delete m_compte;
 }
 
-Personnage *Joueur::getPersoActuel() const
+Character *Joueur::getPersoActuel() const
 {
     if(m_etat == Jeu || m_etat == ChoixPersos)
     {
@@ -46,7 +46,7 @@ void Joueur::connexion(Compte *compte)
     m_etat = ChoixPersos;
 }
 
-void Joueur::connexion(QString donnees,QString ndc, Donnees_editeur *donnees_editeur)
+void Joueur::connexion(QString donnees,QString ndc, Data *donnees_editeur)
 {
     m_compte = new Compte(donnees,ndc,donnees_editeur);
     m_etat = ChoixPersos;

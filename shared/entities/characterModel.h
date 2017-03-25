@@ -4,10 +4,10 @@
 #include "entities/spellModel.h"
 #include "entities/entityModel.h"
 
-class Classe : public UneCreature
+class CharacterModel : public EntityModel
 {
 public:
-    Classe(QString const& donnees, QMap<QString, UnSort*>const&sorts);
+    CharacterModel(QString const& donnees, QMap<QString, SpellModel*>const&sorts);
     QString arme() const { return m_arme; }
     QString metier() const { return m_metier; }
 

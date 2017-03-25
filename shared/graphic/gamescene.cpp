@@ -1,7 +1,7 @@
 #include "gamescene.h"
 #include <QGraphicsPixmapItem>
 
-GameScene::GameScene(const QSize &size, QLabel *texte, Donnees_editeur *donnees_editeur)
+GameScene::GameScene(const QSize &size, QLabel *texte, Data *donnees_editeur)
 {
     m_displayGrid = true;
     m_posCaseVisee = QPoint(-1,-1);
@@ -11,7 +11,7 @@ GameScene::GameScene(const QSize &size, QLabel *texte, Donnees_editeur *donnees_
     m_hmap = size.height();
     largethautcase();
 
-    m_dataMap = new DataMap(m_donnees_editeur,0,0,0);
+    m_dataMap = new Map(m_donnees_editeur,0,0,0);
     m_zoom_active = true;
     m_tailleci = 1;
     m_enlevercaseim = false;
@@ -71,11 +71,11 @@ GameScene::GameScene(const QSize &size, QLabel *texte, Donnees_editeur *donnees_
 
             for(int x = 0; x < 2; x++)
             {
-                m_imagesObjets[x] [i] [j] = new ObjSurScene(this,m_lmap);
+                m_imagesObjets[x] [i] [j] = new ObjectItem(this,m_lmap);
                 m_imagesObjets[x] [i] [j]->setVisible(false);
             }
 
-            m_imagesObjets[2] [i] [j] = new ObjSurScene(this,m_lmap,QPoint(i,j));
+            m_imagesObjets[2] [i] [j] = new ObjectItem(this,m_lmap,QPoint(i,j));
             m_imagesObjets[2] [i] [j]->setVisible(false);
 
             m_imagesObjets[0] [i] [j]->setZValue(1);
@@ -112,6 +112,8 @@ GameScene::GameScene(const QSize &size, QLabel *texte, Donnees_editeur *donnees_
     m_cadreh->setZValue(5+NBR_CASES_H);
     m_cadreh->setBrush(QBrush(QColor(0,0,0)));
     m_cadreh->setOpacity(0.2);
+    m_subWindow = 0;
+    //m_subWindow = new SubWindow(this,Centered,200,100);
     zoomChanged();
 }
 
@@ -137,12 +139,12 @@ void GameScene::changeValeurZoom()
 
 void GameScene::actualise()
 {
-    redi(QSize(m_lmap, m_hmap));
+    resize(QSize(m_lmap, m_hmap));
 }
 
-void GameScene::redi(QSize const& nouvelle)
+void GameScene::resize(QSize const& nouvelle)
 {
-    bool enregistree = m_dataMap->estEnregistree();
+    bool saved = m_dataMap->estEnregistree();
     m_lmap = nouvelle.width();
     m_hmap = nouvelle.height();
     largethautcase();
@@ -153,6 +155,8 @@ void GameScene::redi(QSize const& nouvelle)
     QPixmap casePortee = QPixmap("../data/interface/casePO.png").scaled(m_lcase, m_hcase);
     QPixmap casecbt1 = QPixmap("../data/interface/casecbt0.png").scaled(m_lcase, m_hcase);
     QPixmap casecbt2 = QPixmap("../data/interface/casecbt1.png").scaled(m_lcase, m_hcase);
+
+
 
     for(int i = 0; i < MAX_PAR_EQUIP; i++)
     {
@@ -178,7 +182,6 @@ void GameScene::redi(QSize const& nouvelle)
             m_casesPortee[i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase,m_zoom_active)-m_mlcase, m_dataMap->cposy(j,m_hcase,m_zoom_active)-m_mhcase);
         }
     }
-
     for(QMap<QPoint, QGraphicsPixmapItem*>::iterator i = m_lesimagestransports.begin(); i != m_lesimagestransports.end(); i++)
     {
         i.value()->setPixmap(QPixmap("../data/interface/transporteur.png").scaled(m_lcase, m_hcase));
@@ -199,7 +202,9 @@ void GameScene::redi(QSize const& nouvelle)
     m_cadreh->setRect(m_lcase*CASESCACHEESX+1,0, m_lmap-2*m_lcase*CASESCACHEESX-2, m_mhcase*CASESCACHEESY);
 
     fondEgal(m_dataMap->fond());
-    m_dataMap->setEnregistree(enregistree);
+    m_dataMap->setEnregistree(saved);
+    if(m_subWindow)
+        m_subWindow->gameResized();
 }
 
 void GameScene::grille()
@@ -316,7 +321,7 @@ void GameScene::changementSele(QPoint const& nouvelle)
 }
 
 
-void GameScene::setObjetActuel(Objet *nouveau)
+void GameScene::setObjetActuel(Object *nouveau)
 {
     changementSele(QPoint(-1,-1));
     m_objet = m_donnees_editeur->decor->objet(0);
@@ -345,7 +350,7 @@ void GameScene::nouvelle()
 }
 
 
-void GameScene::caseEgale(int i, int j, Objet *objet, int fond)
+void GameScene::caseEgale(int i, int j, Object *objet, int fond)
 {
     m_dataMap->setObjet(i,j,fond,objet);
     if(objet == m_donnees_editeur->decor->objet(0))
@@ -360,9 +365,9 @@ void GameScene::caseEgale(int i, int j, Objet *objet, int fond)
         {
             m_imagesObjets[fond] [i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().width()/2, m_dataMap->cposy(j,m_hcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().height()+m_hcase*ECART);
             if(objet->nom().isEmpty())
-                m_imagesObjets[fond][i][j]->inutile();
+                m_imagesObjets[fond][i][j]->changeToolTip("");
             else
-                m_imagesObjets[fond][i][j]->utile(objet->nom());
+                m_imagesObjets[fond][i][j]->changeToolTip(objet->nom());
         }
         else
             m_imagesObjets[fond] [i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().width()/2, m_dataMap->cposy(j,m_hcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().height()/2);
@@ -382,7 +387,7 @@ void GameScene::remplire()
     ajouteEvent();
 }
 
-void GameScene::ajouteTranspo(QPoint const& pos, Transporteur const& transpo)
+void GameScene::ajouteTranspo(QPoint const& pos, Gate const& transpo)
 {
     m_dataMap->ajouterTranspo(pos,transpo);
     m_lesimagestransports[pos] = addPixmap(QPixmap("../data/interface/transporteur.png").scaled(m_lcase, m_hcase));
@@ -514,13 +519,15 @@ void GameScene::remplitCaseIm(int i, int j)
 void GameScene::fondEgal(QString const& nom)
 {
     m_dataMap->setFond(nom);
-    m_fond->setPixmap(QPixmap("../data/lesfonds/"+nom).scaled(m_lmap, m_hmap));
+    QPixmap background = QPixmap("../data/lesfonds/"+nom);
+    if(!background.isNull())
+        m_fond->setPixmap(background.scaled(m_lmap, m_hmap));
 }
 
 void GameScene::chargeContours()
 {
     m_dataMap->charge_contours();
-    redi(QSize(m_lmap,m_hmap));
+    resize(QSize(m_lmap,m_hmap));
 }
 
 //CASES COMBAT
@@ -564,7 +571,7 @@ void GameScene::undo()
 {
     if(m_dataMap->undo())
     {
-        redi(QSize(m_lmap,m_hmap));
+        resize(QSize(m_lmap,m_hmap));
     }
 }
 
@@ -644,10 +651,10 @@ void GameScene::masque_casesPO()
     }
 }
 
-void GameScene::updateObjet(int i,int j, Objet *objet)
+void GameScene::updateObjet(int i,int j, Object *objet)
 {
     delete m_imagesObjets[2] [i] [j];
-    m_imagesObjets[2] [i] [j] = new ObjSurScene(this, m_lmap, QPoint(i,j));
+    m_imagesObjets[2] [i] [j] = new ObjectItem(this, m_lmap, QPoint(i,j));
     m_imagesObjets[2] [i] [j]->setZValue(j+4);
     caseEgale(i,j,objet,2);
 }

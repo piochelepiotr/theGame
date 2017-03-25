@@ -6,17 +6,17 @@
 #include "entities/spell.h"
 #include "scenery/constants.h"
 
-class UnSort
+class SpellModel
 {
 public:
-    UnSort(QString const& donnees);
-    Sort *sortNiveau(int niveau) const { return m_niveaux[niveau]; }
+    SpellModel(QString const& donnees);
+    Spell *sortNiveau(int niveau) const { return m_niveaux[niveau]; }
     QString nom() const { return m_nom; }
-    static UnSort *nouveau(QString const& nom);
-    ~UnSort();
+    static SpellModel *nouveau(QString const& nom);
+    ~SpellModel();
     void recharge(QString const& donnees);
 private:
-    QVector<Sort*>m_niveaux;
+    QVector<Spell*>m_niveaux;
     QString m_nom;
     int m_niveau;
 };

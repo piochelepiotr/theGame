@@ -1,6 +1,6 @@
 #include "inventory/resource.h"
 
-Ressource::Ressource(const QString &nom, int pods, const QString &description, int niveau, const QString &categorie)
+Resource::Resource(const QString &nom, int pods, const QString &description, int niveau, const QString &categorie)
 {
     m_nom = nom;
     m_pods = pods;
@@ -11,12 +11,12 @@ Ressource::Ressource(const QString &nom, int pods, const QString &description, i
     m_imagep = QPixmap("../data/Ressources/images/"+m_nom+".png").scaled(40,40);
 }
 
-QString Ressource::enString(Resss const& resss)
+QString Resource::enString(Resss const& resss)
 {
     return QString::number(resss.nbr)+ '/' + resss.ress->nom() + '/';
 }
 
-Resss Ressource::chargeRess(int nbr, Ressource *ressource)
+Resss Resource::chargeRess(int nbr, Resource *ressource)
 {
     Resss resss;
     resss.ress = ressource;
@@ -24,13 +24,13 @@ Resss Ressource::chargeRess(int nbr, Ressource *ressource)
     return resss;
 }
 
-Ressource *Ressource::nouvelle(QString const& nom, const QString &chemin)
+Resource *Resource::nouvelle(QString const& nom, const QString &chemin)
 {
     QFile::copy(chemin, "../data/Ressources/images/"+nom+".png");
-    return new Ressource(nom, 1, "", 1, "ressources");
+    return new Resource(nom, 1, "", 1, "ressources");
 }
 
-void Ressource::setImage(QString const& chemin)
+void Resource::setImage(QString const& chemin)
 {
     QFile::remove("../data/Ressources/images/"+m_nom+".png");
     QFile::copy(chemin, "../data/Ressources/images/"+m_nom+".png");
@@ -38,7 +38,7 @@ void Ressource::setImage(QString const& chemin)
     m_imagep = QPixmap("../data/Ressources/images/"+m_nom+".png").scaled(40,40);
 }
 
-QString Ressource::longue_description()
+QString Resource::longue_description()
 {
     QString texte;
     texte += "<table width=\"100%\" >";

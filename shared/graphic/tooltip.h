@@ -7,7 +7,8 @@
 class ToolTip : public QGraphicsTextItem
 {
 public:
-    ToolTip(QString const& text);
+    ToolTip(QString const& text="");
+    bool isEmpty() const;
 protected:
     void paint( QPainter *painter, const QStyleOptionGraphicsItem *o, QWidget *w);
 };

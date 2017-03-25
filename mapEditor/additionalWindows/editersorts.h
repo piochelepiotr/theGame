@@ -15,7 +15,7 @@ class EditerSorts : public QDialog
     Q_OBJECT
     
 public:
-    explicit EditerSorts(QWidget *parent, LesRessources *ressources);
+    explicit EditerSorts(QWidget *parent, Resources *ressources);
     ~EditerSorts();
 
 public slots:
@@ -27,9 +27,9 @@ public slots:
     
 private:
     Ui::EditerSorts *ui;
-    QVector<Bouton*>bouts_editer;
-    QVector<Bouton*>bouts_supprimer;
-    LesRessources *m_ressources;
+    QVector<NumberButton*>bouts_editer;
+    QVector<NumberButton*>bouts_supprimer;
+    Resources *m_ressources;
 };
 
 #endif // EDITERSORTS_H

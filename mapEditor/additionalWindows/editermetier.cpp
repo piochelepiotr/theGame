@@ -1,7 +1,7 @@
 #include "editermetier.h"
 #include "ui_editermetier.h"
 
-EditerMetier::EditerMetier(QWidget *parent, Decors *decors, LesRessources *ressources) :
+EditerMetier::EditerMetier(QWidget *parent, Scenery *decors, Resources *ressources) :
     QDialog(parent), ui(new Ui::EditerMetier)
 {
     m_ressources = ressources;
@@ -127,7 +127,7 @@ void EditerMetier::ajouteIngredient()
         QComboBox *ingredient = new QComboBox;
         ingredient->addItems(m_lesressources);
         QSpinBox *quantite = new QSpinBox;
-        Bouton *bout = new Bouton("supprimer", m_nbrIngredients);
+        NumberButton *bout = new NumberButton("supprimer", m_nbrIngredients);
         ui->tableau_recettes->setCellWidget(m_nbrIngredients, 0, ingredient);
         ui->tableau_recettes->setCellWidget(m_nbrIngredients, 1, quantite);
         ui->tableau_recettes->setCellWidget(m_nbrIngredients, 2, bout);
@@ -151,7 +151,7 @@ void EditerMetier::ajouteObjet()
         QComboBox *souche = new QComboBox;
         souche->addItems(m_lesobjets);
         QSpinBox *niveau = new QSpinBox;
-        Bouton *bout = new Bouton("supprimer", m_nbrObjets);
+        NumberButton *bout = new NumberButton("supprimer", m_nbrObjets);
         ui->tableau_objets->setCellWidget(m_nbrObjets, 0, ressource_obtenue);
         ui->tableau_objets->setCellWidget(m_nbrObjets, 1, objet);
         ui->tableau_objets->setCellWidget(m_nbrObjets, 2, souche);

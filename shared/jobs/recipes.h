@@ -5,27 +5,27 @@
 #include "jobs/job.h"
 #include "graphic/resourceItems.h"
 
-class AfficheRecette : public QWidget
+class DisplayRecipe : public QWidget
 {
 public:
-    AfficheRecette(Recette *recette, Metier *metier, LesRessources *lesressources, int num);
+    DisplayRecipe(Recipe *recette, Job *metier, Resources *lesressources, int num);
 
 private:
     int m_num;
 };
 
 
-class Recettes : public QVBoxLayout
+class Recipes : public QVBoxLayout
 {
     Q_OBJECT
 public:
-    Recettes(Metier *metier, LesRessources *lesressources);
+    Recipes(Job *metier, Resources *lesressources);
     
 signals:
 
 private:
 
-    Metier *metier;
+    Job *metier;
     
 };
 

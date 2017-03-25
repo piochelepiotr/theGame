@@ -12,3 +12,8 @@ void ToolTip::paint( QPainter *painter, const QStyleOptionGraphicsItem *o, QWidg
     painter->drawRect(boundingRect());
     QGraphicsTextItem::paint(painter, o, w);
 }
+
+bool ToolTip::isEmpty() const
+{
+    return toPlainText().isEmpty();
+}

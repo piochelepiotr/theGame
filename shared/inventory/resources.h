@@ -11,29 +11,29 @@
 #include "entities/characterModel.h"
 #include "entities/monsterModel.h"
 
-class Arme;
+class Weapon;
 
 
-class LesRessources
+class Resources
 {
 public:
-    LesRessources();
-    ~LesRessources();
-    Ressource *getRessource(const QString &nom) const;
-    EquipementBase *getEquipement(const QString &nom) const;
-    ArmeBase *getArme(const QString &nom) const;
+    Resources();
+    ~Resources();
+    Resource *getRessource(const QString &nom) const;
+    OutfitModel *getEquipement(const QString &nom) const;
+    WeaponModel *getArme(const QString &nom) const;
 
-    UnSort *getSort(QString const& nom) const;
-    Classe *getClasse(QString const& nom) const;
-    QMap<QString, Classe*>classes() const { return m_classes; }
-    UnMonstre *getMonstre(QString const& nom) const;
-    UneCreature *getCreature(QString const& name) const;
-    QMap<QString,UnMonstre*>monstres() const { return m_monstres; }
+    SpellModel *getSort(QString const& nom) const;
+    CharacterModel *getClasse(QString const& nom) const;
+    QMap<QString, CharacterModel*>classes() const { return m_classes; }
+    MonsterModel *getMonstre(QString const& nom) const;
+    EntityModel *getCreature(QString const& name) const;
+    QMap<QString,MonsterModel*>monstres() const { return m_monstres; }
 
-    void ajouteRessource(Ressource *ressource);
-    void ajouteEquipement(EquipementBase *equipement);
-    void ajouteArme(ArmeBase *arme);
-    void ajouteSort(UnSort *sort);
+    void ajouteRessource(Resource *ressource);
+    void ajouteEquipement(OutfitModel *equipement);
+    void ajouteArme(WeaponModel *arme);
+    void ajouteSort(SpellModel *sort);
     void enleveRessource(QString const& nom);
     void enleveEquipement(QString const& nom);
     void enleveArme(QString const& nom);
@@ -50,12 +50,12 @@ public:
 
 
 private:
-    QMap<QString, Ressource*>m_ressources;
-    QMap<QString, EquipementBase*>m_equipements;
-    QMap<QString, ArmeBase*>m_armes;
-    QMap<QString, UnSort*>m_sorts;
-    QMap<QString, Classe*>m_classes;
-    QMap<QString, UnMonstre*>m_monstres;
+    QMap<QString, Resource*>m_ressources;
+    QMap<QString, OutfitModel*>m_equipements;
+    QMap<QString, WeaponModel*>m_armes;
+    QMap<QString, SpellModel*>m_sorts;
+    QMap<QString, CharacterModel*>m_classes;
+    QMap<QString, MonsterModel*>m_monstres;
     QVector<QString>m_numClasses;
 };
 

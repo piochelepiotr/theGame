@@ -5,39 +5,39 @@
 #include <QString>
 #include "entities/spell.h"
 
-class LesRessources;
+class Resources;
 
-class Arme;
+class Weapon;
 
 typedef struct Armes Armes;
 struct Armes
 {
     int nbr;
-    Arme *arme;
+    Weapon *arme;
 };
 
 
-class Arme
+class Weapon
 {
 public:
-    Arme(QString const& donnees, LesRessources *ressources);
-    Arme(Equipement *equi, Sort *sort);
-    Arme(Arme const& autre);
-    ~Arme();
+    Weapon(QString const& donnees, Resources *ressources);
+    Weapon(Outfit *equi, Spell *sort);
+    Weapon(Weapon const& autre);
+    ~Weapon();
     QString nom() const { return m_equipement->nom(); }
-    Equipement *getEquipement() const { return m_equipement; }
-    Sort *getSort() const { return m_sort; }
+    Outfit *getEquipement() const { return m_equipement; }
+    Spell *getSort() const { return m_sort; }
     static QString enString(Armes const& armes);
-    static QString enString(Arme *arme);
-    static Armes chargeArmes(QString const& donnees,Ressource *ressource, Sort *sort);
-    static Arme *chargeArme(QString const& donnees,Ressource *ressource, Sort *sort);
+    static QString enString(Weapon *arme);
+    static Armes chargeArmes(QString const& donnees,Resource *ressource, Spell *sort);
+    static Weapon *chargeArme(QString const& donnees,Resource *ressource, Spell *sort);
     QString longue_description();
 
 private:
-    Equipement *m_equipement;
-    Sort *m_sort;
+    Outfit *m_equipement;
+    Spell *m_sort;
 };
 
-bool operator==(Arme const& a, Arme const& b);
+bool operator==(Weapon const& a, Weapon const& b);
 
 #endif // ARME_H

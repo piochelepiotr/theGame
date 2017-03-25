@@ -3,7 +3,7 @@
 #include "layoutbarreoutil.h"
 #include "mainWindow/fenprin.h"
 
-LayoutBarreOutil::LayoutBarreOutil(FenPrin *parent,Personnage *perso) :
+LayoutBarreOutil::LayoutBarreOutil(FenPrin *parent,Character *perso) :
     QHBoxLayout(parent)
 {
     m_parent = parent;
@@ -14,8 +14,8 @@ LayoutBarreOutil::LayoutBarreOutil(FenPrin *parent,Personnage *perso) :
     m_bout_passer_tour = new QPushButton("Passer");
     m_bar_vie = new QProgressBar;
     m_lay_sorts = new QHBoxLayout;
-    m_bout_cac = new BoutonImgString("cac",QString(DOSSIER_IMAGES_SORTS)+QString("cac.png"));
-    m_bout_cac->setToolTip(Sort::decrit(perso->getSort("cac")));
+    m_bout_cac = new ImageButtonString("cac",QString(DOSSIER_IMAGES_SORTS)+QString("cac.png"));
+    m_bout_cac->setToolTip(Spell::decrit(perso->getSort("cac")));
     m_labelPC = new QLabel(QString::number(perso->getTotalPC()));
 
     m_lay_sorts->addWidget(m_bout_cac);
@@ -39,12 +39,12 @@ LayoutBarreOutil::LayoutBarreOutil(FenPrin *parent,Personnage *perso) :
     connect(m_bout_cara, SIGNAL(pressed()), m_parent, SLOT(caracteristiques()));
     connect(m_bar_chat, SIGNAL(returnPressed()), m_parent, SLOT(envoiAChat()));
 
-    QMap<QString,Sort*>sorts = perso->sorts();
-    BoutonImgString *bout = 0;
-    for(QMap<QString,Sort*>::iterator it = sorts.begin(); it != sorts.end(); it++)
+    QMap<QString,Spell*>sorts = perso->sorts();
+    ImageButtonString *bout = 0;
+    for(QMap<QString,Spell*>::iterator it = sorts.begin(); it != sorts.end(); it++)
     {
-        bout = new BoutonImgString(it.key(),QString(DOSSIER_IMAGES_SORTS)+it.key()+QString(".png"));
-        bout->setToolTip(Sort::decrit(it.value()));
+        bout = new ImageButtonString(it.key(),QString(DOSSIER_IMAGES_SORTS)+it.key()+QString(".png"));
+        bout->setToolTip(Spell::decrit(it.value()));
         connect(bout,SIGNAL(clique(QString)),m_parent,SLOT(utiliseSort(QString)));
         m_lay_sorts->addWidget(bout);
     }

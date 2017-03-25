@@ -1,6 +1,6 @@
 #include "graphic/resourceItem.h"
 
-Item::Item(Ressource *ressource, int quantite, int num) : QLabel()
+ResourceItem::ResourceItem(Resource *ressource, int quantite, int num) : QLabel()
 {
     m_image = ressource->imagep();
     m_quantite = quantite;
@@ -11,7 +11,7 @@ Item::Item(Ressource *ressource, int quantite, int num) : QLabel()
         installEventFilter(this);
 }
 
-Item::Item(Equipement *equipement, int quantite, int num)
+ResourceItem::ResourceItem(Outfit *equipement, int quantite, int num)
 {
     m_image = equipement->getRessource()->imagep();
     m_quantite = quantite;
@@ -22,7 +22,7 @@ Item::Item(Equipement *equipement, int quantite, int num)
         installEventFilter(this);
 }
 
-Item::Item(Arme *arme, int quantite, int num)
+ResourceItem::ResourceItem(Weapon *arme, int quantite, int num)
 {
     m_image = arme->getEquipement()->getRessource()->imagep();
     m_quantite = quantite;
@@ -33,7 +33,7 @@ Item::Item(Arme *arme, int quantite, int num)
         installEventFilter(this);
 }
 
-Item::Item(EquipementBase *equipement_base,int quantite, int num)
+ResourceItem::ResourceItem(OutfitModel *equipement_base,int quantite, int num)
 {
     m_image = equipement_base->getRessource()->imagep();
     m_quantite = quantite;
@@ -44,7 +44,7 @@ Item::Item(EquipementBase *equipement_base,int quantite, int num)
         installEventFilter(this);
 }
 
-Item::Item(ArmeBase *arme_base,int quantite, int num)
+ResourceItem::ResourceItem(WeaponModel *arme_base,int quantite, int num)
 {
     m_image = arme_base->getEquipement()->getRessource()->imagep();
     m_quantite = quantite;
@@ -55,14 +55,14 @@ Item::Item(ArmeBase *arme_base,int quantite, int num)
         installEventFilter(this);
 }
 
-Item::Item(bool enable)
+ResourceItem::ResourceItem(bool enable)
 {
     setPixmap(QPixmap("../data/interface/vide.png").scaled(40,40));
     if(!enable)
         setEnabled(false);
 }
 
-void Item::faitImage()
+void ResourceItem::faitImage()
 {
     QPixmap image(m_image);
     if(m_quantite != 1)
@@ -77,20 +77,20 @@ void Item::faitImage()
     setPixmap(image);
 }
 
-void Item::enleve(int quantite)
+void ResourceItem::enleve(int quantite)
 {
     m_quantite -= quantite;
     if(m_quantite > 0)
         faitImage();
 }
 
-void Item::ajoute(int quantite)
+void ResourceItem::ajoute(int quantite)
 {
     m_quantite += quantite;
     faitImage();
 }
 
-bool Item::eventFilter(QObject *obj, QEvent *ev)
+bool ResourceItem::eventFilter(QObject *obj, QEvent *ev)
 {
     if(obj == this && ev->type() == QEvent::MouseButtonPress)
     {

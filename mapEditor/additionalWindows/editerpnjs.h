@@ -32,7 +32,7 @@ class EditerPnjs : public QDialog
     Q_OBJECT
     
 public:
-    explicit EditerPnjs(QWidget *parent, Decors *decors);
+    explicit EditerPnjs(QWidget *parent, Scenery *decors);
     ~EditerPnjs();
 
 public slots:
@@ -47,7 +47,7 @@ private:
     QVector<Bouton2*>bouts_editer_objet;
     QVector<Bouton2*>bouts_editer_dialogues;
     QMap<qint16, QTableWidgetItem*>m_noms;
-    Decors *m_decors;
+    Scenery *m_decors;
 };
 
 #endif // EDITERPNJS_H

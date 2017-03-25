@@ -6,17 +6,17 @@ Ressource_type::Ressource_type()
     setVide();
 }
 
-Ressource_type::Ressource_type(Arme *arme, int nombre)
+Ressource_type::Ressource_type(Weapon *arme, int nombre)
 {
     setArme(arme, nombre);
 }
 
-Ressource_type::Ressource_type(Equipement *equipement, int nombre)
+Ressource_type::Ressource_type(Outfit *equipement, int nombre)
 {
     setEquipement(equipement, nombre);
 }
 
-Ressource_type::Ressource_type(Ressource *ressource, int nombre)
+Ressource_type::Ressource_type(Resource *ressource, int nombre)
 {
     setRessource(ressource, nombre);
 }
@@ -26,21 +26,21 @@ void Ressource_type::setVide()
     m_type = AucunType;
 }
 
-void Ressource_type::setArme(Arme *arme, int nombre)
+void Ressource_type::setArme(Weapon *arme, int nombre)
 {
     m_nombre = nombre;
     m_type = UneArme;
     m_arme = arme;
 }
 
-void Ressource_type::setEquipement(Equipement *equipement, int nombre)
+void Ressource_type::setEquipement(Outfit *equipement, int nombre)
 {
     m_nombre = nombre;
     m_type = UnEquipement;
     m_equipement = equipement;
 }
 
-void Ressource_type::setRessource(Ressource *ressource, int nombre)
+void Ressource_type::setRessource(Resource *ressource, int nombre)
 {
     m_nombre = nombre;
     m_type = UneRessource;
@@ -59,7 +59,7 @@ bool Ressource_type::enleve(int nombre)
 }
 
 
-FaireRecettes::FaireRecettes(QWidget *parent, const QString &metier, Donnees_editeur *donnees_editeur, Personnage *personnage, Reseau *reseau) :
+FaireRecettes::FaireRecettes(QWidget *parent, const QString &metier, Data *donnees_editeur, Character *personnage, Reseau *reseau) :
     QDialog(parent),
     ui(new Ui::FaireRecettes)
 {
@@ -71,11 +71,11 @@ FaireRecettes::FaireRecettes(QWidget *parent, const QString &metier, Donnees_edi
     m_donnees_editeur = donnees_editeur;
     m_inventaire = new Inventaire_complet(m_personnage, donnees_editeur->ressources);
     ui->horizontalLayout->addWidget(m_inventaire);
-    m_items = new Items(m_metier->getNbrCases(),METIER_LVL_MAX/METIER_LVLS_1CASEENPLUS+METIER_NBR_CASES_DEPART, m_donnees_editeur->ressources);
+    m_items = new ResourceItems(m_metier->getNbrCases(),METIER_LVL_MAX/METIER_LVLS_1CASEENPLUS+METIER_NBR_CASES_DEPART, m_donnees_editeur->ressources);
     ui->lay_milieu->insertLayout(0, m_items);
-    m_objet_cree = new Item();
+    m_objet_cree = new ResourceItem();
     ui->lay_objet_cree->addWidget(m_objet_cree);
-    ui->recettes->setLayout(new Recettes(m_metier, m_donnees_editeur->ressources));
+    ui->recettes->setLayout(new Recipes(m_metier, m_donnees_editeur->ressources));
     ui->quantite->setMaximum(0);
     setWindowTitle(trUtf8("métier ")+m_metier->getMetierBase()->nom()+trUtf8(" niveau ")+QString::number(m_metier->getLvl()));
 
@@ -96,7 +96,7 @@ FaireRecettes::FaireRecettes(QWidget *parent, const QString &metier, Donnees_edi
 
 void FaireRecettes::double_clique_armes(int num)//on prend une arme de l'inventaire
 {
-    Arme *arme = m_inventaire->arme_num(num);
+    Weapon *arme = m_inventaire->arme_num(num);
     for(int i = 0; i < m_ingredients.size(); i++)
     {
         if(m_ingredients[i].type() == Ressource_type::UneArme)
@@ -126,7 +126,7 @@ void FaireRecettes::double_clique_armes(int num)//on prend une arme de l'inventa
 
 void FaireRecettes::double_clique_equipements(int num)
 {
-    Equipement *equipement = m_inventaire->equipement_num(num);
+    Outfit *equipement = m_inventaire->equipement_num(num);
     for(int i = 0; i < m_ingredients.size(); i++)
     {
         if(m_ingredients[i].type() == Ressource_type::UnEquipement)
@@ -157,7 +157,7 @@ void FaireRecettes::double_clique_equipements(int num)
 
 void FaireRecettes::double_clique_ressources(int num)
 {
-    Ressource *ressource = m_inventaire->ressource_num(num);
+    Resource *ressource = m_inventaire->ressource_num(num);
     for(int i = 0; i < m_ingredients.size(); i++)
     {
         if(m_ingredients[i].type() == Ressource_type::UneRessource)
@@ -201,7 +201,7 @@ void FaireRecettes::double_clicue_ingredients(int num)
     else if(m_ingredients[num].type() == Ressource_type::UnEquipement)
     {
         Eqips equipements;
-        equipements.equipement = new Equipement(*m_ingredients[num].equipement());
+        equipements.equipement = new Outfit(*m_ingredients[num].equipement());
         equipements.nbr = 1;
         m_inventaire->ajoute_equipement(equipements);
         if(m_ingredients[num].enleve())
@@ -212,7 +212,7 @@ void FaireRecettes::double_clicue_ingredients(int num)
     else if(m_ingredients[num].type() == Ressource_type::UneArme)
     {
         Armes armes;
-        armes.arme = new Arme(*m_ingredients[num].arme());
+        armes.arme = new Weapon(*m_ingredients[num].arme());
         armes.nbr = 1;
         m_inventaire->ajoute_arme(armes);
         if(m_ingredients[num].enleve())
@@ -256,7 +256,7 @@ void FaireRecettes::vide(bool efface_ingredients)
     ui->quantite->setValue(0);
     ui->lay_objet_cree->removeWidget(m_objet_cree);
     delete m_objet_cree;
-    m_objet_cree = new Item();
+    m_objet_cree = new ResourceItem();
     ui->lay_objet_cree->addWidget(m_objet_cree);
     if(efface_ingredients)
     {
@@ -268,13 +268,13 @@ void FaireRecettes::vide(bool efface_ingredients)
     }
 }
 
-Recette *FaireRecettes::chercheRecette(int *quantite)//recherche si les ingredients correspondent à une recette
+Recipe *FaireRecettes::chercheRecette(int *quantite)//recherche si les ingredients correspondent à une recette
 {
     QStringList recettes = m_metier->getMetierBase()->recettes();
     QVector<Resss>ingredients_necessaires;
     QVector<Resss>ingredients_disponibles;
     QVector<int>quantites_ingredients_disponibles;
-    Recette *recette;
+    Recipe *recette;
     Resss ressource;
     //ajouter si on a trop de truc, recette impossible
     bool contient;

@@ -1,37 +1,37 @@
 #include "affichejoueur.h"
-#include "gamefield.h"
-#include <QGraphicsSceneMouseEvent>
+#include "graphicGame/gamefield.h"
 
-AfficheJoueur::AfficheJoueur(UneCreature *creature, QString const& nom, QSize const& size,int *poscasex, int*poscasey, GameField *parent) : QGraphicsPixmapItem()
+AfficheJoueur::AfficheJoueur(EntityModel *creature, QString const& nom, QSize const& size, int *poscasex, int*poscasey, GameField *parent, int mapWidth)
+    : ObjectItem(parent,mapWidth,QPoint(*poscasex,*poscasey))
 {
-    m_color = QColor(255,255,255,0);
+    m_game = parent;
     m_decalageX = 0;
     m_decalageY = 0;
     m_caseX = poscasex;
     m_caseY = poscasey;
-    m_parent = parent;
+    m_game = parent;
     m_perso = new Actions_personnage(creature, size);
     setPixmap(m_perso->getImage());
     setZValue(4+(*m_caseY));
     m_pasentier = false;
     affiche();
-    creationBulleAide(nom);
+    changeToolTip(nom);
 }
 
-AfficheJoueur::AfficheJoueur(UneCreature *creature, QString const& nom, QSize const& size, QPoint const& poscase, GameField *parent) : QGraphicsPixmapItem()
+AfficheJoueur::AfficheJoueur(EntityModel *creature, QString const& nom, QSize const& size, QPoint const& poscase, GameField *parent, int mapWidth)
+: ObjectItem(parent,mapWidth,poscase)
 {
-    m_color = QColor(255,255,255,0);
     m_decalageX = 0;
     m_decalageY = 0;
     m_caseX = new int(poscase.x());
     m_caseY = new int(poscase.y());
-    m_parent = parent;
+    m_game = parent;
     m_perso = new Actions_personnage(creature, size);
     setPixmap(m_perso->getImage());
     setZValue(4+(*m_caseY));
     m_pasentier = true;
     affiche();
-    creationBulleAide(nom);
+    changeToolTip(nom);
 }
 
 AfficheJoueur::~AfficheJoueur()
@@ -41,7 +41,7 @@ AfficheJoueur::~AfficheJoueur()
         delete m_caseX;
         delete m_caseY;
     }
-    m_parent->removeItem(this);
+    m_game->removeItem(this);
     delete m_perso;
 }
 
@@ -54,29 +54,25 @@ void AfficheJoueur::suivante()
         setPixmap(m_perso->getImage());
         if(*m_caseY != ancienneY)
             setZValue(4+(*m_caseY));
-        setPos(m_parent->dataMap()->cposx(*m_caseX, *m_caseY,m_parent->getlcase(),true)-pixmap().width()/2+m_decalageX, m_parent->dataMap()->cposy(*m_caseY,m_parent->gethcase(),true)-pixmap().height()+m_parent->gethcase()*ECART+m_decalageY);
-        if(m_perso->imobile() && m_parent->dataMap()->contientTranspo(QPoint(*m_caseX, *m_caseY)))
-        {
-            emit estSurTranspo(QPoint(*m_caseX, *m_caseY));
-        }
+        setPos(m_game->dataMap()->cposx(*m_caseX, *m_caseY,m_game->getlcase(),true)-pixmap().width()/2+m_decalageX, m_game->dataMap()->cposy(*m_caseY,m_game->gethcase(),true)-pixmap().height()+m_game->gethcase()*ECART+m_decalageY);
     }
     else if(action != Actions_personnage::Aucune)
     {
         if(action == Actions_personnage::ChangeDeMap)
         {
-            m_parent->changeMap();
+            m_game->changeMap();
         }
         else if(action == Actions_personnage::Recettes)
         {
-            m_parent->faitRecettes();
+            m_game->faitRecettes();
         }
         else if(action == Actions_personnage::Recolter)
         {
-            m_parent->doit_recolter();
+            m_game->doit_recolter();
         }
         else if(action == Actions_personnage::ARecolter)
         {
-            m_parent->a_coupe();
+            m_game->a_coupe();
         }
     }
 }
@@ -102,7 +98,7 @@ void AfficheJoueur::recolte(QString const& verbe,int nombre_coups, Dir orientati
     m_perso->recolte(verbe, nombre_coups, derniere_action, orientation);
 }
 
-void AfficheJoueur::redi(int lcase, int hcase)
+void AfficheJoueur::resize(int lcase, int hcase)
 {
     m_perso->redi(lcase, hcase);
     affiche();
@@ -112,7 +108,7 @@ void AfficheJoueur::affiche()
 {
     setPixmap(m_perso->getImage());
     setPos(0,0);
-    setPos(m_parent->dataMap()->cposx(*m_caseX, *m_caseY,m_parent->getlcase(),true)-pixmap().width()/2+m_decalageX, m_parent->dataMap()->cposy(*m_caseY,m_parent->gethcase(),true)-pixmap().height()+m_parent->gethcase()*ECART+m_decalageY);
+    setPos(m_game->dataMap()->cposx(*m_caseX, *m_caseY,m_game->getlcase(),true)-pixmap().width()/2+m_decalageX, m_game->dataMap()->cposy(*m_caseY,m_game->gethcase(),true)-pixmap().height()+m_game->gethcase()*ECART+m_decalageY);
 }
 
 void AfficheJoueur::changePos(int casex, int casey)
@@ -120,50 +116,13 @@ void AfficheJoueur::changePos(int casex, int casey)
     *m_caseX = casex;
     *m_caseY = casey;
     setZValue(4+(*m_caseY));
-    setPos(m_parent->dataMap()->cposx(*m_caseX, *m_caseY,m_parent->getlcase(),true)-pixmap().width()/2+m_decalageX, m_parent->dataMap()->cposy(*m_caseY,m_parent->gethcase(),true)-pixmap().height()+m_parent->gethcase()*ECART+m_decalageY);
+    setPos(m_game->dataMap()->cposx(*m_caseX, *m_caseY,m_game->getlcase(),true)-pixmap().width()/2+m_decalageX, m_game->dataMap()->cposy(*m_caseY,m_game->gethcase(),true)-pixmap().height()+m_game->gethcase()*ECART+m_decalageY);
 }
 
-void AfficheJoueur::mousePressEvent ( QGraphicsSceneMouseEvent *event)
+/*void AfficheJoueur::mousePressEvent ( QGraphicsSceneMouseEvent *event)
 {
     if(event->button() == Qt::RightButton)
-        emit clique();
-}
-
-void AfficheJoueur::creationBulleAide(QString const& texte)
-{
-    m_toolTip = new ToolTip(texte);
-    m_parent->addItem(m_toolTip);
-    m_toolTip->setVisible(false);
-}
-
-void AfficheJoueur::deplaceAide()
-{
-    int posx = this->x();
-    int posy = this->y() - (m_toolTip->boundingRect().height()+3);
-    if(posy < 0)
     {
-        posy = this->y() + pixmap().height() + 3;
+
     }
-    posx = this->x()+pixmap().width()/2 - m_toolTip->boundingRect().width()/2;
-    m_toolTip->setPos(posx,posy);
-}
-
-void AfficheJoueur::aide()
-{
-    QGraphicsColorizeEffect* colEffect = new QGraphicsColorizeEffect();
-    colEffect->setColor(m_color);
-    setGraphicsEffect(colEffect);
-    deplaceAide();
-    m_toolTip->setVisible(true);
-}
-
-void AfficheJoueur::desaide()
-{
-    setGraphicsEffect(0);
-    m_toolTip->setVisible(false);
-}
-
-void AfficheJoueur::setTexteAide(QString const& texte)
-{
-    m_toolTip->setPlainText(texte);
-}
+}*/

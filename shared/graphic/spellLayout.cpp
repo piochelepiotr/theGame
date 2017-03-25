@@ -1,6 +1,6 @@
 #include "spellLayout.h"
 
-LayoutUnSort::LayoutUnSort(Sort *sort) : QWidget()
+SpellLayout::SpellLayout(Spell *sort) : QWidget()
 {
     m_nom = sort->nom();
     QHBoxLayout *layout = new QHBoxLayout();
@@ -16,7 +16,7 @@ LayoutUnSort::LayoutUnSort(Sort *sort) : QWidget()
     installEventFilter(this);
 }
 
-bool LayoutUnSort::eventFilter(QObject *obj, QEvent *ev)
+bool SpellLayout::eventFilter(QObject *obj, QEvent *ev)
 {
     if(obj == this && ev->type() == QEvent::MouseButtonPress)
     {

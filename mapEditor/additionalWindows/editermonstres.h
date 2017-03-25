@@ -17,7 +17,7 @@ class EditerMonstres : public QDialog
     Q_OBJECT
     
 public:
-    explicit EditerMonstres(QWidget *parent, LesRessources *ressources);
+    explicit EditerMonstres(QWidget *parent, Resources *ressources);
     ~EditerMonstres();
     QString monstre_to_texte();
     void texte_to_monstre(QString const& text);
@@ -37,7 +37,7 @@ public slots:
 private:
     Ui::EditerMonstres *ui;
     int m_nbrRessources;
-    LesRessources *m_lesRessources;
+    Resources *m_lesRessources;
     EditerCreature *m_creature;
 };
 

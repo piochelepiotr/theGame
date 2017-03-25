@@ -2,7 +2,7 @@
 #include "entities/monster.h"
 #include "scenery/data.h"
 
-UnMonstre::UnMonstre(const QString &text, const QMap<QString, UnSort *> &sorts)
+MonsterModel::MonsterModel(const QString &text, const QMap<QString, SpellModel *> &sorts)
 {
     QStringList liste = text.split('/');
     liste.removeAll("");
@@ -34,7 +34,7 @@ UnMonstre::UnMonstre(const QString &text, const QMap<QString, UnSort *> &sorts)
     }
 }
 
-Monstre *UnMonstre::genereMonstre(int posX,int posY,int posZ,int posMapX,int posMapY,Donnees_editeur *donnees_editeur,QString const& name)
+Monster *MonsterModel::genereMonstre(int posX,int posY,int posZ,int posMapX,int posMapY,Data *donnees_editeur,QString const& name)
 {
     int niveau = m_niveauMin + qrand()%(m_niveauMax-m_niveauMin+1);
     //vie = a*niveau+b
@@ -45,5 +45,5 @@ Monstre *UnMonstre::genereMonstre(int posX,int posY,int posZ,int posMapX,int pos
         double b = (((double)m_vieMax)/((double)m_vieMin))/a;
         vie = (int) (a*((double)(niveau))+b);
     }
-    return new Monstre(name,m_classe,donnees_editeur,posX,posY,posZ,posMapX,posMapY,vie,niveau);
+    return new Monster(name,m_classe,donnees_editeur,posX,posY,posZ,posMapX,posMapY,vie,niveau);
 }

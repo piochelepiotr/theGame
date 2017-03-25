@@ -5,7 +5,7 @@
 #define BUTTON_WIDTH 120
 #define BUTTON_HEIGHT 120
 
-BoutonImg::BoutonImg(Objet *objet)
+BoutonImg::BoutonImg(Object *objet)
 {
     setFlat(true);
     m_num = objet->numero();

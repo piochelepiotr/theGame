@@ -12,7 +12,7 @@ void Bouton_num::cliquer()
 }
 
 
-Dialoguepnj::Dialoguepnj(QWidget *parent, PersNonJ *pers, QString *rep) : QDialog(parent)
+Dialoguepnj::Dialoguepnj(QWidget *parent, NPC *pers, QString *rep) : QDialog(parent)
 {
     m_lay = new QVBoxLayout;
     m_reponse = rep;

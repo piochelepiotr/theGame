@@ -1,19 +1,19 @@
 #ifndef RECETTE_H
 #define RECETTE_H
 
-class LesRessources;
+class Resources;
 #include "inventory/resource.h"
 
-class Recette
+class Recipe
 {
 public:
-    Recette(Ressource *objet_cree, QStringList & ingredients, LesRessources *ressources);
-    Ressource *objet_cree() const { return m_objet_cree; }
+    Recipe(Resource *objet_cree, QStringList & ingredients, Resources *ressources);
+    Resource *objet_cree() const { return m_objet_cree; }
     QVector<Resss> ingredients() const { return m_ingredients; }
     int nombre_cases() const { return m_ingredients.size(); }
 
 private:
-    Ressource *m_objet_cree;
+    Resource *m_objet_cree;
     QVector<Resss>m_ingredients;
 };
 

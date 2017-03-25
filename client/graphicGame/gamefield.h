@@ -15,8 +15,8 @@ class GameField : public GameScene
 {
     Q_OBJECT
 public slots:
-    void ajouteUnPerso(InfoPerVis perso);
-    void supprimeUnPerso(QString const& nom);
+    void addEntity(InfoPerVis perso);
+    void removeEntity(QString const& nom);
     void ressource_repousse(int posx, int posy);
     void ressourceRecoltee(QPoint pos);
     void recolte(const QString &nom, QString const& verbe, int orientation, int nombre_coups, Actions_personnage::DerniereAction derniere_action = Actions_personnage::Aucune);
@@ -29,12 +29,12 @@ signals:
     void pourChat(QString texte);
     void changePC(int pc);
 public:
-    GameField(QSize const& size, Personnage *pers, QTcpSocket *sock, Donnees_editeur *donneesediteur);
+    GameField(QSize const& size, Character *pers, QTcpSocket *sock, Data *donneesediteur);
     ~GameField();
-    void redi(QSize const& nouvelle);
+    void resize(QSize const& newSize);
     void cliqueGauche(int x, int y);
     void setMonTour(bool monTour);
-    void veut_utiliserSort(Sort *sort);
+    void veut_utiliserSort(Spell *sort);
     void deplaceCombat(const QString &qui, const QPoint &ou);
     void deplace(QString const& nom, QQueue<Dir> const& chem, Actions_personnage::DerniereAction action = Actions_personnage::Aucune);
     void phaseFinCombat();
@@ -47,12 +47,12 @@ public:
     virtual void utileClique(QPoint const& pos);
     AfficheJoueur *getJoueur(QString const& nom);
     void changeDeMap(int mapx, int mapy, int mapz, int coox,int cooy);
-    bool monTour() { return m_personnage->monTour(); }
-    Personnage *getPerso() { return m_personnage; }
+    bool monTour() { return m_character->monTour(); }
+    Character *getPerso() { return m_character; }
     Etat phase() const { return m_combatOuPas; }
-    DataMap *dataMap() const { return m_dataMap; }
-    Sort *sort() const { return m_sort_a_utiliser; }
-    void utiliseSort(Sort *sort);
+    Map *dataMap() const { return m_dataMap; }
+    Spell *sort() const { return m_sort_a_utiliser; }
+    void utiliseSort(Spell *sort);
     void changePlayerMap(int largX, int largY);
     void ajouteChemin(QString const& nom, QQueue<Dir> const& chemin);
     QString contientJoueur();
@@ -66,7 +66,7 @@ public:
     QPoint posCaseVisee() const { return m_posCaseVisee; }
     void marche_pas();
 private:
-    Personnage *m_personnage;
+    Character *m_character;
     QMap<QString,AfficheJoueur*>m_persos;
     QTcpSocket *m_socket;
     QString m_nomMetier;
@@ -75,7 +75,7 @@ private:
     Etat m_combatOuPas;
     int m_debut_tour;
     Combat *m_combat;
-    Sort *m_sort_a_utiliser;
+    Spell *m_sort_a_utiliser;
     QPoint m_posFleche;
     Dir m_directionChangeMap;
     QGraphicsPixmapItem *m_fleche;
@@ -87,8 +87,8 @@ private:
     int m_cooarrx;
     int m_cooarry;
 protected:
-    void mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent );
-    void dragLeaveEvent(QGraphicsSceneDragDropEvent *);
+    virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent );
+    virtual void dragLeaveEvent(QGraphicsSceneDragDropEvent *);
 };
 
 #endif // GAMEFIELD_H

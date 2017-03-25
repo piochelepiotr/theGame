@@ -12,7 +12,7 @@ class Jeu2d : public GameScene
 public slots:
 
 public:
-    Jeu2d(QSize const& size, QLabel *texte, Donnees_editeur *donnees_editeur);
+    Jeu2d(QSize const& size, QLabel *texte, Data *donnees_editeur);
     bool peutAjouterCasecbt(int x, int y);
 private:
 

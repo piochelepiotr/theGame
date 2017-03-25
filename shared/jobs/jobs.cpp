@@ -1,6 +1,6 @@
 #include "jobs/jobs.h"
 
-TouslesMetiers::TouslesMetiers(LesRessources *ressources, Decors *decors)
+Jobs::Jobs(Resources *ressources, Scenery *decors)
 {
     QFile fichier(QString(DONNEES)+QString("metiers.txt"));
     if(fichier.open(QIODevice::ReadOnly))
@@ -11,14 +11,14 @@ TouslesMetiers::TouslesMetiers(LesRessources *ressources, Decors *decors)
         {
             ligne = stream.readLine();
             if(!ligne.isEmpty())
-                m_metiers[ligne.section('/',0,0)] = new Metier_Base(ligne, decors,ressources);
+                m_metiers[ligne.section('/',0,0)] = new JobModel(ligne, decors,ressources);
         }
         fichier.close();
-        QMap<qint16,Objet_coupable*>objets_coupables;
-        for(QMap<QString, Metier_Base*>::iterator it = m_metiers.begin(); it != m_metiers.end(); it++)
+        QMap<qint16,InteractiveObject*>objets_coupables;
+        for(QMap<QString, JobModel*>::iterator it = m_metiers.begin(); it != m_metiers.end(); it++)
         {
             objets_coupables = it.value()->get_objets_coupables();
-            for(QMap<qint16,Objet_coupable*>::iterator it2 = objets_coupables.begin(); it2 != objets_coupables.end(); it2++)
+            for(QMap<qint16,InteractiveObject*>::iterator it2 = objets_coupables.begin(); it2 != objets_coupables.end(); it2++)
             {
                 m_souches_to_objets[it2.value()->getSouche()->numero()] = it2.value()->getObjet();
                 m_objets_to_souches[it2.value()->getObjet()->numero()] = it2.value()->getSouche();
@@ -28,17 +28,17 @@ TouslesMetiers::TouslesMetiers(LesRessources *ressources, Decors *decors)
     }
 }
 
-TouslesMetiers::~TouslesMetiers()
+Jobs::~Jobs()
 {
-    for(QMap<QString, Metier_Base*>::iterator it = m_metiers.begin(); it != m_metiers.end(); it++)
+    for(QMap<QString, JobModel*>::iterator it = m_metiers.begin(); it != m_metiers.end(); it++)
     {
         delete it.value();
     }
 }
 
-Metier_Base *TouslesMetiers::forge_to_metier(Objet *forge)
+JobModel *Jobs::forge_to_metier(Object *forge)
 {
-    for(QMap<QString, Metier_Base*>::iterator it = m_metiers.begin(); it != m_metiers.end(); it++)
+    for(QMap<QString, JobModel*>::iterator it = m_metiers.begin(); it != m_metiers.end(); it++)
     {
         if(it.value()->objet_recette() == forge)
         {
@@ -48,9 +48,9 @@ Metier_Base *TouslesMetiers::forge_to_metier(Objet *forge)
     return 0;
 }
 
-Metier_Base *TouslesMetiers::objet_coupable_to_metier(Objet *objet)
+JobModel *Jobs::objet_coupable_to_metier(Object *objet)
 {
-    for(QMap<QString, Metier_Base*>::iterator it = m_metiers.begin(); it != m_metiers.end(); it++)
+    for(QMap<QString, JobModel*>::iterator it = m_metiers.begin(); it != m_metiers.end(); it++)
     {
         if(it.value()->coupe(objet->numero()))
         {
@@ -60,7 +60,7 @@ Metier_Base *TouslesMetiers::objet_coupable_to_metier(Objet *objet)
     return 0;
 }
 
-Objet *TouslesMetiers::getObjetParSouche(qint16 num) const
+Object *Jobs::getObjetParSouche(qint16 num) const
 {
     if(m_souches_to_objets.contains(num))
         return m_souches_to_objets[num];
@@ -68,7 +68,7 @@ Objet *TouslesMetiers::getObjetParSouche(qint16 num) const
         return 0;
 }
 
-Objet *TouslesMetiers::getSoucheParObjet(qint16 num) const
+Object *Jobs::getSoucheParObjet(qint16 num) const
 {
     if(m_objets_to_souches.contains(num))
         return m_objets_to_souches[num];

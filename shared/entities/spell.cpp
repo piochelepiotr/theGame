@@ -1,6 +1,6 @@
 #include "entities/spell.h"
 
-Sort::Sort(QString const& nom, int niveau, int points_combat, int portee_min, int portee_max, int degats_terre_min, int degats_terre_max)
+Spell::Spell(QString const& nom, int niveau, int points_combat, int portee_min, int portee_max, int degats_terre_min, int degats_terre_max)
 {
     m_nom = nom;
     m_niveau = niveau;
@@ -11,7 +11,7 @@ Sort::Sort(QString const& nom, int niveau, int points_combat, int portee_min, in
     m_degats_terre_max = degats_terre_max;
 }
 
-QString Sort::decrit(Sort *sort)
+QString Spell::decrit(Spell *sort)
 {
     QString texte;
     texte += "<table width=\"100%\" >";
@@ -36,22 +36,22 @@ QString Sort::decrit(Sort *sort)
     return texte;
 }
 
-int Sort::degats()
+int Spell::degats()
 {
     return qrand()%(m_degats_terre_max-m_degats_terre_min+1)+m_degats_terre_min;
 }
 
-QString Sort::enString() const
+QString Spell::enString() const
 {
     return m_nom + "/" + QString::number(m_niveau) + "/";
 }
 
-QString Sort::longue_description()
+QString Spell::longue_description()
 {
-    return Sort::decrit(this);
+    return Spell::decrit(this);
 }
 
-bool operator==(Sort const& a, Sort const& b)
+bool operator==(Spell const& a, Spell const& b)
 {
     if(a.nom() != b.nom())
         return false;

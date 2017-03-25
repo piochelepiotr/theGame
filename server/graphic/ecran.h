@@ -48,7 +48,7 @@ public slots:
 
 private:
 
-    Donnees_editeur *m_donnees_editeur;
+    Data *m_donnees_editeur;
 
     QPushButton *m_boutonQuitter;
     QLabel *m_infoServeur;

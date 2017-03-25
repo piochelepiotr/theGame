@@ -1,6 +1,6 @@
 #include "entities/entityImage.h"
 
-Images_action::Images_action(QString const& nom_classe,QString const& nom_action, QSize const& size)
+ImagesAction::ImagesAction(QString const& nom_classe,QString const& nom_action, QSize const& size)
 {
     m_nbrUtilisateur = 1;
     m_nomClasse = nom_classe;
@@ -21,7 +21,7 @@ Images_action::Images_action(QString const& nom_classe,QString const& nom_action
     }
 }
 
-bool Images_action::redimentionne(QSize const& nouvelle)
+bool ImagesAction::redimentionne(QSize const& nouvelle)
 {
     if(m_nbrUtilisateur < 1)
         return false;
@@ -37,14 +37,14 @@ bool Images_action::redimentionne(QSize const& nouvelle)
     return true;
 }
 
-QPixmap Images_action::getImage(int num, Dir orientation) const
+QPixmap ImagesAction::getImage(int num, Dir orientation) const
 {
     if(num < nombre_images(orientation))
         return m_images[(int)orientation][num];
     return m_images[0][0];
 }
 
-void Images_action::definieEnMouvement()
+void ImagesAction::definieEnMouvement()
 {
     if(m_nomAction == "marcher" || m_nomAction == "courir")
     {
@@ -56,20 +56,20 @@ void Images_action::definieEnMouvement()
     }
 }
 
-Images_Classe::Images_Classe(UneCreature *uneCreature, QSize const& taille)
+ImagesEntity::ImagesEntity(EntityModel *uneCreature, QSize const& taille)
 {
     m_uneCreature = uneCreature;
     m_taille.setWidth((int)((double)taille.width()*m_uneCreature->propX()));
     m_taille.setHeight((int)((double)taille.height()*m_uneCreature->propY()));
 }
 
-void Images_Classe::redimentionne(QSize const& nouvelle)
+void ImagesEntity::redimentionne(QSize const& nouvelle)
 {
     m_taille.setWidth((int)((double)nouvelle.width()*m_uneCreature->propX()));
     m_taille.setHeight((int)((double)nouvelle.height()*m_uneCreature->propY()));
     if(m_images.isEmpty())
         return;
-    for(QMap<QString, Images_action*>::iterator it = m_images.begin(); it != m_images.end(); it++)
+    for(QMap<QString, ImagesAction*>::iterator it = m_images.begin(); it != m_images.end(); it++)
     {
         if(!it.value()->redimentionne(m_taille))
         {
@@ -79,39 +79,39 @@ void Images_Classe::redimentionne(QSize const& nouvelle)
     }
 }
 
-Images_action *Images_Classe::getImagesAction(QString const& nomAction)
+ImagesAction *ImagesEntity::getImagesAction(QString const& nomAction)
 {
     if(!m_images.contains(nomAction))
-        m_images[nomAction] = new Images_action(m_uneCreature->classe(), nomAction, m_taille);
+        m_images[nomAction] = new ImagesAction(m_uneCreature->classe(), nomAction, m_taille);
     return m_images[nomAction];
 }
 
-Images_Classes::Images_Classes(QMap<QString, UneCreature*>creatures, QSize const& taille)
+ImagesEntities::ImagesEntities(QMap<QString, EntityModel*>creatures, QSize const& taille)
 {
-    for(QMap<QString, UneCreature*>::iterator it = creatures.begin(); it != creatures.end(); it++)
+    for(QMap<QString, EntityModel*>::iterator it = creatures.begin(); it != creatures.end(); it++)
     {
-        m_creatures[it.value()->classe()] = new Images_Classe(it.value(), taille);
+        m_creatures[it.value()->classe()] = new ImagesEntity(it.value(), taille);
     }
 }
 
-Images_Classe *Images_Classes::getImagesUneCreature(QString const& nom) const
+ImagesEntity *ImagesEntities::getImagesUneCreature(QString const& nom) const
 {
     if(!m_creatures.contains(nom))
         return 0;
     return m_creatures[nom];
 }
 
-void Images_Classes::redimentionne(QSize const& taille)
+void ImagesEntities::redimentionne(QSize const& taille)
 {
-    for(QMap<QString, Images_Classe*>::iterator it = m_creatures.begin(); it != m_creatures.end(); it++)
+    for(QMap<QString, ImagesEntity*>::iterator it = m_creatures.begin(); it != m_creatures.end(); it++)
     {
         it.value()->redimentionne(taille);
     }
 }
 
-Images_Classes::~Images_Classes()
+ImagesEntities::~ImagesEntities()
 {
-    for(QMap<QString, Images_Classe*>::iterator it = m_creatures.begin(); it != m_creatures.end(); it++)
+    for(QMap<QString, ImagesEntity*>::iterator it = m_creatures.begin(); it != m_creatures.end(); it++)
     {
         delete it.value();
     }

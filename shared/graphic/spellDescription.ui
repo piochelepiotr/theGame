@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Description_sort</class>
- <widget class="QFrame" name="Description_sort">
+ <class>SpellDescription</class>
+ <widget class="QFrame" name="SpellDescription">
   <property name="geometry">
    <rect>
     <x>0</x>

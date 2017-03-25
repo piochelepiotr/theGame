@@ -57,7 +57,11 @@ SOURCES += \
     scenery/object.cpp \
     scenery/objectGroup.cpp \
     scenery/scenery.cpp \
-    scenery/sceneryChange.cpp
+    scenery/sceneryChange.cpp \
+    graphic/tooltip.cpp \
+    graphic/subwindow.cpp \
+    graphic/titlebarsubwindow.cpp \
+    graphic/windowbutton.cpp
 
 HEADERS += \
     entities/character.h \
@@ -104,7 +108,11 @@ HEADERS += \
     scenery/object.h \
     scenery/objectGroup.h \
     scenery/scenery.h \
-    scenery/sceneryChange.h
+    scenery/sceneryChange.h \
+    graphic/tooltip.h \
+    graphic/subwindow.h \
+    graphic/titlebarsubwindow.h \
+    graphic/windowbutton.h
 
 unix {
     target.path = /usr/lib

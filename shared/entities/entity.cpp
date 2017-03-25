@@ -1,7 +1,7 @@
 #include "entities/entity.h"
 #include "scenery/data.h"
 
-Creature::Creature(const QString &nom, QString const& classe, Donnees_editeur *donnees_editeur)
+Entity::Entity(const QString &nom, QString const& classe, Data *donnees_editeur)
 {
     m_enCombat = false;
     m_donnees_editeur = donnees_editeur;
@@ -17,41 +17,41 @@ Creature::Creature(const QString &nom, QString const& classe, Donnees_editeur *d
     m_posmapx = 0;
     m_posmapy = 1;
     m_niveau = 1;
-    QMap<QString,UnSort*> sorts = m_donnees_editeur->ressources->getCreature(classe)->sorts();
-    for(QMap<QString,UnSort*>::const_iterator it = sorts.begin(); it != sorts.end() ; it++)
+    QMap<QString,SpellModel*> sorts = m_donnees_editeur->ressources->getCreature(classe)->sorts();
+    for(QMap<QString,SpellModel*>::const_iterator it = sorts.begin(); it != sorts.end() ; it++)
     {
         m_sorts[it.value()->nom()] = it.value()->sortNiveau(1);
     }
 }
 
-Creature::~Creature()
+Entity::~Entity()
 {
 
 }
 
-void Creature::setPosMap(int x, int y)
+void Entity::setPosMap(int x, int y)
 {
     m_posmapx = x;
     m_posmapy = y;
 }
 
 
-int Creature::getBonusVie() const
+int Entity::getBonusVie() const
 {
     return 0;
 }
 
-int Creature::getBonusForce() const
+int Entity::getBonusForce() const
 {
     return 0;
 }
 
-int Creature::getBonusPC() const
+int Entity::getBonusPC() const
 {
     return 0;
 }
 
-QString Creature::caracteristiques() const
+QString Entity::caracteristiques() const
 {
     QString caracteristiques;
     caracteristiques += QObject::trUtf8("vie : ")+QString::number(getTotalVie())+ " ("+QString::number(getBaseVie()) + "+" + QString::number(getBonusVie())+ "), ";
@@ -60,7 +60,7 @@ QString Creature::caracteristiques() const
     return caracteristiques;
 }
 
-QString Creature::important()
+QString Entity::important()
 {
     QString texte;
     texte += m_nom+'*';
@@ -70,7 +70,7 @@ QString Creature::important()
     return texte;
 }
 
-void Creature::setEnCombat(bool enCombat)
+void Entity::setEnCombat(bool enCombat)
 {
     if(enCombat)
     {
@@ -85,19 +85,19 @@ void Creature::setEnCombat(bool enCombat)
     m_enCombat = enCombat;
 }
 
-void Creature::perdVie(int degats)
+void Entity::perdVie(int degats)
 {
     m_vie -= degats;
     if(m_vie < 0)
         m_vie = 0;
 }
 
-bool Creature::peutUtiliserSort(QString const& nom)
+bool Entity::peutUtiliserSort(QString const& nom)
 {
     return m_pc_combat >= getSort(nom)->points_combat();
 }
 
-Sort *Creature::getSort(QString const& nom)
+Spell *Entity::getSort(QString const& nom)
 {
     if(m_sorts.contains(nom))
     {
@@ -110,7 +110,7 @@ Sort *Creature::getSort(QString const& nom)
     }
 }
 
-QString Creature::gagneFinCombat(int ,bool victoire)
+QString Entity::gagneFinCombat(int ,bool victoire)
 {
     if(victoire)
     {

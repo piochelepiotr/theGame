@@ -26,7 +26,7 @@ class EditerMetier : public QDialog
     Q_OBJECT
     
 public:
-    explicit EditerMetier(QWidget *parent, Decors *decors, LesRessources *ressources);
+    explicit EditerMetier(QWidget *parent, Scenery *decors, Resources *ressources);
     ~EditerMetier();
     QString textMetier();
     QString textRecette();
@@ -67,21 +67,21 @@ private:
     QVector<QComboBox*>m_comboObjets;
     QVector<QComboBox*>m_comboSouches;
     QVector<QSpinBox*>m_spinNiveaux;
-    QVector<Bouton*>m_boutonsObj;
+    QVector<NumberButton*>m_boutonsObj;
 
     //infos ingrédients dans l'ordre
     QVector<QComboBox*>m_comboRessources;
     QVector<QSpinBox*>m_spinQuantite;
-    QVector<Bouton*>m_boutonsIngr;
+    QVector<NumberButton*>m_boutonsIngr;
 
 
 
     QMap<QString, QString>*m_recettes;
-    LesRessources *m_ressources;
-    Decors *m_decors;
+    Resources *m_ressources;
+    Scenery *m_decors;
     QStringList m_lesobjets;
     QStringList m_lesressources;
-    QMap<QString, Objet*>m_objets;
+    QMap<QString, Object*>m_objets;
     //bool m_supprimme;
 };
 

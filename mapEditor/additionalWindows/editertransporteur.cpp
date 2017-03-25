@@ -3,7 +3,7 @@
 
 
 
-EditerTransporteur::EditerTransporteur(QWidget *parent, Transporteur *transpo,bool *ok, bool *supprimer) :
+EditerTransporteur::EditerTransporteur(QWidget *parent, Gate *transpo,bool *ok, bool *supprimer) :
     QDialog(parent),
     ui(new Ui::EditerTransporteur)
 {

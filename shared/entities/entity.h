@@ -12,13 +12,13 @@
 #include "entities/spell.h"
 #include "jobs/job.h"
 
-class Donnees_editeur;
+class Data;
 
-class Creature
+class Entity
 {
 public:
-    Creature(const QString &nom, QString const& classe, Donnees_editeur *donnees_editeur);
-    ~Creature();
+    Entity(const QString &nom, QString const& classe, Data *donnees_editeur);
+    ~Entity();
     QString getNom() const { return m_nom; }
     QString getClasse() const { return m_classe; }
     int getNiveau() const { return m_niveau; }
@@ -81,14 +81,14 @@ public:
     void setEquipe(int equipe) { m_equipe = equipe; }
     int equipe() const {return m_equipe; }
 
-    QMap<QString,Sort*> sorts() const { return m_sorts; }
+    QMap<QString,Spell*> sorts() const { return m_sorts; }
 
     bool peutUtiliserSort(QString const& nom);
-    Sort *getSort(QString const& nom);
+    Spell *getSort(QString const& nom);
     QString gagneFinCombat(int, bool victoire);
 
     //
-    Donnees_editeur *donneesEditeur() const { return m_donnees_editeur; }
+    Data *donneesEditeur() const { return m_donnees_editeur; }
 
 protected:
 
@@ -114,11 +114,11 @@ protected:
     bool m_monTour;
     bool m_enCombat;
 
-    QMap<QString,Sort*>m_sorts;
+    QMap<QString,Spell*>m_sorts;
 
     //pour s'équiper
 
-    Donnees_editeur *m_donnees_editeur;
+    Data *m_donnees_editeur;
 };
 
 #endif // CREATURE_H

@@ -7,17 +7,17 @@
 #include "entities/entityImage.h"
 #include "inventory/resources.h"
 
-class Donnees_editeur
+class Data
 {
 public:
     void redidecors(int lcase, int hcase, int mapWidth, int mapHeight);
-    Donnees_editeur(int lcase, int hcase, int mapWidth, int mapHeight);
-    ~Donnees_editeur();
-    Decors *decor;
-    TouslesPnj *touslespnj;
-    Images_Classes *images_classes;
-    LesRessources *ressources;
-    TouslesMetiers *metiers;
+    Data(int lcase, int hcase, int mapWidth, int mapHeight);
+    ~Data();
+    Scenery *decor;
+    NPCs *touslespnj;
+    ImagesEntities *images_classes;
+    Resources *ressources;
+    Jobs *metiers;
 };
 
 #endif // DONNEES_EDITEUR_H

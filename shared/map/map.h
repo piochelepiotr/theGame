@@ -12,12 +12,12 @@
 #include <QtCore>
 #include "map/gate.h"
 
-class DataMap
+class Map
 {
 public:
 
     //coté utilisateur
-    DataMap(Donnees_editeur *donnees_editeur, int cooX, int cooY, int cooZ);
+    Map(Data *donnees_editeur, int cooX, int cooY, int cooZ);
     void charge(QString const& nomFichier);
     bool undo();
     void chargeMap(int x,int y,int z);
@@ -26,7 +26,7 @@ public:
     static void casePleineDeMap(int cooX,int cooY,int cooZ, qint8 casesPleines[NBR_CASES_L] [NBR_CASES_H]);
     void coupable(QMap<QPoint, bool> *objetsCoupables);
     bool estCaseDeDepart(int x, int y, int equipe);
-    Objet *objet(int x,int y,int calque) const { return m_objets[calque][x][y]; }
+    Object *objet(int x,int y,int calque) const { return m_objets[calque][x][y]; }
     QPoint caseCombat(int equipe,int num) const { return m_casescbt[equipe] [num]; }
     void setCaseCombat(int equipe,int num,QPoint p) { m_estEnregistree = false; m_casescbt[equipe] [num] = p; }
     int x() const { return m_cooX; }
@@ -40,7 +40,7 @@ public:
 
     //pour le jeu
     QPoint caseLibre();
-    UnMonstre *nouveauMonstre();
+    MonsterModel *nouveauMonstre();
     void charge_contours();
     QPoint case_haut(QPoint lacase);
     QPoint case_bas(QPoint lacase);
@@ -62,21 +62,21 @@ public:
     //coté éditeur de map
     void enregistre(bool undo = false);
     void setCasePleine(int i,int j,int value);
-    void setObjet(int i,int j,int calque,Objet *objet) {m_estEnregistree = false; m_objets[calque][i][j] = objet; }
+    void setObjet(int i,int j,int calque,Object *objet) {m_estEnregistree = false; m_objets[calque][i][j] = objet; }
     void vide();
 
     QPoint ccase(int posx, int posy, int lmap, int hmap, int lcase, int hcase, bool zoom);
     int cposy(int casey,int hcase,bool zoom);
     int cposx(int casex, int casey, int lcase, bool zoom);
-    Transporteur getTranspo(QPoint const& pos) const { return m_transpos[pos]; }
-    void ajouterTranspo(QPoint const& pos, Transporteur const& transpo) { m_transpos[pos] = transpo; }
+    Gate getTranspo(QPoint const& pos) const { return m_transpos[pos]; }
+    void ajouterTranspo(QPoint const& pos, Gate const& transpo) { m_transpos[pos] = transpo; }
     void supprimeTranspo(QPoint const& pos) { m_transpos.remove(pos); }
     bool contientTranspo(QPoint const& pos) { return m_transpos.contains(pos); }
 
     bool estEnregistree() const { return m_estEnregistree; }
     void setEnregistree(bool enregistree) { m_estEnregistree = enregistree; }
 
-    QMap<QPoint,Objet*> posCollectedResources();
+    QMap<QPoint,Object*> posCollectedResources();
 
 private:
     bool m_estEnregistree;
@@ -86,8 +86,8 @@ private:
     int m_cooX;
     int m_cooY;
     int m_cooZ;
-    Objet *m_objets[3] [NBR_CASES_L] [NBR_CASES_H];
-    QMap <QPoint, Transporteur>m_transpos;
+    Object *m_objets[3] [NBR_CASES_L] [NBR_CASES_H];
+    QMap <QPoint, Gate>m_transpos;
     qint8 m_casepleines[NBR_CASES_L] [NBR_CASES_H];
     int m_casepleinesCombat[NBR_CASES_L][NBR_CASES_H];//même chose que case pleines mais on ne peut pas marcher sur des joueurs par exemple !
     QString m_fond;
@@ -98,7 +98,7 @@ private:
     bool m_bas[(NBR_CASES_L-CASESCACHEESX)*2];
     bool m_gauche[NBR_CASES_H-CASESCACHEESY*2+1];
     bool m_droite[NBR_CASES_H-CASESCACHEESY*2+1];
-    Donnees_editeur *m_donnees_editeur;
+    Data *m_donnees_editeur;
     int m_undo;
 };
 
