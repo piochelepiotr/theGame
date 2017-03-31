@@ -49,11 +49,10 @@
 #define NBR_DE_MAPS_Y 5
 #define NBR_DE_MAPS_Z 5
 #define MAX_CHEMIN 100
-#define NBR_CASES_L 25
-#define NBR_CASES_H 51
+#define NBR_CASES_L 30
+#define NBR_CASES_H 60
 #define CASESCACHEESX 3
 #define CASESCACHEESY 6
-#define NBR_IMAGES_SECONDE 20
 #define MAX_PAR_EQUIP 15
 #define ECART 1/5
 #define DONNEES "../data/donnees/"

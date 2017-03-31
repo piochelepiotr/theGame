@@ -7,6 +7,9 @@
 
 GameField::GameField(const QSize &size, Character *pers, QTcpSocket *sock, Data *donnees_editeur) : GameScene(size,0,donnees_editeur)
 {
+    QElapsedTimer elapsed;
+    elapsed.start();
+    qDebug() << "time : " << elapsed.elapsed();
     m_displayGrid = false;
     m_sort_a_utiliser = 0;
     m_combat = 0;
@@ -14,7 +17,9 @@ GameField::GameField(const QSize &size, Character *pers, QTcpSocket *sock, Data 
     m_combatOuPas = HorsCombat;
     m_socket = sock;
     m_character = pers;
+    qDebug() << "time : " << elapsed.elapsed();
     charge(pers->getPosX(), pers->getPosY(), pers->getPosZ());
+    qDebug() << "time : " << elapsed.elapsed();
     InfoPerVis inf;
     inf.classe = pers->getClasse();
     inf.nom = pers->getNom();
@@ -23,7 +28,9 @@ GameField::GameField(const QSize &size, Character *pers, QTcpSocket *sock, Data 
     m_fleche->setZValue(4+NBR_CASES_H);
     m_posFleche = QPoint(-1,-1);
     addEntity(inf);
+    qDebug() << "time : " << elapsed.elapsed();
     resize(size);
+    qDebug() << "time : " << elapsed.elapsed();
 }
 
 GameField::~GameField()

@@ -1,6 +1,6 @@
 #include "entities/entityImage.h"
 
-ImagesAction::ImagesAction(QString const& nom_classe,QString const& nom_action, QSize const& size)
+ImagesAction::ImagesAction(QString const& nom_classe, QString const& nom_action, QSize const& size)
 {
     m_nbrUtilisateur = 1;
     m_nomClasse = nom_classe;

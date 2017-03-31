@@ -2,6 +2,8 @@
 #include "graphicGame/affichejoueur.h"
 #include <QDateTime>
 
+#define NBR_IMAGES_SECONDE 20
+
 
 FenPrin::FenPrin(QWidget *parent) : QMainWindow(parent)
 {
@@ -132,7 +134,6 @@ void FenPrin::jeu()
     m_jeu = new GameField(QSize(size.width(),size.height()-HAUTEUR_BARRE_OUTIL), m_compte->getPerso(m_persoActuel), m_reseau->socket(), m_donneesediteur);
     m_jeuui->jeu2d->setScene(m_jeu);
     m_jeuui->jeu2d->setSceneRect(0,0,size.width(),size.height()-HAUTEUR_BARRE_OUTIL);
-
 
     m_layoutBarreOutil = new LayoutBarreOutil(this,m_compte->getPerso(m_persoActuel));
     m_jeuui->barreoutil->setLayout(m_layoutBarreOutil);

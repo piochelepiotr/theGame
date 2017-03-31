@@ -1,11 +1,19 @@
 #include "actions_personnage.h"
 
-Action::Action(const QString &nom, Dir orientation, ImagesEntity *images)
+Action::Action(const QString &name, Dir orientation, ImagesEntity *images)
 {
-    m_nom = nom;
+    m_name = name;
     m_orientation = orientation;
-    m_images = images->getImagesAction(nom);
-    m_nbrImages = m_images->nombre_images(m_orientation);
+    m_images = images->getImagesAction(name);
+    int nbrImages = m_images->nombre_images(m_orientation);
+    if(name == "courrir")
+    {
+        m_length = LENGTH_RUN;
+    }
+    else
+    {
+        m_length = nbrImages;
+    }
 }
 
 Actions_personnage::Actions_personnage(EntityModel *uneCreature, const QSize &taille_case)
@@ -54,7 +62,7 @@ bool Actions_personnage::suivante(int *decalageX, int *decalageY, int *caseX, in
         m_immobile = false;
         return true;
     }
-    if(m_actionActuelle->enMouvement())
+    if(m_actionActuelle->moves())
     {
         if(m_imageActuelle < m_actionActuelle->nombre_images()-1)
         {

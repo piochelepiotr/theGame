@@ -8,17 +8,18 @@
 class Action
 {
 public:
-    Action(QString const& nom, Dir orientation, ImagesEntity *images);
+    Action(QString const& name, Dir orientation, ImagesEntity *images);
     QPixmap getImage(int num) { return m_images->getImage(num, m_orientation); }
-    bool enMouvement() const { return m_images->enMouvement(); }
-    int nombre_images() const { return m_nbrImages; }
+    bool moves() const { return m_images->enMouvement(); }
     Dir orientation() const { return m_orientation; }
+    int length() const { return m_length; }
+    QString getName() const { return m_name; }
 
 private:
-    QString m_nom;
+    int m_length;
+    QString m_name;
     Dir m_orientation;
     ImagesAction *m_images;
-    int m_nbrImages;
 };
 
 class Actions_personnage
