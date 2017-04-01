@@ -3,7 +3,7 @@ SubWindow
     border: 2px solid black;
     border-radius: 10px;
     padding: 10px;
-    background-image: url(../data/interface/parchment.jpg);
+    background-image: url(../data/interface/parchment.png);
 }
 
 QWidget
