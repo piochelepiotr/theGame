@@ -6,6 +6,16 @@ SubWindow
     background-image: url(../data/interface/parchment.png);
 }
 
+QLabel#title
+{
+    font-size: 24px;
+}
+
+QPushButton#closeButton
+{
+    
+}
+
 QWidget
 {
     background-color: transparent;

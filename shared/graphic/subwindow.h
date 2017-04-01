@@ -3,7 +3,9 @@
 
 #include <QWidget>
 #include <QGridLayout>
-#include "graphic/titlebarsubwindow.h"
+#include <QPushButton>
+#include <QFrame>
+#include <QLabel>
 
 class GameScene;
 
@@ -16,17 +18,18 @@ public:
     SubWindow(GameScene *gameScene,Place place,int width,int height);
     void gameResized();
     void setTitle(const QString &title);
-//public slots:
-    //void closeWindow();
+public slots:
+    void closeWindow();
 private:
     GameScene *m_gameScene;
     Place m_place;
     QGraphicsProxyWidget *m_item;
 protected:
-    //virtual void closeActions();
-    //virtual void paintEvent(QPaintEvent *event);
-    QGridLayout m_mainLayout;
-    TitleBarSubWindow m_titleBar;
+    virtual void closeActions();
+    QVBoxLayout m_mainLayout;
+    QHBoxLayout m_titleBar;
+    QLabel m_title;
+    QPushButton m_closeButton;
     QFrame m_content;
 };
 

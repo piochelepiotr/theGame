@@ -5,24 +5,30 @@
 #include "scenery/constants.h"
 #include <QStyleOption>
 
-SubWindow::SubWindow(GameScene *gameScene, Place place, int width, int height)
+SubWindow::SubWindow(GameScene *gameScene, Place place, int width, int height) : m_closeButton()
 {
+    m_closeButton.setFixedSize(40,40);
+    m_closeButton.setObjectName("closeButton");
+    m_closeButton.setIcon(QIcon("../data/interface/buttonClose.jpeg"));
+    m_closeButton.setIconSize(QSize(30,30));
+    m_closeButton.setFlat(true);
     m_gameScene = gameScene;
     m_place = place;
     m_item = gameScene->addWidget(this);
     m_item->setZValue(1000);
     m_item->resize(width,height);
     gameResized();
-    //this->setObjectName("subWindow");
-    //m_mainLayout.setMargin(3);  // No space between window's element and the border
-    //m_mainLayout.setSpacing(0); // No space between window's element
-    /*setLayout(&m_mainLayout);
-    m_mainLayout.addWidget(&m_titleBar,0,0,1,1);
-    m_mainLayout.addWidget(&m_content,1,0,1,1);
-    m_mainLayout.setRowStretch(1,2);
-    m_titleBar.updateWindowTitle("BLABLABA");
-    connect(&m_titleBar,SIGNAL(closeWindow()),this,SLOT(closeWindow()));*/
-    //this->setStyleSheet(QString::fromUtf8("border:solid #000000 10px"));
+    this->setLayout(&m_mainLayout);
+    m_titleBar.addWidget(&m_title);
+    m_titleBar.addWidget(&m_closeButton);
+    m_mainLayout.addLayout(&m_titleBar);
+    m_mainLayout.addStretch();
+    setTitle("Titre");
+    m_title.setObjectName("title");
+    m_mainLayout.setMargin(0);  // No space between window's element and the border
+    m_mainLayout.setSpacing(0); // No space between window's element
+    connect(&m_closeButton,SIGNAL(pressed()), this, SLOT(closeWindow()));
+    //connect(&m_closeButton,SIGNAL(clicked(bool)),this,SLOT(closeWindow()));
 }
 
 void SubWindow::gameResized()
@@ -33,34 +39,19 @@ void SubWindow::gameResized()
     }
 }
 
-/*void SubWindow::paintEvent(QPaintEvent *pe)
-{
-  QStyleOption o;
-  o.initFrom(this);
-  QPainter p(this);
-  style()->drawPrimitive(QStyle::PE_Widget, &o, &p, this);
-}*/
-
-/*void SubWindow::paintEvent(QPaintEvent *event)
-{
-    QPainter painter(this);
-    QBrush background(QColor(23,23,34));
-    painter.setBrush(background);
-    painter.setPen(Qt::NoPen);
-    painter.drawRect(0,0,this->width(),this->height());
-}*/
-
 void SubWindow::setTitle(const QString &title)
 {
-    //m_titleBar.updateWindowTitle(title);
+    m_title.setText(title);
 }
 
-/*void SubWindow::closeWindow()
+void SubWindow::closeWindow()
 {
     //closeActions();
-}*/
+    qDebug() << "here";
+    m_gameScene->removeItem(m_item);
+}
 
-/*void SubWindow::closeActions()
+void SubWindow::closeActions()
 {
     //nothing done here, only if class inherited
-}*/
+}
