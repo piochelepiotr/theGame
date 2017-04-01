@@ -113,7 +113,7 @@ GameScene::GameScene(const QSize &size, QLabel *texte, Data *donnees_editeur)
     m_cadreh->setBrush(QBrush(QColor(0,0,0)));
     m_cadreh->setOpacity(0.2);
     m_subWindow = 0;
-    //m_subWindow = new SubWindow(this,Centered,200,100);
+    m_subWindow = new SubWindow(this,Centered,700,300);
     zoomChanged();
 }
 

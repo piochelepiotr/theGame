@@ -2,7 +2,7 @@
 #include "graphicGame/affichejoueur.h"
 #include <QDateTime>
 
-#define NBR_IMAGES_SECONDE 20
+#define NBR_IMAGES_SECONDE 15
 
 
 FenPrin::FenPrin(QWidget *parent) : QMainWindow(parent)

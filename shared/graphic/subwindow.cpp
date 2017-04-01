@@ -3,6 +3,7 @@
 #include <QGraphicsProxyWidget>
 #include <QDebug>
 #include "scenery/constants.h"
+#include <QStyleOption>
 
 SubWindow::SubWindow(GameScene *gameScene, Place place, int width, int height)
 {
@@ -12,14 +13,16 @@ SubWindow::SubWindow(GameScene *gameScene, Place place, int width, int height)
     m_item->setZValue(1000);
     m_item->resize(width,height);
     gameResized();
-    m_mainLayout.setMargin(0);  // No space between window's element and the border
-    m_mainLayout.setSpacing(0); // No space between window's element
-    setLayout(&m_mainLayout);
+    //this->setObjectName("subWindow");
+    //m_mainLayout.setMargin(3);  // No space between window's element and the border
+    //m_mainLayout.setSpacing(0); // No space between window's element
+    /*setLayout(&m_mainLayout);
     m_mainLayout.addWidget(&m_titleBar,0,0,1,1);
     m_mainLayout.addWidget(&m_content,1,0,1,1);
     m_mainLayout.setRowStretch(1,2);
     m_titleBar.updateWindowTitle("BLABLABA");
-    connect(&m_titleBar,SIGNAL(closeWindow()),this,SLOT(closeWindow()));
+    connect(&m_titleBar,SIGNAL(closeWindow()),this,SLOT(closeWindow()));*/
+    //this->setStyleSheet(QString::fromUtf8("border:solid #000000 10px"));
 }
 
 void SubWindow::gameResized()
@@ -30,18 +33,26 @@ void SubWindow::gameResized()
     }
 }
 
-void SubWindow::paintEvent(QPaintEvent *event)
+/*void SubWindow::paintEvent(QPaintEvent *pe)
+{
+  QStyleOption o;
+  o.initFrom(this);
+  QPainter p(this);
+  style()->drawPrimitive(QStyle::PE_Widget, &o, &p, this);
+}*/
+
+/*void SubWindow::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
     QBrush background(QColor(23,23,34));
     painter.setBrush(background);
     painter.setPen(Qt::NoPen);
     painter.drawRect(0,0,this->width(),this->height());
-}
+}*/
 
 void SubWindow::setTitle(const QString &title)
 {
-    m_titleBar.updateWindowTitle(title);
+    //m_titleBar.updateWindowTitle(title);
 }
 
 /*void SubWindow::closeWindow()

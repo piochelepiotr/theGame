@@ -9,17 +9,26 @@ class Action
 {
 public:
     Action(QString const& name, Dir orientation, ImagesEntity *images);
-    QPixmap getImage(int num) { return m_images->getImage(num, m_orientation); }
+    QPixmap getImage() { return m_images->getImage(m_currentImg, m_orientation); }
     bool moves() const { return m_images->enMouvement(); }
     Dir orientation() const { return m_orientation; }
     int length() const { return m_length; }
+    int getNbrOfImg() const { return m_nbrOfImg; }
     QString getName() const { return m_name; }
+    void nextImage();
+    bool isAtEnd() const { return m_currentStep == m_length - 1; }
+    int getCurrentImage() const { return m_currentImg; }
+    int getCurrentStep() const { return m_currentStep; }
+    void setCurrentImg(int image) { m_currentImg = image % m_nbrOfImg; }
 
 private:
     int m_length;
     QString m_name;
     Dir m_orientation;
     ImagesAction *m_images;
+    int m_nbrOfImg;
+    int m_currentImg;
+    int m_currentStep;
 };
 
 class Actions_personnage
@@ -30,7 +39,7 @@ class Actions_personnage
 
     Actions_personnage(EntityModel *uneCreature, QSize const& taille_case);
     ~Actions_personnage();
-    QPixmap getImage() const { return m_actionActuelle->getImage(m_imageActuelle); }
+    QPixmap getImage() const { return m_actionActuelle->getImage(); }
     bool suivante(int *decalageX, int *decalageY, int *caseX, int *caseY, DerniereAction *action);
     void decale(int *x, int *y);
     QPoint posALaFin(QPoint actuelle);
@@ -48,7 +57,6 @@ private:
     bool m_immobile;
     QSize m_taille_case;
     QQueue<Action*>m_lesactions;
-    int m_imageActuelle;
     DerniereAction m_derniere_action;
 };
 

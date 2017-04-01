@@ -9,9 +9,9 @@ class GameScene;
 
 enum Place{Centered,Right};
 
-class SubWindow : public QWidget
+class SubWindow : public QFrame
 {
-    //Q_OBJECT
+    Q_OBJECT
 public:
     SubWindow(GameScene *gameScene,Place place,int width,int height);
     void gameResized();
@@ -24,7 +24,7 @@ private:
     QGraphicsProxyWidget *m_item;
 protected:
     //virtual void closeActions();
-    virtual void paintEvent(QPaintEvent *event);
+    //virtual void paintEvent(QPaintEvent *event);
     QGridLayout m_mainLayout;
     TitleBarSubWindow m_titleBar;
     QFrame m_content;

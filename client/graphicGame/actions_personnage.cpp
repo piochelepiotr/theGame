@@ -1,28 +1,38 @@
 #include "actions_personnage.h"
 
+#define LENGTH_RUN 2
+
 Action::Action(const QString &name, Dir orientation, ImagesEntity *images)
 {
+    m_currentImg = 0;
+    m_currentStep = 0;
     m_name = name;
     m_orientation = orientation;
     m_images = images->getImagesAction(name);
-    int nbrImages = m_images->nombre_images(m_orientation);
-    if(name == "courrir")
+    m_nbrOfImg = m_images->nombre_images(m_orientation);
+    qDebug() << name;
+    if(name == "courir")
     {
         m_length = LENGTH_RUN;
     }
     else
     {
-        m_length = nbrImages;
+        m_length = m_nbrOfImg;
     }
+}
+
+void Action::nextImage()
+{
+    m_currentImg = (m_currentImg + 1) % m_nbrOfImg;
+    m_currentStep = (m_currentStep + 1) % m_length;
 }
 
 Actions_personnage::Actions_personnage(EntityModel *uneCreature, const QSize &taille_case)
 {
     m_images = new ImagesEntity(uneCreature, taille_case);
-    m_actionActuelle = new Action("marcher", O, m_images);
+    m_actionActuelle = new Action("marcher", B, m_images);
     m_immobile = true;
     m_taille_case = taille_case;
-    m_imageActuelle = 0;
     m_derniere_action = Aucune;
 }
 
@@ -64,20 +74,20 @@ bool Actions_personnage::suivante(int *decalageX, int *decalageY, int *caseX, in
     }
     if(m_actionActuelle->moves())
     {
-        if(m_imageActuelle < m_actionActuelle->nombre_images()-1)
+        if(!m_actionActuelle->isAtEnd())
         {
-            m_imageActuelle++;
+            m_actionActuelle->nextImage();
             decale(decalageX, decalageY);
         }
         else
         {
-            m_imageActuelle = 0;
             *decalageX = 0;
             *decalageY = 0;
             QPoint nouvellePos = posALaFin(QPoint(*caseX, *caseY));
             *caseX = nouvellePos.x();
             *caseY = nouvellePos.y();
             Dir orientation = m_actionActuelle->orientation();
+            int currentImage = m_actionActuelle->getCurrentImage();
             delete m_actionActuelle;
             if(m_lesactions.isEmpty())
             {
@@ -88,18 +98,18 @@ bool Actions_personnage::suivante(int *decalageX, int *decalageY, int *caseX, in
             {
                 m_actionActuelle = m_lesactions.front();
                 m_lesactions.pop_front();
+                m_actionActuelle->setCurrentImg(currentImage+1);
             }
         }
     }
     else
     {
-        if(m_imageActuelle < m_actionActuelle->nombre_images()-1)
+        if(!m_actionActuelle->isAtEnd())
         {
-            m_imageActuelle++;
+            m_actionActuelle->nextImage();
         }
         else
         {
-            m_imageActuelle = 0;
             Dir orientation = m_actionActuelle->orientation();
             delete m_actionActuelle;
             if(m_lesactions.isEmpty())
@@ -117,39 +127,40 @@ bool Actions_personnage::suivante(int *decalageX, int *decalageY, int *caseX, in
     return true;
 }
 
-void Actions_personnage::decale(int *x, int *y) // à activer après avoir changer la valeure de m_imageActuelle
+void Actions_personnage::decale(int *x, int *y) // à activer après avoir changer la valeure de currentImage
 {
+    int currentStep = m_actionActuelle->getCurrentStep();
     *x = 0;
     *y = 0;
     switch(m_actionActuelle->orientation())
     {
         case O:
-            *y -= m_taille_case.height()/m_actionActuelle->nombre_images()*m_imageActuelle;
+            *y -= m_taille_case.height()/m_actionActuelle->length()*currentStep;
             break;
         case B:
-            *y += m_taille_case.height()/m_actionActuelle->nombre_images()*m_imageActuelle;
+            *y += m_taille_case.height()/m_actionActuelle->length()*currentStep;
             break;
         case G:
-            *x -= m_taille_case.width()/m_actionActuelle->nombre_images()*m_imageActuelle;
+            *x -= m_taille_case.width()/m_actionActuelle->length()*currentStep;
             break;
         case D:
-            *x += m_taille_case.width()/m_actionActuelle->nombre_images()*m_imageActuelle;
+            *x += m_taille_case.width()/m_actionActuelle->length()*currentStep;
             break;
         case OG:
-            *y -= (m_taille_case.height()/2)/m_actionActuelle->nombre_images()*m_imageActuelle;
-            *x -= (m_taille_case.width()/2)/m_actionActuelle->nombre_images()*m_imageActuelle;
+            *y -= (m_taille_case.height()/2)/m_actionActuelle->length()*currentStep;
+            *x -= (m_taille_case.width()/2)/m_actionActuelle->length()*currentStep;
             break;
         case OD:
-            *y -= (m_taille_case.height()/2)/m_actionActuelle->nombre_images()*m_imageActuelle;
-            *x += (m_taille_case.width()/2)/m_actionActuelle->nombre_images()*m_imageActuelle;
+            *y -= (m_taille_case.height()/2)/m_actionActuelle->length()*currentStep;
+            *x += (m_taille_case.width()/2)/m_actionActuelle->length()*currentStep;
             break;
         case BG:
-            *y += (m_taille_case.height()/2)/m_actionActuelle->nombre_images()*m_imageActuelle;
-            *x -= (m_taille_case.width()/2)/m_actionActuelle->nombre_images()*m_imageActuelle;
+            *y += (m_taille_case.height()/2)/m_actionActuelle->length()*currentStep;
+            *x -= (m_taille_case.width()/2)/m_actionActuelle->length()*currentStep;
             break;
         case BD:
-            *y += (m_taille_case.height()/2)/m_actionActuelle->nombre_images()*m_imageActuelle;
-            *x += (m_taille_case.width()/2)/m_actionActuelle->nombre_images()*m_imageActuelle;
+            *y += (m_taille_case.height()/2)/m_actionActuelle->length()*currentStep;
+            *x += (m_taille_case.width()/2)/m_actionActuelle->length()*currentStep;
             break;
         default:
             break;
