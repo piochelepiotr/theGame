@@ -1,6 +1,7 @@
 #include "actions_personnage.h"
 
 #define LENGTH_RUN 2
+#define LENGHT_WALK 4
 
 Action::Action(const QString &name, Dir orientation, ImagesEntity *images)
 {
@@ -10,10 +11,13 @@ Action::Action(const QString &name, Dir orientation, ImagesEntity *images)
     m_orientation = orientation;
     m_images = images->getImagesAction(name);
     m_nbrOfImg = m_images->nombre_images(m_orientation);
-    qDebug() << name;
     if(name == "courir")
     {
         m_length = LENGTH_RUN;
+    }
+    else if(name == "marcher")
+    {
+        m_length = LENGHT_WALK;
     }
     else
     {

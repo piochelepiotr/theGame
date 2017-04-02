@@ -19,7 +19,8 @@ SOURCES += \
     additionalWindows/windowendfight.cpp \
     graphicGame/layoutbarreoutil.cpp \
     graphicGame/gamefield.cpp \
-    additionalWindows/entityactions.cpp
+    additionalWindows/entityactions.cpp \
+    graphicGame/windowactions.cpp
 
 HEADERS += \
     additionalWindows/caracteristiques.h \
@@ -36,7 +37,8 @@ HEADERS += \
     additionalWindows/windowendfight.h \
     graphicGame/layoutbarreoutil.h \
     graphicGame/gamefield.h \
-    additionalWindows/entityactions.h
+    additionalWindows/entityactions.h \
+    graphicGame/windowactions.h
 
 FORMS += \
     additionalWindows/caracteristiques.ui \

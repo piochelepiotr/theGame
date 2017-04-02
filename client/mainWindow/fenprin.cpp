@@ -1,6 +1,7 @@
 #include "mainWindow/fenprin.h"
 #include "graphicGame/affichejoueur.h"
 #include <QDateTime>
+#include "graphicGame/windowactions.h"
 
 #define NBR_IMAGES_SECONDE 15
 
@@ -369,15 +370,10 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
                 QString nom = m_jeu->contientJoueur();
                 if(nom != m_compte->getPerso(m_persoActuel)->getNom() && !nom.isEmpty())
                 {
-                    Inter inter;
-                    InterJoueur boite(this, nom, &inter);
-                    if(inter == Echange)
-                    {
-                        /*m_reseau->envoyer("ede/"+nom);
-                        m_boxannul->setText(trUtf8("Demande d'échange à ")+nom+(" en cours..."));
-                        m_boxannul->open(this, SLOT(annuleDemandeEchange()));*/
-                    }
-                    else if(inter == Defi)
+                    WindowActions::Action action;
+                    new WindowActions(m_jeu,&action);
+                    //WindowActions(m_jeu,&action);
+                    if(action == WindowActions::Fight)
                     {
                         qDebug() << "demande defi a " << nom;
                         m_reseau->envoyer("combat/jeDemandeDefi/"+nom);
