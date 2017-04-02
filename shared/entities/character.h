@@ -104,6 +104,8 @@ public:
     void metAJourNiveau();
     static int xpDeNiveau(int niveau);
 
+    virtual bool isMonster() { return false; }
+
 private:
 
     QVector<Resss>m_ressources;

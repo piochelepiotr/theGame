@@ -1,37 +1,47 @@
 #include "affichejoueur.h"
 #include "graphicGame/gamefield.h"
 
-AfficheJoueur::AfficheJoueur(EntityModel *creature, QString const& nom, QSize const& size, int *poscasex, int*poscasey, GameField *parent, int mapWidth)
+AfficheJoueur::AfficheJoueur(EntityModel *entityModel, QString const& name, QSize const& size, int *poscasex, int*poscasey, GameField *parent, int mapWidth)
     : ObjectItem(parent,mapWidth,QPoint(*poscasex,*poscasey))
 {
+    m_entityModel = entityModel;
+    m_name = name;
     m_game = parent;
     m_decalageX = 0;
     m_decalageY = 0;
     m_caseX = poscasex;
     m_caseY = poscasey;
     m_game = parent;
-    m_perso = new Actions_personnage(creature, size);
+    m_perso = new Actions_personnage(entityModel, size);
     setPixmap(m_perso->getImage());
     setZValue(4+(*m_caseY));
     m_pasentier = false;
     affiche();
-    changeToolTip(nom);
+    if(entityModel->isMonster())
+        changeToolTip(entityModel->getClass());
+    else
+        changeToolTip(name);
 }
 
-AfficheJoueur::AfficheJoueur(EntityModel *creature, QString const& nom, QSize const& size, QPoint const& poscase, GameField *parent, int mapWidth)
+AfficheJoueur::AfficheJoueur(EntityModel *entityModel, QString const& name, QSize const& size, QPoint const& poscase, GameField *parent, int mapWidth)
 : ObjectItem(parent,mapWidth,poscase)
 {
+    m_entityModel = entityModel;
+    m_name = name;
     m_decalageX = 0;
     m_decalageY = 0;
     m_caseX = new int(poscase.x());
     m_caseY = new int(poscase.y());
     m_game = parent;
-    m_perso = new Actions_personnage(creature, size);
+    m_perso = new Actions_personnage(entityModel, size);
     setPixmap(m_perso->getImage());
     setZValue(4+(*m_caseY));
     m_pasentier = true;
     affiche();
-    changeToolTip(nom);
+    if(entityModel->isMonster())
+        changeToolTip(entityModel->getClass());
+    else
+        changeToolTip(name);
 }
 
 AfficheJoueur::~AfficheJoueur()

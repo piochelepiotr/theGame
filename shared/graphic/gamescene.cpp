@@ -714,5 +714,5 @@ void GameScene::affichePortee()
 
 void GameScene::utileClique(QPoint const& pos)
 {
-
+    Q_UNUSED(pos);
 }

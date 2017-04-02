@@ -15,7 +15,7 @@ class GameField : public GameScene
 {
     Q_OBJECT
 public slots:
-    void addEntity(InfoPerVis perso);
+    void addEntity(EntityInfo perso);
     void removeEntity(QString const& nom);
     void ressource_repousse(int posx, int posy);
     void ressourceRecoltee(QPoint pos);

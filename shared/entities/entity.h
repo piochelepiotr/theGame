@@ -55,6 +55,8 @@ public:
     void setPosY(int posY) { m_posY = posY; }
     void setPosZ(int posZ) { m_posZ = posZ; }
 
+    virtual bool isMonster()=0;
+
 
     //
 

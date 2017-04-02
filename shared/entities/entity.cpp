@@ -17,7 +17,7 @@ Entity::Entity(const QString &nom, QString const& classe, Data *donnees_editeur)
     m_posmapx = 0;
     m_posmapy = 1;
     m_niveau = 1;
-    QMap<QString,SpellModel*> sorts = m_donnees_editeur->ressources->getCreature(classe)->sorts();
+    QMap<QString,SpellModel*> sorts = m_donnees_editeur->ressources->getCreature(classe)->getSpells();
     for(QMap<QString,SpellModel*>::const_iterator it = sorts.begin(); it != sorts.end() ; it++)
     {
         m_sorts[it.value()->nom()] = it.value()->sortNiveau(1);
@@ -67,6 +67,7 @@ QString Entity::important()
     texte += m_classe+'*';
     texte += QString::number(m_posmapx)+'*';
     texte += QString::number(m_posmapy)+'*';
+    texte += QString::number((int)isMonster());
     return texte;
 }
 

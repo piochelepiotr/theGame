@@ -63,12 +63,13 @@
 
 const double screenFormat = 1.7;
 
-typedef struct InfoPerVis InfoPerVis;
-struct InfoPerVis
+typedef struct EntityInfo EntityInfo;
+struct EntityInfo
 {
     QString nom;
     QString classe;
     QPoint posmap;
+    bool monster;
 };
 
 enum Dir{O,OG,G,BG,B,BD,D,OD};

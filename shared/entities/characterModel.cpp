@@ -4,7 +4,7 @@
 CharacterModel::CharacterModel(QString const& donnees, const QMap<QString, SpellModel *> &sorts)
 {
     QStringList liste = donnees.split('/');
-    m_classe = liste[0];
+    m_class = liste[0];
     liste.pop_front();
     m_arme = liste.front();
     liste.pop_front();
@@ -17,7 +17,7 @@ CharacterModel::CharacterModel(QString const& donnees, const QMap<QString, Spell
     while(liste.size() > 0)
     {
         if(sorts.contains(liste.front()))
-            m_sorts[liste.front()] = sorts[liste.front()];
+            m_spells[liste.front()] = sorts[liste.front()];
         liste.pop_front();
     }
 }

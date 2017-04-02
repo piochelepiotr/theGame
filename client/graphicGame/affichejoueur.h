@@ -10,8 +10,8 @@ class AfficheJoueur : public ObjectItem
 {
 public :
 
-    AfficheJoueur(EntityModel *creature, QString const& nom, const QSize &size, int *poscasex, int*poscasey, GameField *parent,int mapWidth);
-    AfficheJoueur(EntityModel *creature, QString const& nom, const QSize &size, QPoint const& posmap, GameField *parent, int mapWidth);
+    AfficheJoueur(EntityModel *entityModel, QString const& name, const QSize &size, int *poscasex, int*poscasey, GameField *parent, int mapWidth);
+    AfficheJoueur(EntityModel *entityModel, QString const& name, const QSize &size, QPoint const& posmap, GameField *parent, int mapWidth);
     void suivante();
     void affiche();
     void resize(int lcase, int hcase);
@@ -22,9 +22,11 @@ public :
     ~AfficheJoueur();
     void changePos(int casex, int casey);/////ATTENTION il doit être a l'arrêt
     void changeMap();
+    EntityModel *getEntityModel() const { return m_entityModel; }
 
 private:
 
+    EntityModel *m_entityModel;
     Actions_personnage *m_perso;
     int *m_caseX;
     int *m_caseY;
@@ -33,6 +35,7 @@ private:
     bool m_pasentier;
     QPixmap m_image;
     GameField *m_game;
+    QString m_name;
 
 protected:
     //void mousePressEvent ( QGraphicsSceneMouseEvent * event);

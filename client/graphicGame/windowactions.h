@@ -7,18 +7,20 @@
 
 class GameScene;
 
-class WindowActions : SubWindow
+class WindowActions : public SubWindow
 {
     Q_OBJECT
 public:
-    enum Action {None,Fight};
-    WindowActions(GameScene *gameScene, const QString &name, Action *action);
+    WindowActions(GameScene *gameScene, const QString &clas,QString const& name);
+
+signals:
+    void attackMonster(QString const& name);
 
 public slots:
     void fight();
 
 private:
-    Action *m_action;
+    QString m_name;
     QPushButton m_fightButton;
     QHBoxLayout m_layout;
 };

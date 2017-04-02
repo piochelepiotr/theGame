@@ -23,9 +23,9 @@ void ServerMap::addMonstre()
     MonsterModel *monstre = m_map->nouveauMonstre();
     if(monstre)
     {
-        QString nom = nomMonstre(monstre->classe());
+        QString nom = nomMonstre(monstre->getClass());
         QPoint p = m_map->caseLibre();
-        m_monstres[nom] = monstre->genereMonstre(m_map->x(),m_map->y(),m_map->z(),p.x(),p.y(),m_donnees_editeur,nom);
+        m_monstres[nom] = monstre->generateMonster(m_map->x(),m_map->y(),m_map->z(),p.x(),p.y(),m_donnees_editeur,nom);
     }
 }
 

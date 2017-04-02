@@ -26,7 +26,7 @@ FenPrin::FenPrin(QWidget *parent) : QMainWindow(parent)
     m_boxquestion->setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
 
 
-    qRegisterMetaType <InfoPerVis>("InfoPerVis");
+    qRegisterMetaType <EntityInfo>("InfoPerVis");
     connect(m_reseau, SIGNAL(erreurReseau(QString)), this, SLOT(ecriterreurReseau(QString)));
     connect(m_reseau, SIGNAL(ecritdanschat(QString)), this, SLOT(ajouteLigneChat(QString)));
     connect(m_reseau, SIGNAL(connexionAcceptee(QString)), this, SLOT(connexionAcc(QString)));
@@ -143,7 +143,7 @@ void FenPrin::jeu()
     connect(m_jeuui->menu_jeu_quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(m_jeuui->menu_jeu_deco, SIGNAL(triggered()), this, SLOT(connexion()));
     connect(m_jeuui->menu_jeu_changerPerso, SIGNAL(triggered()), this, SLOT(choixPerso()));
-    connect(m_reseau, SIGNAL(nouveauJoueur(InfoPerVis)), m_jeu, SLOT(addEntity(InfoPerVis)));
+    connect(m_reseau, SIGNAL(nouveauJoueur(EntityInfo)), m_jeu, SLOT(addEntity(EntityInfo)));
     connect(m_reseau, SIGNAL(decJoueur(QString)), m_jeu, SLOT(removeEntity(QString)));
     connect(m_reseau, SIGNAL(coupe(QString,QString,int,int)), m_jeu, SLOT(recolte(QString,QString,int,int)));
     connect(m_reseau, SIGNAL(ressource_coupe(QPoint)), m_jeu, SLOT(ressourceRecoltee(QPoint)));
@@ -370,20 +370,10 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
                 QString nom = m_jeu->contientJoueur();
                 if(nom != m_compte->getPerso(m_persoActuel)->getNom() && !nom.isEmpty())
                 {
-                    WindowActions::Action action;
-                    new WindowActions(m_jeu,nom,&action);
-                    //WindowActions(m_jeu,&action);
-                    if(action == WindowActions::Fight)
+                    if(m_jeu->getJoueur(nom)->getEntityModel()->isMonster())
                     {
-                        qDebug() << "demande defi a " << nom;
-                        m_reseau->envoyer("combat/jeDemandeDefi/"+nom);
-                        m_boxannul->setText(trUtf8("Demande de defi à ")+nom+(" en cours..."));
-                        m_boxannul->open(this, SLOT(annuleDemandeDefi()));
-                        m_combat = new Combat(m_compte->getPerso(m_persoActuel)->getNom(), m_compte->getPerso(m_persoActuel));
-                    }
-                    else
-                    {
-                        //m_nomDeLautre.clear();
+                        WindowActions * windowAction = new WindowActions(m_jeu,m_jeu->getJoueur(nom)->getEntityModel()->getClass(),nom);
+                        connect(windowAction, SIGNAL(attackMonster(QString)),this,SLOT(attackMonster(QString)));
                     }
                 }
             }
@@ -745,6 +735,15 @@ void FenPrin::changeVie(QString const& nom, int vie)
     {
         m_layoutBarreOutil->setVie(vie);
     }
+}
+
+void FenPrin::attackMonster(QString const& name)
+{
+    qDebug() << "veut combattre " << name;
+    //m_reseau->envoyer("combat/jeDemandeDefi/"+nom);
+    //m_boxannul->setText(trUtf8("Demande de defi à ")+nom+(" en cours..."));
+    //m_boxannul->open(this, SLOT(annuleDemandeDefi()));
+    //m_combat = new Combat(m_compte->getPerso(m_persoActuel)->getNom(), m_compte->getPerso(m_persoActuel));
 }
 
 

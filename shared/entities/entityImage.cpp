@@ -82,7 +82,7 @@ void ImagesEntity::redimentionne(QSize const& nouvelle)
 ImagesAction *ImagesEntity::getImagesAction(QString const& nomAction)
 {
     if(!m_images.contains(nomAction))
-        m_images[nomAction] = new ImagesAction(m_uneCreature->classe(), nomAction, m_taille);
+        m_images[nomAction] = new ImagesAction(m_uneCreature->getClass(), nomAction, m_taille);
     return m_images[nomAction];
 }
 
@@ -90,7 +90,7 @@ ImagesEntities::ImagesEntities(QMap<QString, EntityModel*>creatures, QSize const
 {
     for(QMap<QString, EntityModel*>::iterator it = creatures.begin(); it != creatures.end(); it++)
     {
-        m_creatures[it.value()->classe()] = new ImagesEntity(it.value(), taille);
+        m_creatures[it.value()->getClass()] = new ImagesEntity(it.value(), taille);
     }
 }
 

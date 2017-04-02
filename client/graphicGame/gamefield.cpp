@@ -20,10 +20,11 @@ GameField::GameField(const QSize &size, Character *pers, QTcpSocket *sock, Data 
     qDebug() << "time : " << elapsed.elapsed();
     charge(pers->getPosX(), pers->getPosY(), pers->getPosZ());
     qDebug() << "time : " << elapsed.elapsed();
-    InfoPerVis inf;
+    EntityInfo inf;
     inf.classe = pers->getClasse();
     inf.nom = pers->getNom();
     inf.posmap = pers->getPosMap();
+    inf.monster = false;
     m_fleche = addPixmap(QPixmap());
     m_fleche->setZValue(4+NBR_CASES_H);
     m_posFleche = QPoint(-1,-1);
@@ -344,7 +345,7 @@ void GameField::a_coupe()
 void GameField::infos_map(QString infos)
 {
     QString unJoueur;
-    InfoPerVis perso;
+    EntityInfo perso;
     while(infos.at(0) != '/')
     {
         ressourceRecoltee(QPoint(infos.mid(0,2).toInt(), infos.mid(2,2).toInt()));
@@ -357,6 +358,7 @@ void GameField::infos_map(QString infos)
         perso.nom = unJoueur.section('*', 0, 0);
         perso.classe = unJoueur.section('*', 1, 1);
         perso.posmap = QPoint(unJoueur.section('*', 2,2).toInt(), unJoueur.section('*', 3, 3).toInt());
+        perso.monster = (bool) unJoueur.section('*',4,4).toInt();
         addEntity(perso);
         infos = infos.section('/', 1);
     }
@@ -602,8 +604,9 @@ bool GameField::contientJoueur(QPoint const& pos)
     return false;
 }
 
-void GameField::addEntity(InfoPerVis perso)
+void GameField::addEntity(EntityInfo perso)
 {
+    qDebug() << "adding entity " << perso.nom << " monster ? " << perso.monster;
     m_persos[perso.nom] = new AfficheJoueur(m_donnees_editeur->ressources->getCreature(perso.classe) ,perso.nom, QSize(m_lcase, m_hcase), perso.posmap, this,m_lmap);
     /*if(perso.nom == m_personnage->getNom())
         connect(m_persos[perso.nom], SIGNAL(estSurTranspo(QPoint)), this, SLOT(VaChangerDeMap(QPoint)));*/

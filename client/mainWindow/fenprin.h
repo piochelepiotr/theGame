@@ -118,6 +118,8 @@ public slots:
     void finCombat(const QString &texte);
     void changeVie(QString const& nom, int vie);
 
+    void attackMonster(QString const& name);
+
 private:
 
     Data *m_donneesediteur;

@@ -24,7 +24,7 @@ signals:
     void connexionRefusee();
     void qqdautre();
     void ecritdanschat(QString message);
-    void nouveauJoueur(InfoPerVis perso);
+    void nouveauJoueur(EntityInfo perso);
     void decJoueur(QString qui);
     void deplacement(QString qui, QPoint ou);
     void coupe(QString qui, QString verbe, int orientation, int nombre_coups);
