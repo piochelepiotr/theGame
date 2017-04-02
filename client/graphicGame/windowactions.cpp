@@ -4,7 +4,7 @@
 #define WIDTH 500
 #define HEIGHT 300
 
-WindowActions::WindowActions(GameScene *gameScene, Action *action) : SubWindow(gameScene,Centered,WIDTH,HEIGHT)
+WindowActions::WindowActions(GameScene *gameScene,QString const& name, Action *action) : SubWindow(gameScene,Centered,WIDTH,HEIGHT)
 {
     qDebug() << "Entering windowActions";
     m_action = action;
@@ -12,6 +12,7 @@ WindowActions::WindowActions(GameScene *gameScene, Action *action) : SubWindow(g
     m_layout.addWidget(&m_fightButton);
     m_content.setLayout(&m_layout);
     connect(&m_fightButton,SIGNAL(clicked(bool)), this, SLOT(fight()));
+    setTitle(name);
 }
 
 void WindowActions::fight()

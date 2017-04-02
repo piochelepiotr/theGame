@@ -371,7 +371,7 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
                 if(nom != m_compte->getPerso(m_persoActuel)->getNom() && !nom.isEmpty())
                 {
                     WindowActions::Action action;
-                    new WindowActions(m_jeu,&action);
+                    new WindowActions(m_jeu,nom,&action);
                     //WindowActions(m_jeu,&action);
                     if(action == WindowActions::Fight)
                     {

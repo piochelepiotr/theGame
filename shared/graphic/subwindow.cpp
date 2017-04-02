@@ -10,7 +10,7 @@ SubWindow::SubWindow(GameScene *gameScene, Place place, int width, int height) :
     qDebug() << "entering subwindow";
     m_closeButton.setFixedSize(40,40);
     m_closeButton.setObjectName("closeButton");
-    m_closeButton.setIcon(QIcon("../data/interface/buttonClose.jpeg"));
+    m_closeButton.setIcon(QIcon("../data/interface/buttonClose.png"));
     m_closeButton.setIconSize(QSize(30,30));
     m_closeButton.setFlat(true);
     m_gameScene = gameScene;

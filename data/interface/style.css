@@ -80,7 +80,12 @@ QLabel#title
 
 QPushButton#closeButton
 {
-    
+    border: 2px;
+}
+
+QPushButton#closeButton:hover
+{
+	border: 2px solid rgb(255,239,10);
 }
 
 QWidget#subWindowWidget

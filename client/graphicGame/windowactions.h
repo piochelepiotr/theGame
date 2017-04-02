@@ -12,7 +12,7 @@ class WindowActions : SubWindow
     Q_OBJECT
 public:
     enum Action {None,Fight};
-    WindowActions(GameScene *gameScene, Action *action);
+    WindowActions(GameScene *gameScene, const QString &name, Action *action);
 
 public slots:
     void fight();
