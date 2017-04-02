@@ -52,6 +52,8 @@ void GameField::resize(QSize const& newSize)
 
 void GameField::cliqueGauche(int x, int y)
 {
+    if(m_subWinOpened)
+        return;
     if(m_combatOuPas == HorsCombat)
     {
         QPoint p = fleche();
@@ -219,6 +221,8 @@ AfficheJoueur *GameField::getJoueur(QString const& nom)
 
 void GameField::utileClique(QPoint const& pos)
 {
+    if(m_subWinOpened)
+        return;
     if(m_combatOuPas == HorsCombat)
     {
         qDebug() << "clique utile !";
@@ -361,6 +365,8 @@ void GameField::infos_map(QString infos)
 void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
     QGraphicsScene::mouseMoveEvent(mouseEvent);
+    if(m_subWinOpened)
+        return;
     int x = mouseEvent->scenePos().x(), y = mouseEvent->scenePos().y();
     if(phase() == HorsCombat)
     {

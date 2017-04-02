@@ -7,13 +7,14 @@
 
 SubWindow::SubWindow(GameScene *gameScene, Place place, int width, int height) : m_closeButton()
 {
+    m_gameScene = gameScene;
+    m_gameScene->setSubWinOpened(true);
     qDebug() << "entering subwindow";
     m_closeButton.setFixedSize(40,40);
     m_closeButton.setObjectName("closeButton");
     m_closeButton.setIcon(QIcon("../data/interface/buttonClose.png"));
     m_closeButton.setIconSize(QSize(30,30));
     m_closeButton.setFlat(true);
-    m_gameScene = gameScene;
     m_place = place;
     m_item = gameScene->addWidget(this);
     m_item->setZValue(1000);
@@ -49,7 +50,7 @@ void SubWindow::setTitle(const QString &title)
 void SubWindow::closeWindow()
 {
     //closeActions();
-    qDebug() << "here";
+    m_gameScene->setSubWinOpened(false);
     m_gameScene->removeItem(m_item);
 }
 

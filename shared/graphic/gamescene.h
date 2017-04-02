@@ -76,6 +76,7 @@ public:
     void affichePortee();
     virtual void utileClique(QPoint const& pos);
     Data *donneesediteur() { return m_donnees_editeur; }
+    void setSubWinOpened(bool opened) { m_subWinOpened = opened; }
 
 protected:
     bool m_displayGrid;
@@ -114,6 +115,7 @@ protected:
     QPoint m_ancienne;
     QPoint m_posCaseVisee;
     SubWindow *m_subWindow;
+    bool m_subWinOpened;
 };
 
 #endif // GAMESCENE_H

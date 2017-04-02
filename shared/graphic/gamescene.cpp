@@ -3,6 +3,7 @@
 
 GameScene::GameScene(const QSize &size, QLabel *texte, Data *donnees_editeur)
 {
+    m_subWinOpened = false;
     m_displayGrid = true;
     m_posCaseVisee = QPoint(-1,-1);
     m_ancienne = QPoint(-1,-1);

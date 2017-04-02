@@ -6,10 +6,10 @@
 
 void perso()
 {
-    QFile style("../data/interface/style2.css");
+    QFile style("../data/interface/style.css");
     if(!style.open(QIODevice::ReadOnly))
     {
-        qDebug() << "fichier style2.css non trouve";
+        qDebug() << "fichier style.css non trouve";
         exit(EXIT_FAILURE);
     }
     QString stylec(style.readAll());
