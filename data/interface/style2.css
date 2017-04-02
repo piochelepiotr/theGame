@@ -16,7 +16,7 @@ QPushButton#closeButton
     
 }
 
-QWidget
+QWidget#subWindowWidget
 {
     background-color: transparent;
     color: white;
