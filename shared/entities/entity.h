@@ -17,9 +17,9 @@ class Data;
 class Entity
 {
 public:
-    Entity(const QString &nom, QString const& classe, Data *donnees_editeur);
+    Entity(const QString &name, QString const& classe, Data *donnees_editeur);
     ~Entity();
-    QString getNom() const { return m_nom; }
+    QString getNom() const { return m_name; }
     QString getClasse() const { return m_classe; }
     int getNiveau() const { return m_niveau; }
 
@@ -85,8 +85,8 @@ public:
 
     QMap<QString,Spell*> spells() const { return m_spells; }
 
-    bool peutUtiliserSpell(QString const& nom);
-    Spell *getSpell(QString const& nom);
+    bool peutUtiliserSpell(QString const& name);
+    Spell *getSpell(QString const& name);
     QString gagneFinFight(int, bool victoire);
 
     //
@@ -100,7 +100,7 @@ protected:
     int m_posmapx;
     int m_posmapy;
     QPoint m_posHorsFight;
-    QString m_nom;
+    QString m_name;
     QString m_classe;
     int m_base_vie;
     int m_base_force;

@@ -19,7 +19,7 @@ Caracteristiques::Caracteristiques(QWidget *parent, Character *perso, Reseau *re
     ui->pod->setMaximum(m_perso->getPodsMax());
     ui->pod->setValue(m_perso->getPods());
     ui->pod->setFormat("%v / %m");
-    ui->nom->setText(m_perso->getNom());
+    ui->name->setText(m_perso->getNom());
     ui->classe_lvl->setText(m_perso->getClasse()+", niveau "+QString::number(m_perso->getNiveau()));
     ui->barre_xp->setMaximum(Character::xpDeNiveau(perso->getNiveau()+1));
     ui->barre_xp->setMinimum(Character::xpDeNiveau(perso->getNiveau()));
@@ -181,7 +181,7 @@ void Caracteristiques::decriRess(Resource *ress)
 {
     ui->description->setPlainText(trUtf8("Catégorie : ") + ress->categorie() + '\n' + ress->description());
     ui->imageobjet->setPixmap(ress->imageg());
-    ui->nomobjet->setText(ress->nom());
+    ui->nameobjet->setText(ress->name());
     ui->podobjet->setText(trUtf8("pods : ")+QString::number(ress->pods()));
     ui->nivobjet->setText(trUtf8("niveau : ")+QString::number(ress->niveau()));
     ui->descr_effet->setText("");
@@ -199,7 +199,7 @@ void Caracteristiques::decriObj(Outfit *obj)
 void Caracteristiques::decriArme(Weapon *arme)
 {
     decriObj(arme->getEquipement());
-    m_description_spell->setSpell(m_donnees_editeur->resources->getArme(arme->getEquipement()->getRessource()->nom())->getSpell());
+    m_description_spell->setSpell(m_donnees_editeur->resources->getArme(arme->getEquipement()->getRessource()->name())->getSpell());
 }
 
 void Caracteristiques::cotedclique(int num)
@@ -393,7 +393,7 @@ void Caracteristiques::competences()
 
             resources->insertRow(j);
             resources->setItem(j,0,new QTableWidgetItem(m_perso->getMetier(metiers[i])->getMetierBase()->verbe()));
-            resources->setItem(j,1,new QTableWidgetItem(m_donnees_editeur->decor->objet(objets[j])->nom()));
+            resources->setItem(j,1,new QTableWidgetItem(m_donnees_editeur->decor->objet(objets[j])->name()));
             resources->setItem(j,2,new QTableWidgetItem(m_perso->getMetier(metiers[i])->getMetierBase()->arme()));
             resources->setItem(j,3,new QTableWidgetItem(QString::number(m_perso->getMetier(metiers[i])->nbrCoups())+trUtf8(" coups")));
             resources->setCellWidget(j,4,resource_collectee);

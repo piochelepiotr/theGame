@@ -15,7 +15,7 @@ public:
     void setBonusVie(int max, int bonus) { m_bonus_vie[max] = bonus; }
     void setBonusPointFight(int max, int bonus) { m_bonus_points_fight[max] = bonus; }
     Resource *getRessource() const { return m_resource; }
-    static OutfitModel* nouvel(QString const& nom, QString const& chemin);
+    static OutfitModel* nouvel(QString const& name, QString const& chemin);
     static QString description(OutfitModel *equipement);
     QString longue_description();
     Outfit *genere();

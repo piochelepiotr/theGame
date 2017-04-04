@@ -21,7 +21,7 @@ public:
 public slots:
 
     void chargeSpells();
-    void ajouterNouveau(const QString &lenom = QString());
+    void ajouterNouveau(const QString &lename = QString());
     void supprimeSpell(int i);
     void modifierSpell(int i);
     

@@ -236,10 +236,10 @@ void Actions_personnage::effaceActions()
     m_lesactions.clear();
 }
 
-void Actions_personnage::ajouteAction(const QString &nom, Dir orientation)
+void Actions_personnage::ajouteAction(const QString &name, Dir orientation)
 {
     effaceActions();
-    m_lesactions.push_back(new Action(nom, orientation, m_images));
+    m_lesactions.push_back(new Action(name, orientation, m_images));
 }
 
 void Actions_personnage::marche(QQueue<Dir>const&chemin, DerniereAction action)

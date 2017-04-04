@@ -77,7 +77,7 @@ FaireRecettes::FaireRecettes(QWidget *parent, const QString &metier, Data *donne
     ui->lay_objet_cree->addWidget(m_objet_cree);
     ui->recettes->setLayout(new Recipes(m_metier, m_donnees_editeur->resources));
     ui->quantite->setMaximum(0);
-    setWindowTitle(trUtf8("métier ")+m_metier->getMetierBase()->nom()+trUtf8(" niveau ")+QString::number(m_metier->getLvl()));
+    setWindowTitle(trUtf8("métier ")+m_metier->getMetierBase()->name()+trUtf8(" niveau ")+QString::number(m_metier->getLvl()));
 
     for(int i = 0; i < m_metier->getNbrCases(); i++)
     {

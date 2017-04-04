@@ -19,7 +19,7 @@ public slots:
     void defi();
     
 public:
-    explicit InterJoueur(QWidget *parent, QString const& nom, Inter *inter);
+    explicit InterJoueur(QWidget *parent, QString const& name, Inter *inter);
     ~InterJoueur();
     
 private:

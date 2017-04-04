@@ -66,7 +66,7 @@ const double screenFormat = 1.7;
 typedef struct EntityInfo EntityInfo;
 struct EntityInfo
 {
-    QString nom;
+    QString name;
     QString classe;
     QPoint posmap;
     bool monster;

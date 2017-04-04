@@ -34,7 +34,7 @@ void SpellDescription::setSpell(SpellModel *spell)
         ui->textEdit_9->setText("");
         ui->textEdit_10->setText("");
         ui->niveau->setText("");
-        ui->nom_spell->setText("");
+        ui->name_spell->setText("");
     }
     else
     {
@@ -48,7 +48,7 @@ void SpellDescription::setSpell(SpellModel *spell)
         ui->textEdit_8->setText(Spell::decrit(spell->spellNiveau(7)));
         ui->textEdit_9->setText(Spell::decrit(spell->spellNiveau(8)));
         ui->textEdit_10->setText(Spell::decrit(spell->spellNiveau(9)));
-        ui->nom_spell->setText(spell->nom());
+        ui->name_spell->setText(spell->name());
     }
 }
 

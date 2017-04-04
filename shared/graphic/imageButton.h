@@ -8,15 +8,15 @@ class ImageButtonString : public QPushButton
     Q_OBJECT
 
 public:
-    ImageButtonString(QString nom,QString const& cheminImage);
+    ImageButtonString(QString name,QString const& cheminImage);
 
 public slots:
     void clique();
 signals:
-    void clique(QString nom);
+    void clique(QString name);
 
 private:
-    QString m_nom;
+    QString m_name;
 };
 
 #endif // BOUTONIMG_H

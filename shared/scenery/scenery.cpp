@@ -28,7 +28,7 @@ void Scenery::charge()
     m_objets[0] = new Object();
     Object *obj;
     qint16 num;
-    QString categorie, nom, ligne;
+    QString categorie, name, ligne;
     QStringList liste;
     double propx, propy;
 
@@ -58,11 +58,11 @@ void Scenery::charge()
             {
                 liste = ligne.split('/');
                 num = liste[0].toInt();
-                nom = liste[1];
+                name = liste[1];
                 categorie = liste[2];
                 propx = liste[3].toDouble();
                 propy = liste[4].toDouble();
-                obj = new Object(num, nom, categorie, propx, propy, m_lcase, m_hcase);
+                obj = new Object(num, name, categorie, propx, propy, m_lcase, m_hcase);
                 m_objets[num] = obj;
                 if(m_categories.contains(categorie))
                     m_categories[categorie]->ajouteObjet(obj);
@@ -78,7 +78,7 @@ QStringList Scenery::categories() const
     QStringList liste;
     for(QMap<QString, ObjectGroup*>::const_iterator it = m_categories.begin(); it != m_categories.end(); it++)
     {
-        liste.push_back(it.value()->nom());
+        liste.push_back(it.value()->name());
     }
     return liste;
 }
@@ -122,9 +122,9 @@ void Scenery::supprimeObjet(Object *objet)
     m_objets.remove(objet->numero());
 }
 
-void Scenery::ajouteCategorie(QString const& nom)
+void Scenery::ajouteCategorie(QString const& name)
 {
-    m_categories[nom] = new ObjectGroup(nom);
+    m_categories[name] = new ObjectGroup(name);
 }
 
 QMap<QString, Object*> Scenery::objetsParNom() const
@@ -132,8 +132,8 @@ QMap<QString, Object*> Scenery::objetsParNom() const
     QMap<QString, Object*>objs;
     for(QMap<qint16, Object*>::const_iterator it = m_objets.begin(); it != m_objets.end(); it++)
     {
-        if(it.value()->categorie() != "pnj" && !it.value()->nom().isEmpty())
-            objs[it.value()->nom()] = it.value();
+        if(it.value()->categorie() != "pnj" && !it.value()->name().isEmpty())
+            objs[it.value()->name()] = it.value();
     }
     return objs;
 }
@@ -143,10 +143,10 @@ QStringList Scenery::objets() const
     QStringList liste;
     for(QMap<qint16, Object*>::const_iterator it = m_objets.begin(); it != m_objets.end(); it++)
     {
-        if(it.value()->categorie() != "pnj" && !it.value()->nom().isEmpty())
-            liste.push_back(it.value()->nom());
+        if(it.value()->categorie() != "pnj" && !it.value()->name().isEmpty())
+            liste.push_back(it.value()->name());
     }
-    qSpell(liste.begin(), liste.end());
+    qSort(liste.begin(), liste.end());
     return liste;
 }
 

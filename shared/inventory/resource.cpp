@@ -1,19 +1,19 @@
 #include "inventory/resource.h"
 
-Resource::Resource(const QString &nom, int pods, const QString &description, int niveau, const QString &categorie)
+Resource::Resource(const QString &name, int pods, const QString &description, int niveau, const QString &categorie)
 {
-    m_nom = nom;
+    m_name = name;
     m_pods = pods;
     m_description = description;
     m_niveau = niveau;
     m_categorie = categorie;
-    m_imageg = QPixmap("../data/Ressources/images/"+m_nom+".png").scaled(150,150);
-    m_imagep = QPixmap("../data/Ressources/images/"+m_nom+".png").scaled(40,40);
+    m_imageg = QPixmap("../data/Ressources/images/"+m_name+".png").scaled(150,150);
+    m_imagep = QPixmap("../data/Ressources/images/"+m_name+".png").scaled(40,40);
 }
 
 QString Resource::enString(Resss const& resss)
 {
-    return QString::number(resss.nbr)+ '/' + resss.ress->nom() + '/';
+    return QString::number(resss.nbr)+ '/' + resss.ress->name() + '/';
 }
 
 Resss Resource::chargeRess(int nbr, Resource *resource)
@@ -24,18 +24,18 @@ Resss Resource::chargeRess(int nbr, Resource *resource)
     return resss;
 }
 
-Resource *Resource::nouvelle(QString const& nom, const QString &chemin)
+Resource *Resource::nouvelle(QString const& name, const QString &chemin)
 {
-    QFile::copy(chemin, "../data/Ressources/images/"+nom+".png");
-    return new Resource(nom, 1, "", 1, "resources");
+    QFile::copy(chemin, "../data/Ressources/images/"+name+".png");
+    return new Resource(name, 1, "", 1, "resources");
 }
 
 void Resource::setImage(QString const& chemin)
 {
-    QFile::remove("../data/Ressources/images/"+m_nom+".png");
-    QFile::copy(chemin, "../data/Ressources/images/"+m_nom+".png");
-    m_imageg = QPixmap("../data/Ressources/images/"+m_nom+".png").scaled(150,150);
-    m_imagep = QPixmap("../data/Ressources/images/"+m_nom+".png").scaled(40,40);
+    QFile::remove("../data/Ressources/images/"+m_name+".png");
+    QFile::copy(chemin, "../data/Ressources/images/"+m_name+".png");
+    m_imageg = QPixmap("../data/Ressources/images/"+m_name+".png").scaled(150,150);
+    m_imagep = QPixmap("../data/Ressources/images/"+m_name+".png").scaled(40,40);
 }
 
 QString Resource::longue_description()
@@ -43,7 +43,7 @@ QString Resource::longue_description()
     QString texte;
     texte += "<table width=\"100%\" >";
     texte += "<tr>";
-    texte += "<td><b>"+nom()+"</b></td>";
+    texte += "<td><b>"+name()+"</b></td>";
     texte += "<td align=\"right\" >"+QObject::trUtf8("niveau ")+QString::number(niveau())+"</td>";
     texte += "</tr><tr>";
     texte += "<td>"+QObject::trUtf8("catégorie : ")+categorie()+"</td>";

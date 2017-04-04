@@ -1,8 +1,8 @@
 #include "fight.h"
 
-Fight::Fight(QString nomFight,Character *moi)
+Fight::Fight(QString nameFight,Character *moi)
 {
-    m_nomFight = nomFight;
+    m_nameFight = nameFight;
     m_moi = moi;
-    m_iAmLeader = (moi->getNom() == nomFight);
+    m_iAmLeader = (moi->getNom() == nameFight);
 }

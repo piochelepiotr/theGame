@@ -1,12 +1,12 @@
 #include "entities/entityImage.h"
 
-ImagesAction::ImagesAction(QString const& nom_classe, QString const& nom_action, QSize const& size)
+ImagesAction::ImagesAction(QString const& name_classe, QString const& name_action, QSize const& size)
 {
     m_nbrUtilisateur = 1;
-    m_nomClasse = nom_classe;
-    m_nomAction = nom_action;
+    m_nameClasse = name_classe;
+    m_nameAction = name_action;
     definieEnMouvement();
-    QString chemin = "../data/imagesdespersos/"+ m_nomClasse+"/"+ m_nomAction + "/", chemin2;
+    QString chemin = "../data/imagesdespersos/"+ m_nameClasse+"/"+ m_nameAction + "/", chemin2;
     int j;
     QPixmap p;
     for(int i = 0; i < 8; i++)
@@ -25,7 +25,7 @@ bool ImagesAction::redimentionne(QSize const& nouvelle)
 {
     if(m_nbrUtilisateur < 1)
         return false;
-    QString chemin = "../data/imagesdespersos/"+ m_nomClasse +"/"+ m_nomAction + "/", chemin2;
+    QString chemin = "../data/imagesdespersos/"+ m_nameClasse +"/"+ m_nameAction + "/", chemin2;
     for(int i = 0; i < 8; i++)
     {
         chemin2 = chemin + QString::number(i) + '/';
@@ -46,7 +46,7 @@ QPixmap ImagesAction::getImage(int num, Dir orientation) const
 
 void ImagesAction::definieEnMouvement()
 {
-    if(m_nomAction == "marcher" || m_nomAction == "courir")
+    if(m_nameAction == "marcher" || m_nameAction == "courir")
     {
         m_enMouvement = true;
     }
@@ -79,11 +79,11 @@ void ImagesEntity::redimentionne(QSize const& nouvelle)
     }
 }
 
-ImagesAction *ImagesEntity::getImagesAction(QString const& nomAction)
+ImagesAction *ImagesEntity::getImagesAction(QString const& nameAction)
 {
-    if(!m_images.contains(nomAction))
-        m_images[nomAction] = new ImagesAction(m_uneCreature->getClass(), nomAction, m_taille);
-    return m_images[nomAction];
+    if(!m_images.contains(nameAction))
+        m_images[nameAction] = new ImagesAction(m_uneCreature->getClass(), nameAction, m_taille);
+    return m_images[nameAction];
 }
 
 ImagesEntities::ImagesEntities(QMap<QString, EntityModel*>creatures, QSize const& taille)
@@ -94,11 +94,11 @@ ImagesEntities::ImagesEntities(QMap<QString, EntityModel*>creatures, QSize const
     }
 }
 
-ImagesEntity *ImagesEntities::getImagesUneCreature(QString const& nom) const
+ImagesEntity *ImagesEntities::getImagesUneCreature(QString const& name) const
 {
-    if(!m_creatures.contains(nom))
+    if(!m_creatures.contains(name))
         return 0;
-    return m_creatures[nom];
+    return m_creatures[name];
 }
 
 void ImagesEntities::redimentionne(QSize const& taille)

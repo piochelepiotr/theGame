@@ -15,7 +15,7 @@ public:
     Job(JobModel *metier_base,int xp);
     static Job *chargeMetier(QString const& donnees, Jobs *metiers);
     static QString enString(Job* metier);
-    QString getNomMetier() const { return m_metier_base->nom(); }
+    QString getNomMetier() const { return m_metier_base->name(); }
     int getXp() const { return m_xp; }
     int getLvl() const { return m_lvl; }
     void gagneXp(int xpgagne);

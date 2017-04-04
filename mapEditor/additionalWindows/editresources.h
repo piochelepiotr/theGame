@@ -20,19 +20,19 @@ public:
     void ajouteRessource(Resource *resource);
     void ajouteEquipement(OutfitModel *equipement);
     void ajouteArme(WeaponModel *arme);
-    void supprimeRessource(QString const& nom);
-    void supprimeEquipement(QString const& nom);
-    void supprimeArme(QString const& nom);
+    void supprimeRessource(QString const& name);
+    void supprimeEquipement(QString const& name);
+    void supprimeArme(QString const& name);
     void editeRessource(Resource *resource);
     void editeEquipement(OutfitModel *equipement);
     void editeArme(WeaponModel *arme);
-    void charge(const QString &nom);
+    void charge(const QString &name);
     void clear();
-    void enregistre(QString const& nom);
+    void enregistre(QString const& name);
 
 public slots:
 
-    void nouvelle_selection(QString const& nom);
+    void nouvelle_selection(QString const& name);
     void accepter();
     void ajoute();
     void supprime();

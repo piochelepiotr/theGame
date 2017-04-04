@@ -38,13 +38,13 @@ void EditerRessources::ajouteRessource(Resource *resource)
     if(fichier.open(QIODevice::WriteOnly | QIODevice::Append))
     {
         QTextStream stream(&fichier);
-        stream << resource->nom() << "/" << resource->pods() << "/" << resource->description() << "/" << resource->niveau() << "/" << resource->categorie() << endl;
+        stream << resource->name() << "/" << resource->pods() << "/" << resource->description() << "/" << resource->niveau() << "/" << resource->categorie() << endl;
         fichier.close();
     }
     int endroit = 0;
-    while(resource->nom().compare(ui->select_resource->itemText(endroit)) > 0)
+    while(resource->name().compare(ui->select_resource->itemText(endroit)) > 0)
         endroit++;
-    ui->select_resource->insertItem(endroit, resource->nom());
+    ui->select_resource->insertItem(endroit, resource->name());
 }
 
 void EditerRessources::ajouteEquipement(OutfitModel *equipement)
@@ -55,7 +55,7 @@ void EditerRessources::ajouteEquipement(OutfitModel *equipement)
     if(fichier.open(QIODevice::WriteOnly | QIODevice::Append))
     {
         QTextStream stream(&fichier);
-        stream << equipement->getRessource()->nom()  << "/" << equipement->getBonusForce(0) << "/" << equipement->getBonusForce(1) <<  "/" << equipement->getBonusVie(0) << "/" << equipement->getBonusVie(1) << "/" << equipement->getBonusPointsFight(0) << "/" << equipement->getBonusPointsFight(1) << endl;
+        stream << equipement->getRessource()->name()  << "/" << equipement->getBonusForce(0) << "/" << equipement->getBonusForce(1) <<  "/" << equipement->getBonusVie(0) << "/" << equipement->getBonusVie(1) << "/" << equipement->getBonusPointsFight(0) << "/" << equipement->getBonusPointsFight(1) << endl;
         fichier.close();
     }
 }
@@ -68,15 +68,15 @@ void EditerRessources::ajouteArme(WeaponModel *arme)
     if(fichier.open(QIODevice::WriteOnly | QIODevice::Append))
     {
         QTextStream stream(&fichier);
-        stream << arme->getEquipement()->getRessource()->nom() << '/' << arme->getSpell()->nom() << endl;
+        stream << arme->getEquipement()->getRessource()->name() << '/' << arme->getSpell()->name() << endl;
         fichier.close();
     }
 }
 
-void EditerRessources::supprimeRessource(QString const& nom)
+void EditerRessources::supprimeRessource(QString const& name)
 {
-    ui->select_resource->removeItem(ui->select_resource->findText(nom));
-    m_resources->enleveRessource(nom);
+    ui->select_resource->removeItem(ui->select_resource->findText(name));
+    m_resources->enleveRessource(name);
     QFile fichier("Ressources/resources.txt");
     QFile fichier2("Ressources/resources2.txt");
     if(fichier.open(QIODevice::ReadOnly), fichier2.open(QIODevice::WriteOnly))
@@ -91,7 +91,7 @@ void EditerRessources::supprimeRessource(QString const& nom)
             ligne = stream.readLine();
             if(!ligne.isEmpty())
             {
-                if(ligne.section('/', 0, 0) != nom)
+                if(ligne.section('/', 0, 0) != name)
                     stream2 << ligne << endl;
             }
         }
@@ -101,12 +101,12 @@ void EditerRessources::supprimeRessource(QString const& nom)
         QFile::remove("Ressources/resources.txt");
         QFile::rename("Ressources/resources2.txt", "Ressources/resources.txt");
     }
-    QFile::remove("Ressources/images/"+nom+".png");
+    QFile::remove("Ressources/images/"+name+".png");
 }
 
-void EditerRessources::supprimeEquipement(QString const& nom)
+void EditerRessources::supprimeEquipement(QString const& name)
 {
-    m_resources->enleveEquipement(nom);
+    m_resources->enleveEquipement(name);
     QFile fichier("Ressources/equipements.txt");
     QFile fichier2("Ressources/equipements2.txt");
     if(fichier.open(QIODevice::ReadOnly), fichier2.open(QIODevice::WriteOnly))
@@ -121,7 +121,7 @@ void EditerRessources::supprimeEquipement(QString const& nom)
             ligne = stream.readLine();
             if(!ligne.isEmpty())
             {
-                if(ligne.section('/', 0, 0) != nom)
+                if(ligne.section('/', 0, 0) != name)
                     stream2 << ligne << endl;
             }
         }
@@ -131,12 +131,12 @@ void EditerRessources::supprimeEquipement(QString const& nom)
         QFile::remove("Ressources/equipements.txt");
         QFile::rename("Ressources/equipements2.txt", "Ressources/equipements.txt");
     }
-    supprimeRessource(nom);
+    supprimeRessource(name);
 }
 
-void EditerRessources::supprimeArme(QString const& nom)
+void EditerRessources::supprimeArme(QString const& name)
 {
-    m_resources->enleveArme(nom);
+    m_resources->enleveArme(name);
     QFile fichier("Ressources/armes.txt");
     QFile fichier2("Ressources/armes2.txt");
     if(fichier.open(QIODevice::ReadOnly), fichier2.open(QIODevice::WriteOnly))
@@ -151,7 +151,7 @@ void EditerRessources::supprimeArme(QString const& nom)
             ligne = stream.readLine();
             if(!ligne.isEmpty())
             {
-                if(ligne.section('/', 0, 0) != nom)
+                if(ligne.section('/', 0, 0) != name)
                     stream2 << ligne << endl;
             }
         }
@@ -161,7 +161,7 @@ void EditerRessources::supprimeArme(QString const& nom)
         QFile::remove("Ressources/armes.txt");
         QFile::rename("Ressources/armes2.txt", "Ressources/armes.txt");
     }
-    supprimeEquipement(nom);
+    supprimeEquipement(name);
 }
 
 void EditerRessources::editeRessource(Resource *resource)
@@ -180,8 +180,8 @@ void EditerRessources::editeRessource(Resource *resource)
             ligne = stream.readLine();
             if(!ligne.isEmpty())
             {
-                if(ligne.section('/', 0, 0) == resource->nom())
-                    stream2 << resource->nom() << "/" << resource->pods() << "/" << resource->description() << "/" << resource->niveau() << "/" << resource->categorie() << endl;
+                if(ligne.section('/', 0, 0) == resource->name())
+                    stream2 << resource->name() << "/" << resource->pods() << "/" << resource->description() << "/" << resource->niveau() << "/" << resource->categorie() << endl;
                 else
                     stream2 << ligne << endl;
             }
@@ -210,8 +210,8 @@ void EditerRessources::editeEquipement(OutfitModel *equipement)
             ligne = stream.readLine();
             if(!ligne.isEmpty())
             {
-                if(ligne.section('/', 0, 0) == equipement->getRessource()->nom())
-                    stream2 << equipement->getRessource()->nom()  << "/" << equipement->getBonusForce(0) << "/" << equipement->getBonusForce(1) <<  "/" << equipement->getBonusVie(0) << "/" << equipement->getBonusVie(1) << "/" << equipement->getBonusPointsFight(0) << "/" << equipement->getBonusPointsFight(1) << endl;
+                if(ligne.section('/', 0, 0) == equipement->getRessource()->name())
+                    stream2 << equipement->getRessource()->name()  << "/" << equipement->getBonusForce(0) << "/" << equipement->getBonusForce(1) <<  "/" << equipement->getBonusVie(0) << "/" << equipement->getBonusVie(1) << "/" << equipement->getBonusPointsFight(0) << "/" << equipement->getBonusPointsFight(1) << endl;
                 else
                     stream2 << ligne << endl;
             }
@@ -240,8 +240,8 @@ void EditerRessources::editeArme(WeaponModel *arme)
             ligne = stream.readLine();
             if(!ligne.isEmpty())
             {
-                if(ligne.section('/', 0, 0) == arme->getEquipement()->getRessource()->nom())
-                    stream2 << arme->getEquipement()->getRessource()->nom() << '/' << arme->getSpell()->nom() << endl;
+                if(ligne.section('/', 0, 0) == arme->getEquipement()->getRessource()->name())
+                    stream2 << arme->getEquipement()->getRessource()->name() << '/' << arme->getSpell()->name() << endl;
                 else
                     stream2 << ligne << endl;
             }
@@ -254,19 +254,19 @@ void EditerRessources::editeArme(WeaponModel *arme)
     }
 }
 
-void EditerRessources::nouvelle_selection(QString const& nom)
+void EditerRessources::nouvelle_selection(QString const& name)
 {
     enregistre(m_resourceActuelle);
-    m_resourceActuelle = nom;
+    m_resourceActuelle = name;
     charge(m_resourceActuelle);
 }
 
-void EditerRessources::charge(QString const& nom)
+void EditerRessources::charge(QString const& name)
 {
     clear();
-    Resource *resource = m_resources->getRessource(nom);
-    OutfitModel *equipement = m_resources->getEquipement(nom);
-    WeaponModel *arme = m_resources->getArme(nom);
+    Resource *resource = m_resources->getRessource(name);
+    OutfitModel *equipement = m_resources->getEquipement(name);
+    WeaponModel *arme = m_resources->getArme(name);
     if(resource)
     {
         ui->categorie->setText(resource->categorie());
@@ -287,14 +287,14 @@ void EditerRessources::charge(QString const& nom)
     }
     if(arme)
     {
-        ui->spell->setCurrentIndex(ui->spell->findText(arme->getSpell()->nom()));
+        ui->spell->setCurrentIndex(ui->spell->findText(arme->getSpell()->name()));
         ui->spell->setEnabled(true);
     }
 }
 
-void EditerRessources::enregistre(QString const& nom)
+void EditerRessources::enregistre(QString const& name)
 {
-    Resource *resource = m_resources->getRessource(nom);
+    Resource *resource = m_resources->getRessource(name);
     if(resource)
     {
         resource->setCategorie(ui->categorie->text());
@@ -303,7 +303,7 @@ void EditerRessources::enregistre(QString const& nom)
         resource->setDescription(ui->description->toPlainText());
         editeRessource(resource);
 
-        OutfitModel *equipement = m_resources->getEquipement(nom);
+        OutfitModel *equipement = m_resources->getEquipement(name);
         if(equipement)
         {
             equipement->setBonusForce(0, ui->force_min->value());
@@ -315,7 +315,7 @@ void EditerRessources::enregistre(QString const& nom)
             editeEquipement(equipement);
         }
 
-        WeaponModel *arme = m_resources->getArme(nom);
+        WeaponModel *arme = m_resources->getArme(name);
         if(arme)
         {
             arme->setSpell(m_resources->getSpell(ui->spell->currentText()));
@@ -348,7 +348,7 @@ void EditerRessources::accepter()
 
 void EditerRessources::ajoute()
 {
-    QString action, nom, chemin;
+    QString action, name, chemin;
     QStringList actions;
     actions.push_back("nouvelle resource");
     actions.push_back("nouvel equipement");
@@ -357,21 +357,21 @@ void EditerRessources::ajoute()
     action = QInputDialog::getItem(this, "Nouvelle resource", "selectionnez le type de la resource", actions, 0, false, &ok);
     if(ok)
     {
-        nom = QInputDialog::getText(this, "Nom", "Entrez le nom de la/du "+action, QLineEdit::Normal, "", &ok);
+        name = QInputDialog::getText(this, "Nom", "Entrez le name de la/du "+action, QLineEdit::Normal, "", &ok);
         chemin = QFileDialog::getOpenFileName(this, "Selectionnez l'image", QString(), "Images (*.png)");
         if(ok)
         {
             if(action == "nouvelle resource")
             {
-                ajouteRessource(Resource::nouvelle(nom, chemin));
+                ajouteRessource(Resource::nouvelle(name, chemin));
             }
             else if(action == "nouvel equipement")
             {
-                ajouteEquipement(OutfitModel::nouvel(nom, chemin));
+                ajouteEquipement(OutfitModel::nouvel(name, chemin));
             }
             else if(action == "nouvelle arme")
             {
-                ajouteArme(WeaponModel::nouvelle(nom,chemin, m_resources));
+                ajouteArme(WeaponModel::nouvelle(name,chemin, m_resources));
             }
         }
     }
@@ -379,21 +379,21 @@ void EditerRessources::ajoute()
 
 void EditerRessources::supprime()
 {
-    QString nom = ui->select_resource->currentText();
-    WeaponModel *arme = m_resources->getArme(nom);
-    OutfitModel *equipement = m_resources->getEquipement(nom);
-    Resource *resource = m_resources->getRessource(nom);
+    QString name = ui->select_resource->currentText();
+    WeaponModel *arme = m_resources->getArme(name);
+    OutfitModel *equipement = m_resources->getEquipement(name);
+    Resource *resource = m_resources->getRessource(name);
     if(arme)
     {
-        supprimeArme(nom);
+        supprimeArme(name);
     }
     else if(equipement)
     {
-        supprimeEquipement(nom);
+        supprimeEquipement(name);
     }
     else if(resource)
     {
-        supprimeRessource(nom);
+        supprimeRessource(name);
     }
 }
 

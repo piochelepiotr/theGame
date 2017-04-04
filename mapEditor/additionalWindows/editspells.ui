@@ -31,7 +31,7 @@
       <widget class="QTableWidget" name="tab_editers">
        <column>
         <property name="text">
-         <string>nom</string>
+         <string>name</string>
         </property>
        </column>
        <column>

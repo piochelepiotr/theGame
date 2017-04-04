@@ -21,7 +21,7 @@
        <item>
         <layout class="QHBoxLayout" name="mes_objets">
          <item>
-          <widget class="QLabel" name="mon_nom">
+          <widget class="QLabel" name="mon_name">
            <property name="text">
             <string/>
            </property>
@@ -55,7 +55,7 @@
        <item>
         <layout class="QHBoxLayout" name="ses_objets">
          <item>
-          <widget class="QLabel" name="son_nom">
+          <widget class="QLabel" name="son_name">
            <property name="text">
             <string/>
            </property>

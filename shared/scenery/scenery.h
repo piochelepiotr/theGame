@@ -23,14 +23,14 @@ public:
     ~Scenery();
     void charge();
     Object *objet(qint16 num) const { return m_objets[num]; }
-    ObjectGroup *categorie(QString const& nom) const { return m_categories[nom]; }
+    ObjectGroup *categorie(QString const& name) const { return m_categories[name]; }
     QStringList categories() const;
     int lcase() const { return m_lcase; }
     int hcase() const { return m_hcase; }
     void resize(int lcase, int mcase, int mapWidth, int mapHeight);
     void ajouteObjet(Object *objet);
     void supprimeObjet(Object *objet);
-    void ajouteCategorie(QString const& nom);
+    void ajouteCategorie(QString const& name);
     QStringList objets() const;
     QMap<QString, Object*> objetsParNom() const;
 

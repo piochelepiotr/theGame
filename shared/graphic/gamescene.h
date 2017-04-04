@@ -25,7 +25,7 @@ public slots:
     void tailleun() { m_tailleci = 1; }
     void tailletrois() { m_tailleci = 3; }
     void taillecinq() { m_tailleci = 5; }
-    void fondEgal(QString const& nom);
+    void fondEgal(QString const& name);
     void changeValeurZoom();
     void undo();
     void ajouteEvent();

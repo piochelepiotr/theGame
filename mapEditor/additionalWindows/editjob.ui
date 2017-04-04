@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="lay_nom">
+    <layout class="QHBoxLayout" name="lay_name">
      <item>
       <widget class="QPushButton" name="supprime_metier">
        <property name="text">

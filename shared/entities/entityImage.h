@@ -10,7 +10,7 @@
 class ImagesAction
 {
 public:
-    ImagesAction(QString const& nom_classe, const QString &nom_action, const QSize &size);
+    ImagesAction(QString const& name_classe, const QString &name_action, const QSize &size);
     int quantity_images(Dir orientation) const { return m_images[(int)orientation].size(); }
     bool redimentionne(QSize const& nouvelle);
     QPixmap getImage(int num, Dir orientation) const;
@@ -19,8 +19,8 @@ public:
     void moins_utilisateur() { m_nbrUtilisateur--; }
     void definieEnMouvement();
 private:
-    QString m_nomClasse;
-    QString m_nomAction;
+    QString m_nameClasse;
+    QString m_nameAction;
     QVector<QPixmap>m_images[8];
     int m_nbrUtilisateur;
     bool m_enMouvement;
@@ -30,7 +30,7 @@ class ImagesEntity
 {
 public:
     ImagesEntity(EntityModel *uneCreature, const QSize &taille);
-    ImagesAction *getImagesAction(QString const& nomAction);
+    ImagesAction *getImagesAction(QString const& nameAction);
     void redimentionne(QSize const& nouvelle);
 private:
     QSize m_taille;
@@ -42,7 +42,7 @@ class ImagesEntities
 {
 public:
     ImagesEntities(QMap<QString, EntityModel*>creatures, QSize const& taille);
-    ImagesEntity *getImagesUneCreature(QString const& nom) const;
+    ImagesEntity *getImagesUneCreature(QString const& name) const;
     void redimentionne(QSize const& taille);
     ~ImagesEntities();
 private:

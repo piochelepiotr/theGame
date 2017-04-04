@@ -3,7 +3,7 @@
 Compte::Compte(QString const& donnees, QString const& ndc, Data *donnees_editeur)
 {
     m_donnees_editeur = donnees_editeur;
-    m_nomDeCompte = ndc;
+    m_nameDeCompte = ndc;
     QString mot, donnes;
     int i = 1;
 

@@ -82,7 +82,7 @@ void Reseau::donneesRecues()
         else if(inf == "con")
         {
             EntityInfo perso;
-            perso.nom = message.section('*', 0,0);
+            perso.name = message.section('*', 0,0);
             perso.classe = message.section('*',1,1);
             perso.posmap = QPoint(message.section('*',2,2).toInt(), message.section('*', 3,3).toInt());
             perso.monster = (bool) message.section('*',4,4).toInt();

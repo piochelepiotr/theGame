@@ -27,7 +27,7 @@ public:
     int getBonusForce() const { return m_bonus_force; }
     int getBonusVie() const { return m_bonus_vie; }
     int getBonusPointsFight() const { return m_bonus_points_fight; }
-    QString nom() const { return m_resource->nom(); }
+    QString name() const { return m_resource->name(); }
 
     static QString descr_effet(Outfit *equipement);
     static QString enString(Eqips const& equipements);

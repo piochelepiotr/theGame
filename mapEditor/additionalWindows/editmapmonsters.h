@@ -17,7 +17,7 @@ class EditerMonstreDeLaMap : public QDialog
     Q_OBJECT
     
 public:
-    explicit EditerMonstreDeLaMap(QWidget *parent, QMap<QString, double> *monstres, QStringList nomMonstres);
+    explicit EditerMonstreDeLaMap(QWidget *parent, QMap<QString, double> *monstres, QStringList nameMonstres);
     ~EditerMonstreDeLaMap();
 
 public slots:
@@ -29,7 +29,7 @@ private:
     Ui::EditerMonstreDeLaMap *ui;
     int m_nbr;
     QMap<QString, double> *m_monstres;
-    QStringList m_nomMonstres;
+    QStringList m_nameMonstres;
 };
 
 #endif // EDITERMONSTREDELAMAP_H

@@ -13,7 +13,7 @@ bool operator<(QPoint const &a, QPoint const& b);
 bool mapexiste(int x, int y, int z);
 
 qint16 trouveNumero();
-void ajouteUnTheme(QString const& nom);
+void ajouteUnTheme(QString const& name);
 void ajouteObjet(Object *objet, QString const& chemin_vers_image);
 void spellUnObjet(Object *objet);
 void enregistreMap(int cooX, int cooY, int cooZ,Object *objets[3] [NBR_CASES_L] [NBR_CASES_H], QMap <QPoint, Gate> const& transpos, qint8 casepleines[NBR_CASES_L] [NBR_CASES_H], QString fond, QPoint casescbt[2] [MAX_PAR_EQUIP], QMap<QString, double>monstres, QVector<QString>musiques, int undo = -1);

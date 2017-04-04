@@ -21,13 +21,13 @@ class Bout : public QPushButton
 {
     Q_OBJECT
 public:
-    Bout(QString const& texte, QString const& nom);
+    Bout(QString const& texte, QString const& name);
 signals:
-    void ajoute(QString nom);
-    void edite(QString nom);
-    void detruit(QString nom);
+    void ajoute(QString name);
+    void edite(QString name);
+    void detruit(QString name);
 private:
-    QString m_nom;
+    QString m_name;
 protected:
     void mousePressEvent(QMouseEvent *event);
 };
@@ -39,19 +39,19 @@ class CreerPnj : public QDialog
 public:
     CreerPnj(QWidget *parent, qint16 *num, bool *ok, bool creation);
     QString enString();
-    QString ecritReplique(QString const& nom);
+    QString ecritReplique(QString const& name);
     static void supprimerPnj(qint16 numero);
     void chargerPnj();
-    void ajouteReponses(QString const& nom, QString *donnees);
-    void ajoutePiste(QString nom, QString *donnees);
+    void ajouteReponses(QString const& name, QString *donnees);
+    void ajoutePiste(QString name, QString *donnees);
     ~CreerPnj();
 
 public slots:
 
     void accepter();
-    void boutclique(QString nom, QString texte = "-1");
-    void spellBouton(QString nom);
-    void effaceReplique(QString nom);
+    void boutclique(QString name, QString texte = "-1");
+    void spellBouton(QString name);
+    void effaceReplique(QString name);
     
 private:
     Ui::CreerPnj *ui;

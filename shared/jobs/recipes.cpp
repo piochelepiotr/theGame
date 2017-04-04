@@ -5,7 +5,7 @@ DisplayRecipe::DisplayRecipe(Recipe *recette, Job *metier, Resources *lesresourc
     m_num = num;
     QVector<Resss> ingredients = recette->ingredients();
     int lvl_recette = lvlPourXCases(ingredients.size());
-    QLabel *texte_recette = new QLabel(recette->objet_cree()->nom()+trUtf8(" Niveau ")+QString::number(lvl_recette)+" "+metier->getMetierBase()->verbe_recettes()+" "+QString::number(xpParCase(ingredients.size()))+" xp");
+    QLabel *texte_recette = new QLabel(recette->objet_cree()->name()+trUtf8(" Niveau ")+QString::number(lvl_recette)+" "+metier->getMetierBase()->verbe_recettes()+" "+QString::number(xpParCase(ingredients.size()))+" xp");
     QHBoxLayout *layout_ingredients = new QHBoxLayout;
     QHBoxLayout *layout_top_recette = new QHBoxLayout;
     QVBoxLayout *layout_recette = new QVBoxLayout;

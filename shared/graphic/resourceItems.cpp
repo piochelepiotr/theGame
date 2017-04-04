@@ -356,15 +356,15 @@ void ResourceItems::setItemArme(int num, Weapon *arme, int quantity)
 
 ResourceItem *item(Resources *lesresources, Resource *resource, int quantite, int num)
 {
-    if(lesresources->estUnEquipement(resource->nom()))
+    if(lesresources->estUnEquipement(resource->name()))
     {
-        if(lesresources->estUneArme(resource->nom()))
+        if(lesresources->estUneArme(resource->name()))
         {
-            return new ResourceItem(lesresources->getArme(resource->nom()), quantite, num);
+            return new ResourceItem(lesresources->getArme(resource->name()), quantite, num);
         }
         else
         {
-            return new ResourceItem(lesresources->getEquipement(resource->nom()), quantite, num);
+            return new ResourceItem(lesresources->getEquipement(resource->name()), quantite, num);
         }
     }
     else

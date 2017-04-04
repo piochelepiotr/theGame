@@ -23,12 +23,12 @@ void Fight::ajoutePerso(Character *perso)
     m_fighttants[perso->getNom()] = perso;
 }
 
-void Fight::enlevePerso(QString nom)
+void Fight::enlevePerso(QString name)
 {
     if(m_phase == EnDemande)
     {
-        m_fighttants.remove(nom);
-        if(nom == m_leader1)
+        m_fighttants.remove(name);
+        if(name == m_leader1)
         {
             emit envoie(m_leader2,"annuleDemandeDefi");
             emit s_finFight(m_leader1);
@@ -41,36 +41,36 @@ void Fight::enlevePerso(QString nom)
     }
     else if(m_phase == EnPlacement)
     {
-        m_fighttants[nom]->perdVie(m_fighttants[nom]->getVie());
-        m_fighttants.remove(nom);
-        envoieATous("dec/"+nom);
+        m_fighttants[name]->perdVie(m_fighttants[name]->getVie());
+        m_fighttants.remove(name);
+        envoieATous("dec/"+name);
         finFight();
         qDebug() << "fin du fight";
     }
     else if(m_phase == EnFight)
     {
-        m_fighttants[nom]->perdVie(m_fighttants[nom]->getVie());
-        m_fighttants.remove(nom);
-        envoieATous("dec/"+nom);
-        meurt(nom,false);
+        m_fighttants[name]->perdVie(m_fighttants[name]->getVie());
+        m_fighttants.remove(name);
+        envoieATous("dec/"+name);
+        meurt(name,false);
     }   
 }
 
-void Fight::deplace(QString nom, int x, int y)
+void Fight::deplace(QString name, int x, int y)
 {
-    m_fighttants[nom]->setPosMap(x,y);
+    m_fighttants[name]->setPosMap(x,y);
     if(m_phase == EnPlacement)
     {
         for(QMap<QString, Character*>::const_iterator it = m_fighttants.begin(); it != m_fighttants.end(); it++)
         {
-            emit envoie(it.key(), "dep/"+nom+"*"+QString::number(x)+"*"+QString::number(y));
+            emit envoie(it.key(), "dep/"+name+"*"+QString::number(x)+"*"+QString::number(y));
         }
     }
     else if(m_phase == EnFight)
     {
         for(QMap<QString, Character*>::const_iterator it = m_fighttants.begin(); it != m_fighttants.end(); it++)
         {
-            emit envoie(it.key(), "dep/"+nom+"*"+QString::number(x)+"*"+QString::number(y));
+            emit envoie(it.key(), "dep/"+name+"*"+QString::number(x)+"*"+QString::number(y));
         }
     }
 }
@@ -87,11 +87,11 @@ Character *Fight::getCible(QPoint const& p)
     return 0;
 }
 
-void Fight::attaque(QString nomAttaquant, QString nomSpell, int x, int y)
+void Fight::attaque(QString nameAttaquant, QString nameSpell, int x, int y)
 {
     if(m_phase != EnFight)
         return;
-    Spell *spell = m_fighttants[nomAttaquant]->getSpell(nomSpell);
+    Spell *spell = m_fighttants[nameAttaquant]->getSpell(nameSpell);
     Character *cible = getCible(QPoint(x,y));
     if(cible != 0)
     {
@@ -108,19 +108,19 @@ void Fight::attaque(QString nomAttaquant, QString nomSpell, int x, int y)
     }
 }
 
-void Fight::passeTour(QString nom)
+void Fight::passeTour(QString name)
 {
     if(m_phase != EnFight)
         return;
-    if(nom == m_ordre[m_currentPlayer])
+    if(name == m_ordre[m_currentPlayer])
     {
         nextPlayer();
     }
 }
 
-bool Fight::contains(QString nom)
+bool Fight::contains(QString name)
 {
-    return m_fighttants.keys().contains(nom);
+    return m_fighttants.keys().contains(name);
 }
 
 bool Fight::personneSur(int x,int y)
@@ -184,15 +184,15 @@ void Fight::toutLeMondeEstPret()
     fightCommence();
 }
 
-void Fight::pret(QString nom)
+void Fight::pret(QString name)
 {
-    m_fighttants[nom]->setPret(true);
+    m_fighttants[name]->setPret(true);
     toutLeMondeEstPret();
 }
 
-void Fight::pasPret(QString nom)
+void Fight::pasPret(QString name)
 {
-    m_fighttants[nom]->setPret(false);
+    m_fighttants[name]->setPret(false);
 }
 
 void Fight::order()
@@ -229,18 +229,18 @@ QStringList Fight::fighttants()
     return fighttants;
 }
 
-void Fight::meurt(QString const& nom,bool envoyer)
+void Fight::meurt(QString const& name,bool envoyer)
 {
     if(m_phase != EnFight)
         return;
     int l = m_ordre.length();
     for(int i = 0; i< l;i++)
     {
-        if(m_ordre[i] == nom)
+        if(m_ordre[i] == name)
         {
             m_ordre.remove(i);
             if(envoyer)
-                envoieATous("meurt/"+nom);
+                envoieATous("meurt/"+name);
             if(!finFight())
             {
                 m_quantityFighttants--;

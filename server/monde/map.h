@@ -19,15 +19,15 @@ public:
     void coupe(QPoint p);
     QString resources_coupees() const;
     void addFight(Character *leader1, Character *leader2);
-    Fight *fight(QString nom);
-    QString leaderDe(QString nom);
-    void joueurChangePosDepart(QString nom, int x,int y);//pendant la phase de placement, demande une verification par le serveur
-    void enEquipe(QString const& nom);
-    void envoieA(QStringList noms,QString message);
-    QString nomMonstre(QString const& nomClasse);
+    Fight *fight(QString name);
+    QString leaderDe(QString name);
+    void joueurChangePosDepart(QString name, int x,int y);//pendant la phase de placement, demande une verification par le serveur
+    void enEquipe(QString const& name);
+    void envoieA(QStringList names,QString message);
+    QString nameMonstre(QString const& nameClasse);
     void addMonstre();
     void connectPlayer(Joueur *joueur, bool hasJustChangedServerMap = false);
-    void disconnectPlayer(QString const& nom);
+    void disconnectPlayer(QString const& name);
     QList<Joueur*> joueursPasEnFight();
     QList<Monster*>monsterNotFighting();
     void receiveMessage(Joueur *player,QString const& begin, QString const& message);
@@ -37,10 +37,10 @@ public:
 public slots:
 
     void repousse(int pos);
-    void decoFighttants(QString nomFight);
-    void recoFighttants(QString nomFight);
-    void finFight(QString nom);
-    void finFightAvantDebut(QString nom);
+    void decoFighttants(QString nameFight);
+    void recoFighttants(QString nameFight);
+    void finFight(QString name);
+    void finFightAvantDebut(QString name);
     void sendToPlayer(QString const& name,QString const& message);
 
 private:
@@ -57,6 +57,6 @@ private:
     Data *m_donnees_editeur;
 };
 
-void envoiGroupe(QList<Joueur*> const& receveurs, QString const& message, QString const& nom = "");
+void envoiGroupe(QList<Joueur*> const& receveurs, QString const& message, QString const& name = "");
 
 #endif // ServerMap_H

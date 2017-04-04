@@ -15,7 +15,7 @@ public:
 
 signals:
 
-    void clique(QString const& nom);
+    void clique(QString const& name);
 
 public slots:
 
@@ -24,7 +24,7 @@ protected:
     bool eventFilter(QObject *, QEvent *);
 
 private:
-    QString m_nom;
+    QString m_name;
 
 };
 

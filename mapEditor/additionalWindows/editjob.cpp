@@ -75,8 +75,8 @@ void EditerMetier::enregistreRecette(int index)
 void EditerMetier::enregistreMetier(int index)
 {
     bool existe = false;
-    QString nom = ui->select_metier->itemText(index), ligne, texte;
-    texte = nom + '/' + textMetier();
+    QString name = ui->select_metier->itemText(index), ligne, texte;
+    texte = name + '/' + textMetier();
     QFile fichier(QString(DONNEES)+QString("metiers.txt"));
     QFile fichier2(QString(DONNEES)+QString("metiers2.txt"));
     if(fichier.open(QIODevice::ReadOnly) && fichier2.open(QIODevice::WriteOnly))
@@ -86,7 +86,7 @@ void EditerMetier::enregistreMetier(int index)
 
         while(!(ligne = stream1.readLine()).isNull() && !ligne.isEmpty())
         {
-            if(ligne.section('/', 0,0) == nom)
+            if(ligne.section('/', 0,0) == name)
             {
                 stream2 << texte << endl;
                 existe = true;
@@ -112,10 +112,10 @@ void EditerMetier::enregistreMetier(int index)
 void EditerMetier::ajouteMetier()//fini
 {
     bool ok;
-    QString nom = QInputDialog::getText(this, trUtf8("Nouveau métier"), trUtf8("Entrez le nom du nouveau métier"), QLineEdit::Normal, QString(), &ok);
+    QString name = QInputDialog::getText(this, trUtf8("Nouveau métier"), trUtf8("Entrez le name du nouveau métier"), QLineEdit::Normal, QString(), &ok);
     if(ok)
     {
-        ui->select_metier->addItem(nom);
+        ui->select_metier->addItem(name);
     }
 }
 
@@ -172,10 +172,10 @@ void EditerMetier::ajouteRecette()
     if(m_metierActuel != -1)
     {
         bool ok;
-        QString nom = QInputDialog::getItem(this, trUtf8("Nouvelle recette"), trUtf8("Entrez le nom de la nouvelle recette"), m_lesresources, 0, false, &ok);
+        QString name = QInputDialog::getItem(this, trUtf8("Nouvelle recette"), trUtf8("Entrez le name de la nouvelle recette"), m_lesresources, 0, false, &ok);
         if(ok)
         {
-            ui->select_recette->addItem(nom);
+            ui->select_recette->addItem(name);
             m_nbrRecettes++;
             ui->select_recette->setCurrentIndex(m_nbrRecettes-1);
         }
@@ -226,8 +226,8 @@ void EditerMetier::supprimerMetier()
 {
     if(m_metierActuel != -1)
     {
-        QString nom = ui->select_metier->itemText(m_metierActuel), ligne;
-        if(QMessageBox::question(this, trUtf8("Supression d'un métier"), trUtf8("Voulez vous vraiment supprimer le métier ")+nom, QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
+        QString name = ui->select_metier->itemText(m_metierActuel), ligne;
+        if(QMessageBox::question(this, trUtf8("Supression d'un métier"), trUtf8("Voulez vous vraiment supprimer le métier ")+name, QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
         {
             enregistreMetier(m_metierActuel);
             m_metierActuel = -1;
@@ -242,7 +242,7 @@ void EditerMetier::supprimerMetier()
 
                 while(!(ligne = stream1.readLine()).isNull() && !ligne.isEmpty())
                 {
-                    if(ligne.section('/', 0,0) != nom)
+                    if(ligne.section('/', 0,0) != name)
                         stream2 << ligne << endl;
                 }
 
@@ -298,10 +298,10 @@ void EditerMetier::ingredientSupprimme(int ingred)
 
 void EditerMetier::chargeRecette()
 {
-    QString nom = ui->select_recette->currentText();
-    if(m_recettes->contains(nom))
+    QString name = ui->select_recette->currentText();
+    if(m_recettes->contains(name))
     {
-        QString texte = (*m_recettes)[nom];
+        QString texte = (*m_recettes)[name];
         QStringList mots = texte.split('/');
         mots.pop_front();
         while(mots[0] != "FR")
@@ -317,14 +317,14 @@ void EditerMetier::chargeRecette()
 
 void EditerMetier::chargeMetier()
 {
-    QString nom = ui->select_metier->itemText(m_metierActuel), ligne;
+    QString name = ui->select_metier->itemText(m_metierActuel), ligne;
     QFile fichier(QString(DONNEES)+QString("metiers.txt"));
     if(fichier.open(QIODevice::ReadOnly))
     {
         QTextStream stream(&fichier);
         while(!(ligne = stream.readLine()).isNull())
         {
-            if(ligne.section('/', 0,0) == nom)
+            if(ligne.section('/', 0,0) == name)
             {
                 texte_to_metier(ligne);
             }
@@ -394,7 +394,7 @@ void EditerMetier::texte_to_metier(QString const& texte)
 {
     QStringList liste = texte.split('/');
     liste.pop_front();
-    ui->machine->setCurrentIndex(ui->machine->findText(m_decors->objet((qint16) liste[0].toInt())->nom()));
+    ui->machine->setCurrentIndex(ui->machine->findText(m_decors->objet((qint16) liste[0].toInt())->name()));
     liste.pop_front();
     ui->verbe_recette->setText(liste[0]);
     liste.pop_front();
@@ -409,9 +409,9 @@ void EditerMetier::texte_to_metier(QString const& texte)
         ajouteObjet();
         m_comboRessources_obtenues[m_nbrObjets-1]->setCurrentIndex(m_comboRessources_obtenues[m_nbrObjets-1]->findText(liste[0]));
         liste.pop_front();
-        m_comboObjets[m_nbrObjets-1]->setCurrentIndex(m_comboObjets[m_nbrObjets-1]->findText(m_decors->objet((qint16) liste[0].toInt())->nom()));
+        m_comboObjets[m_nbrObjets-1]->setCurrentIndex(m_comboObjets[m_nbrObjets-1]->findText(m_decors->objet((qint16) liste[0].toInt())->name()));
         liste.pop_front();
-        m_comboSouches[m_nbrObjets-1]->setCurrentIndex(m_comboSouches[m_nbrObjets-1]->findText(m_decors->objet((qint16) liste[0].toInt())->nom()));
+        m_comboSouches[m_nbrObjets-1]->setCurrentIndex(m_comboSouches[m_nbrObjets-1]->findText(m_decors->objet((qint16) liste[0].toInt())->name()));
         liste.pop_front();
         m_spinNiveaux[m_nbrObjets-1]->setValue(liste[0].toInt());
         liste.pop_front();
@@ -419,16 +419,16 @@ void EditerMetier::texte_to_metier(QString const& texte)
     liste.pop_front();
     QString texte2 = liste.join("/");
     QStringList recettes = texte2.split("FR/");
-    QStringList nomrecettes;
+    QStringList namerecettes;
     while(recettes[0] != "FINRECETTES/")
     {
         texte2 = recettes[0].section('/', 0,0);
-        nomrecettes << texte2;
+        namerecettes << texte2;
         (*m_recettes)[texte2] = recettes[0] + "FR/";
         recettes.pop_front();
     }
-    if(nomrecettes.size())
+    if(namerecettes.size())
     {
-        ui->select_recette->addItems(nomrecettes);
+        ui->select_recette->addItems(namerecettes);
     }
 }

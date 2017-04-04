@@ -22,18 +22,18 @@ public:
     Fight(Character *leader1, Character *leader2, Map *dataMap);
     ~Fight();
     void ajoutePerso(Character *perso);
-    void enlevePerso(QString nom);
-    void deplace(QString nom, int x, int y);
-    void attaque(QString nomAttaquant,QString nomSpell, int x, int y);
-    void passeTour(QString nom);
+    void enlevePerso(QString name);
+    void deplace(QString name, int x, int y);
+    void attaque(QString nameAttaquant,QString nameSpell, int x, int y);
+    void passeTour(QString name);
     QString getNomLeader() const { return m_leader1; }
     QString getNomLeader2() const { return m_leader2; }
-    bool contains(QString nom);
+    bool contains(QString name);
     bool personneSur(int x,int y);
-    Character *getPersonnage(QString const& nom) const { return m_fighttants[nom]; }
+    Character *getPersonnage(QString const& name) const { return m_fighttants[name]; }
     void enEquipe(int equipe1, int equipe2, QPoint const& pos1, QPoint const& pos2);
-    void pret(QString nom);
-    void pasPret(QString nom);
+    void pret(QString name);
+    void pasPret(QString name);
     void fightCommence();
     void toutLeMondeEstPret();
     void order();
@@ -42,15 +42,15 @@ public:
     Character *getCible(QPoint const& p);
     bool finFight();
     void envoieATous(QString const& message);
-    void meurt(QString const& nom, bool envoyer = true);
+    void meurt(QString const& name, bool envoyer = true);
     PhaseFight phase() const { return m_phase; }
     void setPhase(PhaseFight phase) { m_phase = phase; }
     QString gainsFin();
 
 signals:
-    void envoie(QString nom, QString message);
-    void decoFighttants(QString nom);
-    void s_finFight(QString const& nom);
+    void envoie(QString name, QString message);
+    void decoFighttants(QString name);
+    void s_finFight(QString const& name);
 
 private:
 

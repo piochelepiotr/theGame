@@ -11,9 +11,9 @@ OutfitModel::OutfitModel(Resource *resource, int bonus_force_min, int bonus_forc
     m_bonus_points_fight[1] = bonus_points_fight_max;
 }
 
-OutfitModel* OutfitModel::nouvel(QString const& nom, const QString &chemin)
+OutfitModel* OutfitModel::nouvel(QString const& name, const QString &chemin)
 {
-    return new OutfitModel(Resource::nouvelle(nom, chemin), 0,0,0,0,0,0);
+    return new OutfitModel(Resource::nouvelle(name, chemin), 0,0,0,0,0,0);
 }
 
 QString OutfitModel::description(OutfitModel *equipement)

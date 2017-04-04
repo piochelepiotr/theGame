@@ -41,12 +41,12 @@ public:
     ~NPC();
     QString replique() const { return m_replique; }
     Answers *reponses() const { return m_reponses; }
-    QString nom() const { return m_nom; }
+    QString name() const { return m_name; }
 
 private:
     QString m_replique;
     Answers *m_reponses;
-    QString m_nom;
+    QString m_name;
 };
 
 bool repliqueFinale(QString const& replique);

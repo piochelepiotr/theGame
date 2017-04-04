@@ -13,7 +13,7 @@ public:
     WeaponModel(OutfitModel *equipementBase, SpellModel *spellBase);
     OutfitModel *getEquipement() const { return m_equipement_base; }
     SpellModel *getSpell() const { return m_spell_base; }
-    static WeaponModel *nouvelle(QString const& nom,QString const& chemin, Resources *resources);
+    static WeaponModel *nouvelle(QString const& name,QString const& chemin, Resources *resources);
     void setSpell(SpellModel *spell) { m_spell_base = spell; }
     Weapon *genere();
     QString longue_description();

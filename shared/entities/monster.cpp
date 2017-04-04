@@ -1,7 +1,7 @@
 #include "entities/monster.h"
 #include "scenery/data.h"
 
-Monster::Monster(const QString &nom, const QString &classe, Data *donnees_editeur,int posX,int posY,int posZ,int posMapX,int posMapY,int vie,int niveau) : Entity(nom,classe,donnees_editeur)
+Monster::Monster(const QString &name, const QString &classe, Data *donnees_editeur,int posX,int posY,int posZ,int posMapX,int posMapY,int vie,int niveau) : Entity(name,classe,donnees_editeur)
 {
     m_posX = posX;
     m_posY = posY;

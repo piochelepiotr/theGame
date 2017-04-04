@@ -25,13 +25,13 @@ class Character : public Entity
 
 public:
     Character(QString const& donnees, Data *donnees_editeur);
-    Character(const QString &nom, QString classe, Data *donnees_editeur);
-    ~Character();
+    Character(const QString &name, QString classe, Data *donnees_editeur);
+    virtual ~Character();
     QStringList getJobs();
     QString toString() const;
     int getPods() const;
     int getPodsMax() const;
-    void learnJob(QString nom);
+    void learnJob(QString name);
     int getBonusVie() const;
     int getBonusForce() const;
     int getBonusPC() const;
@@ -41,7 +41,7 @@ public:
     Resource *ressnum(int i) const { return m_resources[i].ress; }
     Outfit *equipement_num(int i) const { return m_equipements[i].equipement; }
     Weapon *armenum(int i) const { return m_armes[i].arme; }
-    Job *getMetier(QString const& nom) const { return m_metiers[nom]; }
+    Job *getMetier(QString const& name) const { return m_metiers[name]; }
     QVector<Resss>getRessources() const { return m_resources; }
     QVector<Eqips>getEquipements() const { return m_equipements; }
     QVector<Armes>getArmes() const { return m_armes; }
@@ -98,7 +98,7 @@ public:
     int ajouterArme(Weapon *arme);
     int ajouterEquipement(Outfit *equipement);
     int ajouterRessource(Resource *resource);
-    Spell *getSpell(QString const& nom);
+    Spell *getSpell(QString const& name);
     QString gagneFinFight(int niveauAutreEquipe, bool victoire);
     void gagneXp(int xp);
     void metAJourNiveau();

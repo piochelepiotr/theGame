@@ -9,12 +9,12 @@
 class Fight
 {
 public:
-    Fight(QString nomFight,Character *moi);
-    QString leader() const { return m_nomFight; }
+    Fight(QString nameFight,Character *moi);
+    QString leader() const { return m_nameFight; }
 
 
 private:
-    QString m_nomFight;
+    QString m_nameFight;
     Character *m_moi;
     bool m_iAmLeader;
 };

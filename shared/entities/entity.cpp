@@ -1,11 +1,11 @@
 #include "entities/entity.h"
 #include "scenery/data.h"
 
-Entity::Entity(const QString &nom, QString const& classe, Data *donnees_editeur)
+Entity::Entity(const QString &name, QString const& classe, Data *donnees_editeur)
 {
     m_enFight = false;
     m_donnees_editeur = donnees_editeur;
-    m_nom = nom;
+    m_name = name;
     m_classe = classe;
     m_posX = 0;
     m_posY = 0;
@@ -20,7 +20,7 @@ Entity::Entity(const QString &nom, QString const& classe, Data *donnees_editeur)
     QMap<QString,SpellModel*> spells = m_donnees_editeur->resources->getCreature(classe)->getSpells();
     for(QMap<QString,SpellModel*>::const_iterator it = spells.begin(); it != spells.end() ; it++)
     {
-        m_spells[it.value()->nom()] = it.value()->spellNiveau(1);
+        m_spells[it.value()->name()] = it.value()->spellNiveau(1);
     }
 }
 
@@ -63,7 +63,7 @@ QString Entity::caracteristiques() const
 QString Entity::important()
 {
     QString texte;
-    texte += m_nom+'*';
+    texte += m_name+'*';
     texte += m_classe+'*';
     texte += QString::number(m_posmapx)+'*';
     texte += QString::number(m_posmapy)+'*';
@@ -93,16 +93,16 @@ void Entity::perdVie(int degats)
         m_vie = 0;
 }
 
-bool Entity::peutUtiliserSpell(QString const& nom)
+bool Entity::peutUtiliserSpell(QString const& name)
 {
-    return m_pc_fight >= getSpell(nom)->points_fight();
+    return m_pc_fight >= getSpell(name)->points_fight();
 }
 
-Spell *Entity::getSpell(QString const& nom)
+Spell *Entity::getSpell(QString const& name)
 {
-    if(m_spells.contains(nom))
+    if(m_spells.contains(name))
     {
-        return m_spells[nom];
+        return m_spells[name];
     }
     else
     {
@@ -115,11 +115,11 @@ QString Entity::gagneFinFight(int ,bool victoire)
 {
     if(victoire)
     {
-        return m_nom+"/0";//le gain est bien ?
+        return m_name+"/0";//le gain est bien ?
     }
     else
     {
-        return m_nom+"/"+"0";
+        return m_name+"/"+"0";
     }
 }
 

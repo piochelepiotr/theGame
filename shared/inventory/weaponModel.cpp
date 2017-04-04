@@ -7,9 +7,9 @@ WeaponModel::WeaponModel(OutfitModel *equipementBase, SpellModel *spellBase)
     m_spell_base = spellBase;
 }
 
-WeaponModel *WeaponModel::nouvelle(QString const& nom, const QString &chemin, Resources *resources)
+WeaponModel *WeaponModel::nouvelle(QString const& name, const QString &chemin, Resources *resources)
 {
-    return new WeaponModel(OutfitModel::nouvel(nom, chemin), resources->getSpell("Coup de poing"));
+    return new WeaponModel(OutfitModel::nouvel(name, chemin), resources->getSpell("Coup de poing"));
 }
 
 Weapon *WeaponModel::genere()

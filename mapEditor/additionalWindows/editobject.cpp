@@ -12,7 +12,7 @@ EditerUnObjet::EditerUnObjet(QWidget *parent,bool *ok,Object *objet, bool creati
     m_ok = ok;
     m_supprimer = supprimer;
     m_objet = objet;
-    ui->nom->setText(m_objet->nom());
+    ui->name->setText(m_objet->name());
     ui->propx->setValue(m_objet->propx());
     ui->propy->setValue(m_objet->propy());
     if(creation)
@@ -46,7 +46,7 @@ void EditerUnObjet::refuser()
 
 void EditerUnObjet::valeurs()
 {
-    m_objet->setNom(ui->nom->text());
+    m_objet->setNom(ui->name->text());
     m_objet->setPropx(ui->propx->value(), m_lcase, m_hcase);
     m_objet->setPropy(ui->propy->value(), m_lcase, m_hcase);
 }

@@ -11,8 +11,8 @@ BoutonImg::BoutonImg(Object *objet)
     m_num = objet->numero();
     setIconSize(QSize(120,120));
     setIcon(QIcon(objet->image()));
-    if(!objet->nom().isEmpty())
-        setToolTip(objet->nom());
+    if(!objet->name().isEmpty())
+        setToolTip(objet->name());
     /*QVBoxLayout *layout = new QVBoxLayout();
     setLayout(layout);
     QLabel *image = new QLabel();

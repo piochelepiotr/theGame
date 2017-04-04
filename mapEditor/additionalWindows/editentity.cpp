@@ -22,22 +22,22 @@ EditerCreature::~EditerCreature()
 
 void EditerCreature::changeClasse(int nouvelle)
 {
-    QString nomActuel = "",nomNouveau = "";
+    QString nameActuel = "",nameNouveau = "";
     if(m_classeActuelle != -1)
-        nomActuel = ui->select_classe->itemText(m_classeActuelle);
+        nameActuel = ui->select_classe->itemText(m_classeActuelle);
     if(nouvelle != -1)
-        nomNouveau = ui->select_classe->itemText(nouvelle);
+        nameNouveau = ui->select_classe->itemText(nouvelle);
     m_classeActuelle = nouvelle;
-    emit s_changeClasse(nomActuel,nomNouveau);
+    emit s_changeClasse(nameActuel,nameNouveau);
 }
 
 void EditerCreature::ajouterClasse()
 {
     bool ok;
-    QString nom = QInputDialog::getText(this, trUtf8("Nouvelle classe"), trUtf8("Entrez le nom de la nouvelle classe"), QLineEdit::Normal, QString(), &ok);
+    QString name = QInputDialog::getText(this, trUtf8("Nouvelle classe"), trUtf8("Entrez le name de la nouvelle classe"), QLineEdit::Normal, QString(), &ok);
     if(ok)
     {
-        ui->select_classe->addItem(nom);
+        ui->select_classe->addItem(name);
     }
 }
 
@@ -45,11 +45,11 @@ void EditerCreature::supprimerClasseActuelle()
 {
     if(m_classeActuelle != -1)
     {
-        QString nom = ui->select_classe->itemText(m_classeActuelle);
-        if(QMessageBox::question(this, trUtf8("Supression d'une classe"), trUtf8("Voulez vous vraiment supprimer la classe ")+nom, QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
+        QString name = ui->select_classe->itemText(m_classeActuelle);
+        if(QMessageBox::question(this, trUtf8("Supression d'une classe"), trUtf8("Voulez vous vraiment supprimer la classe ")+name, QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
         {
             m_classeActuelle = -1;
-            emit s_supprimeClasse(nom);
+            emit s_supprimeClasse(name);
             ui->select_classe->removeItem(ui->select_classe->currentIndex());
         }
     }
@@ -106,7 +106,7 @@ QString EditerCreature::classe_to_texte()
 void EditerCreature::texte_to_classe(QString const& texte)
 {
     QStringList liste = texte.split('/');
-    liste.pop_front();//on enlève le nom
+    liste.pop_front();//on enlève le name
     ui->propx->setValue(liste[0].toDouble());
     liste.pop_front();
     ui->propy->setValue(liste[0].toDouble());

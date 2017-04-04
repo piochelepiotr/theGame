@@ -186,14 +186,14 @@ bool chargeMap(Scenery *decors, int cooX, int cooY,int cooZ, Object *objets[3] [
 }
 
 
-void ajouteUnTheme(QString const& nom)
+void ajouteUnTheme(QString const& name)
 {
     QFile fichier("../data/objets/themes.txt");
 
     if(fichier.open(QIODevice::WriteOnly | QIODevice::Append))
     {
         QTextStream flux(&fichier);
-        flux << nom << endl;
+        flux << name << endl;
         fichier.close();
     }
 }
@@ -212,7 +212,7 @@ qint16 trouveNumero()
 void ajouteObjet(Object *objet, QString const& chemin_vers_image)
 {
     QString ligne;
-    QString texte = QString::number((int)objet->numero()) + '/' + objet->nom() + '/' + objet->categorie() + '/' + QString::number(objet->propx()) + '/' + QString::number(objet->propy());
+    QString texte = QString::number((int)objet->numero()) + '/' + objet->name() + '/' + objet->categorie() + '/' + QString::number(objet->propx()) + '/' + QString::number(objet->propy());
     QFile ancien_fichier("../data/objets/objets.txt");
     QFile nouveau_fichier("../data/objets/objets2.txt");
 
@@ -248,7 +248,7 @@ void ajouteObjet(Object *objet, QString const& chemin_vers_image)
 
 void spellUnObjet(Object *objet)
 {
-    QString ligne, texte = QString::number((int)objet->numero()) + '/' + objet->nom() + '/' + objet->categorie() + '/' + QString::number(objet->propx()) + '/' + QString::number(objet->propy());
+    QString ligne, texte = QString::number((int)objet->numero()) + '/' + objet->name() + '/' + objet->categorie() + '/' + QString::number(objet->propx()) + '/' + QString::number(objet->propy());
 
     QFile ancien_fichier("../data/objets/objets.txt");
     QFile nouveau_fichier("../data/objets/objets2.txt");
@@ -308,7 +308,7 @@ void supprimerObjet(Scenery *decors, Object *objet)
     Object *objets[3] [NBR_CASES_L] [NBR_CASES_H];
     QMap <QPoint, Gate>transpos;
     qint8 casepleines[NBR_CASES_L] [NBR_CASES_H];
-    QString nomfond;
+    QString namefond;
     QPoint casescbt [2] [MAX_PAR_EQUIP];
     QMap<QString, double>monstres;
     QVector<QString>musiques;
@@ -321,7 +321,7 @@ void supprimerObjet(Scenery *decors, Object *objet)
             {
                 if(mapexiste(i,j,z))
                 {
-                    chargeMap(decors, i,j,z,objets,transpos, casepleines, &nomfond, casescbt, &monstres, &musiques);
+                    chargeMap(decors, i,j,z,objets,transpos, casepleines, &namefond, casescbt, &monstres, &musiques);
                     for(int i1 = 0; i1 < NBR_CASES_L; i1++)
                     {
                         for(int j1 = 0; j1 < NBR_CASES_H; j1++)
@@ -335,14 +335,14 @@ void supprimerObjet(Scenery *decors, Object *objet)
                             }
                         }
                     }
-                    enregistreMap(i, j, z, objets, transpos, casepleines, nomfond, casescbt, monstres, musiques);
+                    enregistreMap(i, j, z, objets, transpos, casepleines, namefond, casescbt, monstres, musiques);
                 }
             }
         }
     }
-    QString nom = "../data/objets/"+QString::number((int)objet->numero())+".png";
+    QString name = "../data/objets/"+QString::number((int)objet->numero())+".png";
     decors->supprimeObjet(objet);
-    QFile::remove(nom);
+    QFile::remove(name);
 }
 
 bool mapexiste(int x, int y, int z)

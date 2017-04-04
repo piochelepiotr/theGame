@@ -1,12 +1,12 @@
 #include "editmapmonsters.h"
 #include "ui_editmapmonsters.h"
 
-EditerMonstreDeLaMap::EditerMonstreDeLaMap(QWidget *parent, QMap<QString, double> *monstres,QStringList nomMonstres) :
+EditerMonstreDeLaMap::EditerMonstreDeLaMap(QWidget *parent, QMap<QString, double> *monstres,QStringList nameMonstres) :
     QDialog(parent),
     ui(new Ui::EditerMonstreDeLaMap)
 {
     m_monstres = monstres;
-    m_nomMonstres = nomMonstres;
+    m_nameMonstres = nameMonstres;
     ui->setupUi(this);
     m_nbr = 0;
     connect(ui->bout_ajouter, SIGNAL(clicked()), this, SLOT(ajouter()));
@@ -32,7 +32,7 @@ void EditerMonstreDeLaMap::ajouter()
     ui->tableau->insertRow(m_nbr);
     NumberButton *bout = new NumberButton("supprimer",m_nbr);
     QComboBox *monstres = new QComboBox();
-    monstres->addItems(m_nomMonstres);
+    monstres->addItems(m_nameMonstres);
     QDoubleSpinBox *proba = new QDoubleSpinBox();
 
     ui->tableau->setCellWidget(m_nbr,0,monstres);

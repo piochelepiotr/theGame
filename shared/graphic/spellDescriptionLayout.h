@@ -16,7 +16,7 @@ signals:
 
 public slots:
 
-    void spellClique(QString const& nom);
+    void spellClique(QString const& name);
 
 private:
     void chargeSpells();

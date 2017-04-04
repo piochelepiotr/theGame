@@ -23,7 +23,7 @@
    <item>
     <layout class="QHBoxLayout" name="lay_haut">
      <item>
-      <widget class="QLabel" name="nom_spell">
+      <widget class="QLabel" name="name_spell">
        <property name="text">
         <string/>
        </property>

@@ -365,10 +365,10 @@ void GameScene::caseEgale(int i, int j, Object *objet, int fond)
         if(fond == 2)
         {
             m_imagesObjets[fond] [i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().width()/2, m_dataMap->cposy(j,m_hcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().height()+m_hcase*ECART);
-            if(objet->nom().isEmpty())
+            if(objet->name().isEmpty())
                 m_imagesObjets[fond][i][j]->changeToolTip("");
             else
-                m_imagesObjets[fond][i][j]->changeToolTip(objet->nom());
+                m_imagesObjets[fond][i][j]->changeToolTip(objet->name());
         }
         else
             m_imagesObjets[fond] [i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().width()/2, m_dataMap->cposy(j,m_hcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().height()/2);
@@ -517,10 +517,10 @@ void GameScene::remplitCaseIm(int i, int j)
     }
 }
 
-void GameScene::fondEgal(QString const& nom)
+void GameScene::fondEgal(QString const& name)
 {
-    m_dataMap->setFond(nom);
-    QPixmap background = QPixmap("../data/lesfonds/"+nom);
+    m_dataMap->setFond(name);
+    QPixmap background = QPixmap("../data/lesfonds/"+name);
     if(!background.isNull())
         m_fond->setPixmap(background.scaled(m_lmap, m_hmap));
 }

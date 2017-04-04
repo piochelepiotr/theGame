@@ -89,9 +89,9 @@
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="lay_nivetnom">
+          <layout class="QHBoxLayout" name="lay_nivetname">
            <item>
-            <widget class="QLabel" name="nomobjet">
+            <widget class="QLabel" name="nameobjet">
              <property name="text">
               <string/>
              </property>
@@ -197,9 +197,9 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
-        <layout class="QHBoxLayout" name="lay_nom_lvl_classe">
+        <layout class="QHBoxLayout" name="lay_name_lvl_classe">
          <item>
-          <widget class="QLabel" name="nom">
+          <widget class="QLabel" name="name">
            <property name="font">
             <font>
              <family>Droid Sans Arabic</family>

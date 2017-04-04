@@ -1,8 +1,8 @@
 #include "scenery/objectGroup.h"
 
-ObjectGroup::ObjectGroup(const QString &nom)
+ObjectGroup::ObjectGroup(const QString &name)
 {
-    m_nom = nom;
+    m_name = name;
 }
 
 void ObjectGroup::ajouteObjet(Object *objet)

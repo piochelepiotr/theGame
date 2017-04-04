@@ -7,14 +7,14 @@
 class ObjectGroup
 {
 public:
-    ObjectGroup(QString const& nom);
+    ObjectGroup(QString const& name);
     void ajouteObjet(Object *objet);
     void supprimeObjet(Object *objet);
-    QString nom() const { return m_nom; }
+    QString name() const { return m_name; }
     QMap<qint16, Object*> objets() { return m_objets; }
 private:
     QMap<qint16, Object*>m_objets;
-    QString m_nom;
+    QString m_name;
 };
 
 #endif // CATEGORIE_H

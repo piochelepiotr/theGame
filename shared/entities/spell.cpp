@@ -1,8 +1,8 @@
 #include "entities/spell.h"
 
-Spell::Spell(QString const& nom, int niveau, int points_fight, int portee_min, int portee_max, int degats_terre_min, int degats_terre_max)
+Spell::Spell(QString const& name, int niveau, int points_fight, int portee_min, int portee_max, int degats_terre_min, int degats_terre_max)
 {
-    m_nom = nom;
+    m_name = name;
     m_niveau = niveau;
     m_points_fight = points_fight;
     m_portee_min = portee_min;
@@ -16,7 +16,7 @@ QString Spell::decrit(Spell *spell)
     QString texte;
     texte += "<table width=\"100%\" >";
     texte += "<tr>";
-    texte += "<td><b>"+QObject::trUtf8("attaque : ")+spell->nom()+"</b></td>";
+    texte += "<td><b>"+QObject::trUtf8("attaque : ")+spell->name()+"</b></td>";
     texte += "<td align=\"right\" >"+QObject::trUtf8("niveau ")+QString::number(spell->niveau())+"</td>";
     texte += "</tr><tr>";
     texte += "<td>"+QObject::trUtf8("portée : ")+QString::number(spell->portee_min())+QObject::trUtf8(" à ")+QString::number(spell->portee_max())+"</td>";
@@ -43,7 +43,7 @@ int Spell::degats()
 
 QString Spell::enString() const
 {
-    return m_nom + "/" + QString::number(m_niveau) + "/";
+    return m_name + "/" + QString::number(m_niveau) + "/";
 }
 
 QString Spell::longue_description()
@@ -53,7 +53,7 @@ QString Spell::longue_description()
 
 bool operator==(Spell const& a, Spell const& b)
 {
-    if(a.nom() != b.nom())
+    if(a.name() != b.name())
         return false;
     return a.niveau() == b.niveau();
 }

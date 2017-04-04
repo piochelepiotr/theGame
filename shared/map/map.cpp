@@ -22,10 +22,10 @@ void Map::chargeMap(int x,int y,int z)
     m_estEnregistree = true;
 }
 
-void Map::charge(QString const& nomFichier)
+void Map::charge(QString const& nameFichier)
 {
     QFile fichier;
-    fichier.setFileName(nomFichier);
+    fichier.setFileName(nameFichier);
     if(!fichier.exists())
     {
         nouvelleMap();
@@ -998,7 +998,7 @@ void calculContoursCase(int x,int y,int mlcase,int mhcase,double &max,double &mi
 void droiteExtremes(QList<double>droites,double &max,double &min)
 {
     double pi = 3.1415926;
-    qSpell(droites.begin(),droites.end());
+    qSort(droites.begin(),droites.end());
     int l = droites.length();
     for(int i = l-1; i > 0;i--)
     {

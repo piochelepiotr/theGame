@@ -86,11 +86,11 @@ void EditerPnjs::ajouterNouveau(qint16 num)
         bouts_spell_objet.push_back(boutEditerObjet);
         bouts_spell_dialogues.push_back(boutEditerDialogues);
 
-        ui->tableau->setItem(ligne, 0, new QTableWidgetItem(objet->nom()));
+        ui->tableau->setItem(ligne, 0, new QTableWidgetItem(objet->name()));
         ui->tableau->item(ligne, 0)->setFlags(Qt::NoItemFlags);
         ui->tableau->setCellWidget(ligne, 1, boutEditerObjet);
         ui->tableau->setCellWidget(ligne, 2, boutEditerDialogues);
-        m_noms[objet->numero()] = ui->tableau->item(ligne, 0);
+        m_names[objet->numero()] = ui->tableau->item(ligne, 0);
     }
 }
 
@@ -102,15 +102,15 @@ void EditerPnjs::modifierpnj_objet(qint16 num)
     if(ok)
     {
         spellUnObjet(objet);
-        m_noms[num]->setText(objet->nom());
+        m_names[num]->setText(objet->name());
     }
     else if(supprimer)
     {
         CreerPnj::supprimerPnj(objet->numero());
         supprimerObjet(m_decors, objet);
-        ui->tableau->removeRow(ui->tableau->row(m_noms[num]));
-        //delete m_noms[num];
-        m_noms.remove(num);
+        ui->tableau->removeRow(ui->tableau->row(m_names[num]));
+        //delete m_names[num];
+        m_names.remove(num);
     }
 }
 

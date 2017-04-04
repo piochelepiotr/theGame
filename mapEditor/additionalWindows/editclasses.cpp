@@ -41,10 +41,10 @@ void EditerClasses::changeClasse(int nouvelle)
 void EditerClasses::ajouterClasse()
 {
     bool ok;
-    QString nom = QInputDialog::getText(this, trUtf8("Nouvelle classe"), trUtf8("Entrez le nom de la nouvelle classe"), QLineEdit::Normal, QString(), &ok);
+    QString name = QInputDialog::getText(this, trUtf8("Nouvelle classe"), trUtf8("Entrez le name de la nouvelle classe"), QLineEdit::Normal, QString(), &ok);
     if(ok)
     {
-        ui->select_classe->addItem(nom);
+        ui->select_classe->addItem(name);
     }
 }
 
@@ -52,8 +52,8 @@ void EditerClasses::supprimerClasseActuelle()
 {
     if(m_classeActuelle != -1)
     {
-        QString nom = ui->select_classe->itemText(m_classeActuelle), ligne;
-        if(QMessageBox::question(this, trUtf8("Supression d'une classe"), trUtf8("Voulez vous vraiment supprimer la classe ")+nom, QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
+        QString name = ui->select_classe->itemText(m_classeActuelle), ligne;
+        if(QMessageBox::question(this, trUtf8("Supression d'une classe"), trUtf8("Voulez vous vraiment supprimer la classe ")+name, QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
         {
             enregistrerClasse(m_classeActuelle);
             m_classeActuelle = -1;
@@ -68,7 +68,7 @@ void EditerClasses::supprimerClasseActuelle()
 
                 while(!(ligne = stream1.readLine()).isNull() && !ligne.isEmpty())
                 {
-                    if(ligne.section('/', 0,0) != nom)
+                    if(ligne.section('/', 0,0) != name)
                         stream2 << ligne << endl;
                 }
 
@@ -84,14 +84,14 @@ void EditerClasses::supprimerClasseActuelle()
 
 void EditerClasses::chargeClasseActuelle()
 {
-    QString nom = ui->select_classe->itemText(m_classeActuelle), ligne;
+    QString name = ui->select_classe->itemText(m_classeActuelle), ligne;
     QFile fichier(QString(DONNEES)+QString("classes.txt"));
     if(fichier.open(QIODevice::ReadOnly))
     {
         QTextStream stream(&fichier);
         while(!(ligne = stream.readLine()).isNull())
         {
-            if(ligne.section('/', 0,0) == nom)
+            if(ligne.section('/', 0,0) == name)
             {
                 texte_to_classe(ligne);
             }
@@ -128,7 +128,7 @@ void EditerClasses::supprimerSpell(int num)
 void EditerClasses::enregistrerClasse(int classe)
 {
     bool existe = false;
-    QString nom = ui->select_classe->itemText(classe), ligne, texte;
+    QString name = ui->select_classe->itemText(classe), ligne, texte;
     texte = classe_to_texte();
     QFile fichier(QString(DONNEES)+QString("classes.txt"));
     QFile fichier2(QString(DONNEES)+QString("classes2.txt"));
@@ -139,7 +139,7 @@ void EditerClasses::enregistrerClasse(int classe)
 
         while(!(ligne = stream1.readLine()).isNull() && !ligne.isEmpty())
         {
-            if(ligne.section('/', 0,0) == nom)
+            if(ligne.section('/', 0,0) == name)
             {
                 stream2 << texte << endl;
                 existe = true;
@@ -185,7 +185,7 @@ QString EditerClasses::classe_to_texte()
 void EditerClasses::texte_to_classe(QString const& texte)
 {
     QStringList liste = texte.split('/');
-    liste.pop_front();//le texte est sans le nom
+    liste.pop_front();//le texte est sans le name
     ui->arme->setText(liste[0]);
     liste.pop_front();
     ui->metier->setText(liste[0]);

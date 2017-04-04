@@ -1,7 +1,7 @@
 #include "additionalWindows/interjoueur.h"
 #include "ui_interjoueur.h"
 
-InterJoueur::InterJoueur(QWidget *parent, QString const& nom, Inter *inter) :
+InterJoueur::InterJoueur(QWidget *parent, QString const& name, Inter *inter) :
     QDialog(parent),
     ui(new Ui::InterJoueur)
 {

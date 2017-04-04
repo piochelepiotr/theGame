@@ -20,7 +20,7 @@ public:
     ~EditerUnSpell();
     void charge();
     void enregistre();
-    static void supprimer(QString const& nom);
+    static void supprimer(QString const& name);
 
 public slots:
     void accepter();

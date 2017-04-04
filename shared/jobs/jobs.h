@@ -9,7 +9,7 @@ class Jobs
 {
 public:
     Jobs(Resources *resources, Scenery *decors);
-    JobModel *metier(QString const& nom) const { return m_metiers[nom]; }
+    JobModel *metier(QString const& name) const { return m_metiers[name]; }
     ~Jobs();
     QStringList metiers() const { return m_metiers.keys(); }
     JobModel *forge_to_metier(Object *forge);

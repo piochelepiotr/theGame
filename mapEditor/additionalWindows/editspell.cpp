@@ -25,7 +25,7 @@ void EditerUnSpell::accepter()
 
 void EditerUnSpell::enregistre()
 {
-    QString texte = m_editer->nom() +'/'+QString::number(ui->lvl->value());
+    QString texte = m_editer->name() +'/'+QString::number(ui->lvl->value());
     for(int i = 0; i < ui->tableau->rowCount(); i++)
     {
         for(int j = 0; j < ui->tableau->columnCount(); j++)
@@ -57,7 +57,7 @@ void EditerUnSpell::enregistre()
             while(!stream.atEnd())
             {
                 ligne = stream.readLine();
-                if(ligne.section('/', 0, 0) == m_editer->nom())
+                if(ligne.section('/', 0, 0) == m_editer->name())
                 {
                     stream2 << texte << endl;
                 }
@@ -76,7 +76,7 @@ void EditerUnSpell::enregistre()
 
 void EditerUnSpell::charge()
 {
-    setWindowTitle(m_editer->nom());
+    setWindowTitle(m_editer->name());
     QString texte;
     if(!m_creation)
     {
@@ -84,11 +84,11 @@ void EditerUnSpell::charge()
         if(fichier.open(QIODevice::ReadOnly))
         {
             QTextStream stream(&fichier);
-            while(!stream.atEnd() && texte.section('/', 0, 0) != m_editer->nom())
+            while(!stream.atEnd() && texte.section('/', 0, 0) != m_editer->name())
             {
                 texte = stream.readLine();
             }
-            if(texte.section('/', 0, 0) != m_editer->nom())
+            if(texte.section('/', 0, 0) != m_editer->name())
                 m_creation = true;
             fichier.close();
         }
@@ -120,7 +120,7 @@ void EditerUnSpell::charge()
     }
 }
 
-void EditerUnSpell::supprimer(QString const& nom)
+void EditerUnSpell::supprimer(QString const& name)
 {
     QString ligne;
     QFile fichier(QString(DONNEES)+QString("editers.txt")), fichier2(QString(DONNEES)+QString("editers2.txt"));
@@ -130,7 +130,7 @@ void EditerUnSpell::supprimer(QString const& nom)
         while(!stream.atEnd())
         {
             ligne = stream.readLine();
-            if(ligne.section('/', 0, 0) != nom)
+            if(ligne.section('/', 0, 0) != name)
             {
                 stream2 << ligne << endl;
             }

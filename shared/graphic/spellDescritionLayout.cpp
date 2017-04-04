@@ -23,7 +23,7 @@ void SpellDescriptionLayout::chargeSpells()
     }
 }
 
-void SpellDescriptionLayout::spellClique(QString const& nom)
+void SpellDescriptionLayout::spellClique(QString const& name)
 {
-    m_descriptionSpell->setSpell(m_personnage->donneesEditeur()->resources->getSpell(nom));
+    m_descriptionSpell->setSpell(m_personnage->donneesEditeur()->resources->getSpell(name));
 }

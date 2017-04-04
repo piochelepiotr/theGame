@@ -25,8 +25,8 @@ public:
     Monde(Data *donnees_editeur, Ecran *ecran);
     ServerMap *map(Point const& p) const { return m_maps[p]; }
     void connectPlayer(Joueur *player);
-    void disconnectPlayer(QString const& nom);
-    void sendMessage(QString const& nom, QString const& message);
+    void disconnectPlayer(QString const& name);
+    void sendMessage(QString const& name, QString const& message);
     ~Monde();
 public slots:
     //void envoie(QString qui,QString message);

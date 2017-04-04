@@ -41,7 +41,7 @@ Answers::~Answers()
 NPC::NPC(QString donnes)
 {
     QString reste;
-    m_nom = donnes.section('/', 0,0);
+    m_name = donnes.section('/', 0,0);
     m_replique = donnes.section('/',1,1);
     m_reponses = new Answers(donnes.section('/', 2), &reste);
 }

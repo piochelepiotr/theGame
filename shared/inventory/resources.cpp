@@ -99,102 +99,102 @@ Resources::Resources()
 
 void Resources::ajouteRessource(Resource *resource)
 {
-    m_resources[resource->nom()] = resource;
+    m_resources[resource->name()] = resource;
 }
 
 void Resources::ajouteEquipement(OutfitModel *equipement)
 {
     ajouteRessource(equipement->getRessource());
-    m_equipements[equipement->getRessource()->nom()] = equipement;
+    m_equipements[equipement->getRessource()->name()] = equipement;
 }
 
 void Resources::ajouteArme(WeaponModel *arme)
 {
     ajouteEquipement(arme->getEquipement());
-    m_armes[arme->getEquipement()->getRessource()->nom()] = arme;
+    m_armes[arme->getEquipement()->getRessource()->name()] = arme;
 }
 
 void Resources::ajouteSpell(SpellModel *spell)
 {
-    m_spells[spell->nom()] = spell;
+    m_spells[spell->name()] = spell;
 }
 
-void Resources::enleveRessource(QString const& nom)
+void Resources::enleveRessource(QString const& name)
 {
-    if(m_resources.contains(nom))
+    if(m_resources.contains(name))
     {
-        delete m_resources[nom];
-        m_resources.remove(nom);
+        delete m_resources[name];
+        m_resources.remove(name);
     }
 }
 
-void Resources::enleveEquipement(QString const& nom)
+void Resources::enleveEquipement(QString const& name)
 {
-    if(m_equipements.contains(nom))
+    if(m_equipements.contains(name))
     {
-        delete m_equipements[nom];
-        m_equipements.remove(nom);
+        delete m_equipements[name];
+        m_equipements.remove(name);
     }
 }
 
-void Resources::enleveArme(QString const& nom)
+void Resources::enleveArme(QString const& name)
 {
-    if(m_armes.contains(nom))
+    if(m_armes.contains(name))
     {
-        delete m_armes[nom];
-        m_armes.remove(nom);
+        delete m_armes[name];
+        m_armes.remove(name);
     }
 }
 
-void Resources::enleveSpell(QString const& nom)
+void Resources::enleveSpell(QString const& name)
 {
-    if(m_spells.contains(nom))
+    if(m_spells.contains(name))
     {
-        delete m_spells[nom];
-        m_spells.remove(nom);
+        delete m_spells[name];
+        m_spells.remove(name);
     }
 }
 
-Resource *Resources::getRessource(QString const& nom) const
+Resource *Resources::getRessource(QString const& name) const
 {
-    if(nom == "-1" || !m_resources.contains(nom))
+    if(name == "-1" || !m_resources.contains(name))
         return 0;
-    return m_resources[nom];
+    return m_resources[name];
 }
 
-OutfitModel *Resources::getEquipement(QString const& nom) const
+OutfitModel *Resources::getEquipement(QString const& name) const
 {
-    if(nom == "-1" || !m_equipements.contains(nom))
+    if(name == "-1" || !m_equipements.contains(name))
         return 0;
-    return m_equipements[nom];
+    return m_equipements[name];
 }
 
-WeaponModel *Resources::getArme(QString const& nom) const
+WeaponModel *Resources::getArme(QString const& name) const
 {
-    if(nom == "-1" || !m_armes.contains(nom))
+    if(name == "-1" || !m_armes.contains(name))
         return 0;
-    return m_armes[nom];
+    return m_armes[name];
 }
 
-SpellModel *Resources::getSpell(const QString &nom) const
+SpellModel *Resources::getSpell(const QString &name) const
 {
-    if(nom == "-1" || !m_spells.contains(nom))
+    if(name == "-1" || !m_spells.contains(name))
         return 0;
-    return m_spells[nom];
+    return m_spells[name];
 }
 
-CharacterModel *Resources::getClasse(QString const& nom) const
+CharacterModel *Resources::getClasse(QString const& name) const
 {
-    if(!m_classes.contains(nom))
+    if(!m_classes.contains(name))
         return 0;
-    return m_classes[nom];
+    return m_classes[name];
 }
 
-MonsterModel *Resources::getMonstre(QString const& nom) const
+MonsterModel *Resources::getMonstre(QString const& name) const
 {
-    if(!m_monstres.contains(nom))
+    if(!m_monstres.contains(name))
         return 0;
-    return m_monstres[nom];
+    return m_monstres[name];
 }
 
 EntityModel *Resources::getCreature(QString const& name) const

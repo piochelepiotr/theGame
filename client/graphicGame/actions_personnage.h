@@ -43,7 +43,7 @@ class Actions_personnage
     bool suivante(int *decalageX, int *decalageY, int *caseX, int *caseY, DerniereAction *action);
     void decale(int *x, int *y);
     QPoint posALaFin(QPoint actuelle);
-    void ajouteAction(QString const& nom, Dir orientation);
+    void ajouteAction(QString const& name, Dir orientation);
     void marche(QQueue<Dir>const&chemin, DerniereAction action);
     void court(QQueue<Dir>const&chemin, DerniereAction action);
     void recolte(QString const& verbe, int quantity_coups, DerniereAction action, Dir direction);

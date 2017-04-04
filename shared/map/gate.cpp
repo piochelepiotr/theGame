@@ -1,9 +1,9 @@
 #include "map/gate.h"
 
-Gate::Gate(QString const& nom, QString const& nomarr, int mapx, int mapy,int mapz, Dir largage, int posx, int posy)
+Gate::Gate(QString const& name, QString const& namearr, int mapx, int mapy,int mapz, Dir largage, int posx, int posy)
 {
-    m_nom = nom;
-    m_nom_arr = nomarr;
+    m_name = name;
+    m_name_arr = namearr;
     m_maparrX = mapx;
     m_maparrY = mapy;
     m_maparrZ = mapz;

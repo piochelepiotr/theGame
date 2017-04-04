@@ -40,9 +40,9 @@ signals:
     void passe_tour();
     void ton_tour();
     void commenceFight();
-    void changeVie(QString nom,int vie);
-    void meurt(QString const& nom);
-    void changePos(QString const& nom, int x,int y);
+    void changeVie(QString name,int vie);
+    void meurt(QString const& name);
+    void changePos(QString const& name, int x,int y);
     void finFight(QString const& texte);
 
 

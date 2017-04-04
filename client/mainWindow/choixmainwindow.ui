@@ -122,14 +122,14 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="nomperso">
+       <widget class="QLabel" name="nameperso">
         <property name="font">
          <font>
           <pointsize>20</pointsize>
          </font>
         </property>
         <property name="text">
-         <string>nom inconnu</string>
+         <string>name inconnu</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>

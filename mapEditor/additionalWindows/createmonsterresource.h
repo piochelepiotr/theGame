@@ -18,7 +18,7 @@ public:
 private:
     Ui::NouvelleRessourceMonstre *ui;
     double m_proba;
-    QString m_nom;
+    QString m_name;
 };
 
 #endif // NOUVELLERESSOURCEMONSTRE_H

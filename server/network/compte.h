@@ -22,13 +22,13 @@ public:
     void save(DataBase *m_db);
 
     QString getPseudo() const { return m_pseudo; }
-    QString getNdc() const { return m_nomDeCompte; }
+    QString getNdc() const { return m_nameDeCompte; }
 
 private:
 
     QVector<Character*>m_persos;
     QString m_pseudo;
-    QString m_nomDeCompte;
+    QString m_nameDeCompte;
     Data *m_donnees_editeur;
 
 };

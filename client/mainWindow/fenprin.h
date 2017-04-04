@@ -112,11 +112,11 @@ public slots:
     void je_passe_tour();
     void tu_dois_passe_tour();
     void ton_tour();
-    void utiliseSpell(QString nom);
+    void utiliseSpell(QString name);
     void commenceFight();
-    void meurt(QString const& nom);
+    void meurt(QString const& name);
     void finFight(const QString &texte);
-    void changeVie(QString const& nom, int vie);
+    void changeVie(QString const& name, int vie);
 
     void attackMonster(QString const& name);
 

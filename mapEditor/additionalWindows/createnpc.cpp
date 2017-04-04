@@ -1,19 +1,19 @@
 #include "createnpc.h"
 #include "ui_createnpc.h"
 
-Bout::Bout(QString const& texte, const QString &nom) : QPushButton(texte)
+Bout::Bout(QString const& texte, const QString &name) : QPushButton(texte)
 {
-    m_nom = nom;
+    m_name = name;
 }
 
 void Bout::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
-        emit ajoute(m_nom);
+        emit ajoute(m_name);
     else if(event->button() == Qt::RightButton)
-        emit edite(m_nom);
+        emit edite(m_name);
     else if(event->button() == Qt::MiddleButton)
-        emit detruit(m_nom);
+        emit detruit(m_name);
 }
 
 CreerPnj::CreerPnj(QWidget *parent, qint16 *num, bool *ok, bool creation) : QDialog(parent),
@@ -28,7 +28,7 @@ CreerPnj::CreerPnj(QWidget *parent, qint16 *num, bool *ok, bool creation) : QDia
     m_num = num;
     if(creation)
         *m_num = trouveNumero();
-    m_repliques["0"] = new Bout("pas de nom", "0");
+    m_repliques["0"] = new Bout("pas de name", "0");
     m_enfrepliques["0"] = new QVBoxLayout();
     ui->lay_0->addWidget(m_repliques["0"]);
     ui->lay_0->addLayout(m_enfrepliques["0"]);
@@ -89,49 +89,49 @@ void CreerPnj::accepter()
     }
 }
 
-void CreerPnj::spellBouton(QString nom)
+void CreerPnj::spellBouton(QString name)
 {
     bool ok;
     QString texte = QInputDialog::getText(this, trUtf8("nouveau dialogue"), trUtf8("nouvelle réplique:"), QLineEdit::Normal, QString(), &ok);
     if(ok)
     {
-        m_repliques[nom]->setText(texte);
+        m_repliques[name]->setText(texte);
     }
 }
 
-void CreerPnj::boutclique(QString nom, QString texte)
+void CreerPnj::boutclique(QString name, QString texte)
 {
     bool ok = true;
     if(texte == "-1")
         texte = QInputDialog::getText(this, "nouveau dialogue", "parole suivante :", QLineEdit::Normal, QString(), &ok);
     if(ok)
     {
-        QString new_nom = nom + '_' + QString::number(m_enfrepliques[nom]->children().size());
-        Bout *bout = new Bout(texte, new_nom);
+        QString new_name = name + '_' + QString::number(m_enfrepliques[name]->children().size());
+        Bout *bout = new Bout(texte, new_name);
         QHBoxLayout *layh = new QHBoxLayout;
         QVBoxLayout *layv = new QVBoxLayout;
         layh->addWidget(bout);
         layh->addLayout(layv);
-        m_enfrepliques[nom]->addLayout(layh);
-        m_enfrepliques[new_nom] = layv;
-        m_repliques[new_nom] = bout;
-        m_layrepliques[new_nom] = layh;
+        m_enfrepliques[name]->addLayout(layh);
+        m_enfrepliques[new_name] = layv;
+        m_repliques[new_name] = bout;
+        m_layrepliques[new_name] = layh;
         connect(bout, SIGNAL(ajoute(QString)), this, SLOT(boutclique(QString)));
         connect(bout, SIGNAL(edite(QString)), this, SLOT(spellBouton(QString)));
         connect(bout, SIGNAL(detruit(QString)), this, SLOT(effaceReplique(QString)));
     }
 }
 
-QString CreerPnj::ecritReplique(QString const& nom)
+QString CreerPnj::ecritReplique(QString const& name)
 {
-    QString texte = m_repliques[nom]->text();
-    QString sous_nom;
+    QString texte = m_repliques[name]->text();
+    QString sous_name;
     texte += '/';
     int i;
-    for(i = 0; i < m_enfrepliques[nom]->children().size(); i++)
+    for(i = 0; i < m_enfrepliques[name]->children().size(); i++)
     {
-        sous_nom = nom + '_' + QString::number(i);
-        texte += ecritReplique(sous_nom);
+        sous_name = name + '_' + QString::number(i);
+        texte += ecritReplique(sous_name);
     }
     if(i > 0)
         texte += "fin/";
@@ -147,34 +147,34 @@ QString CreerPnj::enString()
     return texte;
 }
 
-void CreerPnj::effaceReplique(QString nom)
+void CreerPnj::effaceReplique(QString name)
 {
-    if(nom == "0")
+    if(name == "0")
         return;
-    for(int i = 0; i < m_enfrepliques[nom]->children().size(); i++)
+    for(int i = 0; i < m_enfrepliques[name]->children().size(); i++)
     {
-        effaceReplique(nom+'_'+QString::number(i));
+        effaceReplique(name+'_'+QString::number(i));
     }
-    m_repliques[nom]->deleteLater();
-    m_enfrepliques[nom]->deleteLater();
-    m_layrepliques[nom]->deleteLater();
+    m_repliques[name]->deleteLater();
+    m_enfrepliques[name]->deleteLater();
+    m_layrepliques[name]->deleteLater();
 }
 
-void CreerPnj::ajoutePiste(QString nom, QString *donnees)
+void CreerPnj::ajoutePiste(QString name, QString *donnees)
 {
-    boutclique(nom.mid(0, nom.size()-2) ,donnees->section('/',0,0));
-    boutclique(nom, donnees->section('/', 1, 1));
-    nom += "_0";
+    boutclique(name.mid(0, name.size()-2) ,donnees->section('/',0,0));
+    boutclique(name, donnees->section('/', 1, 1));
+    name += "_0";
     *donnees = donnees->section('/', 2);
-    ajouteReponses(nom, donnees);
+    ajouteReponses(name, donnees);
 }
 
-void CreerPnj::ajouteReponses(QString const& nom, QString *donnees)
+void CreerPnj::ajouteReponses(QString const& name, QString *donnees)
 {
     int i = 0;
     while(donnees->section('/',0,0) != "fin")
     {
-        ajoutePiste(nom+'_'+QString::number(i), donnees);
+        ajoutePiste(name+'_'+QString::number(i), donnees);
         i++;
     }
     *donnees = donnees->section('/', 1);

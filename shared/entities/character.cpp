@@ -1,6 +1,6 @@
 #include "character.h"
 
-Character::Character(const QString &nom, QString classe, Data *donnees_editeur) : Entity(nom,classe,donnees_editeur)///////////////////////////////////juste pour le client
+Character::Character(const QString &name, QString classe, Data *donnees_editeur) : Entity(name,classe,donnees_editeur)///////////////////////////////////juste pour le client
 {
     m_met_anneau_gauche = false;
     m_argent = 0;
@@ -21,7 +21,7 @@ Character::Character(QString const& donnees, Data *donnees_editeur) : Entity(don
 {
     m_donnees_editeur = donnees_editeur;
     m_met_anneau_gauche = false;
-    m_nom = donnees.section('/', 1,1);
+    m_name = donnees.section('/', 1,1);
     m_classe = donnees.section('/',2,2);
     m_posX = donnees.section('/',3,3).toInt();
     m_posY = donnees.section('/',4,4).toInt();
@@ -127,11 +127,11 @@ Character::~Character()
 
 QString Character::toString() const
 {
-    QString donnees;//=>>>>>>>>>>>>>>>>    nom/classe/posmondeX/posmondeY/posmondeZ/posmapx/posmapy/vie/base_vie/base_force/base_pc/argent/xp/lvl
+    QString donnees;//=>>>>>>>>>>>>>>>>    name/classe/posmondeX/posmondeY/posmondeZ/posmapx/posmapy/vie/base_vie/base_force/base_pc/argent/xp/lvl
 
     //puis    cape, coiffe, anod, anog, amu, ceinture, botte, arme
 
-    donnees += m_nom + '/';
+    donnees += m_name + '/';
     donnees += m_classe + '/';
     donnees += QString::number(m_posX) + '/';
     donnees += QString::number(m_posY) + '/';
@@ -520,12 +520,12 @@ QString Character::gagneRessources(Resource *resource, int quantity, int *indexD
     QString texte;
     if(quantity <= 0)
         return texte;
-    if(m_donnees_editeur->resources->estUnEquipement(resource->nom()))
+    if(m_donnees_editeur->resources->estUnEquipement(resource->name()))
     {
-        if(m_donnees_editeur->resources->estUneArme(resource->nom()))
+        if(m_donnees_editeur->resources->estUneArme(resource->name()))
         {
             texte += "a/";
-            WeaponModel *arme = m_donnees_editeur->resources->getArme(resource->nom());
+            WeaponModel *arme = m_donnees_editeur->resources->getArme(resource->name());
             Armes armes;
             armes.nbr = 1;
             for(int i = 0; i < quantity; i++)
@@ -538,7 +538,7 @@ QString Character::gagneRessources(Resource *resource, int quantity, int *indexD
         else
         {
             texte += "e/";
-            OutfitModel *equipement = m_donnees_editeur->resources->getEquipement(resource->nom());
+            OutfitModel *equipement = m_donnees_editeur->resources->getEquipement(resource->name());
             Eqips equipements;
             equipements.nbr = 1;
             for(int i = 0; i < quantity; i++)
@@ -624,11 +624,11 @@ bool Character::peutequipe(Outfit *equip)
     return true;
 }
 
-void Character::learnJob(QString nom)
+void Character::learnJob(QString name)
 {
-    if(!m_metiers.contains(nom))
+    if(!m_metiers.contains(name))
     {
-        m_metiers[nom] = new Job(m_donnees_editeur->metiers->metier(nom), 0);
+        m_metiers[name] = new Job(m_donnees_editeur->metiers->metier(name), 0);
     }
 }
 
@@ -642,18 +642,18 @@ QStringList Character::getJobs()
     return list;
 }
 
-Spell *Character::getSpell(QString const& nom)
+Spell *Character::getSpell(QString const& name)
 {
-    if(nom == "cac")
+    if(name == "cac")
     {
         if(m_arme)
             return m_arme->getSpell();
         else
             return m_donnees_editeur->resources->getSpell("Coup de poing")->spellNiveau(1);
     }
-    else if(m_spells.contains(nom))
+    else if(m_spells.contains(name))
     {
-        return m_spells[nom];
+        return m_spells[name];
     }
     else
     {
@@ -679,11 +679,11 @@ QString Character::gagneFinFight(int niveauAutreEquipe,bool victoire)
     {
         int xpGagne = niveauAutreEquipe*m_niveau;
         gagneXp(xpGagne);
-        return m_nom+"/"+QString::number(xpGagne);//le gain est bien ?
+        return m_name+"/"+QString::number(xpGagne);//le gain est bien ?
     }
     else
     {
-        return m_nom+"/"+"0";
+        return m_name+"/"+"0";
     }
 }
 

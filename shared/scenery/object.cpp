@@ -1,9 +1,9 @@
 #include "scenery/object.h"
 
-Object::Object(qint16 numero, const QString &nom, const QString &categorie, double propx, double propy, int lcase, int hcase)
+Object::Object(qint16 numero, const QString &name, const QString &categorie, double propx, double propy, int lcase, int hcase)
 {
     m_numero = numero;
-    m_nom = nom;
+    m_name = name;
     m_categorie = categorie;
     m_propx = propx;
     m_propy = propy;
@@ -14,7 +14,7 @@ Object::Object(qint16 numero, const QString &nom, const QString &categorie, doub
 Object::Object()
 {
     m_numero = 0;
-    m_nom = "";
+    m_name = "";
     m_categorie = "aucune";
     m_propx = 0;
     m_propy = 0;
@@ -57,5 +57,5 @@ void Object::setPropy(double propy, int lcase, int hcase)
 
 bool ordreAlphabetique(Object *a, Object *b)
 {
-    return QString::compare(a->nom(), b->nom(), Qt::CaseInsensitive) < 0;
+    return QString::compare(a->name(), b->name(), Qt::CaseInsensitive) < 0;
 }

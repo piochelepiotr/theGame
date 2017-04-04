@@ -24,7 +24,7 @@ public:
     Weapon(Outfit *equi, Spell *spell);
     Weapon(Weapon const& autre);
     ~Weapon();
-    QString nom() const { return m_equipement->nom(); }
+    QString name() const { return m_equipement->name(); }
     Outfit *getEquipement() const { return m_equipement; }
     Spell *getSpell() const { return m_spell; }
     static QString enString(Armes const& armes);

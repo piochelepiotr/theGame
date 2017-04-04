@@ -18,7 +18,7 @@ public:
 
     //coté utilisateur
     Map(Data *donnees_editeur, int cooX, int cooY, int cooZ);
-    void charge(QString const& nomFichier);
+    void charge(QString const& nameFichier);
     bool undo();
     void chargeMap(int x,int y,int z);
     void nouvelleMap();

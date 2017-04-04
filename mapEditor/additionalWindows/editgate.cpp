@@ -16,7 +16,7 @@ EditerTransporteur::EditerTransporteur(QWidget *parent, Gate *transpo,bool *ok, 
     ui->nbr_cooX->setValue(transpo->getMapX());
     ui->nbr_cooY->setValue(transpo->getMapY());
     ui->nbr_cooZ->setValue(transpo->getMapZ());
-    ui->bar_nom->setText(transpo->getNom());
+    ui->bar_name->setText(transpo->getNom());
     ui->bar_arr->setText(transpo->getNomArr());
     ui->comb_largage->setCurrentIndex((int)transpo->getLargage());
 
@@ -53,7 +53,7 @@ void EditerTransporteur::valeurs()
     m_transpo->setMapX(ui->nbr_cooX->value());
     m_transpo->setMapY(ui->nbr_cooY->value());
     m_transpo->setMapZ(ui->nbr_cooZ->value());
-    m_transpo->setNom(ui->bar_nom->text());
+    m_transpo->setNom(ui->bar_name->text());
     m_transpo->setNomArr(ui->bar_arr->text());
     m_transpo->setLargage((Dir)ui->comb_largage->currentIndex());
 }

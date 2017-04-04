@@ -27,9 +27,9 @@ public slots:
 
     void ajouterRessource();
     void resourceSupprimme(int num);
-    void enregistrerMonstre(QString nomAlternatif = "");
-    void chargeMonstre(QString const& nom);
-    void supprimeMonstre(QString const& nom);
+    void enregistrerMonstre(QString nameAlternatif = "");
+    void chargeMonstre(QString const& name);
+    void supprimeMonstre(QString const& name);
     void accepter();
     void clear();
     void changeMonstre(QString const& ancien,QString const& nouveau);

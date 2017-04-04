@@ -216,7 +216,7 @@ void FenPrin::choixPerso()
         m_choixui->image_persoactuel->setPixmap(QPixmap("../data/imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
         m_choixui->bout_jouer->setEnabled(true);
         m_choixui->bout_supprimer->setEnabled(true);
-        m_choixui->nomperso->setText(m_compte->getPerso(m_persoActuel)->getNom());
+        m_choixui->nameperso->setText(m_compte->getPerso(m_persoActuel)->getNom());
     }
 
     connect(m_choixui->menu_jeu_quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
@@ -367,20 +367,20 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
             }
             else if(m_jeu->phase() == HorsFight)
             {
-                QString nom = m_jeu->contientJoueur();
-                if(nom != m_compte->getPerso(m_persoActuel)->getNom() && !nom.isEmpty())
+                QString name = m_jeu->contientJoueur();
+                if(name != m_compte->getPerso(m_persoActuel)->getNom() && !name.isEmpty())
                 {
-                    if(m_jeu->getJoueur(nom)->getEntityModel()->isMonster())
+                    if(m_jeu->getJoueur(name)->getEntityModel()->isMonster())
                     {
-                        WindowActions * windowAction = new WindowActions(m_jeu,m_jeu->getJoueur(nom)->getEntityModel()->getClass(),nom);
+                        WindowActions * windowAction = new WindowActions(m_jeu,m_jeu->getJoueur(name)->getEntityModel()->getClass(),name);
                         connect(windowAction, SIGNAL(attackMonster(QString)),this,SLOT(attackMonster(QString)));
                     }
                 }
             }
             else if(m_jeu->monTour())
             {
-                QString nom = m_jeu->contientJoueur();
-                if(!nom.isEmpty())
+                QString name = m_jeu->contientJoueur();
+                if(!name.isEmpty())
                 {
 
                 }
@@ -425,7 +425,7 @@ void FenPrin::persoSuivant()
         if(m_persoActuel >= m_compte->getNbrPerso())
             m_persoActuel = 0;
         m_choixui->image_persoactuel->setPixmap(QPixmap("../data/imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
-        m_choixui->nomperso->setText(m_compte->getPerso(m_persoActuel)->getNom());
+        m_choixui->nameperso->setText(m_compte->getPerso(m_persoActuel)->getNom());
     }
 }
 
@@ -437,7 +437,7 @@ void FenPrin::persoPrecedent()
         if(m_persoActuel < 0)
             m_persoActuel = m_compte->getNbrPerso()-1;
         m_choixui->image_persoactuel->setPixmap(QPixmap("../data/imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
-        m_choixui->nomperso->setText(m_compte->getPerso(m_persoActuel)->getNom());
+        m_choixui->nameperso->setText(m_compte->getPerso(m_persoActuel)->getNom());
     }
 }
 
@@ -452,12 +452,12 @@ void FenPrin::supprimmePerso()
         if(m_compte->getNbrPerso())
         {
             m_choixui->image_persoactuel->setPixmap(QPixmap("../data/imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
-            m_choixui->nomperso->setText(m_compte->getPerso(m_persoActuel)->getNom());
+            m_choixui->nameperso->setText(m_compte->getPerso(m_persoActuel)->getNom());
         }
         else
         {
             m_choixui->image_persoactuel->setText("Vous n'avez aucun personnage.");
-            m_choixui->nomperso->setText("nom inconnu");
+            m_choixui->nameperso->setText("name inconnu");
             m_choixui->bout_jouer->setEnabled(false);
             m_choixui->bout_supprimer->setEnabled(false);
         }
@@ -470,7 +470,7 @@ void FenPrin::supprimmePerso()
 void FenPrin::creerUnPerso()
 {
     QString texte="PERSO/";
-    Character *perso = new Character(m_creerui->bar_nom->text(), m_classeActuelle, m_donneesediteur);
+    Character *perso = new Character(m_creerui->bar_name->text(), m_classeActuelle, m_donneesediteur);
     m_compte->ajouteUnPerso(perso);
     texte += perso->toString();
 
@@ -532,38 +532,38 @@ void FenPrin::ilRefuseDefi()
 void FenPrin::echangeCommance()
 {
     //qApp->quit();
-    //m_nomDeLautre.clear();
+    //m_nameDeLautre.clear();
 }
 
 void FenPrin::accepteEchange()
 {
-    //m_reseau->envoyer("eac/"+m_nomDeLautre);
+    //m_reseau->envoyer("eac/"+m_nameDeLautre);
 }
 
 void FenPrin::refuseEchange()
 {
-    //m_reseau->envoyer("ere/"+m_nomDeLautre);
+    //m_reseau->envoyer("ere/"+m_nameDeLautre);
 }
 
 void FenPrin::annuleDemandeEchange()
 {
-    /*m_reseau->envoyer("ean/"+m_nomDeLautre);
-    m_nomDeLautre.clear();
+    /*m_reseau->envoyer("ean/"+m_nameDeLautre);
+    m_nameDeLautre.clear();
     m_cestmoiquiestdemande = false;*/
 }
 
 void FenPrin::onMeProposeEchange(QString qui)
 {
-    /*m_nomDeLautre = qui;
-    m_boxquestion->setText(trUtf8("Souhaitez-vous faire un échange avec ") + m_nomDeLautre +" ?");
+    /*m_nameDeLautre = qui;
+    m_boxquestion->setText(trUtf8("Souhaitez-vous faire un échange avec ") + m_nameDeLautre +" ?");
     int rep = m_boxquestion->exec();
     if(rep == QMessageBox::Ok)
     {
-        m_reseau->envoyer("eda/"+m_nomDeLautre);
+        m_reseau->envoyer("eda/"+m_nameDeLautre);
     }
     else if(rep == QMessageBox::Cancel)
     {
-        m_reseau->envoyer("edr/"+m_nomDeLautre);
+        m_reseau->envoyer("edr/"+m_nameDeLautre);
     }*/
     /*connect(m_boxquestion, SIGNAL(accepted()), this, SLOT(echangeAcc()));
     connect(m_boxquestion, SIGNAL(rejected()), this, SLOT(echangeRef()));*/
@@ -572,8 +572,8 @@ void FenPrin::onMeProposeEchange(QString qui)
 void FenPrin::annuleEchangeEnCour()
 {
     /*m_boxquestion->done(-4);
-    m_nomDeLautre.clear();
-    m_reseau->envoyer("eca/"+m_nomDeLautre);*/
+    m_nameDeLautre.clear();
+    m_reseau->envoyer("eca/"+m_nameDeLautre);*/
 }
 
 
@@ -686,13 +686,13 @@ void FenPrin::ton_tour()
     m_layoutBarreOutil->setMonTour(true);
 }
 
-void FenPrin::utiliseSpell(QString nom)// à passer dans layoutBarreOutil
+void FenPrin::utiliseSpell(QString name)// à passer dans layoutBarreOutil
 {
     if(m_jeu->phase() == EnFight && m_jeu->monTour())
     {
-        if(m_jeu->getPerso()->peutUtiliserSpell(nom))
+        if(m_jeu->getPerso()->peutUtiliserSpell(name))
         {
-            m_jeu->veut_utiliserSpell(m_jeu->getPerso()->getSpell(nom));
+            m_jeu->veut_utiliserSpell(m_jeu->getPerso()->getSpell(name));
         }
     }
 }
@@ -712,14 +712,14 @@ void FenPrin::gagneRessource(QString donnees)
     m_compte->getPerso(m_persoActuel)->ajouterRessource(m_donneesediteur->resources->getRessource(donnees));
 }
 
-void FenPrin::meurt(QString const& nom)
+void FenPrin::meurt(QString const& name)
 {
-    if(nom == m_compte->getPerso(m_persoActuel)->getNom())
+    if(name == m_compte->getPerso(m_persoActuel)->getNom())
     {
         if(m_jeu->monTour())
             tu_dois_passe_tour();
     }
-    m_jeu->meurt(nom);
+    m_jeu->meurt(name);
 }
 
 void FenPrin::finFight(QString const& texte)
@@ -728,10 +728,10 @@ void FenPrin::finFight(QString const& texte)
     WindowEndFight boite(texte,this,m_compte->getPerso(m_persoActuel));
 }
 
-void FenPrin::changeVie(QString const& nom, int vie)
+void FenPrin::changeVie(QString const& name, int vie)
 {
-    m_jeu->setVie(nom,vie);
-    if(nom == m_compte->getPerso(m_persoActuel)->getNom())
+    m_jeu->setVie(name,vie);
+    if(name == m_compte->getPerso(m_persoActuel)->getNom())
     {
         m_layoutBarreOutil->setVie(vie);
     }
@@ -741,8 +741,8 @@ void FenPrin::attackMonster(QString const& name)
 {
     m_reseau->envoyer("fight/"+name);
     qDebug() << "veut fighttre " << name;
-    //m_reseau->envoyer("fight/jeDemandeDefi/"+nom);
-    //m_boxannul->setText(trUtf8("Demande de defi à ")+nom+(" en cours..."));
+    //m_reseau->envoyer("fight/jeDemandeDefi/"+name);
+    //m_boxannul->setText(trUtf8("Demande de defi à ")+name+(" en cours..."));
     //m_boxannul->open(this, SLOT(annuleDemandeDefi()));
     //m_fight = new Fight(m_compte->getPerso(m_persoActuel)->getNom(), m_compte->getPerso(m_persoActuel));
 }

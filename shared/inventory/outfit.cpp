@@ -54,7 +54,7 @@ QString Outfit::enString(Outfit *equipement)
     QString texte;
     if(equipement)
     {
-        texte += equipement->getRessource()->nom() + '/';
+        texte += equipement->getRessource()->name() + '/';
         texte += QString::number(equipement->getBonusForce())+'/';
         texte += QString::number(equipement->getBonusVie())+'/';
         texte += QString::number(equipement->getBonusPointsFight())+'/';

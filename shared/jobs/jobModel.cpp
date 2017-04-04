@@ -5,7 +5,7 @@
 JobModel::JobModel(const QString &donnees, Scenery *decors, Resources *resources)
 {
     QStringList liste = donnees.split('/');
-    m_nom = liste[0];
+    m_name = liste[0];
     liste.pop_front();
     m_objet_recettes = decors->objet(liste[0].toInt());
     liste.pop_front();

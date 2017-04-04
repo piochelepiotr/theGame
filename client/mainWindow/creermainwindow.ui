@@ -125,7 +125,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="text_nom">
+       <widget class="QLabel" name="text_name">
         <property name="font">
          <font>
           <pointsize>20</pointsize>
@@ -137,7 +137,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="bar_nom">
+       <widget class="QLineEdit" name="bar_name">
         <property name="font">
          <font>
           <family>URW Chancery L</family>

@@ -40,19 +40,19 @@ void Monde::connectPlayer(Joueur *player)
     m_maps[player->getPersoActuel()->getPos()]->connectPlayer(player);
 }
 
-void Monde::disconnectPlayer(QString const& nom)
+void Monde::disconnectPlayer(QString const& name)
 {
-    Joueur *player = m_players[nom];
+    Joueur *player = m_players[name];
     if(player)
     {
-        m_maps[player->getPersoActuel()->getPos()]->disconnectPlayer(nom);
+        m_maps[player->getPersoActuel()->getPos()]->disconnectPlayer(name);
         player->changePerso();
-        m_players.remove(nom);
+        m_players.remove(name);
     }
 }
 
-void Monde::sendMessage(QString const& nom, QString const& message)
+void Monde::sendMessage(QString const& name, QString const& message)
 {
-    m_players[nom]->envoi(message);
+    m_players[name]->envoi(message);
 }
 

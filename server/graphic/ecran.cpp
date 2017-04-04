@@ -138,7 +138,7 @@ void Ecran::donneesRecues()
                 joueur->envoi(message);
                 envoiGroupe(joueursPasEnFight(joueur->getPersoActuel()->getPos()), "con/"+joueur->getPersoActuel()->important());*/
                 //m_joueurenJeu.insert(joueur->getPersoActuel()->getPos(), joueur);
-                //m_nomJoueursEnJeu[joueur->getPersoActuel()->getNom()] = joueur;
+                //m_nameJoueursEnJeu[joueur->getPersoActuel()->getNom()] = joueur;
             }
             else if(debut == "new")
             {
@@ -208,7 +208,7 @@ void Ecran::enleveJeu(Joueur *joueur)
         envoiGroupe(joueursPasEnFight(joueur->getPersoActuel()->getPos()), "dec/"+joueur->getPersoActuel()->getNom());
     }*/
     //m_joueurenJeu.remove(joueur->getPersoActuel()->getPos(), joueur);
-    //m_nomJoueursEnJeu.remove(joueur->getPersoActuel()->getNom());
+    //m_nameJoueursEnJeu.remove(joueur->getPersoActuel()->getNom());
     //joueur->changePerso();
     m_monde->disconnectPlayer(joueur->getPersoActuel()->getNom());
 }

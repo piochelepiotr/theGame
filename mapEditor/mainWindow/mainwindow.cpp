@@ -249,7 +249,7 @@ void MainWindow::chargeMap()
 void MainWindow::nouveauThemeObjet()
 {
     bool ok;
-    QString theme = QInputDialog::getText(this, "nouveau theme objet", trUtf8("Entrez le nom du nouveau theme :"), QLineEdit::Normal, QString(), &ok);
+    QString theme = QInputDialog::getText(this, "nouveau theme objet", trUtf8("Entrez le name du nouveau theme :"), QLineEdit::Normal, QString(), &ok);
     if(ok && !theme.isEmpty())
     {
         m_jeu->dataMap()->enregistre();

@@ -20,8 +20,8 @@ bool operator==(Resss const &a, Resss const& b);
 class Resource
 {
 public:
-    Resource(QString const& nom, int pods, QString const& description, int niveau, QString const& categorie);
-    QString nom() const { return m_nom; }
+    Resource(QString const& name, int pods, QString const& description, int niveau, QString const& categorie);
+    QString name() const { return m_name; }
     int pods() const { return m_pods; }
     QString description() const { return m_description; }
     int niveau() const { return m_niveau; }
@@ -35,12 +35,12 @@ public:
     void setImage(QString const& chemin);
     static QString enString(Resss const& resss);
     static Resss chargeRess(int nbr, Resource *resource);
-    static Resource *nouvelle(const QString &nom, QString const& chemin);
+    static Resource *nouvelle(const QString &name, QString const& chemin);
     QString longue_description();
 
 private:
 
-    QString m_nom;
+    QString m_name;
     int m_pods;
     QString m_description;
     int m_niveau;

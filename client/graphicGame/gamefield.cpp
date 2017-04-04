@@ -13,7 +13,7 @@ GameField::GameField(const QSize &size, Character *pers, QTcpSocket *sock, Data 
     m_displayGrid = false;
     m_spell_a_utiliser = 0;
     m_fight = 0;
-    m_nomMetier = "";
+    m_nameMetier = "";
     m_fightOuPas = HorsFight;
     m_socket = sock;
     m_character = pers;
@@ -22,7 +22,7 @@ GameField::GameField(const QSize &size, Character *pers, QTcpSocket *sock, Data 
     qDebug() << "time : " << elapsed.elapsed();
     EntityInfo inf;
     inf.classe = pers->getClasse();
-    inf.nom = pers->getNom();
+    inf.name = pers->getNom();
     inf.posmap = pers->getPosMap();
     inf.monster = false;
     m_fleche = addPixmap(QPixmap());
@@ -143,7 +143,7 @@ void GameField::cliqueGauche(int x, int y)
             {
                 m_character->use_pc(m_spell_a_utiliser->points_fight());
                 emit changePC(m_character->getPCFight());
-                envoyerM(m_socket,"fight/attaque/"+m_spell_a_utiliser->nom()+"/"+QString::number(p.x())+"/"+QString::number(p.y()));
+                envoyerM(m_socket,"fight/attaque/"+m_spell_a_utiliser->name()+"/"+QString::number(p.x())+"/"+QString::number(p.y()));
             }
             m_spell_a_utiliser = 0;
         }
@@ -209,13 +209,13 @@ void GameField::changeDeMap(int mapx, int mapy, int mapz, int coox,int cooy)
     m_fleche->setVisible(false);
 }
 
-AfficheJoueur *GameField::getJoueur(QString const& nom)
+AfficheJoueur *GameField::getJoueur(QString const& name)
 {
-    if(m_persos.contains(nom))
-        return m_persos[nom];
+    if(m_persos.contains(name))
+        return m_persos[name];
     else
     {
-        qDebug() << "perso doesn't exist : " << nom;
+        qDebug() << "perso doesn't exist : " << name;
         return 0;
     }
 }
@@ -244,7 +244,7 @@ void GameField::utileClique(QPoint const& pos)
                 }
                 else if(m_character->arme()->getEquipement()->getRessource()->categorie() == metier->arme())
                 {
-                    m_nomMetier = metier->nom();//pour les recettes
+                    m_nameMetier = metier->name();//pour les recettes
                     QPoint p;
                     QQueue<Dir> chemin = m_dataMap->calculcheminJusquaLObjet(getJoueur(m_character->getNom())->posALaFin() , pos, &p);
                     if(!chemin.isEmpty())
@@ -254,7 +254,7 @@ void GameField::utileClique(QPoint const& pos)
                     }
                     else if(p.x())
                     {
-                        emit faitRecette(m_nomMetier);
+                        emit faitRecette(m_nameMetier);
                     }
                 }
                 else
@@ -274,7 +274,7 @@ void GameField::utileClique(QPoint const& pos)
                 {
                     emit pourChat(QObject::trUtf8("Vous ne pouvez pas pas récolter cette resource"));
                 }
-                else if(m_character->arme()->getEquipement()->getRessource()->categorie() == metier->arme() && m_character->getMetier(metier->nom()) != 0 && metier->objet_coupable(obj->numero())->lvl() <= m_character->getMetier(metier->nom())->getLvl())
+                else if(m_character->arme()->getEquipement()->getRessource()->categorie() == metier->arme() && m_character->getMetier(metier->name()) != 0 && metier->objet_coupable(obj->numero())->lvl() <= m_character->getMetier(metier->name())->getLvl())
                 {
                     QPoint p;
                     QQueue<Dir> chemin = m_dataMap->calculcheminJusquaLObjet(getJoueur(m_character->getNom())->posALaFin() , pos, &p);
@@ -283,14 +283,14 @@ void GameField::utileClique(QPoint const& pos)
                         deplace(m_character->getNom(), chemin, Actions_personnage::Recolter);
                         m_orientation = orientation_vers_objet(p, pos);
                         envoyerM(m_socket, "dep/"+m_character->getNom()+'*'+QString::number(p.x()) +'*'+QString::number(p.y()));
-                        m_nomMetier = metier->nom();//pour la recolte
+                        m_nameMetier = metier->name();//pour la recolte
                     }
                     else if(p.x() != 0)
                     {
                         m_orientation = orientation_vers_objet(p, pos);
-                        qDebug() << "nom metier";
-                        m_nomMetier = metier->nom();
-                        qDebug() << "=metier nom";
+                        qDebug() << "name metier";
+                        m_nameMetier = metier->name();
+                        qDebug() << "=metier name";
                         doit_recolter();
                     }
                 }
@@ -310,14 +310,14 @@ void GameField::changeMap()
 
 void GameField::fait_recettes()
 {
-    emit faitRecette(m_nomMetier);
+    emit faitRecette(m_nameMetier);
 }
 
 void GameField::doit_recolter()
 {
     int orientation = m_orientation;
-    recolte(m_character->getNom(), m_character->getMetier(m_nomMetier)->getMetierBase()->verbe(), m_orientation, m_character->getMetier(m_nomMetier)->nbrCoups(), Actions_personnage::ARecolter);
-    envoyerM(m_socket, "cut/"+m_character->getNom()+'*'+m_character->getMetier(m_nomMetier)->getMetierBase()->verbe()+'*'+QString::number(orientation)+'*'+QString::number(m_character->getMetier(m_nomMetier)->nbrCoups()));
+    recolte(m_character->getNom(), m_character->getMetier(m_nameMetier)->getMetierBase()->verbe(), m_orientation, m_character->getMetier(m_nameMetier)->nbrCoups(), Actions_personnage::ARecolter);
+    envoyerM(m_socket, "cut/"+m_character->getNom()+'*'+m_character->getMetier(m_nameMetier)->getMetierBase()->verbe()+'*'+QString::number(orientation)+'*'+QString::number(m_character->getMetier(m_nameMetier)->nbrCoups()));
 }
 
 void GameField::resourceRecoltee(QPoint pos)
@@ -333,7 +333,7 @@ void GameField::resource_repousse(int posx, int posy)
 void GameField::a_coupe()
 {
     qint16 numobj = m_dataMap->objet(m_pos_resource.x(),m_pos_resource.y(),2)->numero();
-    Job *metier = m_character->getMetier(m_nomMetier);
+    Job *metier = m_character->getMetier(m_nameMetier);
     int xp = xpCoupeRessource(metier->getMetierBase()->objet_coupable(numobj)->lvl());
     int quantity_resources = metier->quantity_resources(numobj);
     metier->gagneXp(xp);
@@ -355,7 +355,7 @@ void GameField::infos_map(QString infos)
     while(infos.size() > 0)
     {
         unJoueur = infos.section('/', 0,0);
-        perso.nom = unJoueur.section('*', 0, 0);
+        perso.name = unJoueur.section('*', 0, 0);
         perso.classe = unJoueur.section('*', 1, 1);
         perso.posmap = QPoint(unJoueur.section('*', 2,2).toInt(), unJoueur.section('*', 3, 3).toInt());
         perso.monster = (bool) unJoueur.section('*',4,4).toInt();
@@ -509,11 +509,11 @@ void GameField::dragLeaveEvent(QGraphicsSceneDragDropEvent *)
     m_posFleche.setY(-1);
 }
 
-void GameField::deplace(QString const& nom, const QQueue<Dir> &chem, Actions_personnage::DerniereAction action)
+void GameField::deplace(QString const& name, const QQueue<Dir> &chem, Actions_personnage::DerniereAction action)
 {
     if(phase() == EnFight && monTour())
         effaceChemin();
-    m_persos[nom]->nouveauchemin(chem, action);
+    m_persos[name]->nouveauchemin(chem, action);
 }
 
 void GameField::utiliseSpell(Spell *spell)
@@ -531,24 +531,24 @@ void GameField::marche_pas()
     }
 }
 
-void GameField::recolte(const QString &nom, QString const& verbe, Dir orientation, int quantity_coups, Actions_personnage::DerniereAction derniere_action)
+void GameField::recolte(const QString &name, QString const& verbe, Dir orientation, int quantity_coups, Actions_personnage::DerniereAction derniere_action)
 {
-    m_persos[nom]->recolte(verbe, quantity_coups, orientation, derniere_action);
+    m_persos[name]->recolte(verbe, quantity_coups, orientation, derniere_action);
 }
 
-void GameField::recolte(const QString &nom, QString const& verbe, int orientation, int quantity_coups, Actions_personnage::DerniereAction derniere_action)
+void GameField::recolte(const QString &name, QString const& verbe, int orientation, int quantity_coups, Actions_personnage::DerniereAction derniere_action)
 {
-    recolte(nom, verbe, (Dir)orientation, quantity_coups, derniere_action);
+    recolte(name, verbe, (Dir)orientation, quantity_coups, derniere_action);
 }
 
-void GameField::setVie(QString const& nom, int vie)
+void GameField::setVie(QString const& name, int vie)
 {
-    m_persos[nom]->changeToolTip(nom+" ("+QString::number(vie)+")");
+    m_persos[name]->changeToolTip(name+" ("+QString::number(vie)+")");
 }
 
-void GameField::meurt(QString const& nom)
+void GameField::meurt(QString const& name)
 {
-    m_persos[nom]->setPos(-100,-100);
+    m_persos[name]->setPos(-100,-100);
 }
 
 void GameField::imagesuivante()
@@ -577,9 +577,9 @@ void GameField::changePlayerMap(int largX, int largY)
     }
 }
 
-void GameField::ajouteChemin(QString const& nom, QQueue<Dir> const& chemin)
+void GameField::ajouteChemin(QString const& name, QQueue<Dir> const& chemin)
 {
-    m_persos[nom]->nouveauchemin(chemin);
+    m_persos[name]->nouveauchemin(chemin);
 }
 
 QString GameField::contientJoueur()
@@ -606,16 +606,16 @@ bool GameField::contientJoueur(QPoint const& pos)
 
 void GameField::addEntity(EntityInfo perso)
 {
-    qDebug() << "adding entity " << perso.nom << " monster ? " << perso.monster;
-    m_persos[perso.nom] = new AfficheJoueur(m_donnees_editeur->resources->getCreature(perso.classe) ,perso.nom, QSize(m_lcase, m_hcase), perso.posmap, this,m_lmap);
-    /*if(perso.nom == m_personnage->getNom())
-        connect(m_persos[perso.nom], SIGNAL(estSurTranspo(QPoint)), this, SLOT(VaChangerDeMap(QPoint)));*/
+    qDebug() << "adding entity " << perso.name << " monster ? " << perso.monster;
+    m_persos[perso.name] = new AfficheJoueur(m_donnees_editeur->resources->getCreature(perso.classe) ,perso.name, QSize(m_lcase, m_hcase), perso.posmap, this,m_lmap);
+    /*if(perso.name == m_personnage->getNom())
+        connect(m_persos[perso.name], SIGNAL(estSurTranspo(QPoint)), this, SLOT(VaChangerDeMap(QPoint)));*/
 }
 
-void GameField::removeEntity(QString const& nom)
+void GameField::removeEntity(QString const& name)
 {
-    delete m_persos[nom];
-    m_persos.remove(nom);
+    delete m_persos[name];
+    m_persos.remove(name);
 }
 
 void GameField::changePos(QString const& qui, int x, int y)
@@ -625,5 +625,5 @@ void GameField::changePos(QString const& qui, int x, int y)
 
 void GameField::faitRecettes()
 {
-    emit faitRecette(m_nomMetier);
+    emit faitRecette(m_nameMetier);
 }

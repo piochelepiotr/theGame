@@ -44,7 +44,7 @@ public slots:
     void nouvelleConnexion();
     void donneesRecues();
     void deconnexionClient();
-    //void envoie(QString nom, QString message);
+    //void envoie(QString name, QString message);
 
 private:
 

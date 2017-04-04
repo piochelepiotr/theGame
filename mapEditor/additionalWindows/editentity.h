@@ -28,9 +28,9 @@ public:
 
 signals:
 
-    void s_supprimeClasse(QString const& nom);
+    void s_supprimeClasse(QString const& name);
     void s_enregistrerClasse();
-    void s_chargerClasse(QString const& nom);
+    void s_chargerClasse(QString const& name);
     void s_clear();
     void s_changeClasse(QString const& acien,QString const& nouveau);
 

@@ -93,15 +93,15 @@ void EditerMonstres::texte_to_monstre(QString const& text)
     }
 }
 
-void EditerMonstres::enregistrerMonstre(QString nomAlternatif)
+void EditerMonstres::enregistrerMonstre(QString nameAlternatif)
 {
     QString texte = monstre_to_texte();
     bool existe = false;
-    if(!nomAlternatif.isEmpty())
+    if(!nameAlternatif.isEmpty())
     {
-        texte = nomAlternatif + "/" + texte.section("/",1);
+        texte = nameAlternatif + "/" + texte.section("/",1);
     }
-    QString nom = texte.section('/',0,0), ligne;
+    QString name = texte.section('/',0,0), ligne;
     QFile fichier(QString(DONNEES)+QString("monstres.txt"));
     QFile fichier2(QString(DONNEES)+QString("monstres2.txt"));
     if(fichier.open(QIODevice::ReadOnly) && fichier2.open(QIODevice::WriteOnly))
@@ -111,7 +111,7 @@ void EditerMonstres::enregistrerMonstre(QString nomAlternatif)
 
         while(!(ligne = stream1.readLine()).isNull() && !ligne.isEmpty())
         {
-            if(ligne.section('/', 0,0) == nom)
+            if(ligne.section('/', 0,0) == name)
             {
                 stream2 << texte << endl;
                 existe = true;
@@ -134,7 +134,7 @@ void EditerMonstres::enregistrerMonstre(QString nomAlternatif)
     }
 }
 
-void EditerMonstres::chargeMonstre(QString const& nom)
+void EditerMonstres::chargeMonstre(QString const& name)
 {
     QString ligne;
     QFile fichier(QString(DONNEES)+QString("monstres.txt"));
@@ -143,7 +143,7 @@ void EditerMonstres::chargeMonstre(QString const& nom)
         QTextStream stream(&fichier);
         while(!(ligne = stream.readLine()).isNull())
         {
-            if(ligne.section('/', 0,0) == nom)
+            if(ligne.section('/', 0,0) == name)
             {
                 texte_to_monstre(ligne);
             }
@@ -163,7 +163,7 @@ void EditerMonstres::clear()
     m_nbrRessources = 0;
 }
 
-void EditerMonstres::supprimeMonstre(QString const& nom)
+void EditerMonstres::supprimeMonstre(QString const& name)
 {
     clear();
     QFile fichier(QString(DONNEES)+QString("monstres.txt"));
@@ -176,7 +176,7 @@ void EditerMonstres::supprimeMonstre(QString const& nom)
 
         while(!(ligne = stream1.readLine()).isNull() && !ligne.isEmpty())
         {
-            if(ligne.section('/', 0,0) != nom)
+            if(ligne.section('/', 0,0) != name)
                 stream2 << ligne << endl;
         }
 

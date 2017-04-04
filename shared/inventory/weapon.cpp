@@ -32,7 +32,7 @@ QString Weapon::enString(Armes const& armes)
 QString Weapon::enString(Weapon *arme)
 {
     if(arme)
-        return Outfit::enString(arme->getEquipement()) + arme->getSpell()->nom() + '/' + QString::number(arme->getSpell()->niveau()) + '/';
+        return Outfit::enString(arme->getEquipement()) + arme->getSpell()->name() + '/' + QString::number(arme->getSpell()->niveau()) + '/';
     return "-1/-1/-1/-1/-1/-1/";
 }
 
