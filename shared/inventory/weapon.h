@@ -20,22 +20,22 @@ struct Armes
 class Weapon
 {
 public:
-    Weapon(QString const& donnees, Resources *ressources);
-    Weapon(Outfit *equi, Spell *sort);
+    Weapon(QString const& donnees, Resources *resources);
+    Weapon(Outfit *equi, Spell *spell);
     Weapon(Weapon const& autre);
     ~Weapon();
     QString nom() const { return m_equipement->nom(); }
     Outfit *getEquipement() const { return m_equipement; }
-    Spell *getSort() const { return m_sort; }
+    Spell *getSpell() const { return m_spell; }
     static QString enString(Armes const& armes);
     static QString enString(Weapon *arme);
-    static Armes chargeArmes(QString const& donnees,Resource *ressource, Spell *sort);
-    static Weapon *chargeArme(QString const& donnees,Resource *ressource, Spell *sort);
+    static Armes chargeArmes(QString const& donnees,Resource *resource, Spell *spell);
+    static Weapon *chargeArme(QString const& donnees,Resource *resource, Spell *spell);
     QString longue_description();
 
 private:
     Outfit *m_equipement;
-    Spell *m_sort;
+    Spell *m_spell;
 };
 
 bool operator==(Weapon const& a, Weapon const& b);

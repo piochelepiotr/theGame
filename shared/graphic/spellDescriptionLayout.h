@@ -16,13 +16,13 @@ signals:
 
 public slots:
 
-    void sortClique(QString const& nom);
+    void spellClique(QString const& nom);
 
 private:
-    void chargeSorts();
+    void chargeSpells();
 
-    QVBoxLayout *m_differentsSorts;
-    SpellDescription *m_descriptionSort;
+    QVBoxLayout *m_differentsSpells;
+    SpellDescription *m_descriptionSpell;
     Character *m_personnage;
 };
 

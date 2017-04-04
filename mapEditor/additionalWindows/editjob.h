@@ -26,7 +26,7 @@ class EditerMetier : public QDialog
     Q_OBJECT
     
 public:
-    explicit EditerMetier(QWidget *parent, Scenery *decors, Resources *ressources);
+    explicit EditerMetier(QWidget *parent, Scenery *decors, Resources *resources);
     ~EditerMetier();
     QString textMetier();
     QString textRecette();
@@ -77,10 +77,10 @@ private:
 
 
     QMap<QString, QString>*m_recettes;
-    Resources *m_ressources;
+    Resources *m_resources;
     Scenery *m_decors;
     QStringList m_lesobjets;
-    QStringList m_lesressources;
+    QStringList m_lesresources;
     QMap<QString, Object*>m_objets;
     //bool m_supprimme;
 };

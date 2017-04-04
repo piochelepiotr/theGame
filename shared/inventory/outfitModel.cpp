@@ -1,8 +1,8 @@
 #include "inventory/outfitModel.h"
 
-OutfitModel::OutfitModel(Resource *ressource, int bonus_force_min, int bonus_force_max, int bonus_vie_min, int bonus_vie_max, int bonus_points_fight_min, int bonus_points_fight_max)
+OutfitModel::OutfitModel(Resource *resource, int bonus_force_min, int bonus_force_max, int bonus_vie_min, int bonus_vie_max, int bonus_points_fight_min, int bonus_points_fight_max)
 {
-    m_ressource = ressource;
+    m_resource = resource;
     m_bonus_force[0] = bonus_force_min;
     m_bonus_force[1] = bonus_force_max;
     m_bonus_vie[0] = bonus_vie_min;

@@ -38,18 +38,18 @@ public:
     int getArgent() const { return m_argent; }
     int getXp() const { return m_xp; }
 
-    Resource *ressnum(int i) const { return m_ressources[i].ress; }
+    Resource *ressnum(int i) const { return m_resources[i].ress; }
     Outfit *equipement_num(int i) const { return m_equipements[i].equipement; }
     Weapon *armenum(int i) const { return m_armes[i].arme; }
     Job *getMetier(QString const& nom) const { return m_metiers[nom]; }
-    QVector<Resss>getRessources() const { return m_ressources; }
+    QVector<Resss>getRessources() const { return m_resources; }
     QVector<Eqips>getEquipements() const { return m_equipements; }
     QVector<Armes>getArmes() const { return m_armes; }
-    void setNombreRessources(int num, Resss ressource);
+    void setNombreRessources(int num, Resss resource);
     void setNombreEquipements(int num, Eqips equipement);
     void setNombreArmes(int num, Armes arme);
 
-    QString gagneRessources(Resource *ressource, int nombre, int *indexDernier = 0);
+    QString gagneRessources(Resource *resource, int quantity, int *indexDernier = 0);
 
     /////////////////////////////////////////////////
 
@@ -73,7 +73,7 @@ public:
     ///////////////////////////////////////////////
 
 
-    int indexRessource(Resource *ressource, int *quantite = 0);
+    int indexRessource(Resource *resource, int *quantite = 0);
     void enleverRessource(int num, int nbr);
 
 
@@ -97,8 +97,8 @@ public:
 
     int ajouterArme(Weapon *arme);
     int ajouterEquipement(Outfit *equipement);
-    int ajouterRessource(Resource *ressource);
-    Spell *getSort(QString const& nom);
+    int ajouterRessource(Resource *resource);
+    Spell *getSpell(QString const& nom);
     QString gagneFinFight(int niveauAutreEquipe, bool victoire);
     void gagneXp(int xp);
     void metAJourNiveau();
@@ -108,7 +108,7 @@ public:
 
 private:
 
-    QVector<Resss>m_ressources;
+    QVector<Resss>m_resources;
     QVector<Eqips>m_equipements;
     QVector<Armes>m_armes;
     int m_argent;

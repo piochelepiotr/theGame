@@ -17,10 +17,10 @@
    <item>
     <layout class="QHBoxLayout" name="layout_ress">
      <item>
-      <widget class="QComboBox" name="select_ressource"/>
+      <widget class="QComboBox" name="select_resource"/>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="proba_ressource"/>
+      <widget class="QDoubleSpinBox" name="proba_resource"/>
      </item>
     </layout>
    </item>

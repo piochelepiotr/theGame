@@ -6,11 +6,11 @@ EditerClasses::EditerClasses(QWidget *parent) :
     ui(new Ui::EditerClasses)
 {
     m_classeActuelle = -1;
-    m_nbrSorts = 0;
+    m_nbrSpells = 0;
     ui->setupUi(this);
     connect(ui->ajoute_classe, SIGNAL(clicked()), this, SLOT(ajouterClasse()));
     connect(ui->supprime_classe, SIGNAL(clicked()), this, SLOT(supprimerClasseActuelle()));
-    connect(ui->ajoute_sort, SIGNAL(clicked()), this, SLOT(ajouterSort()));
+    connect(ui->ajoute_spell, SIGNAL(clicked()), this, SLOT(ajouterSpell()));
     connect(this, SIGNAL(accepted()), this, SLOT(accepter()));
     connect(ui->select_classe, SIGNAL(currentIndexChanged(int)), this, SLOT(changeClasse(int)));
     chargeClasses();
@@ -100,28 +100,28 @@ void EditerClasses::chargeClasseActuelle()
     }
 }
 
-void EditerClasses::ajouterSort()
+void EditerClasses::ajouterSpell()
 {
     if(m_classeActuelle != -1)
     {
-        ui->tab_sorts->insertRow(m_nbrSorts);
-        NumberButton *bout = new NumberButton("supprimer", m_nbrSorts);
-        ui->tab_sorts->setCellWidget(m_nbrSorts, 1, bout);
-        ui->tab_sorts->setItem(m_nbrSorts, 0, new QTableWidgetItem(""));
-        m_boutonsSorts.push_back(bout);
-        m_nbrSorts++;
-        connect(bout, SIGNAL(clique(int)), this, SLOT(supprimerSort(int)));
+        ui->tab_spells->insertRow(m_nbrSpells);
+        NumberButton *bout = new NumberButton("supprimer", m_nbrSpells);
+        ui->tab_spells->setCellWidget(m_nbrSpells, 1, bout);
+        ui->tab_spells->setItem(m_nbrSpells, 0, new QTableWidgetItem(""));
+        m_boutonsSpells.push_back(bout);
+        m_nbrSpells++;
+        connect(bout, SIGNAL(clique(int)), this, SLOT(supprimerSpell(int)));
     }
 }
 
-void EditerClasses::supprimerSort(int num)
+void EditerClasses::supprimerSpell(int num)
 {
-    ui->tab_sorts->removeRow(num);
-    m_boutonsSorts.remove(num);
-    m_nbrSorts--;
-    for(int i = num; i < m_nbrSorts; i++)
+    ui->tab_spells->removeRow(num);
+    m_boutonsSpells.remove(num);
+    m_nbrSpells--;
+    for(int i = num; i < m_nbrSpells; i++)
     {
-        m_boutonsSorts[i]->moinsnum();
+        m_boutonsSpells[i]->moinsnum();
     }
 }
 
@@ -166,8 +166,8 @@ void EditerClasses::clearClasse()
 {
     ui->arme->setText("");
     ui->metier->setText("");
-    ui->tab_sorts->setRowCount(0);
-    m_nbrSorts = 0;
+    ui->tab_spells->setRowCount(0);
+    m_nbrSpells = 0;
 }
 
 QString EditerClasses::classe_to_texte()
@@ -175,9 +175,9 @@ QString EditerClasses::classe_to_texte()
     QString texte = ui->select_classe->itemText(m_classeActuelle);
     texte += '/';
     texte += ui->arme->text() + '/' + ui->metier->text() + '/' + QString::number(ui->propx->value()) + '/' + QString::number(ui->propy->value());
-    for(int i = 0; i < m_nbrSorts; i++)
+    for(int i = 0; i < m_nbrSpells; i++)
     {
-        texte += '/' + ui->tab_sorts->item(i, 0)->text();
+        texte += '/' + ui->tab_spells->item(i, 0)->text();
     }
     return texte;
 }
@@ -196,8 +196,8 @@ void EditerClasses::texte_to_classe(QString const& texte)
     liste.pop_front();
     while(liste.size() > 0)
     {
-        ajouterSort();
-        ui->tab_sorts->item(m_nbrSorts-1, 0)->setText(liste[0]);
+        ajouterSpell();
+        ui->tab_spells->item(m_nbrSpells-1, 0)->setText(liste[0]);
         liste.pop_front();
     }
 }

@@ -1,14 +1,14 @@
 #include "editjob.h"
 #include "ui_editjob.h"
 
-EditerMetier::EditerMetier(QWidget *parent, Scenery *decors, Resources *ressources) :
+EditerMetier::EditerMetier(QWidget *parent, Scenery *decors, Resources *resources) :
     QDialog(parent), ui(new Ui::EditerMetier)
 {
-    m_ressources = ressources;
+    m_resources = resources;
     m_decors = decors;
     m_lesobjets = decors->objets();
     m_objets = decors->objetsParNom();
-    m_lesressources = ressources->ressources();
+    m_lesresources = resources->resources();
     ui->setupUi(this);
     m_metierActuel = -1;
     m_recetteActuel = -1;
@@ -125,7 +125,7 @@ void EditerMetier::ajouteIngredient()
     {
         ui->tableau_recettes->insertRow(m_nbrIngredients);
         QComboBox *ingredient = new QComboBox;
-        ingredient->addItems(m_lesressources);
+        ingredient->addItems(m_lesresources);
         QSpinBox *quantite = new QSpinBox;
         NumberButton *bout = new NumberButton("supprimer", m_nbrIngredients);
         ui->tableau_recettes->setCellWidget(m_nbrIngredients, 0, ingredient);
@@ -144,20 +144,20 @@ void EditerMetier::ajouteObjet()
     if(m_metierActuel != -1)
     {
         ui->tableau_objets->insertRow(m_nbrObjets);
-        QComboBox *ressource_obtenue = new QComboBox;
-        ressource_obtenue->addItems(m_lesressources);
+        QComboBox *resource_obtenue = new QComboBox;
+        resource_obtenue->addItems(m_lesresources);
         QComboBox *objet = new QComboBox;
         objet->addItems(m_lesobjets);
         QComboBox *souche = new QComboBox;
         souche->addItems(m_lesobjets);
         QSpinBox *niveau = new QSpinBox;
         NumberButton *bout = new NumberButton("supprimer", m_nbrObjets);
-        ui->tableau_objets->setCellWidget(m_nbrObjets, 0, ressource_obtenue);
+        ui->tableau_objets->setCellWidget(m_nbrObjets, 0, resource_obtenue);
         ui->tableau_objets->setCellWidget(m_nbrObjets, 1, objet);
         ui->tableau_objets->setCellWidget(m_nbrObjets, 2, souche);
         ui->tableau_objets->setCellWidget(m_nbrObjets, 3, niveau);
         ui->tableau_objets->setCellWidget(m_nbrObjets, 4, bout);
-        m_comboRessources_obtenues.push_back(ressource_obtenue);
+        m_comboRessources_obtenues.push_back(resource_obtenue);
         m_comboObjets.push_back(objet);
         m_comboSouches.push_back(souche);
         m_spinNiveaux.push_back(niveau);
@@ -172,7 +172,7 @@ void EditerMetier::ajouteRecette()
     if(m_metierActuel != -1)
     {
         bool ok;
-        QString nom = QInputDialog::getItem(this, trUtf8("Nouvelle recette"), trUtf8("Entrez le nom de la nouvelle recette"), m_lesressources, 0, false, &ok);
+        QString nom = QInputDialog::getItem(this, trUtf8("Nouvelle recette"), trUtf8("Entrez le nom de la nouvelle recette"), m_lesresources, 0, false, &ok);
         if(ok)
         {
             ui->select_recette->addItem(nom);

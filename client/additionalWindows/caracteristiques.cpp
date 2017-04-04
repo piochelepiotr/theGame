@@ -13,7 +13,7 @@ Caracteristiques::Caracteristiques(QWidget *parent, Character *perso, Reseau *re
     m_perso = perso;
     ui->setupUi(this);
 
-    m_inventaire = new Inventory(m_perso, m_donnees_editeur->ressources);
+    m_inventaire = new Inventory(m_perso, m_donnees_editeur->resources);
     ui->lay_inventaire->addWidget(m_inventaire);
 
     ui->pod->setMaximum(m_perso->getPodsMax());
@@ -26,8 +26,8 @@ Caracteristiques::Caracteristiques(QWidget *parent, Character *perso, Reseau *re
     ui->barre_xp->setValue(perso->getXp());
     ui->barre_xp->setFormat("%v / %m");
 
-    m_description_sort = new SpellDescription();
-    ui->attaque->layout()->addWidget(m_description_sort);
+    m_description_spell = new SpellDescription();
+    ui->attaque->layout()->addWidget(m_description_spell);
 
     caracteristiques();
     competences();
@@ -144,8 +144,8 @@ Caracteristiques::Caracteristiques(QWidget *parent, Character *perso, Reseau *re
 
 
 
-    m_equipementsG = new ResourceItems(equipeg, 1, 4, m_donnees_editeur->ressources);
-    m_equipementsD = new ResourceItems(equiped, 1, 4, m_donnees_editeur->ressources);
+    m_equipementsG = new ResourceItems(equipeg, 1, 4, m_donnees_editeur->resources);
+    m_equipementsD = new ResourceItems(equiped, 1, 4, m_donnees_editeur->resources);
 
     if(m_perso->arme())
     {
@@ -167,7 +167,7 @@ Caracteristiques::Caracteristiques(QWidget *parent, Character *perso, Reseau *re
     connect(m_equipementsD, SIGNAL(ressdbclique(int)), this, SLOT(coteddbclique(int)));
     connect(m_equipementsG, SIGNAL(ressdbclique(int)), this, SLOT(cotegdbclique(int)));
 
-    ui->widgetSort->setLayout(new SpellDescriptionLayout(m_perso));
+    ui->widgetSpell->setLayout(new SpellDescriptionLayout(m_perso));
 
     this->exec();
 }
@@ -185,7 +185,7 @@ void Caracteristiques::decriRess(Resource *ress)
     ui->podobjet->setText(trUtf8("pods : ")+QString::number(ress->pods()));
     ui->nivobjet->setText(trUtf8("niveau : ")+QString::number(ress->niveau()));
     ui->descr_effet->setText("");
-    m_description_sort->setSort(0);
+    m_description_spell->setSpell(0);
 }
 
 
@@ -199,7 +199,7 @@ void Caracteristiques::decriObj(Outfit *obj)
 void Caracteristiques::decriArme(Weapon *arme)
 {
     decriObj(arme->getEquipement());
-    m_description_sort->setSort(m_donnees_editeur->ressources->getArme(arme->getEquipement()->getRessource()->nom())->getSort());
+    m_description_spell->setSpell(m_donnees_editeur->resources->getArme(arme->getEquipement()->getRessource()->nom())->getSpell());
 }
 
 void Caracteristiques::cotedclique(int num)
@@ -339,14 +339,14 @@ void Caracteristiques::competences()
     QHBoxLayout *lay_niveau_xp;
     QProgressBar *xp;
     QTabWidget *onglets;
-    QWidget *onglet_ressources;
+    QWidget *onglet_resources;
     QWidget *onglet_recettes;
-    QVBoxLayout *lay_ressources;
-    QTableWidget *ressources;
+    QVBoxLayout *lay_resources;
+    QTableWidget *resources;
     QVector<qint16>objets;
-    QHBoxLayout *lay_ressource_collectee;
-    QWidget *ressource_collectee;
-    QLabel *texte_ressource_collectee;
+    QHBoxLayout *lay_resource_collectee;
+    QWidget *resource_collectee;
+    QLabel *texte_resource_collectee;
     int lvl;
     qDebug() << metiers.size();
     for(int i = 0; i < metiers.size(); i++)
@@ -366,47 +366,47 @@ void Caracteristiques::competences()
 
 
         onglets = new QTabWidget;
-        onglet_ressources = new QWidget;
+        onglet_resources = new QWidget;
         onglet_recettes = new QWidget;
 
 
-        //debut ressources
-        lay_ressources = new QVBoxLayout;
-        ressources = new QTableWidget(0,5);
-        ressources->horizontalHeader()->hide();
-        ressources->verticalHeader()->hide();
-        ressources->setColumnWidth(0,100);
-        ressources->setColumnWidth(1,100);
-        ressources->setColumnWidth(2,100);
-        ressources->setColumnWidth(3,100);
-        ressources->setColumnWidth(4,150);
-        objets = m_perso->getMetier(metiers[i])->getMetierBase()->ressources_coupables(lvl);
+        //debut resources
+        lay_resources = new QVBoxLayout;
+        resources = new QTableWidget(0,5);
+        resources->horizontalHeader()->hide();
+        resources->verticalHeader()->hide();
+        resources->setColumnWidth(0,100);
+        resources->setColumnWidth(1,100);
+        resources->setColumnWidth(2,100);
+        resources->setColumnWidth(3,100);
+        resources->setColumnWidth(4,150);
+        objets = m_perso->getMetier(metiers[i])->getMetierBase()->resources_coupables(lvl);
 
         for(int j = 0; j < objets.size(); j++)
         {
-            lay_ressource_collectee = new QHBoxLayout;
-            ressource_collectee = new QWidget;
-            texte_ressource_collectee = new QLabel(QString::number(m_perso->getMetier(metiers[i])->minRessources(objets[j]))+trUtf8(" à ")+QString::number(m_perso->getMetier(metiers[i])->maxRessources(objets[j]))+" ");
-            lay_ressource_collectee->addWidget(texte_ressource_collectee);
-            lay_ressource_collectee->addWidget(item(m_donnees_editeur->ressources, m_perso->getMetier(metiers[i])->getMetierBase()->objet_coupable(objets[j])->getRessource()));
-            ressource_collectee->setLayout(lay_ressource_collectee);
+            lay_resource_collectee = new QHBoxLayout;
+            resource_collectee = new QWidget;
+            texte_resource_collectee = new QLabel(QString::number(m_perso->getMetier(metiers[i])->minRessources(objets[j]))+trUtf8(" à ")+QString::number(m_perso->getMetier(metiers[i])->maxRessources(objets[j]))+" ");
+            lay_resource_collectee->addWidget(texte_resource_collectee);
+            lay_resource_collectee->addWidget(item(m_donnees_editeur->resources, m_perso->getMetier(metiers[i])->getMetierBase()->objet_coupable(objets[j])->getRessource()));
+            resource_collectee->setLayout(lay_resource_collectee);
 
-            ressources->insertRow(j);
-            ressources->setItem(j,0,new QTableWidgetItem(m_perso->getMetier(metiers[i])->getMetierBase()->verbe()));
-            ressources->setItem(j,1,new QTableWidgetItem(m_donnees_editeur->decor->objet(objets[j])->nom()));
-            ressources->setItem(j,2,new QTableWidgetItem(m_perso->getMetier(metiers[i])->getMetierBase()->arme()));
-            ressources->setItem(j,3,new QTableWidgetItem(QString::number(m_perso->getMetier(metiers[i])->nbrCoups())+trUtf8(" coups")));
-            ressources->setCellWidget(j,4,ressource_collectee);
+            resources->insertRow(j);
+            resources->setItem(j,0,new QTableWidgetItem(m_perso->getMetier(metiers[i])->getMetierBase()->verbe()));
+            resources->setItem(j,1,new QTableWidgetItem(m_donnees_editeur->decor->objet(objets[j])->nom()));
+            resources->setItem(j,2,new QTableWidgetItem(m_perso->getMetier(metiers[i])->getMetierBase()->arme()));
+            resources->setItem(j,3,new QTableWidgetItem(QString::number(m_perso->getMetier(metiers[i])->nbrCoups())+trUtf8(" coups")));
+            resources->setCellWidget(j,4,resource_collectee);
 
-            ressources->setRowHeight(j,50);
+            resources->setRowHeight(j,50);
         }
-        lay_ressources->addWidget(ressources);
+        lay_resources->addWidget(resources);
 
-        Recipes *recettes = new Recipes(m_perso->getMetier(metiers[i]), m_donnees_editeur->ressources);
+        Recipes *recettes = new Recipes(m_perso->getMetier(metiers[i]), m_donnees_editeur->resources);
 
-        onglet_ressources->setLayout(lay_ressources);
+        onglet_resources->setLayout(lay_resources);
         onglet_recettes->setLayout(recettes);
-        onglets->addTab(onglet_ressources,trUtf8("Ressources"));
+        onglets->addTab(onglet_resources,trUtf8("Ressources"));
         onglets->addTab(onglet_recettes,trUtf8("Recettes"));
 
         layout->addLayout(lay_niveau_xp);

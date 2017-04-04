@@ -44,8 +44,8 @@ public slots:
     
 private:
     Ui::EditerPnjs *ui;
-    QVector<Bouton2*>bouts_sort_objet;
-    QVector<Bouton2*>bouts_sort_dialogues;
+    QVector<Bouton2*>bouts_spell_objet;
+    QVector<Bouton2*>bouts_spell_dialogues;
     QMap<qint16, QTableWidgetItem*>m_noms;
     Scenery *m_decors;
 };

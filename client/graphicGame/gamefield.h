@@ -17,9 +17,9 @@ class GameField : public GameScene
 public slots:
     void addEntity(EntityInfo perso);
     void removeEntity(QString const& nom);
-    void ressource_repousse(int posx, int posy);
-    void ressourceRecoltee(QPoint pos);
-    void recolte(const QString &nom, QString const& verbe, int orientation, int nombre_coups, Actions_personnage::DerniereAction derniere_action = Actions_personnage::Aucune);
+    void resource_repousse(int posx, int posy);
+    void resourceRecoltee(QPoint pos);
+    void recolte(const QString &nom, QString const& verbe, int orientation, int quantity_coups, Actions_personnage::DerniereAction derniere_action = Actions_personnage::Aucune);
     void changePos(QString const& qui, int x, int y);
     void imagesuivante();
     void infos_map(QString infos);
@@ -34,7 +34,7 @@ public:
     void resize(QSize const& newSize);
     void cliqueGauche(int x, int y);
     void setMonTour(bool monTour);
-    void veut_utiliserSort(Spell *sort);
+    void veut_utiliserSpell(Spell *spell);
     void deplaceFight(const QString &qui, const QPoint &ou);
     void deplace(QString const& nom, QQueue<Dir> const& chem, Actions_personnage::DerniereAction action = Actions_personnage::Aucune);
     void phaseFinFight();
@@ -51,15 +51,15 @@ public:
     Character *getPerso() { return m_character; }
     Etat phase() const { return m_fightOuPas; }
     Map *dataMap() const { return m_dataMap; }
-    Spell *sort() const { return m_sort_a_utiliser; }
-    void utiliseSort(Spell *sort);
+    Spell *spell() const { return m_spell_a_utiliser; }
+    void utiliseSpell(Spell *spell);
     void changePlayerMap(int largX, int largY);
     void ajouteChemin(QString const& nom, QQueue<Dir> const& chemin);
     QString contientJoueur();
     void meurt(QString const& nom);
     void setVie(QString const& nom, int vie);
     void faitRecettes();
-    void recolte(const QString &nom, QString const& verbe, Dir orientation, int nombre_coups, Actions_personnage::DerniereAction derniere_action = Actions_personnage::Aucune);
+    void recolte(const QString &nom, QString const& verbe, Dir orientation, int quantity_coups, Actions_personnage::DerniereAction derniere_action = Actions_personnage::Aucune);
     QPoint fleche() const { return m_posFleche; }
     Dir direction_fleche() const { return m_directionChangeMap; }
     bool contientJoueur(QPoint const& pos);
@@ -71,11 +71,11 @@ private:
     QTcpSocket *m_socket;
     QString m_nomMetier;
     Dir m_orientation;
-    QPoint m_pos_ressource;
+    QPoint m_pos_resource;
     Etat m_fightOuPas;
     int m_debut_tour;
     Fight *m_fight;
-    Spell *m_sort_a_utiliser;
+    Spell *m_spell_a_utiliser;
     QPoint m_posFleche;
     Dir m_directionChangeMap;
     QGraphicsPixmapItem *m_fleche;

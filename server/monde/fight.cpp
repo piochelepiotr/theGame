@@ -87,15 +87,15 @@ Character *Fight::getCible(QPoint const& p)
     return 0;
 }
 
-void Fight::attaque(QString nomAttaquant, QString nomSort, int x, int y)
+void Fight::attaque(QString nomAttaquant, QString nomSpell, int x, int y)
 {
     if(m_phase != EnFight)
         return;
-    Spell *sort = m_fighttants[nomAttaquant]->getSort(nomSort);
+    Spell *spell = m_fighttants[nomAttaquant]->getSpell(nomSpell);
     Character *cible = getCible(QPoint(x,y));
     if(cible != 0)
     {
-        int degats = sort->degats();
+        int degats = spell->degats();
         cible->perdVie(degats);
         for(QMap<QString, Character*>::const_iterator it = m_fighttants.begin(); it != m_fighttants.end(); it++)
         {
@@ -197,11 +197,11 @@ void Fight::pasPret(QString nom)
 
 void Fight::order()
 {
-    m_nombreFighttants = 0;
+    m_quantityFighttants = 0;
     for(QMap<QString,Character*>::iterator it = m_fighttants.begin(); it != m_fighttants.end(); it++)
     {
         m_ordre.append(it.key());
-        m_nombreFighttants++;
+        m_quantityFighttants++;
     }
 }
 
@@ -214,7 +214,7 @@ void Fight::nextPlayer()
         m_fighttants[m_ordre[m_currentPlayer]]->setTour(false);
         emit envoie(m_ordre[m_currentPlayer],"passeTour");
     }
-    m_currentPlayer = (m_currentPlayer+1)%m_nombreFighttants;
+    m_currentPlayer = (m_currentPlayer+1)%m_quantityFighttants;
     m_fighttants[m_ordre[m_currentPlayer]]->setTour(true);
     emit envoie(m_ordre[m_currentPlayer],"tonTour");
 }
@@ -243,10 +243,10 @@ void Fight::meurt(QString const& nom,bool envoyer)
                 envoieATous("meurt/"+nom);
             if(!finFight())
             {
-                m_nombreFighttants--;
+                m_quantityFighttants--;
                 if(i == m_currentPlayer)
                 {
-                    m_currentPlayer %= m_nombreFighttants;
+                    m_currentPlayer %= m_quantityFighttants;
                     m_fighttants[m_ordre[m_currentPlayer]]->setTour(true);
                     emit envoie(m_ordre[m_currentPlayer],"tonTour");
                 }

@@ -8,7 +8,7 @@
 class DisplayRecipe : public QWidget
 {
 public:
-    DisplayRecipe(Recipe *recette, Job *metier, Resources *lesressources, int num);
+    DisplayRecipe(Recipe *recette, Job *metier, Resources *lesresources, int num);
 
 private:
     int m_num;
@@ -19,7 +19,7 @@ class Recipes : public QVBoxLayout
 {
     Q_OBJECT
 public:
-    Recipes(Job *metier, Resources *lesressources);
+    Recipes(Job *metier, Resources *lesresources);
     
 signals:
 

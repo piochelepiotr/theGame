@@ -13,9 +13,9 @@ class SpellDescription : public QFrame
     Q_OBJECT
     
 public:
-    explicit SpellDescription(SpellModel *sort = 0);
+    explicit SpellDescription(SpellModel *spell = 0);
     ~SpellDescription();
-    void setSort(SpellModel *sort);
+    void setSpell(SpellModel *spell);
     
 private:
     Ui::SpellDescription *ui;

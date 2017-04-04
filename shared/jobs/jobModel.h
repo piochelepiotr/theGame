@@ -20,10 +20,10 @@ class Scenery;
 class JobModel
 {
 public:
-    JobModel(QString const& donnees, Scenery *decors, Resources *ressources);
+    JobModel(QString const& donnees, Scenery *decors, Resources *resources);
     ~JobModel();
     QString nom() const { return m_nom; }
-    QVector<qint16> ressources_coupables(int lvl);
+    QVector<qint16> resources_coupables(int lvl);
     InteractiveObject *objet_coupable(qint16 num) const { return m_objets_coupables[num]; }
     QString arme() const { return m_arme; }
     QString verbe() const { return m_verbe; }

@@ -23,37 +23,37 @@ public:
     OutfitModel *getEquipement(const QString &nom) const;
     WeaponModel *getArme(const QString &nom) const;
 
-    SpellModel *getSort(QString const& nom) const;
+    SpellModel *getSpell(QString const& nom) const;
     CharacterModel *getClasse(QString const& nom) const;
     QMap<QString, CharacterModel*>classes() const { return m_classes; }
     MonsterModel *getMonstre(QString const& nom) const;
     EntityModel *getCreature(QString const& name) const;
     QMap<QString,MonsterModel*>monstres() const { return m_monstres; }
 
-    void ajouteRessource(Resource *ressource);
+    void ajouteRessource(Resource *resource);
     void ajouteEquipement(OutfitModel *equipement);
     void ajouteArme(WeaponModel *arme);
-    void ajouteSort(SpellModel *sort);
+    void ajouteSpell(SpellModel *spell);
     void enleveRessource(QString const& nom);
     void enleveEquipement(QString const& nom);
     void enleveArme(QString const& nom);
-    void enleveSort(QString const& nom);
-    QStringList ressources() const;
-    QStringList sorts() const;
-    bool estUneRessource(QString const& nom) const { return m_ressources.contains(nom); }
+    void enleveSpell(QString const& nom);
+    QStringList resources() const;
+    QStringList spells() const;
+    bool estUneRessource(QString const& nom) const { return m_resources.contains(nom); }
     bool estUnEquipement(QString const& nom) const { return m_equipements.contains(nom); }
     bool estUneArme(QString const& nom) const { return m_armes.contains(nom); }
-    bool estUnSort(QString const& nom) const { return m_sorts.contains(nom); }
+    bool estUnSpell(QString const& nom) const { return m_spells.contains(nom); }
 
     QString classeSuivante(QString const& actuelle);
     QString classePrecedente(QString const& actuelle);
 
 
 private:
-    QMap<QString, Resource*>m_ressources;
+    QMap<QString, Resource*>m_resources;
     QMap<QString, OutfitModel*>m_equipements;
     QMap<QString, WeaponModel*>m_armes;
-    QMap<QString, SpellModel*>m_sorts;
+    QMap<QString, SpellModel*>m_spells;
     QMap<QString, CharacterModel*>m_classes;
     QMap<QString, MonsterModel*>m_monstres;
     QVector<QString>m_numClasses;

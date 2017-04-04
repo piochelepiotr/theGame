@@ -18,7 +18,7 @@ class BottomTab : public QTabWidget
 {
     Q_OBJECT
 public:
-    explicit BottomTab(MainWindow *mainWindow,Jeu2d *gamePanel, Resources *ressources);
+    explicit BottomTab(MainWindow *mainWindow,Jeu2d *gamePanel, Resources *resources);
 
     VariousTab *m_widdivers;
     ObjectsTab *m_widobjets;

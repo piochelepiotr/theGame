@@ -688,7 +688,7 @@ void GameScene::afficheChemin(QPoint dep, QQueue<Dir>chem)
     }
 }
 
-void GameScene::stopUtiliseSort()
+void GameScene::stopUtiliseSpell()
 {
     m_imgCaseVisee->setVisible(false);
     for(int i = 0; i < NBR_CASES_L; i++)

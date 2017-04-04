@@ -27,9 +27,9 @@ signals:
     void nouveauJoueur(EntityInfo perso);
     void decJoueur(QString qui);
     void deplacement(QString qui, QPoint ou);
-    void coupe(QString qui, QString verbe, int orientation, int nombre_coups);
-    void ressource_coupe(QPoint pos);
-    void ressource_repousse(int posx, int posy);
+    void coupe(QString qui, QString verbe, int orientation, int quantity_coups);
+    void resource_coupe(QPoint pos);
+    void resource_repousse(int posx, int posy);
     void infos_map(QString infos);
 
     //fight
@@ -49,7 +49,7 @@ signals:
     //inventaire
     void gagneArme(QString arme);
     void gagneEquipement(QString equipement);
-    void gagneRessource(QString ressource);
+    void gagneRessource(QString resource);
     
 public slots:
 

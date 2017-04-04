@@ -1,12 +1,12 @@
 #include "graphic/resourceItem.h"
 
-ResourceItem::ResourceItem(Resource *ressource, int quantite, int num) : QLabel()
+ResourceItem::ResourceItem(Resource *resource, int quantite, int num) : QLabel()
 {
-    m_image = ressource->imagep();
+    m_image = resource->imagep();
     m_quantite = quantite;
     faitImage();
     m_num = num;
-    setToolTip(ressource->longue_description());
+    setToolTip(resource->longue_description());
     if(m_num != -1)
         installEventFilter(this);
 }

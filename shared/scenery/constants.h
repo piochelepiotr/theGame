@@ -18,9 +18,9 @@
 #define NBR_MONSTRES_MAP 3
 #define METIER_LVLS_1CASEENPLUS 15
 
-//emplacement des ressources
+//emplacement des resources
 
-#define DOSSIER_IMAGES_SORTS "../data/imagesSorts/"
+#define DOSSIER_IMAGES_SORTS "../data/imagesSpells/"
 
 //général
 

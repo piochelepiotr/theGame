@@ -7,29 +7,29 @@
 #include "inventory/resources.h"
 
 namespace Ui {
-class EditerSorts;
+class EditerSpells;
 }
 
-class EditerSorts : public QDialog
+class EditerSpells : public QDialog
 {
     Q_OBJECT
     
 public:
-    explicit EditerSorts(QWidget *parent, Resources *ressources);
-    ~EditerSorts();
+    explicit EditerSpells(QWidget *parent, Resources *resources);
+    ~EditerSpells();
 
 public slots:
 
-    void chargeSorts();
+    void chargeSpells();
     void ajouterNouveau(const QString &lenom = QString());
-    void supprimeSort(int i);
-    void modifierSort(int i);
+    void supprimeSpell(int i);
+    void modifierSpell(int i);
     
 private:
-    Ui::EditerSorts *ui;
+    Ui::EditerSpells *ui;
     QVector<NumberButton*>bouts_editer;
     QVector<NumberButton*>bouts_supprimer;
-    Resources *m_ressources;
+    Resources *m_resources;
 };
 
 #endif // EDITERSORTS_H

@@ -1,9 +1,9 @@
 #include "editspell.h"
 #include "ui_editspell.h"
 
-EditerUnSort::EditerUnSort(QWidget *parent, SpellModel *editer, bool creation) :
+EditerUnSpell::EditerUnSpell(QWidget *parent, SpellModel *editer, bool creation) :
     QDialog(parent),
-    ui(new Ui::EditerUnSort)
+    ui(new Ui::EditerUnSpell)
 {
     m_creation = creation;
     ui->setupUi(this);
@@ -13,17 +13,17 @@ EditerUnSort::EditerUnSort(QWidget *parent, SpellModel *editer, bool creation) :
     exec();
 }
 
-EditerUnSort::~EditerUnSort()
+EditerUnSpell::~EditerUnSpell()
 {
     delete ui;
 }
 
-void EditerUnSort::accepter()
+void EditerUnSpell::accepter()
 {
     enregistre();
 }
 
-void EditerUnSort::enregistre()
+void EditerUnSpell::enregistre()
 {
     QString texte = m_editer->nom() +'/'+QString::number(ui->lvl->value());
     for(int i = 0; i < ui->tableau->rowCount(); i++)
@@ -74,7 +74,7 @@ void EditerUnSort::enregistre()
     }
 }
 
-void EditerUnSort::charge()
+void EditerUnSpell::charge()
 {
     setWindowTitle(m_editer->nom());
     QString texte;
@@ -120,7 +120,7 @@ void EditerUnSort::charge()
     }
 }
 
-void EditerUnSort::supprimer(QString const& nom)
+void EditerUnSpell::supprimer(QString const& nom)
 {
     QString ligne;
     QFile fichier(QString(DONNEES)+QString("editers.txt")), fichier2(QString(DONNEES)+QString("editers2.txt"));

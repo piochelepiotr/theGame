@@ -50,7 +50,7 @@ public slots:
 
     void accepter();
     void boutclique(QString nom, QString texte = "-1");
-    void sortBouton(QString nom);
+    void spellBouton(QString nom);
     void effaceReplique(QString nom);
     
 private:

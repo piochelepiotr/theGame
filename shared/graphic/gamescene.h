@@ -72,7 +72,7 @@ public:
     void updateObjet(QPoint pos);
     void afficheChemin(QPoint dep, QQueue<Dir>chem);
     void effaceChemin();
-    void stopUtiliseSort();
+    void stopUtiliseSpell();
     void affichePortee();
     virtual void utileClique(QPoint const& pos);
     Data *donneesediteur() { return m_donnees_editeur; }

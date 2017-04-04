@@ -1,9 +1,9 @@
 #include "graphic/resourceItems.h"
 #include "inventory/resources.h"
 
-ResourceItems::ResourceItems(QVector<Resss>ressources, int nbrobjh, int nbrobjv, Resources *lesressources)
+ResourceItems::ResourceItems(QVector<Resss>resources, int nbrobjh, int nbrobjv, Resources *lesresources)
 {
-    m_lesRessources = lesressources;
+    m_lesRessources = lesresources;
     m_nbrh = nbrobjh;
     m_nbrv = nbrobjv;
     m_scroll = new QScrollBar(Qt::Vertical);
@@ -13,7 +13,7 @@ ResourceItems::ResourceItems(QVector<Resss>ressources, int nbrobjh, int nbrobjv,
     addWidget(m_scroll);
     m_scroll->setMinimum(0);
     m_scroll->setPageStep(m_nbrv);
-    int max = qCeil((double) ressources.size()/(double) nbrobjh)-nbrobjv;
+    int max = qCeil((double) resources.size()/(double) nbrobjh)-nbrobjv;
     if(max < 0)
         max = 0;
     m_scroll->setMaximum(max);
@@ -21,11 +21,11 @@ ResourceItems::ResourceItems(QVector<Resss>ressources, int nbrobjh, int nbrobjv,
     if(!m_scroll->maximum())
         m_scroll->setVisible(false);
 
-    for(int i = 0; i < ressources.size(); i++)
+    for(int i = 0; i < resources.size(); i++)
     {
-        if(ressources[i].ress)
+        if(resources[i].ress)
         {
-            m_items.push_back(new ResourceItem(ressources[i].ress, ressources[i].nbr, i));
+            m_items.push_back(new ResourceItem(resources[i].ress, resources[i].nbr, i));
             connect(m_items[i], SIGNAL(clique(int)), this, SLOT(cliqueObjet(int)));
             connect(m_items[i], SIGNAL(dbclique(int)), this, SLOT(dbcliqueObjet(int)));
         }
@@ -37,9 +37,9 @@ ResourceItems::ResourceItems(QVector<Resss>ressources, int nbrobjh, int nbrobjv,
     connect(m_scroll, SIGNAL(valueChanged(int)), this, SLOT(scrool(int)));
 }
 
-ResourceItems::ResourceItems(QVector<Eqips>equipements, int nbrobjh, int nbrobjv, Resources *lesressources)
+ResourceItems::ResourceItems(QVector<Eqips>equipements, int nbrobjh, int nbrobjv, Resources *lesresources)
 {
-    m_lesRessources = lesressources;
+    m_lesRessources = lesresources;
     m_nbrh = nbrobjh;
     m_nbrv = nbrobjv;
     m_scroll = new QScrollBar(Qt::Vertical);
@@ -73,9 +73,9 @@ ResourceItems::ResourceItems(QVector<Eqips>equipements, int nbrobjh, int nbrobjv
     connect(m_scroll, SIGNAL(valueChanged(int)), this, SLOT(scrool(int)));
 }
 
-ResourceItems::ResourceItems(QVector<Armes>armes, int nbrobjh, int nbrobjv, Resources *lesressources)
+ResourceItems::ResourceItems(QVector<Armes>armes, int nbrobjh, int nbrobjv, Resources *lesresources)
 {
-    m_lesRessources = lesressources;
+    m_lesRessources = lesresources;
     m_nbrh = nbrobjh;
     m_nbrv = nbrobjv;
     m_scroll = new QScrollBar(Qt::Vertical);
@@ -109,11 +109,11 @@ ResourceItems::ResourceItems(QVector<Armes>armes, int nbrobjh, int nbrobjv, Reso
     connect(m_scroll, SIGNAL(valueChanged(int)), this, SLOT(scrool(int)));
 }
 
-ResourceItems::ResourceItems(int nbrPossible, int nbrMax, Resources *lesressources)
+ResourceItems::ResourceItems(int nbrPossible, int nbrMax, Resources *lesresources)
 {
     m_nbrh = nbrMax;
     m_nbrv = 1;
-    m_lesRessources = lesressources;
+    m_lesRessources = lesresources;
     m_scroll = new QScrollBar(Qt::Vertical);
     m_layout = new QGridLayout();
     m_layout->setSpacing(0);
@@ -307,69 +307,69 @@ void ResourceItems::setItemArme(int num, Armes const& armes)
     setItemArme(num, armes.arme, armes.nbr);
 }
 
-void ResourceItems::setItemRessource(int num, Resource *ressource, int nombre)
+void ResourceItems::setItemRessource(int num, Resource *resource, int quantity)
 {
     m_layout->removeWidget(m_items[num]);
     delete m_items[num];
-    if(!ressource || !nombre)
+    if(!resource || !quantity)
         m_items[num] = new ResourceItem();
     else
     {
-        m_items[num] = new ResourceItem(ressource, nombre, num);
+        m_items[num] = new ResourceItem(resource, quantity, num);
         connect(m_items[num], SIGNAL(clique(int)), this, SLOT(cliqueObjet(int)));
         connect(m_items[num], SIGNAL(dbclique(int)), this, SLOT(dbcliqueObjet(int)));
     }
     remplire(0);
 }
 
-void ResourceItems::setItemEquipement(int num, Outfit *equipement, int nombre)
+void ResourceItems::setItemEquipement(int num, Outfit *equipement, int quantity)
 {
     m_layout->removeWidget(m_items[num]);
     delete m_items[num];
-    if(!equipement || !nombre)
+    if(!equipement || !quantity)
         m_items[num] = new ResourceItem();
     else
     {
-        m_items[num] = new ResourceItem(equipement, nombre, num);
+        m_items[num] = new ResourceItem(equipement, quantity, num);
         connect(m_items[num], SIGNAL(clique(int)), this, SLOT(cliqueObjet(int)));
         connect(m_items[num], SIGNAL(dbclique(int)), this, SLOT(dbcliqueObjet(int)));
     }
     remplire(0);
 }
 
-void ResourceItems::setItemArme(int num, Weapon *arme, int nombre)
+void ResourceItems::setItemArme(int num, Weapon *arme, int quantity)
 {
     m_layout->removeWidget(m_items[num]);
     delete m_items[num];
-    if(!arme || !nombre)
+    if(!arme || !quantity)
     {
         m_items[num] = new ResourceItem();
     }
     else
     {
-        m_items[num] = new ResourceItem(arme, nombre, num);
+        m_items[num] = new ResourceItem(arme, quantity, num);
         connect(m_items[num], SIGNAL(clique(int)), this, SLOT(cliqueObjet(int)));
         connect(m_items[num], SIGNAL(dbclique(int)), this, SLOT(dbcliqueObjet(int)));
     }
     remplire(0);
 }
 
-ResourceItem *item(Resources *lesressources, Resource *ressource, int quantite, int num)
+ResourceItem *item(Resources *lesresources, Resource *resource, int quantite, int num)
 {
-    if(lesressources->estUnEquipement(ressource->nom()))
+    if(lesresources->estUnEquipement(resource->nom()))
     {
-        if(lesressources->estUneArme(ressource->nom()))
+        if(lesresources->estUneArme(resource->nom()))
         {
-            return new ResourceItem(lesressources->getArme(ressource->nom()), quantite, num);
+            return new ResourceItem(lesresources->getArme(resource->nom()), quantite, num);
         }
         else
         {
-            return new ResourceItem(lesressources->getEquipement(ressource->nom()), quantite, num);
+            return new ResourceItem(lesresources->getEquipement(resource->nom()), quantite, num);
         }
     }
     else
     {
-        return new ResourceItem(ressource, quantite, num);
+        return new ResourceItem(resource, quantite, num);
     }
 }
 

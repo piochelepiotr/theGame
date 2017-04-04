@@ -36,17 +36,17 @@
     </layout>
    </item>
    <item>
-    <widget class="QPushButton" name="ajoute_sort">
+    <widget class="QPushButton" name="ajoute_spell">
      <property name="text">
-      <string>Ajouter un sort</string>
+      <string>Ajouter un spell</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QTableWidget" name="tab_sorts">
+    <widget class="QTableWidget" name="tab_spells">
      <column>
       <property name="text">
-       <string>Sorts</string>
+       <string>Spells</string>
       </property>
      </column>
      <column>

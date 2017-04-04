@@ -46,7 +46,7 @@ class Actions_personnage
     void ajouteAction(QString const& nom, Dir orientation);
     void marche(QQueue<Dir>const&chemin, DerniereAction action);
     void court(QQueue<Dir>const&chemin, DerniereAction action);
-    void recolte(QString const& verbe, int nombre_coups, DerniereAction action, Dir direction);
+    void recolte(QString const& verbe, int quantity_coups, DerniereAction action, Dir direction);
     void effaceActions();
     bool imobile() const { return m_immobile; }
     void redi(int lcase, int hcase);

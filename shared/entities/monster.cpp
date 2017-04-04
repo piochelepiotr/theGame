@@ -10,5 +10,5 @@ Monster::Monster(const QString &nom, const QString &classe, Data *donnees_editeu
     m_posmapy = posMapY;
     m_base_vie = vie;
     m_niveau = niveau;
-    m_ressourcesDropables = donnees_editeur->ressources->getMonstre(classe)->ressourcesDropables();
+    m_resourcesDropables = donnees_editeur->resources->getMonstre(classe)->resourcesDropables();
 }

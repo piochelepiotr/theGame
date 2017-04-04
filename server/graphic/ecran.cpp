@@ -27,7 +27,7 @@ Ecran::Ecran() : QWidget()
         connect(m_socketserveur, SIGNAL(newConnection()), this, SLOT(nouvelleConnexion()));
     }
     m_monde = new Monde(m_donnees_editeur,this);
-    //connect(m_monde, SIGNAL(repousse(Point,int,int)), this, SLOT(ressource_repousse(Point,int,int)));
+    //connect(m_monde, SIGNAL(repousse(Point,int,int)), this, SLOT(resource_repousse(Point,int,int)));
     //connect(m_monde,SIGNAL(s_envoie(QString,QString)),this,SLOT(envoie(QString,QString)));
 }
 
@@ -130,7 +130,7 @@ void Ecran::donneesRecues()
                 m_infojoueurs->addItem(new QListWidgetItem(trUtf8("Connexion de ")+joueur->getPersoActuel()->getNom()));
                 /*joueur->joue();
                 QList<Joueur*>lesautres = joueursPasEnFight(joueur->getPersoActuel()->getPos());
-                message = "ttt/"+m_monde->map(joueur->getPersoActuel()->getPos())->ressources_coupees()+'/';
+                message = "ttt/"+m_monde->map(joueur->getPersoActuel()->getPos())->resources_coupees()+'/';
                 for(int i = 0; i < lesautres.size(); i++)
                 {
                     message += lesautres[i]->getPersoActuel()->important()+'/';
@@ -196,7 +196,7 @@ void Ecran::deconnexionClient()
 
 void Ecran::enleveJeu(Joueur *joueur)
 {
-    //m_infojoueurs->addItem(new QListWidgetItem(joueur->getPersoActuel()->getNom()+" sort du jeu."));
+    //m_infojoueurs->addItem(new QListWidgetItem(joueur->getPersoActuel()->getNom()+" spell du jeu."));
     /*Personnage *pers = joueur->getPersoActuel();
     if(pers->enFight())
     {

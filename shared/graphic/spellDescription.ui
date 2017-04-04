@@ -23,7 +23,7 @@
    <item>
     <layout class="QHBoxLayout" name="lay_haut">
      <item>
-      <widget class="QLabel" name="nom_sort">
+      <widget class="QLabel" name="nom_spell">
        <property name="text">
         <string/>
        </property>
@@ -59,7 +59,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QTabWidget" name="niveaux_du_sort">
+    <widget class="QTabWidget" name="niveaux_du_spell">
      <property name="currentIndex">
       <number>9</number>
      </property>

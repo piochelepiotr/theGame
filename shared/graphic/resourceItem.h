@@ -12,7 +12,7 @@ class ResourceItem : public QLabel
 {
     Q_OBJECT
 public:
-    ResourceItem(Resource *ressource, int quantite, int num = -1);
+    ResourceItem(Resource *resource, int quantite, int num = -1);
     ResourceItem(Outfit *equipement, int quantite, int num = -1);
     ResourceItem(Weapon *arme, int quantite, int num = -1);
     ResourceItem(OutfitModel *equipement_base, int quantite, int num = -1);

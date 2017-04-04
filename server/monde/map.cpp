@@ -44,18 +44,18 @@ QString ServerMap::nomMonstre(QString const& nomClasse)
     return "";
 }
 
-QString ServerMap::ressources_coupees() const
+QString ServerMap::resources_coupees() const
 {
-    QString ressources;
+    QString resources;
     for(QMap<QPoint, bool>::const_iterator it = m_objets_coupables.begin(); it != m_objets_coupables.end(); it++)
     {
         if(!it.value())
         {
-            ressources += QString::number(it.key().x()).rightJustified(2, '0');
-            ressources += QString::number(it.key().y()).rightJustified(2, '0');
+            resources += QString::number(it.key().x()).rightJustified(2, '0');
+            resources += QString::number(it.key().y()).rightJustified(2, '0');
         }
     }
-    return ressources;
+    return resources;
 }
 
 void ServerMap::coupe(QPoint p)
@@ -229,7 +229,7 @@ void ServerMap::connectPlayer(Joueur *joueur,bool hasJustChangedServerMap)
         joueur->joue();
     QList<Joueur*>pasEnFight = joueursPasEnFight();
     QList<Monster*>monstersNotFighting = monsterNotFighting();
-    QString message = "ttt/"+ressources_coupees()+'/';
+    QString message = "ttt/"+resources_coupees()+'/';
     for(int i = 0; i < pasEnFight.size(); i++)
     {
         message += pasEnFight[i]->getPersoActuel()->important()+'/';
@@ -310,11 +310,11 @@ void ServerMap::receiveMessage(Joueur *player, QString const& begin, QString con
         player->getPersoActuel()->setPosMap(message.section('*',1,1).toInt(), message.section('*',2,2).toInt());
         envoiGroupe(joueursPasEnFight(), message, player->getPersoActuel()->getNom());
     }
-    else if(begin == "cut")//recolte d'une ressource
+    else if(begin == "cut")//recolte d'une resource
     {
         envoiGroupe(joueursPasEnFight(), message, player->getPersoActuel()->getNom());
     }
-    else if(begin == "cop")//ressource coupee
+    else if(begin == "cop")//resource coupee
     {
         coupe(QPoint(message.section('/', 0, 0).section('*', 0, 0).toInt(), message.section('/', 0, 0).section('*', 1, 1).toInt()));
         QStringList gains = message.section('/', 1).split('/');
@@ -328,7 +328,7 @@ void ServerMap::receiveMessage(Joueur *player, QString const& begin, QString con
             {
 
                 gains.pop_front();
-                player->getPersoActuel()->ajouterRessource(Resource::chargeRess(gains[0].toInt(), m_donnees_editeur->ressources->getRessource(gains[1])));
+                player->getPersoActuel()->ajouterRessource(Resource::chargeRess(gains[0].toInt(), m_donnees_editeur->resources->getRessource(gains[1])));
             }
             else if(gains[0] == "e")
             {
@@ -337,7 +337,7 @@ void ServerMap::receiveMessage(Joueur *player, QString const& begin, QString con
                 equipements.nbr = 1;
                 while(gains.size() > 3)
                 {
-                    equipements.equipement = Outfit::chargeEquipement(gains[0]+'/'+gains[1]+'/'+gains[2]+'/'+gains[3], m_donnees_editeur->ressources->getRessource(gains[0]));
+                    equipements.equipement = Outfit::chargeEquipement(gains[0]+'/'+gains[1]+'/'+gains[2]+'/'+gains[3], m_donnees_editeur->resources->getRessource(gains[0]));
                     player->getPersoActuel()->ajouterEquipement(equipements);
                     for(int i = 0; i < 4; i++)
                     {
@@ -352,7 +352,7 @@ void ServerMap::receiveMessage(Joueur *player, QString const& begin, QString con
                 armes.nbr = 1;
                 while(gains.size() > 5)
                 {
-                    armes.arme = Weapon::chargeArme(gains[0]+gains[1]+gains[2]+gains[3]+gains[4]+gains[5], m_donnees_editeur->ressources->getRessource(gains[0]), m_donnees_editeur->ressources->getSort(gains[4])->sortNiveau(gains[5].toInt()));
+                    armes.arme = Weapon::chargeArme(gains[0]+gains[1]+gains[2]+gains[3]+gains[4]+gains[5], m_donnees_editeur->resources->getRessource(gains[0]), m_donnees_editeur->resources->getSpell(gains[4])->spellNiveau(gains[5].toInt()));
                     player->getPersoActuel()->ajouterArme(armes);
                     for(int i = 0; i < 6; i++)
                         gains.pop_front();
@@ -402,20 +402,20 @@ void ServerMap::receiveMessage(Joueur *player, QString const& begin, QString con
         if(liste_fin[0] == "r")
         {
             liste_fin.pop_front();
-            player->getPersoActuel()->ajouterRessource(Resource::chargeRess(1, m_donnees_editeur->ressources->getRessource(liste_fin[0])));
+            player->getPersoActuel()->ajouterRessource(Resource::chargeRess(1, m_donnees_editeur->resources->getRessource(liste_fin[0])));
             liste_fin.pop_front();
         }
         else if(liste_fin[0] == "e")
         {
             liste_fin.pop_front();
-            player->getPersoActuel()->ajouterEquipement(Outfit::chargeEquipements("1/"+liste_fin[0]+'/'+liste_fin[1]+'/'+liste_fin[2]+'/'+liste_fin[3], m_donnees_editeur->ressources->getRessource(liste_fin[0])));
+            player->getPersoActuel()->ajouterEquipement(Outfit::chargeEquipements("1/"+liste_fin[0]+'/'+liste_fin[1]+'/'+liste_fin[2]+'/'+liste_fin[3], m_donnees_editeur->resources->getRessource(liste_fin[0])));
             for(int i = 0; i < 4; i++)
                 liste_fin.pop_front();
         }
         else
         {
             liste_fin.pop_front();
-            player->getPersoActuel()->ajouterArme(Weapon::chargeArmes("1/"+liste_fin[0]+'/'+liste_fin[1]+'/'+liste_fin[2]+'/'+liste_fin[3]+'/'+liste_fin[4]+'/'+liste_fin[5], m_donnees_editeur->ressources->getRessource(liste_fin[0]), m_donnees_editeur->ressources->getSort(liste_fin[4])->sortNiveau(liste_fin[5].toInt())));
+            player->getPersoActuel()->ajouterArme(Weapon::chargeArmes("1/"+liste_fin[0]+'/'+liste_fin[1]+'/'+liste_fin[2]+'/'+liste_fin[3]+'/'+liste_fin[4]+'/'+liste_fin[5], m_donnees_editeur->resources->getRessource(liste_fin[0]), m_donnees_editeur->resources->getSpell(liste_fin[4])->spellNiveau(liste_fin[5].toInt())));
             for(int i = 0; i < 6; i++)
                 liste_fin.pop_front();
         }
@@ -513,19 +513,19 @@ void ServerMap::analyseReponsePnj(QString const& reponse, Joueur *player)
     }
     else if(reponse.section('_', 0, 0) == "donneEquipement")
     {
-        Outfit *equip = m_donnees_editeur->ressources->getEquipement(reponse.section('_',1))->genere();
+        Outfit *equip = m_donnees_editeur->resources->getEquipement(reponse.section('_',1))->genere();
         player->getPersoActuel()->ajouterEquipement(equip);
         player->envoi("gagneEquipement/"+Outfit::enString(equip));
     }
     else if(reponse.section('_', 0, 0) == "donneArme")
     {
-        Weapon *arme = m_donnees_editeur->ressources->getArme(reponse.section('_',1))->genere();
+        Weapon *arme = m_donnees_editeur->resources->getArme(reponse.section('_',1))->genere();
         player->getPersoActuel()->ajouterArme(arme);
         player->envoi("gagneArme/"+Weapon::enString(arme));
     }
     else if(reponse.section('_',0,0) == "donneRessource")
     {
-        player->getPersoActuel()->ajouterRessource(m_donnees_editeur->ressources->getRessource(reponse.section('_',1)));
+        player->getPersoActuel()->ajouterRessource(m_donnees_editeur->resources->getRessource(reponse.section('_',1)));
         player->envoi("gagneRessource/"+reponse.section('_',1));
     }
 }

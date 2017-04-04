@@ -16,7 +16,7 @@ public :
     void affiche();
     void resize(int lcase, int hcase);
     void nouveauchemin(QQueue<Dir> chem, Actions_personnage::DerniereAction action = Actions_personnage::Aucune);
-    void recolte(QString const& verbe,int nombre_coups,  Dir orientation, Actions_personnage::DerniereAction derniere_action);
+    void recolte(QString const& verbe,int quantity_coups,  Dir orientation, Actions_personnage::DerniereAction derniere_action);
     QPoint posALaFin();
     bool isImobile() const { return m_perso->imobile(); }
     ~AfficheJoueur();

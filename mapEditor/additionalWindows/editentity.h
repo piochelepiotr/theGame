@@ -38,14 +38,14 @@ public slots:
 
     void ajouterClasse();
     void supprimerClasseActuelle();
-    void ajouterSort();
-    void supprimerSort(int num);
+    void ajouterSpell();
+    void supprimerSpell(int num);
     void changeClasse(int nouvelle);
 
 private:
     Ui::EditerCreature *ui;
     int m_classeActuelle;
-    int m_nbrSorts;
+    int m_nbrSpells;
     Resources *m_lesRessources;
 };
 

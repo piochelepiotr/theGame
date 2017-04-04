@@ -53,7 +53,7 @@ private:
     Reseau *m_reseau;
     Data *m_donnees_editeur;
     QMap<QString,QLabel*>m_textes_metiers;
-    SpellDescription *m_description_sort;
+    SpellDescription *m_description_spell;
 };
 
 #endif // CARACTERISTIQUES_H

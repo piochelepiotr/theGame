@@ -1,16 +1,16 @@
 #include "editmonsters.h"
 #include "ui_editmonsters.h"
 
-EditerMonstres::EditerMonstres(QWidget *parent, Resources *ressources) :
+EditerMonstres::EditerMonstres(QWidget *parent, Resources *resources) :
     QDialog(parent),
     ui(new Ui::EditerMonstres)
 {
     m_nbrRessources = 0;
-    m_lesRessources = ressources;
+    m_lesRessources = resources;
     ui->setupUi(this);
-    m_creature = new EditerCreature(this,ressources);
+    m_creature = new EditerCreature(this,resources);
     ui->layout_prin->addWidget(m_creature);
-    connect(ui->ajoute_ressource,SIGNAL(clicked()),this,SLOT(ajouterRessource()));
+    connect(ui->ajoute_resource,SIGNAL(clicked()),this,SLOT(ajouterRessource()));
     connect(m_creature,SIGNAL(s_enregistrerClasse()),this,SLOT(enregistrerMonstre()));
     connect(m_creature,SIGNAL(s_chargerClasse(QString)),this,SLOT(chargeMonstre(QString)));
     connect(m_creature,SIGNAL(s_supprimeClasse(QString)),this,SLOT(supprimeMonstre(QString)));
@@ -28,26 +28,26 @@ EditerMonstres::~EditerMonstres()
 
 void EditerMonstres::ajouterRessource()
 {
-    ui->tab_ressources->insertRow(m_nbrRessources);
-    QComboBox *ressources = new QComboBox;
-    ressources->addItems(m_lesRessources->ressources());
+    ui->tab_resources->insertRow(m_nbrRessources);
+    QComboBox *resources = new QComboBox;
+    resources->addItems(m_lesRessources->resources());
     QDoubleSpinBox *proba = new QDoubleSpinBox;
     NumberButton *bout = new NumberButton("supprimer", m_nbrRessources);
-    ui->tab_ressources->setCellWidget(m_nbrRessources, 0, ressources);
-    ui->tab_ressources->setCellWidget(m_nbrRessources, 1, proba);
-    ui->tab_ressources->setCellWidget(m_nbrRessources, 2, bout);
+    ui->tab_resources->setCellWidget(m_nbrRessources, 0, resources);
+    ui->tab_resources->setCellWidget(m_nbrRessources, 1, proba);
+    ui->tab_resources->setCellWidget(m_nbrRessources, 2, bout);
     m_nbrRessources++;
-    connect(bout, SIGNAL(clique(int)), this, SLOT(ressourceSupprimme(int)));
+    connect(bout, SIGNAL(clique(int)), this, SLOT(resourceSupprimme(int)));
 }
 
-void EditerMonstres::ressourceSupprimme(int num)
+void EditerMonstres::resourceSupprimme(int num)
 {
-    ui->tab_ressources->removeRow(num);
+    ui->tab_resources->removeRow(num);
     m_nbrRessources--;
     NumberButton *bout = 0;
     for(int i = num; i < m_nbrRessources; i++)
     {
-        bout = (NumberButton*) ui->tab_ressources->cellWidget(i,2);
+        bout = (NumberButton*) ui->tab_resources->cellWidget(i,2);
         bout->moinsnum();
     }
 }
@@ -61,8 +61,8 @@ QString EditerMonstres::monstre_to_texte()
     text += "/" + QString::number(ui->niveauMax->value());
     for(int i = 0; i < m_nbrRessources; i++)
     {
-        QComboBox *ress = (QComboBox*) ui->tab_ressources->cellWidget(i,0);
-        QDoubleSpinBox *prob = (QDoubleSpinBox*) ui->tab_ressources->cellWidget(i,1);
+        QComboBox *ress = (QComboBox*) ui->tab_resources->cellWidget(i,0);
+        QDoubleSpinBox *prob = (QDoubleSpinBox*) ui->tab_resources->cellWidget(i,1);
         text += "/" + ress->currentText() + "/" + QString::number(prob->value());
     }
     return text;
@@ -86,8 +86,8 @@ void EditerMonstres::texte_to_monstre(QString const& text)
     for(int i = 0; i < n;i+=2)
     {
         ajouterRessource();
-        QComboBox *ress = (QComboBox*)ui->tab_ressources->cellWidget(i/2,0);
-        QDoubleSpinBox *prob = (QDoubleSpinBox*)ui->tab_ressources->cellWidget(i/2,1);;
+        QComboBox *ress = (QComboBox*)ui->tab_resources->cellWidget(i/2,0);
+        QDoubleSpinBox *prob = (QDoubleSpinBox*)ui->tab_resources->cellWidget(i/2,1);;
         ress->setCurrentIndex(ress->findText(liste2[i]));
         prob->setValue(liste2[i+1].toDouble());
     }
@@ -154,7 +154,7 @@ void EditerMonstres::chargeMonstre(QString const& nom)
 
 void EditerMonstres::clear()
 {
-    ui->tab_ressources->setRowCount(0);
+    ui->tab_resources->setRowCount(0);
     m_creature->clearClasse();
     ui->vieMin->setValue(0);
     ui->vieMax->setValue(0);

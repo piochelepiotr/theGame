@@ -11,7 +11,7 @@ class SpellLayout : public QWidget
 {
     Q_OBJECT
 public:
-    explicit SpellLayout(Spell *sort);
+    explicit SpellLayout(Spell *spell);
 
 signals:
 

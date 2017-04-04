@@ -1,28 +1,28 @@
 #include "inventory/inventory.h"
 
-Inventaire_complet::Inventaire_complet(Character *perso, Resources *ressources) : Inventory(perso, ressources)
+Inventaire_complet::Inventaire_complet(Character *perso, Resources *resources) : Inventory(perso, resources)
 {
     if(perso)
     {
-        m_ressources = perso->getRessources();
+        m_resources = perso->getRessources();
         m_equipements = perso->getEquipements();
         m_armes = perso->getArmes();
     }
 }
 
-void Inventaire_complet::ajoute_ressource(Resss ressources)
+void Inventaire_complet::ajoute_resource(Resss resources)
 {
-    for(int i = 0; i < m_ressources.size(); i++)
+    for(int i = 0; i < m_resources.size(); i++)
     {
-        if(m_ressources[i].ress == ressources.ress)
+        if(m_resources[i].ress == resources.ress)
         {
-            m_ressources[i].nbr += ressources.nbr;
-            ajouteRess(ressources.ress, ressources.nbr, i);
+            m_resources[i].nbr += resources.nbr;
+            ajouteRess(resources.ress, resources.nbr, i);
             return;
         }
     }
-    m_ressources.push_back(ressources);
-    ajouteRess(ressources.ress,ressources.nbr, m_ressources.size()-1);
+    m_resources.push_back(resources);
+    ajouteRess(resources.ress,resources.nbr, m_resources.size()-1);
 }
 
 void Inventaire_complet::ajoute_equipement(Eqips equipements)
@@ -55,12 +55,12 @@ void Inventaire_complet::ajoute_arme(Armes armes)
     ajouteArme(armes.arme,armes.nbr, m_armes.size()-1);
 }
 
-void Inventaire_complet::enlever_ressource(int num, int nbr)
+void Inventaire_complet::enlever_resource(int num, int nbr)
 {
-    m_ressources[num].nbr -= nbr;
-    if(m_ressources[num].nbr < 1)
+    m_resources[num].nbr -= nbr;
+    if(m_resources[num].nbr < 1)
     {
-        m_ressources.remove(num);
+        m_resources.remove(num);
     }
     enleveRess(num, nbr);
 }
@@ -85,15 +85,15 @@ void Inventaire_complet::enlever_arme(int num, int nbr)
     enleveArme(num, nbr);
 }
 
-int Inventaire_complet::indexRessource(Resource *ressource)
+int Inventaire_complet::indexRessource(Resource *resource)
 {
     int index = 0;
-    while(index < m_ressources.size() && m_ressources[index].ress != ressource)
+    while(index < m_resources.size() && m_resources[index].ress != resource)
     {
         index++;
     }
-    if(m_ressources[index].ress != ressource)
-        qDebug() << "ERREUR : indexRessource demande pour ressource inexistante";
+    if(m_resources[index].ress != resource)
+        qDebug() << "ERREUR : indexRessource demande pour resource inexistante";
     return index;
 }
 
@@ -121,17 +121,17 @@ int Inventaire_complet::indexArme(Weapon *arme)
     return index;
 }
 
-Inventory::Inventory(Character *perso, Resources *ressources)
+Inventory::Inventory(Character *perso, Resources *resources)
 {
     m_perso = perso;
     m_pageress = new QWidget;
     m_pageequip = new QWidget;
     m_pagearme = new QWidget;
-    m_items_ressources = new ResourceItems(perso->getRessources(), NBRRESSH, NBRRESSV, ressources);
-    m_items_equipements = new ResourceItems(perso->getEquipements(), NBRRESSH, NBRRESSV, ressources);
-    m_items_armes = new ResourceItems(perso->getArmes(), NBRRESSH, NBRRESSV, ressources);
+    m_items_resources = new ResourceItems(perso->getRessources(), NBRRESSH, NBRRESSV, resources);
+    m_items_equipements = new ResourceItems(perso->getEquipements(), NBRRESSH, NBRRESSV, resources);
+    m_items_armes = new ResourceItems(perso->getArmes(), NBRRESSH, NBRRESSV, resources);
 
-    m_pageress->setLayout(m_items_ressources);
+    m_pageress->setLayout(m_items_resources);
     m_pageequip->setLayout(m_items_equipements);
     m_pagearme->setLayout(m_items_armes);
 
@@ -139,10 +139,10 @@ Inventory::Inventory(Character *perso, Resources *ressources)
     addTab(m_pageequip, trUtf8("Equipements"));
     addTab(m_pagearme, trUtf8("Armes"));
 
-    connect(m_items_ressources, SIGNAL(ressclique(int)), this, SLOT(ressclique(int)));
+    connect(m_items_resources, SIGNAL(ressclique(int)), this, SLOT(ressclique(int)));
     connect(m_items_equipements, SIGNAL(ressclique(int)), this, SLOT(equipclique(int)));
     connect(m_items_armes, SIGNAL(ressclique(int)), this, SLOT(armeclique(int)));
-    connect(m_items_ressources, SIGNAL(ressdbclique(int)), this, SLOT(ressource_double_clique(int)));
+    connect(m_items_resources, SIGNAL(ressdbclique(int)), this, SLOT(resource_double_clique(int)));
     connect(m_items_equipements, SIGNAL(ressdbclique(int)), this, SLOT(equipdblclique(int)));
     connect(m_items_armes, SIGNAL(ressdbclique(int)), this, SLOT(armedblclique(int)));
 }
@@ -162,9 +162,9 @@ void Inventory::armeclique(int num)
     emit s_armeclique(m_perso->armenum(num));
 }
 
-void Inventory::ressource_double_clique(int num)
+void Inventory::resource_double_clique(int num)
 {
-    emit s_ressource_double_clique(num);
+    emit s_resource_double_clique(num);
 }
 
 void Inventory::equipdblclique(int num)
@@ -179,7 +179,7 @@ void Inventory::armedblclique(int num)
 
 void Inventory::enleveRess(int num, int nbr)
 {
-    m_items_ressources->enlevRess(num, nbr);
+    m_items_resources->enlevRess(num, nbr);
 }
 
 void Inventory::enleveEquip(int num, int nbr)
@@ -197,7 +197,7 @@ void Inventory::ajouteRess(Resource *ress, int nbr,int same)
     Resss resss;
     resss.nbr = nbr;
     resss.ress = ress;
-    m_items_ressources->ajouteRess(resss, same);
+    m_items_resources->ajouteRess(resss, same);
 }
 
 void Inventory::ajouteEquip(Outfit *equipement, int nbr,int same)

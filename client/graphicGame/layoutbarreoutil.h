@@ -37,7 +37,7 @@ private:
     QPushButton *m_bout_cara;
     QPushButton *m_bout_passer_tour;
     QProgressBar *m_bar_vie;
-    QHBoxLayout *m_lay_sorts;
+    QHBoxLayout *m_lay_spells;
     ImageButtonString *m_bout_cac;
     QLabel *m_labelPC;
 };

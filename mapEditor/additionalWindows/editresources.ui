@@ -24,12 +24,12 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="select_ressource"/>
+      <widget class="QComboBox" name="select_resource"/>
      </item>
      <item>
       <widget class="QPushButton" name="supprimer">
        <property name="text">
-        <string>Supprimer la ressource actuelle</string>
+        <string>Supprimer la resource actuelle</string>
        </property>
       </widget>
      </item>
@@ -45,7 +45,7 @@
       </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="partie_ressource">
+      <layout class="QVBoxLayout" name="partie_resource">
        <item>
         <layout class="QHBoxLayout" name="lay_categorie">
          <item>
@@ -193,7 +193,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QComboBox" name="sort"/>
+    <widget class="QComboBox" name="spell"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">

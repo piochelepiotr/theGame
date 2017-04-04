@@ -33,7 +33,7 @@ CreerPnj::CreerPnj(QWidget *parent, qint16 *num, bool *ok, bool creation) : QDia
     ui->lay_0->addWidget(m_repliques["0"]);
     ui->lay_0->addLayout(m_enfrepliques["0"]);
     connect(m_repliques["0"], SIGNAL(ajoute(QString)), this, SLOT(boutclique(QString)));
-    connect(m_repliques["0"], SIGNAL(edite(QString)), this, SLOT(sortBouton(QString)));
+    connect(m_repliques["0"], SIGNAL(edite(QString)), this, SLOT(spellBouton(QString)));
     this->setWindowTitle(trUtf8("éditer un personnage non joueur"));
 
     if(!creation)
@@ -89,7 +89,7 @@ void CreerPnj::accepter()
     }
 }
 
-void CreerPnj::sortBouton(QString nom)
+void CreerPnj::spellBouton(QString nom)
 {
     bool ok;
     QString texte = QInputDialog::getText(this, trUtf8("nouveau dialogue"), trUtf8("nouvelle réplique:"), QLineEdit::Normal, QString(), &ok);
@@ -117,7 +117,7 @@ void CreerPnj::boutclique(QString nom, QString texte)
         m_repliques[new_nom] = bout;
         m_layrepliques[new_nom] = layh;
         connect(bout, SIGNAL(ajoute(QString)), this, SLOT(boutclique(QString)));
-        connect(bout, SIGNAL(edite(QString)), this, SLOT(sortBouton(QString)));
+        connect(bout, SIGNAL(edite(QString)), this, SLOT(spellBouton(QString)));
         connect(bout, SIGNAL(detruit(QString)), this, SLOT(effaceReplique(QString)));
     }
 }

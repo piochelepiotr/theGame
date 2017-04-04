@@ -3,17 +3,17 @@
 
 Data::Data(int lcase, int hcase,int mapWidth,int mapHeight)
 {
-    ressources = new Resources();
+    resources = new Resources();
     touslespnj = new NPCs();
     decor = new Scenery(lcase, hcase,mapWidth,mapHeight);
-    metiers = new Jobs(ressources,decor);
+    metiers = new Jobs(resources,decor);
 }
 
 Data::~Data()
 {
     delete decor;
     delete touslespnj;
-    delete ressources;
+    delete resources;
     delete metiers;
 }
 

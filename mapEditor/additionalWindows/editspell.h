@@ -8,16 +8,16 @@
 #include "inventory/resources.h"
 
 namespace Ui {
-class EditerUnSort;
+class EditerUnSpell;
 }
 
-class EditerUnSort : public QDialog
+class EditerUnSpell : public QDialog
 {
     Q_OBJECT
     
 public:
-    explicit EditerUnSort(QWidget *parent, SpellModel *editer, bool creation);
-    ~EditerUnSort();
+    explicit EditerUnSpell(QWidget *parent, SpellModel *editer, bool creation);
+    ~EditerUnSpell();
     void charge();
     void enregistre();
     static void supprimer(QString const& nom);
@@ -26,7 +26,7 @@ public slots:
     void accepter();
 
 private:
-    Ui::EditerUnSort *ui;
+    Ui::EditerUnSpell *ui;
     SpellModel *m_editer;
     bool m_creation;
 };

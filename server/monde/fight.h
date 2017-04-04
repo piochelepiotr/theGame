@@ -24,7 +24,7 @@ public:
     void ajoutePerso(Character *perso);
     void enlevePerso(QString nom);
     void deplace(QString nom, int x, int y);
-    void attaque(QString nomAttaquant,QString nomSort, int x, int y);
+    void attaque(QString nomAttaquant,QString nomSpell, int x, int y);
     void passeTour(QString nom);
     QString getNomLeader() const { return m_leader1; }
     QString getNomLeader2() const { return m_leader2; }
@@ -60,7 +60,7 @@ private:
     QVector<QString> m_tours;
     QMap<QString, Character *>::iterator m_tour;
     QVector<QString>m_ordre;
-    int m_nombreFighttants;
+    int m_quantityFighttants;
     int m_currentPlayer;
     PhaseFight m_phase;
     Map *m_dataMap;

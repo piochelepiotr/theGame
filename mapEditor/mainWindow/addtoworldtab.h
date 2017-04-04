@@ -14,27 +14,27 @@ class AddToWorldTab : public QWidget
 {
     Q_OBJECT
 public:
-    explicit AddToWorldTab(MainWindow *mainWindow, Jeu2d *gamePanel,Resources *ressources);
+    explicit AddToWorldTab(MainWindow *mainWindow, Jeu2d *gamePanel,Resources *resources);
 
     MainWindow *m_mainWindow;
     Jeu2d *m_jeu;
-    Resources *m_ressources;
+    Resources *m_resources;
 
     QGridLayout *m_layajouteMonde;
     QPushButton *m_editeRessources;
     QPushButton *m_editePnj;
         QPushButton *m_editeMetiers;
         QPushButton *m_editeMonstres;
-        QPushButton *m_editeSorts;
+        QPushButton *m_editeSpells;
         QPushButton *m_editeClasses;
 
 public slots:
         void editeMetiers();
         void editeMonstres();
-        void editeSorts();
+        void editeSpells();
         void editeClasses();
-        void sortRessources();
-        void sortPnjs();
+        void spellRessources();
+        void spellPnjs();
 
 };
 

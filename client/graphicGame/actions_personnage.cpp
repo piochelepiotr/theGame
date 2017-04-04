@@ -10,7 +10,7 @@ Action::Action(const QString &name, Dir orientation, ImagesEntity *images)
     m_name = name;
     m_orientation = orientation;
     m_images = images->getImagesAction(name);
-    m_nbrOfImg = m_images->nombre_images(m_orientation);
+    m_nbrOfImg = m_images->quantity_images(m_orientation);
     if(name == "courir")
     {
         m_length = LENGTH_RUN;
@@ -262,10 +262,10 @@ void Actions_personnage::court(QQueue<Dir>const&chemin, DerniereAction action)
     m_derniere_action = action;
 }
 
-void Actions_personnage::recolte(QString const& verbe, int nombre_coups, DerniereAction action, Dir direction)
+void Actions_personnage::recolte(QString const& verbe, int quantity_coups, DerniereAction action, Dir direction)
 {
     effaceActions();
-    for(int i = 0; i < nombre_coups; i++)
+    for(int i = 0; i < quantity_coups; i++)
     {
         m_lesactions.push_back(new Action(verbe, direction, m_images));
     }

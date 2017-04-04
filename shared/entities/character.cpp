@@ -36,22 +36,22 @@ Character::Character(QString const& donnees, Data *donnees_editeur) : Entity(don
     m_xp = donnees.section('/',13,13).toInt();
     metAJourNiveau();
     int i = 14;
-    m_cape = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
+    m_cape = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->resources->getRessource(donnees.section('/', i, i)));
     i += 4;
-    m_coiffe = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
+    m_coiffe = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->resources->getRessource(donnees.section('/', i, i)));
     i += 4;
-    m_anod = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
+    m_anod = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->resources->getRessource(donnees.section('/', i, i)));
     i += 4;
-    m_anog = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
+    m_anog = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->resources->getRessource(donnees.section('/', i, i)));
     i += 4;
-    m_amulette = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
+    m_amulette = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->resources->getRessource(donnees.section('/', i, i)));
     i += 4;
-    m_ceinture = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
+    m_ceinture = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->resources->getRessource(donnees.section('/', i, i)));
     i += 4;
-    m_bottes = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)));
+    m_bottes = Outfit::chargeEquipement(donnees.section('/', i, i+3), donnees_editeur->resources->getRessource(donnees.section('/', i, i)));
     i += 4;
     if(donnees.section('/', i, i) != "-1")
-        m_arme = Weapon::chargeArme(donnees.section('/', i, i+5), donnees_editeur->ressources->getRessource(donnees.section('/', i, i)), donnees_editeur->ressources->getSort(donnees.section('/', i+4,i+4))->sortNiveau(donnees.section('/', i+5, i+5).toInt()));
+        m_arme = Weapon::chargeArme(donnees.section('/', i, i+5), donnees_editeur->resources->getRessource(donnees.section('/', i, i)), donnees_editeur->resources->getSpell(donnees.section('/', i+4,i+4))->spellNiveau(donnees.section('/', i+5, i+5).toInt()));
     else
         m_arme = 0;
     i += 6;
@@ -66,28 +66,28 @@ Character::Character(QString const& donnees, Data *donnees_editeur) : Entity(don
     i++;
     while(donnees.section('/',i,i) != "OBJETS")
     {
-        m_ressources.push_back(Resource::chargeRess(donnees.section('/', i, i).toInt(), donnees_editeur->ressources->getRessource(donnees.section('/', i+1, i+1))));
+        m_resources.push_back(Resource::chargeRess(donnees.section('/', i, i).toInt(), donnees_editeur->resources->getRessource(donnees.section('/', i+1, i+1))));
         i += 2;
     }
     //OBJETS
     i++;
     while(donnees.section('/',i,i) != "ARMES")
     {
-        m_equipements.push_back(Outfit::chargeEquipements(donnees.section('/', i,i+4), donnees_editeur->ressources->getRessource(donnees.section('/', i+1, i+1))));
+        m_equipements.push_back(Outfit::chargeEquipements(donnees.section('/', i,i+4), donnees_editeur->resources->getRessource(donnees.section('/', i+1, i+1))));
         i += 5;
     }
     //ARMES
     i++;
     while(donnees.section('/',i,i) != "SORTS")
     {
-        m_armes.push_back(Weapon::chargeArmes(donnees.section('/', i,i+6), donnees_editeur->ressources->getRessource(donnees.section('/', i+1, i+1)), donnees_editeur->ressources->getSort(donnees.section('/', i+5,i+5))->sortNiveau(donnees.section('/', i+6,i+6).toInt())));
+        m_armes.push_back(Weapon::chargeArmes(donnees.section('/', i,i+6), donnees_editeur->resources->getRessource(donnees.section('/', i+1, i+1)), donnees_editeur->resources->getSpell(donnees.section('/', i+5,i+5))->spellNiveau(donnees.section('/', i+6,i+6).toInt())));
         i += 7;
     }
     i++;
     //SORTS
     while(donnees.section('/',i,i) != "FIN")
     {
-        m_sorts[donnees.section('/',i,i)] = m_donnees_editeur->ressources->getSort(donnees.section('/',i,i))->sortNiveau(donnees.section('/',i+1,i+1).toInt());
+        m_spells[donnees.section('/',i,i)] = m_donnees_editeur->resources->getSpell(donnees.section('/',i,i))->spellNiveau(donnees.section('/',i+1,i+1).toInt());
         i += 2;
     }
 }
@@ -159,9 +159,9 @@ QString Character::toString() const
         donnees += Job::enString(i.value());
     }
     donnees += "RESSOURCES/";
-    for(int i = 0; i < m_ressources.size(); i++)
+    for(int i = 0; i < m_resources.size(); i++)
     {
-        donnees += Resource::enString(m_ressources[i]);
+        donnees += Resource::enString(m_resources[i]);
     }
     donnees += "OBJETS/";
     for(int i = 0; i < m_equipements.size(); i++)
@@ -174,7 +174,7 @@ QString Character::toString() const
         donnees += Weapon::enString(m_armes[i]);
     }
     donnees += "SORTS/";
-    for(QMap<QString,Spell*>::const_iterator it = m_sorts.begin(); it != m_sorts.end(); it++)
+    for(QMap<QString,Spell*>::const_iterator it = m_spells.begin(); it != m_spells.end(); it++)
     {
            donnees += it.value()->enString();
     }
@@ -185,24 +185,24 @@ QString Character::toString() const
 
 int Character::ajouterRessource(Resss const& resss)
 {
-    for(int i = 0; i < m_ressources.size(); i++)
+    for(int i = 0; i < m_resources.size(); i++)
     {
-        if(m_ressources[i].ress == resss.ress)
+        if(m_resources[i].ress == resss.ress)
         {
-            m_ressources[i].nbr += resss.nbr;
+            m_resources[i].nbr += resss.nbr;
             return i;
         }
     }
-    m_ressources.push_back(resss);
-    return m_ressources.size()-1;
+    m_resources.push_back(resss);
+    return m_resources.size()-1;
 }
 
 void Character::enleverRessource(int num, int nbr)
 {
-    m_ressources[num].nbr -= nbr;
-    if(m_ressources[num].nbr < 1)
+    m_resources[num].nbr -= nbr;
+    if(m_resources[num].nbr < 1)
     {
-        m_ressources.remove(num);
+        m_resources.remove(num);
     }
 }
 
@@ -252,12 +252,12 @@ int Character::ajouterEquipement(Outfit *equipement)
     return ajouterEquipement(eqips);
 }
 
-int Character::ajouterRessource(Resource *ressource)
+int Character::ajouterRessource(Resource *resource)
 {
-    Resss ressources;
-    ressources.ress = ressource;
-    ressources.nbr = 1;
-    return ajouterRessource(ressources);
+    Resss resources;
+    resources.ress = resource;
+    resources.nbr = 1;
+    return ajouterRessource(resources);
 }
 
 
@@ -483,9 +483,9 @@ int Character::getPods() const
 {
     int pods = 0;
 
-    for(int i = 0; i < m_ressources.size(); i++)
+    for(int i = 0; i < m_resources.size(); i++)
     {
-        pods += m_ressources[i].ress->pods()*m_ressources[i].nbr;
+        pods += m_resources[i].ress->pods()*m_resources[i].nbr;
     }
     for(int i = 0; i < m_equipements.size(); i++)
     {
@@ -514,21 +514,21 @@ int Character::getPods() const
     return pods;
 }
 
-QString Character::gagneRessources(Resource *ressource, int nombre, int *indexDernier)
+QString Character::gagneRessources(Resource *resource, int quantity, int *indexDernier)
 {
     int place = 0;
     QString texte;
-    if(nombre <= 0)
+    if(quantity <= 0)
         return texte;
-    if(m_donnees_editeur->ressources->estUnEquipement(ressource->nom()))
+    if(m_donnees_editeur->resources->estUnEquipement(resource->nom()))
     {
-        if(m_donnees_editeur->ressources->estUneArme(ressource->nom()))
+        if(m_donnees_editeur->resources->estUneArme(resource->nom()))
         {
             texte += "a/";
-            WeaponModel *arme = m_donnees_editeur->ressources->getArme(ressource->nom());
+            WeaponModel *arme = m_donnees_editeur->resources->getArme(resource->nom());
             Armes armes;
             armes.nbr = 1;
-            for(int i = 0; i < nombre; i++)
+            for(int i = 0; i < quantity; i++)
             {
                 armes.arme = arme->genere();
                 place = ajouterArme(armes);
@@ -538,10 +538,10 @@ QString Character::gagneRessources(Resource *ressource, int nombre, int *indexDe
         else
         {
             texte += "e/";
-            OutfitModel *equipement = m_donnees_editeur->ressources->getEquipement(ressource->nom());
+            OutfitModel *equipement = m_donnees_editeur->resources->getEquipement(resource->nom());
             Eqips equipements;
             equipements.nbr = 1;
-            for(int i = 0; i < nombre; i++)
+            for(int i = 0; i < quantity; i++)
             {
                 equipements.equipement = equipement->genere();
                 place = ajouterEquipement(equipements);
@@ -552,32 +552,32 @@ QString Character::gagneRessources(Resource *ressource, int nombre, int *indexDe
     else
     {
         texte += "r/";
-        Resss ressources;
-        ressources.ress = ressource;
-        ressources.nbr = nombre;
-        ajouterRessource(ressources);
-        texte += Resource::enString(ressources);
+        Resss resources;
+        resources.ress = resource;
+        resources.nbr = quantity;
+        ajouterRessource(resources);
+        texte += Resource::enString(resources);
     }
     if(indexDernier)
         *indexDernier = place;
     return texte;
 }
 
-int Character::indexRessource(Resource *ressource, int *quantite)
+int Character::indexRessource(Resource *resource, int *quantite)
 {
     int index = 0;
-    while(index < m_ressources.size() && m_ressources[index].ress != ressource)
+    while(index < m_resources.size() && m_resources[index].ress != resource)
     {
         index++;
     }
-    if(m_ressources[index].ress != ressource)
+    if(m_resources[index].ress != resource)
     {
         if(quantite)
             *quantite =0;
-        qDebug() << "ERREUR : indexRessource demande pour ressource inexistante";
+        qDebug() << "ERREUR : indexRessource demande pour resource inexistante";
     }
     else if(quantite)
-        *quantite = m_ressources[index].nbr;
+        *quantite = m_resources[index].nbr;
     return index;
 }
 
@@ -642,23 +642,23 @@ QStringList Character::getJobs()
     return list;
 }
 
-Spell *Character::getSort(QString const& nom)
+Spell *Character::getSpell(QString const& nom)
 {
     if(nom == "cac")
     {
         if(m_arme)
-            return m_arme->getSort();
+            return m_arme->getSpell();
         else
-            return m_donnees_editeur->ressources->getSort("Coup de poing")->sortNiveau(1);
+            return m_donnees_editeur->resources->getSpell("Coup de poing")->spellNiveau(1);
     }
-    else if(m_sorts.contains(nom))
+    else if(m_spells.contains(nom))
     {
-        return m_sorts[nom];
+        return m_spells[nom];
     }
     else
     {
         qDebug("SORT DEMANDER N'EXISTE PAS");
-        return m_donnees_editeur->ressources->getSort("Coup de poing")->sortNiveau(1);
+        return m_donnees_editeur->resources->getSpell("Coup de poing")->spellNiveau(1);
     }
 }
 

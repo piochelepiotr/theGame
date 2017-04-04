@@ -83,10 +83,10 @@ public:
     void setEquipe(int equipe) { m_equipe = equipe; }
     int equipe() const {return m_equipe; }
 
-    QMap<QString,Spell*> sorts() const { return m_sorts; }
+    QMap<QString,Spell*> spells() const { return m_spells; }
 
-    bool peutUtiliserSort(QString const& nom);
-    Spell *getSort(QString const& nom);
+    bool peutUtiliserSpell(QString const& nom);
+    Spell *getSpell(QString const& nom);
     QString gagneFinFight(int, bool victoire);
 
     //
@@ -116,7 +116,7 @@ protected:
     bool m_monTour;
     bool m_enFight;
 
-    QMap<QString,Spell*>m_sorts;
+    QMap<QString,Spell*>m_spells;
 
     //pour s'équiper
 

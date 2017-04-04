@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     qDebug() << "premier appel " << temps.elapsed();
 
-    m_tabbar = new BottomTab(this,m_jeu,m_donnees_editeur->ressources);
+    m_tabbar = new BottomTab(this,m_jeu,m_donnees_editeur->resources);
     ui->barre_outil->addWidget(m_tabbar);
     chargeThemeObjet(0);
 
@@ -384,7 +384,7 @@ void MainWindow::selectionNouveauObjet(qint16 numero)
     m_jeu->setObjetActuel(m_jeu->decors()->objet(numero));
 }
 
-void MainWindow::sortObjet()
+void MainWindow::spellObjet()
 {
     if(m_jeu->getObjActuel()->numero())
     {
@@ -394,7 +394,7 @@ void MainWindow::sortObjet()
         if(ok)
         {
             m_jeu->dataMap()->enregistre();
-            sortUnObjet(objet);
+            spellUnObjet(objet);
             m_jeu->charge();
             chargeThemeObjet(m_tabbar->m_widobjets->m_themesObjet->currentIndex());
         }
@@ -410,17 +410,17 @@ void MainWindow::sortObjet()
     }
 }
 
-void MainWindow::ajouteUnTransporteur(int x, int y, bool sort)
+void MainWindow::ajouteUnTransporteur(int x, int y, bool spell)
 {
     bool ok, suppr;
     Gate transpo;
-    if(sort)
+    if(spell)
     {
         transpo = m_jeu->dataMap()->getTranspo(QPoint(x,y));
     }
     EditerTransporteur boite(this, &transpo, &ok, &suppr);
 
-    if(sort && suppr)
+    if(spell && suppr)
     {
         m_jeu->supprimeTranspo(QPoint(x,y));
         return;
@@ -604,7 +604,7 @@ void MainWindow::changeZoom()
 
 void MainWindow::monstresDeLaMap()
 {
-    EditerMonstreDeLaMap boite(this, m_jeu->dataMap()->getMonstresMap(),m_donnees_editeur->ressources->monstres().keys());
+    EditerMonstreDeLaMap boite(this, m_jeu->dataMap()->getMonstresMap(),m_donnees_editeur->resources->monstres().keys());
 }
 
 void MainWindow::musiques()

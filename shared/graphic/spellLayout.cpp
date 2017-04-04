@@ -1,13 +1,13 @@
 #include "spellLayout.h"
 
-SpellLayout::SpellLayout(Spell *sort) : QWidget()
+SpellLayout::SpellLayout(Spell *spell) : QWidget()
 {
-    m_nom = sort->nom();
+    m_nom = spell->nom();
     QHBoxLayout *layout = new QHBoxLayout();
     QLabel *labelImage = new QLabel();
-    QPixmap image = QPixmap(DOSSIER_IMAGES_SORTS+sort->nom()).scaled(QSize(30,30));
-    QLabel *nom = new QLabel(sort->nom());
-    QLabel *niveau = new QLabel("niveau : "+QString::number(sort->niveau()));
+    QPixmap image = QPixmap(DOSSIER_IMAGES_SORTS+spell->nom()).scaled(QSize(30,30));
+    QLabel *nom = new QLabel(spell->nom());
+    QLabel *niveau = new QLabel("niveau : "+QString::number(spell->niveau()));
     labelImage->setPixmap(image);
     layout->addWidget(labelImage);
     layout->addWidget(nom);

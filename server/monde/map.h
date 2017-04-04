@@ -17,7 +17,7 @@ public:
     ServerMap(Data *donnees_editeur, Monde *parent, Point const& pos, Ecran *ecran);
     ~ServerMap();
     void coupe(QPoint p);
-    QString ressources_coupees() const;
+    QString resources_coupees() const;
     void addFight(Character *leader1, Character *leader2);
     Fight *fight(QString nom);
     QString leaderDe(QString nom);
@@ -45,7 +45,7 @@ public slots:
 
 private:
     Map *m_map;
-    QMap<QPoint, bool>m_objets_coupables;// =true si la ressource est coupé, oui c'est pas très logique je sais
+    QMap<QPoint, bool>m_objets_coupables;// =true si la resource est coupé, oui c'est pas très logique je sais
     QSignalMapper *m_aide_timers;
     QMap<QPoint,QTimer*>m_timers;
     Monde *m_parent;

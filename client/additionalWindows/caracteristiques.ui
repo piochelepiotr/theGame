@@ -364,9 +364,9 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="widgetSort">
+     <widget class="QWidget" name="widgetSpell">
       <attribute name="title">
-       <string>Sorts</string>
+       <string>Spells</string>
       </attribute>
      </widget>
     </widget>

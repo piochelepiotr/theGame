@@ -103,9 +103,9 @@ void AfficheJoueur::nouveauchemin(QQueue<Dir>chem, Actions_personnage::DerniereA
         m_perso->court(chem, action);
 }
 
-void AfficheJoueur::recolte(QString const& verbe,int nombre_coups, Dir orientation, Actions_personnage::DerniereAction derniere_action)
+void AfficheJoueur::recolte(QString const& verbe,int quantity_coups, Dir orientation, Actions_personnage::DerniereAction derniere_action)
 {
-    m_perso->recolte(verbe, nombre_coups, derniere_action, orientation);
+    m_perso->recolte(verbe, quantity_coups, derniere_action, orientation);
 }
 
 void AfficheJoueur::resize(int lcase, int hcase)

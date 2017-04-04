@@ -146,7 +146,7 @@ QStringList Scenery::objets() const
         if(it.value()->categorie() != "pnj" && !it.value()->nom().isEmpty())
             liste.push_back(it.value()->nom());
     }
-    qSort(liste.begin(), liste.end());
+    qSpell(liste.begin(), liste.end());
     return liste;
 }
 

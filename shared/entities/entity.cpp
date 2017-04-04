@@ -17,10 +17,10 @@ Entity::Entity(const QString &nom, QString const& classe, Data *donnees_editeur)
     m_posmapx = 0;
     m_posmapy = 1;
     m_niveau = 1;
-    QMap<QString,SpellModel*> sorts = m_donnees_editeur->ressources->getCreature(classe)->getSpells();
-    for(QMap<QString,SpellModel*>::const_iterator it = sorts.begin(); it != sorts.end() ; it++)
+    QMap<QString,SpellModel*> spells = m_donnees_editeur->resources->getCreature(classe)->getSpells();
+    for(QMap<QString,SpellModel*>::const_iterator it = spells.begin(); it != spells.end() ; it++)
     {
-        m_sorts[it.value()->nom()] = it.value()->sortNiveau(1);
+        m_spells[it.value()->nom()] = it.value()->spellNiveau(1);
     }
 }
 
@@ -93,21 +93,21 @@ void Entity::perdVie(int degats)
         m_vie = 0;
 }
 
-bool Entity::peutUtiliserSort(QString const& nom)
+bool Entity::peutUtiliserSpell(QString const& nom)
 {
-    return m_pc_fight >= getSort(nom)->points_fight();
+    return m_pc_fight >= getSpell(nom)->points_fight();
 }
 
-Spell *Entity::getSort(QString const& nom)
+Spell *Entity::getSpell(QString const& nom)
 {
-    if(m_sorts.contains(nom))
+    if(m_spells.contains(nom))
     {
-        return m_sorts[nom];
+        return m_spells[nom];
     }
     else
     {
         qDebug("SORT DEMANDE N'EXISTE PAS");
-        return m_donnees_editeur->ressources->getSort("Coup de poing")->sortNiveau(1);
+        return m_donnees_editeur->resources->getSpell("Coup de poing")->spellNiveau(1);
     }
 }
 

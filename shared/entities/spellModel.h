@@ -10,7 +10,7 @@ class SpellModel
 {
 public:
     SpellModel(QString const& donnees);
-    Spell *sortNiveau(int niveau) const { return m_niveaux[niveau]; }
+    Spell *spellNiveau(int niveau) const { return m_niveaux[niveau]; }
     QString nom() const { return m_nom; }
     static SpellModel *nouveau(QString const& nom);
     ~SpellModel();

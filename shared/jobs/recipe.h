@@ -7,10 +7,10 @@ class Resources;
 class Recipe
 {
 public:
-    Recipe(Resource *objet_cree, QStringList & ingredients, Resources *ressources);
+    Recipe(Resource *objet_cree, QStringList & ingredients, Resources *resources);
     Resource *objet_cree() const { return m_objet_cree; }
     QVector<Resss> ingredients() const { return m_ingredients; }
-    int nombre_cases() const { return m_ingredients.size(); }
+    int quantity_cases() const { return m_ingredients.size(); }
 
 private:
     Resource *m_objet_cree;

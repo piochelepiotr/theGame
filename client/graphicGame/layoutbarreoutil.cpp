@@ -13,12 +13,12 @@ LayoutBarreOutil::LayoutBarreOutil(FenPrin *parent,Character *perso) :
     m_bout_cara = new QPushButton;
     m_bout_passer_tour = new QPushButton("Passer");
     m_bar_vie = new QProgressBar;
-    m_lay_sorts = new QHBoxLayout;
+    m_lay_spells = new QHBoxLayout;
     m_bout_cac = new ImageButtonString("cac",QString(DOSSIER_IMAGES_SORTS)+QString("cac.png"));
-    m_bout_cac->setToolTip(Spell::decrit(perso->getSort("cac")));
+    m_bout_cac->setToolTip(Spell::decrit(perso->getSpell("cac")));
     m_labelPC = new QLabel(QString::number(perso->getTotalPC()));
 
-    m_lay_sorts->addWidget(m_bout_cac);
+    m_lay_spells->addWidget(m_bout_cac);
     m_bout_cara->setIcon(QIcon("../data/interface/bouton.png"));
     m_bout_cara->setIconSize(QSize(50,50));
     m_lay_chat->addWidget(m_chat);
@@ -28,25 +28,25 @@ LayoutBarreOutil::LayoutBarreOutil(FenPrin *parent,Character *perso) :
     addWidget(m_bar_vie);
     addWidget(m_labelPC);
     addWidget(m_bout_passer_tour);
-    addLayout(m_lay_sorts);
+    addLayout(m_lay_spells);
 
     m_bar_vie->setMaximum(m_parent->getJeu()->getPerso()->getTotalVie());
     m_bar_vie->setValue(m_parent->getJeu()->getPerso()->getVie());
     m_bar_vie->setFormat("%v/%m");
 
     connect(m_bout_passer_tour, SIGNAL(clicked()), m_parent, SLOT(je_passe_tour()));
-    connect(m_bout_cac, SIGNAL(clique(QString)), m_parent, SLOT(utiliseSort(QString)));
+    connect(m_bout_cac, SIGNAL(clique(QString)), m_parent, SLOT(utiliseSpell(QString)));
     connect(m_bout_cara, SIGNAL(pressed()), m_parent, SLOT(caracteristiques()));
     connect(m_bar_chat, SIGNAL(returnPressed()), m_parent, SLOT(envoiAChat()));
 
-    QMap<QString,Spell*>sorts = perso->sorts();
+    QMap<QString,Spell*>spells = perso->spells();
     ImageButtonString *bout = 0;
-    for(QMap<QString,Spell*>::iterator it = sorts.begin(); it != sorts.end(); it++)
+    for(QMap<QString,Spell*>::iterator it = spells.begin(); it != spells.end(); it++)
     {
         bout = new ImageButtonString(it.key(),QString(DOSSIER_IMAGES_SORTS)+it.key()+QString(".png"));
         bout->setToolTip(Spell::decrit(it.value()));
-        connect(bout,SIGNAL(clique(QString)),m_parent,SLOT(utiliseSort(QString)));
-        m_lay_sorts->addWidget(bout);
+        connect(bout,SIGNAL(clique(QString)),m_parent,SLOT(utiliseSpell(QString)));
+        m_lay_spells->addWidget(bout);
     }
 }
 

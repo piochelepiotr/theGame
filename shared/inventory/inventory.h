@@ -10,7 +10,7 @@ class Inventory : public QTabWidget
 {
     Q_OBJECT
 public:
-    Inventory(Character *perso, Resources *ressources);
+    Inventory(Character *perso, Resources *resources);
     void enleveRess(int num, int nbr);
     void enleveEquip(int num, int nbr);
     void enleveArme(int num, int nbr);
@@ -23,7 +23,7 @@ signals:
     void s_ressclique(Resource *ress);
     void s_equipclique(Outfit *equip);
     void s_armeclique(Weapon *arme);
-    void s_ressource_double_clique(int num);
+    void s_resource_double_clique(int num);
     void s_equipdblclique(int num);
     void s_armedblclique(int num);
     
@@ -31,7 +31,7 @@ public slots:
     void ressclique(int num);
     void equipclique(int num);
     void armeclique(int num);
-    void ressource_double_clique(int num);
+    void resource_double_clique(int num);
     void equipdblclique(int num);
     void armedblclique(int num);
 
@@ -41,7 +41,7 @@ protected :
     QWidget *m_pageress;
     QWidget *m_pageequip;
     QWidget *m_pagearme;
-    ResourceItems *m_items_ressources;
+    ResourceItems *m_items_resources;
     ResourceItems *m_items_equipements;
     ResourceItems *m_items_armes;
     
@@ -51,22 +51,22 @@ class Inventaire_complet : public Inventory
 {
     Q_OBJECT
 public:
-    Inventaire_complet(Character *perso, Resources *ressources);
-    void ajoute_ressource(Resss ressources);
+    Inventaire_complet(Character *perso, Resources *resources);
+    void ajoute_resource(Resss resources);
     void ajoute_equipement(Eqips equipements);
     void ajoute_arme(Armes armes);
-    void enlever_ressource(int num, int nbr);
+    void enlever_resource(int num, int nbr);
     void enlever_equipement(int num, int nbr);
     void enlever_arme(int num, int nbr);
-    Resource *ressource_num(int num) const { return m_ressources[num].ress; }
+    Resource *resource_num(int num) const { return m_resources[num].ress; }
     Outfit *equipement_num(int num) const { return m_equipements[num].equipement; }
     Weapon *arme_num(int num) const { return m_armes[num].arme; }
-    int indexRessource(Resource *ressource);
+    int indexRessource(Resource *resource);
     int indexEquipement(Outfit *equipement);
     int indexArme(Weapon *arme);
 
 private:
-    QVector<Resss>m_ressources;
+    QVector<Resss>m_resources;
     QVector<Eqips>m_equipements;
     QVector<Armes>m_armes;
 };

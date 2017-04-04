@@ -20,24 +20,24 @@ struct Eqips
 class Outfit
 {
 public:
-    Outfit(QString const& donnees,Resources *ressources);
-    Outfit(Resource *ressource, int bonus_force, int bonus_vie, int bonus_points_fight);
+    Outfit(QString const& donnees,Resources *resources);
+    Outfit(Resource *resource, int bonus_force, int bonus_vie, int bonus_points_fight);
     Outfit(Outfit const& autre);
-    Resource *getRessource() const { return m_ressource; }
+    Resource *getRessource() const { return m_resource; }
     int getBonusForce() const { return m_bonus_force; }
     int getBonusVie() const { return m_bonus_vie; }
     int getBonusPointsFight() const { return m_bonus_points_fight; }
-    QString nom() const { return m_ressource->nom(); }
+    QString nom() const { return m_resource->nom(); }
 
     static QString descr_effet(Outfit *equipement);
     static QString enString(Eqips const& equipements);
     static QString enString(Outfit *equipement);
-    static Eqips chargeEquipements(QString const& donnees,Resource *ressource);
-    static Outfit *chargeEquipement(const QString &donnees,Resource *ressource);
+    static Eqips chargeEquipements(QString const& donnees,Resource *resource);
+    static Outfit *chargeEquipement(const QString &donnees,Resource *resource);
     QString longue_description();
 
 protected:
-    Resource *m_ressource;
+    Resource *m_resource;
     int m_bonus_force;
     int m_bonus_vie;
     int m_bonus_points_fight;

@@ -7,11 +7,11 @@ EditerCreature::EditerCreature(QWidget *parent, Resources *lesRessources) :
 {
     m_lesRessources = lesRessources;
     m_classeActuelle = -1;
-    m_nbrSorts = 0;
+    m_nbrSpells = 0;
     ui->setupUi(this);
     connect(ui->ajoute_classe, SIGNAL(clicked()), this, SLOT(ajouterClasse()));
     connect(ui->supprime_classe, SIGNAL(clicked()), this, SLOT(supprimerClasseActuelle()));
-    connect(ui->ajoute_sort, SIGNAL(clicked()), this, SLOT(ajouterSort()));
+    connect(ui->ajoute_spell, SIGNAL(clicked()), this, SLOT(ajouterSpell()));
     connect(ui->select_classe, SIGNAL(currentIndexChanged(int)), this, SLOT(changeClasse(int)));
 }
 
@@ -55,37 +55,37 @@ void EditerCreature::supprimerClasseActuelle()
     }
 }
 
-void EditerCreature::ajouterSort()
+void EditerCreature::ajouterSpell()
 {
     if(m_classeActuelle != -1)
     {
-        ui->tab_sorts->insertRow(m_nbrSorts);
-        NumberButton *bout = new NumberButton("supprimer", m_nbrSorts);
-        QComboBox *sorts = new QComboBox();
-        sorts->addItems(m_lesRessources->sorts());
-        ui->tab_sorts->setCellWidget(m_nbrSorts, 1, bout);
-        ui->tab_sorts->setCellWidget(m_nbrSorts, 0, sorts);
-        m_nbrSorts++;
-        connect(bout, SIGNAL(clique(int)), this, SLOT(supprimerSort(int)));
+        ui->tab_spells->insertRow(m_nbrSpells);
+        NumberButton *bout = new NumberButton("supprimer", m_nbrSpells);
+        QComboBox *spells = new QComboBox();
+        spells->addItems(m_lesRessources->spells());
+        ui->tab_spells->setCellWidget(m_nbrSpells, 1, bout);
+        ui->tab_spells->setCellWidget(m_nbrSpells, 0, spells);
+        m_nbrSpells++;
+        connect(bout, SIGNAL(clique(int)), this, SLOT(supprimerSpell(int)));
     }
 }
 
-void EditerCreature::supprimerSort(int num)
+void EditerCreature::supprimerSpell(int num)
 {
-    ui->tab_sorts->removeRow(num);
-    m_nbrSorts--;
+    ui->tab_spells->removeRow(num);
+    m_nbrSpells--;
     NumberButton *bout = 0;
-    for(int i = num; i < m_nbrSorts; i++)
+    for(int i = num; i < m_nbrSpells; i++)
     {
-        bout = (NumberButton*) ui->tab_sorts->cellWidget(i,1);
+        bout = (NumberButton*) ui->tab_spells->cellWidget(i,1);
         bout->moinsnum();
     }
 }
 
 void EditerCreature::clearClasse()
 {
-    ui->tab_sorts->setRowCount(0);
-    m_nbrSorts = 0;
+    ui->tab_spells->setRowCount(0);
+    m_nbrSpells = 0;
     ui->propx->setValue(0);
     ui->propy->setValue(0);
 }
@@ -95,10 +95,10 @@ QString EditerCreature::classe_to_texte()
     QString texte = ui->select_classe->itemText(m_classeActuelle);
     texte += '/';
     texte += QString::number(ui->propx->value()) + '/' + QString::number(ui->propy->value());
-    for(int i = 0; i < m_nbrSorts; i++)
+    for(int i = 0; i < m_nbrSpells; i++)
     {
-        QComboBox *sort = (QComboBox*) ui->tab_sorts->cellWidget(i,0);
-        texte += '/' + sort->currentText();
+        QComboBox *spell = (QComboBox*) ui->tab_spells->cellWidget(i,0);
+        texte += '/' + spell->currentText();
     }
     return texte;
 }
@@ -114,9 +114,9 @@ void EditerCreature::texte_to_classe(QString const& texte)
     liste.removeAll("");
     while(liste.size() > 0)
     {
-        ajouterSort();
-        QComboBox *sort = (QComboBox*) ui->tab_sorts->cellWidget(m_nbrSorts-1,0);
-        sort->setCurrentIndex(sort->findText(liste[0]));
+        ajouterSpell();
+        QComboBox *spell = (QComboBox*) ui->tab_spells->cellWidget(m_nbrSpells-1,0);
+        spell->setCurrentIndex(spell->findText(liste[0]));
         liste.pop_front();
     }
 }

@@ -55,18 +55,18 @@ int Job::nbrCoups() const
     return COUPS_DEPART-(m_lvl/METIER_LVLS_1COUPSENMOINS);
 }
 
-int Job::minRessources(int lvl_ressource) const
+int Job::minRessources(int lvl_resource) const
 {
     int min = 1;
-    if(m_lvl == METIER_NBR_LVLS && m_lvl != lvl_ressource)
+    if(m_lvl == METIER_NBR_LVLS && m_lvl != lvl_resource)
         min += METIER_BONUS_LVL_MAX;
     return min;
 }
 
-int Job::maxRessources(int lvl_ressource) const
+int Job::maxRessources(int lvl_resource) const
 {
-    int max = (m_lvl-lvl_ressource)/METIER_LVLS_1COUPSENMOINS+2;
-    if(m_lvl == METIER_NBR_LVLS && m_lvl != lvl_ressource)
+    int max = (m_lvl-lvl_resource)/METIER_LVLS_1COUPSENMOINS+2;
+    if(m_lvl == METIER_NBR_LVLS && m_lvl != lvl_resource)
         max += METIER_BONUS_LVL_MAX;
     return max;
 }
@@ -81,7 +81,7 @@ int Job::maxRessources(qint16 objet) const
     return maxRessources(m_metier_base->objet_coupable(objet)->lvl());
 }
 
-int Job::nombre_ressources(qint16 objet) const
+int Job::quantity_resources(qint16 objet) const
 {
     int min = minRessources(objet), max = maxRessources(objet);
     return min + qrand()%(max-min+1);

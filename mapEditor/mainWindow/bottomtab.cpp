@@ -1,7 +1,7 @@
 #include "bottomtab.h"
 #include "mainwindow.h"
 
-BottomTab::BottomTab(MainWindow *mainWindow, Jeu2d *gamePanel, Resources *ressources) :
+BottomTab::BottomTab(MainWindow *mainWindow, Jeu2d *gamePanel, Resources *resources) :
     QTabWidget(mainWindow)
 {
     m_widdivers = new VariousTab(mainWindow);
@@ -14,7 +14,7 @@ BottomTab::BottomTab(MainWindow *mainWindow, Jeu2d *gamePanel, Resources *ressou
     addTab(m_widCasesMarchables, trUtf8("Cases marchables"));
     m_widCasesFight = new FightFramesTab(mainWindow,gamePanel);
     addTab(m_widCasesFight, "Cases fight");
-    m_widajouteMonde = new AddToWorldTab(mainWindow,gamePanel,ressources);
+    m_widajouteMonde = new AddToWorldTab(mainWindow,gamePanel,resources);
     addTab(m_widajouteMonde, trUtf8("ajoute au monde"));
 }
 

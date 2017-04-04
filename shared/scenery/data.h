@@ -16,7 +16,7 @@ public:
     Scenery *decor;
     NPCs *touslespnj;
     ImagesEntities *images_classes;
-    Resources *ressources;
+    Resources *resources;
     Jobs *metiers;
 };
 

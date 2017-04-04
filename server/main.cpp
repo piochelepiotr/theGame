@@ -6,7 +6,7 @@ int main(int argc, char* argv[])
     QApplication app(argc, argv);
 
 
-    QTime time = QTime::currentTime();//nombres aléatoires
+    QTime time = QTime::currentTime();//quantitys aléatoires
     qsrand((uint)time.msec());
 
     Ecran ecran;

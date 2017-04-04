@@ -16,28 +16,28 @@ public:
     enum Type{AucunType, UneRessource,UnEquipement, UneArme};
 
     Ressource_type();
-    Ressource_type(Weapon *arme, int nombre = 1);
-    Ressource_type(Outfit *equipement, int nombre = 1);
-    Ressource_type(Resource *ressource, int nombre = 1);
+    Ressource_type(Weapon *arme, int quantity = 1);
+    Ressource_type(Outfit *equipement, int quantity = 1);
+    Ressource_type(Resource *resource, int quantity = 1);
     void setVide();
-    void setArme(Weapon *arme, int nombre = 1);
-    void setEquipement(Outfit *equipement, int nombre = 1);
-    void setRessource(Resource *ressource, int nombre = 1);
+    void setArme(Weapon *arme, int quantity = 1);
+    void setEquipement(Outfit *equipement, int quantity = 1);
+    void setRessource(Resource *resource, int quantity = 1);
     Type type() const { return m_type; }
     Weapon *arme() const { return m_arme; }
     Outfit *equipement() const { return m_equipement; }
-    Resource *ressource() const { return m_ressource; }
-    void ajoute(int nombre = 1) { m_nombre += nombre; }
-    bool enleve(int nombre = 1);
-    int nombre() const { return m_nombre; }
+    Resource *resource() const { return m_resource; }
+    void ajoute(int quantity = 1) { m_quantity += quantity; }
+    bool enleve(int quantity = 1);
+    int quantity() const { return m_quantity; }
 
 private:
 
     Type m_type;
     Weapon *m_arme;
     Outfit *m_equipement;
-    Resource *m_ressource;
-    int m_nombre;
+    Resource *m_resource;
+    int m_quantity;
 };
 
 
@@ -58,7 +58,7 @@ public:
 public slots:
     void double_clique_armes(int num);
     void double_clique_equipements(int num);
-    void double_clique_ressources(int num);
+    void double_clique_resources(int num);
 
     void double_clicue_ingredients(int num);
     void lance1fois();

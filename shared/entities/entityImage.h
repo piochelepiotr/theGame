@@ -11,7 +11,7 @@ class ImagesAction
 {
 public:
     ImagesAction(QString const& nom_classe, const QString &nom_action, const QSize &size);
-    int nombre_images(Dir orientation) const { return m_images[(int)orientation].size(); }
+    int quantity_images(Dir orientation) const { return m_images[(int)orientation].size(); }
     bool redimentionne(QSize const& nouvelle);
     QPixmap getImage(int num, Dir orientation) const;
     bool enMouvement() const { return m_enMouvement; }

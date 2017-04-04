@@ -949,9 +949,9 @@ MonsterModel *Map::nouveauMonstre()
     {
         total += it.value();
         if(total > rand)
-            return m_donnees_editeur->ressources->getMonstre(it.key());
+            return m_donnees_editeur->resources->getMonstre(it.key());
     }
-    return m_donnees_editeur->ressources->getMonstre(m_monstres.lastKey());
+    return m_donnees_editeur->resources->getMonstre(m_monstres.lastKey());
 }
 
 double calculAngle(int x,int y)
@@ -998,7 +998,7 @@ void calculContoursCase(int x,int y,int mlcase,int mhcase,double &max,double &mi
 void droiteExtremes(QList<double>droites,double &max,double &min)
 {
     double pi = 3.1415926;
-    qSort(droites.begin(),droites.end());
+    qSpell(droites.begin(),droites.end());
     int l = droites.length();
     for(int i = l-1; i > 0;i--)
     {

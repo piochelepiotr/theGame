@@ -17,20 +17,20 @@
    <item>
     <layout class="QHBoxLayout" name="layout_prin">
      <item>
-      <layout class="QVBoxLayout" name="layout_ressources">
+      <layout class="QVBoxLayout" name="layout_resources">
        <item>
         <layout class="QHBoxLayout" name="layout_addRessource">
          <item>
-          <widget class="QPushButton" name="ajoute_ressource">
+          <widget class="QPushButton" name="ajoute_resource">
            <property name="text">
-            <string>Ajouter une ressource</string>
+            <string>Ajouter une resource</string>
            </property>
           </widget>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="QTableWidget" name="tab_ressources">
+        <widget class="QTableWidget" name="tab_resources">
          <column>
           <property name="text">
            <string>Ressource</string>

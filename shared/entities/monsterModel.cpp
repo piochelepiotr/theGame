@@ -2,7 +2,7 @@
 #include "entities/monster.h"
 #include "scenery/data.h"
 
-MonsterModel::MonsterModel(const QString &text, const QMap<QString, SpellModel *> &sorts)
+MonsterModel::MonsterModel(const QString &text, const QMap<QString, SpellModel *> &spells)
 {
     QStringList liste = text.split('/');
     liste.removeAll("");
@@ -14,7 +14,7 @@ MonsterModel::MonsterModel(const QString &text, const QMap<QString, SpellModel *
     liste.pop_front();
     while(liste[0] != "MONSTRE")
     {
-        m_spells[liste[0]] = sorts[liste[0]];
+        m_spells[liste[0]] = spells[liste[0]];
         liste.pop_front();
     }
     liste.pop_front();
@@ -28,7 +28,7 @@ MonsterModel::MonsterModel(const QString &text, const QMap<QString, SpellModel *
     liste.pop_front();
     while(liste.length()>1)
     {
-        m_ressourcesDropables[liste[0]] = liste[1].toDouble();
+        m_resourcesDropables[liste[0]] = liste[1].toDouble();
         liste.pop_front();
         liste.pop_front();
     }

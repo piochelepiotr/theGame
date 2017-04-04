@@ -34,7 +34,7 @@ public:
     void setDescription(QString const& description) { m_description = description; }
     void setImage(QString const& chemin);
     static QString enString(Resss const& resss);
-    static Resss chargeRess(int nbr, Resource *ressource);
+    static Resss chargeRess(int nbr, Resource *resource);
     static Resource *nouvelle(const QString &nom, QString const& chemin);
     QString longue_description();
 

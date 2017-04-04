@@ -8,7 +8,7 @@
 class Jobs
 {
 public:
-    Jobs(Resources *ressources, Scenery *decors);
+    Jobs(Resources *resources, Scenery *decors);
     JobModel *metier(QString const& nom) const { return m_metiers[nom]; }
     ~Jobs();
     QStringList metiers() const { return m_metiers.keys(); }

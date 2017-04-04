@@ -146,8 +146,8 @@ void FenPrin::jeu()
     connect(m_reseau, SIGNAL(nouveauJoueur(EntityInfo)), m_jeu, SLOT(addEntity(EntityInfo)));
     connect(m_reseau, SIGNAL(decJoueur(QString)), m_jeu, SLOT(removeEntity(QString)));
     connect(m_reseau, SIGNAL(coupe(QString,QString,int,int)), m_jeu, SLOT(recolte(QString,QString,int,int)));
-    connect(m_reseau, SIGNAL(ressource_coupe(QPoint)), m_jeu, SLOT(ressourceRecoltee(QPoint)));
-    connect(m_reseau, SIGNAL(ressource_repousse(int,int)), m_jeu, SLOT(ressource_repousse(int,int)));
+    connect(m_reseau, SIGNAL(resource_coupe(QPoint)), m_jeu, SLOT(resourceRecoltee(QPoint)));
+    connect(m_reseau, SIGNAL(resource_repousse(int,int)), m_jeu, SLOT(resource_repousse(int,int)));
     connect(m_reseau, SIGNAL(infos_map(QString)), m_jeu, SLOT(infos_map(QString)));
     connect(m_jeu, SIGNAL(pnjclique(qint16, QPoint)), this, SLOT(dialoguePnj(qint16,QPoint)));
     connect(m_jeu, SIGNAL(faitRecette(QString)), this, SLOT(creerRecette(QString)));
@@ -407,13 +407,13 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
 
 void FenPrin::classeSuivante()
 {
-    m_classeActuelle = m_donneesediteur->ressources->classeSuivante(m_classeActuelle);
+    m_classeActuelle = m_donneesediteur->resources->classeSuivante(m_classeActuelle);
     m_creerui->image_classe->setPixmap(QPixmap("../data/imagesdespersos/"+m_classeActuelle+'/'+m_classeActuelle+".png").scaled(QSize(this->size().width()*PLPERSOCREER, this->size().height()*PHPERSOCREER)));
 }
 
 void FenPrin::classePrecedente()
 {
-    m_classeActuelle = m_donneesediteur->ressources->classeSuivante(m_classeActuelle);
+    m_classeActuelle = m_donneesediteur->resources->classeSuivante(m_classeActuelle);
     m_creerui->image_classe->setPixmap(QPixmap("../data/imagesdespersos/"+m_classeActuelle+'/'+m_classeActuelle+".png").scaled(QSize(this->size().width()*PLPERSOCREER, this->size().height()*PHPERSOCREER)));
 }
 
@@ -686,30 +686,30 @@ void FenPrin::ton_tour()
     m_layoutBarreOutil->setMonTour(true);
 }
 
-void FenPrin::utiliseSort(QString nom)// à passer dans layoutBarreOutil
+void FenPrin::utiliseSpell(QString nom)// à passer dans layoutBarreOutil
 {
     if(m_jeu->phase() == EnFight && m_jeu->monTour())
     {
-        if(m_jeu->getPerso()->peutUtiliserSort(nom))
+        if(m_jeu->getPerso()->peutUtiliserSpell(nom))
         {
-            m_jeu->veut_utiliserSort(m_jeu->getPerso()->getSort(nom));
+            m_jeu->veut_utiliserSpell(m_jeu->getPerso()->getSpell(nom));
         }
     }
 }
 
 void FenPrin::gagneEquipement(QString donnees)
 {
-    m_compte->getPerso(m_persoActuel)->ajouterEquipement(new Outfit(donnees,m_donneesediteur->ressources));
+    m_compte->getPerso(m_persoActuel)->ajouterEquipement(new Outfit(donnees,m_donneesediteur->resources));
 }
 
 void FenPrin::gagneArme(QString donnees)
 {
-    m_compte->getPerso(m_persoActuel)->ajouterArme(new Weapon(donnees,m_donneesediteur->ressources));
+    m_compte->getPerso(m_persoActuel)->ajouterArme(new Weapon(donnees,m_donneesediteur->resources));
 }
 
 void FenPrin::gagneRessource(QString donnees)
 {
-    m_compte->getPerso(m_persoActuel)->ajouterRessource(m_donneesediteur->ressources->getRessource(donnees));
+    m_compte->getPerso(m_persoActuel)->ajouterRessource(m_donneesediteur->resources->getRessource(donnees));
 }
 
 void FenPrin::meurt(QString const& nom)

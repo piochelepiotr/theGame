@@ -22,12 +22,12 @@ public:
     int getNbrCases();
     JobModel *getMetierBase() const { return m_metier_base; }
     int nbrCoups() const;
-    int minRessources(int lvl_ressource) const;
-    int maxRessources(int lvl_ressource) const;
+    int minRessources(int lvl_resource) const;
+    int maxRessources(int lvl_resource) const;
 
     int minRessources(qint16 objet) const;
     int maxRessources(qint16 objet) const;
-    int nombre_ressources(qint16 objet) const;
+    int quantity_resources(qint16 objet) const;
 private:
     JobModel *m_metier_base;
     int m_xp;

@@ -1,18 +1,18 @@
 #include "inventory/outfit.h"
 #include "inventory/resources.h"
 
-Outfit::Outfit(QString const& donnees, Resources *ressources)
+Outfit::Outfit(QString const& donnees, Resources *resources)
 {
     QStringList liste = donnees.split('/');
-    m_ressource = ressources->getRessource(liste[0]);
+    m_resource = resources->getRessource(liste[0]);
     m_bonus_force = liste[1].toInt();
     m_bonus_vie = liste[2].toInt();
     m_bonus_points_fight = liste[3].toInt();
 }
 
-Outfit::Outfit(Resource *ressource, int bonus_force, int bonus_vie, int bonus_points_fight)
+Outfit::Outfit(Resource *resource, int bonus_force, int bonus_vie, int bonus_points_fight)
 {
-    m_ressource = ressource;
+    m_resource = resource;
     m_bonus_force = bonus_force;
     m_bonus_vie = bonus_vie;
     m_bonus_points_fight = bonus_points_fight;
@@ -20,7 +20,7 @@ Outfit::Outfit(Resource *ressource, int bonus_force, int bonus_vie, int bonus_po
 
 Outfit::Outfit(Outfit const& autre)
 {
-    m_ressource = autre.m_ressource;
+    m_resource = autre.m_resource;
     m_bonus_force = autre.m_bonus_force;
     m_bonus_vie = autre.m_bonus_vie;
     m_bonus_points_fight = autre.m_bonus_points_fight;
@@ -67,20 +67,20 @@ QString Outfit::enString(Outfit *equipement)
 }
 
 
-Eqips Outfit::chargeEquipements(QString const& donnees,Resource *ressource)
+Eqips Outfit::chargeEquipements(QString const& donnees,Resource *resource)
 {
     Eqips objs;
     objs.nbr = donnees.section('/', 0,0).toInt();
-    objs.equipement = chargeEquipement(donnees.section('/', 1), ressource);
+    objs.equipement = chargeEquipement(donnees.section('/', 1), resource);
     return objs;
 }
 
-Outfit *Outfit::chargeEquipement(const QString &donnees,Resource *ressource)
+Outfit *Outfit::chargeEquipement(const QString &donnees,Resource *resource)
 {
     QStringList liste = donnees.split('/');
     if(liste[0].toInt() == -1)
         return 0;
-    return new Outfit(ressource, liste[1].toInt(), liste[2].toInt(), liste[3].toInt());
+    return new Outfit(resource, liste[1].toInt(), liste[2].toInt(), liste[3].toInt());
 }
 
 QString Outfit::longue_description()

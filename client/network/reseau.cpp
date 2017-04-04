@@ -119,11 +119,11 @@ void Reseau::donneesRecues()
         }
         else if(inf == "cop")
         {
-            emit ressource_coupe(QPoint(message.section('*', 0, 0).toInt(), message.section('*', 1, 1).toInt()));
+            emit resource_coupe(QPoint(message.section('*', 0, 0).toInt(), message.section('*', 1, 1).toInt()));
         }
         else if(inf == "rep")
         {
-            emit ressource_repousse(message.section('*', 0, 0).toInt(), message.section('*', 1, 1).toInt());
+            emit resource_repousse(message.section('*', 0, 0).toInt(), message.section('*', 1, 1).toInt());
         }
         else if(inf == "ttt")
         {

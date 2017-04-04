@@ -83,8 +83,8 @@ void EditerPnjs::ajouterNouveau(qint16 num)
         connect(boutEditerObjet, SIGNAL(clique(qint16)), this, SLOT(modifierpnj_objet(qint16)));
         connect(boutEditerDialogues, SIGNAL(clique(qint16)), this, SLOT(modifierpnj_dialogues(qint16)));
 
-        bouts_sort_objet.push_back(boutEditerObjet);
-        bouts_sort_dialogues.push_back(boutEditerDialogues);
+        bouts_spell_objet.push_back(boutEditerObjet);
+        bouts_spell_dialogues.push_back(boutEditerDialogues);
 
         ui->tableau->setItem(ligne, 0, new QTableWidgetItem(objet->nom()));
         ui->tableau->item(ligne, 0)->setFlags(Qt::NoItemFlags);
@@ -101,7 +101,7 @@ void EditerPnjs::modifierpnj_objet(qint16 num)
     EditerUnObjet boite(this, &ok, objet, false,m_decors->lcase(), m_decors->hcase(), 0, &supprimer);
     if(ok)
     {
-        sortUnObjet(objet);
+        spellUnObjet(objet);
         m_noms[num]->setText(objet->nom());
     }
     else if(supprimer)

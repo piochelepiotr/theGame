@@ -40,17 +40,17 @@
      <item>
       <layout class="QVBoxLayout" name="lay_gauche">
        <item>
-        <widget class="QPushButton" name="ajoute_sort">
+        <widget class="QPushButton" name="ajoute_spell">
          <property name="text">
-          <string>Ajoute un sort</string>
+          <string>Ajoute un spell</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QTableWidget" name="tab_sorts">
+        <widget class="QTableWidget" name="tab_spells">
          <column>
           <property name="text">
-           <string>Sorts</string>
+           <string>Spells</string>
           </property>
          </column>
          <column>

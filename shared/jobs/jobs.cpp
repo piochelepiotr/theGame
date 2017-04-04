@@ -1,6 +1,6 @@
 #include "jobs/jobs.h"
 
-Jobs::Jobs(Resources *ressources, Scenery *decors)
+Jobs::Jobs(Resources *resources, Scenery *decors)
 {
     QFile fichier(QString(DONNEES)+QString("metiers.txt"));
     if(fichier.open(QIODevice::ReadOnly))
@@ -11,7 +11,7 @@ Jobs::Jobs(Resources *ressources, Scenery *decors)
         {
             ligne = stream.readLine();
             if(!ligne.isEmpty())
-                m_metiers[ligne.section('/',0,0)] = new JobModel(ligne, decors,ressources);
+                m_metiers[ligne.section('/',0,0)] = new JobModel(ligne, decors,resources);
         }
         fichier.close();
         QMap<qint16,InteractiveObject*>objets_coupables;

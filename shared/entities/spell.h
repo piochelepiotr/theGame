@@ -15,7 +15,7 @@ public:
     int points_fight() const { return m_points_fight; }
     QString nom() const { return m_nom; }
     int niveau() const { return m_niveau; }
-    static QString decrit(Spell *sort);
+    static QString decrit(Spell *spell);
     int degats();
     QString enString() const;
     QString longue_description();

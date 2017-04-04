@@ -39,7 +39,7 @@ bool ImagesAction::redimentionne(QSize const& nouvelle)
 
 QPixmap ImagesAction::getImage(int num, Dir orientation) const
 {
-    if(num < nombre_images(orientation))
+    if(num < quantity_images(orientation))
         return m_images[(int)orientation][num];
     return m_images[0][0];
 }

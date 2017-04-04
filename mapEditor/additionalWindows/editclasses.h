@@ -26,16 +26,16 @@ public slots:
 
     void ajouterClasse();
     void supprimerClasseActuelle();
-    void ajouterSort();
+    void ajouterSpell();
     void accepter();
-    void supprimerSort(int num);
+    void supprimerSpell(int num);
     void changeClasse(int nouvelle);
     
 private:
     Ui::EditerClasses *ui;
     int m_classeActuelle;
-    int m_nbrSorts;
-    QVector<NumberButton*>m_boutonsSorts;
+    int m_nbrSpells;
+    QVector<NumberButton*>m_boutonsSpells;
 };
 
 #endif // EDITERCLASSES_H

@@ -16,10 +16,10 @@ SpellDescription::SpellDescription(SpellModel *sort) :
     ui->textEdit_9->setReadOnly(true);
     ui->textEdit_10->setReadOnly(true);
     if(sort)
-        setSort(sort);
+        setSpell(sort);
 }
 
-void SpellDescription::setSort(SpellModel *sort)
+void SpellDescription::setSpell(SpellModel *sort)
 {
     if(!sort)
     {

@@ -16,10 +16,10 @@ QString Resource::enString(Resss const& resss)
     return QString::number(resss.nbr)+ '/' + resss.ress->nom() + '/';
 }
 
-Resss Resource::chargeRess(int nbr, Resource *ressource)
+Resss Resource::chargeRess(int nbr, Resource *resource)
 {
     Resss resss;
-    resss.ress = ressource;
+    resss.ress = resource;
     resss.nbr = nbr;
     return resss;
 }
@@ -27,7 +27,7 @@ Resss Resource::chargeRess(int nbr, Resource *ressource)
 Resource *Resource::nouvelle(QString const& nom, const QString &chemin)
 {
     QFile::copy(chemin, "../data/Ressources/images/"+nom+".png");
-    return new Resource(nom, 1, "", 1, "ressources");
+    return new Resource(nom, 1, "", 1, "resources");
 }
 
 void Resource::setImage(QString const& chemin)

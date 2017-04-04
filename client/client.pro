@@ -5,7 +5,7 @@ QT += testlib
 SOURCES += \
     main.cpp \
     additionalWindows/caracteristiques.cpp \
-    additionalWindows/descriptionSort.cpp \
+    additionalWindows/descriptionSpell.cpp \
     additionalWindows/dialoguepnj.cpp \
     additionalWindows/echange.cpp \
     additionalWindows/fairerecettes.cpp \

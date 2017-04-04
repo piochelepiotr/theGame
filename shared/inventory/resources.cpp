@@ -4,37 +4,37 @@ Resources::Resources()
 {
     QStringList liste;
     QString ligne;
-    QFile fichier_ressources("../data/Ressources/ressources.txt");
+    QFile fichier_resources("../data/Ressources/resources.txt");
     QFile fichier_equipements("../data/Ressources/equipements.txt");
     QFile fichier_armes("../data/Ressources/armes.txt");
 
-    QFile fichier_sorts(QString(DONNEES)+QString("sorts.txt"));
-    if(fichier_sorts.open(QIODevice::ReadOnly))
+    QFile fichier_spells(QString(DONNEES)+QString("spells.txt"));
+    if(fichier_spells.open(QIODevice::ReadOnly))
     {
-        QTextStream stream_sorts(&fichier_sorts);
-        while(!stream_sorts.atEnd())
+        QTextStream stream_spells(&fichier_spells);
+        while(!stream_spells.atEnd())
         {
-            ligne = stream_sorts.readLine();
+            ligne = stream_spells.readLine();
             if(!ligne.isEmpty())
             {
-                m_sorts[ligne.section('/', 0, 0)] = new SpellModel(ligne);
+                m_spells[ligne.section('/', 0, 0)] = new SpellModel(ligne);
             }
         }
-        fichier_sorts.close();
+        fichier_spells.close();
     }
 
 
-    if(fichier_ressources.open(QIODevice::ReadOnly) && fichier_equipements.open(QIODevice::ReadOnly)&& fichier_armes.open(QIODevice::ReadOnly))
+    if(fichier_resources.open(QIODevice::ReadOnly) && fichier_equipements.open(QIODevice::ReadOnly)&& fichier_armes.open(QIODevice::ReadOnly))
     {
-        QTextStream stream_ressources(&fichier_ressources), stream_equipements(&fichier_equipements), stream_armes(&fichier_armes);
+        QTextStream stream_resources(&fichier_resources), stream_equipements(&fichier_equipements), stream_armes(&fichier_armes);
 
-        while(!stream_ressources.atEnd())
+        while(!stream_resources.atEnd())
         {
-            ligne = stream_ressources.readLine();
+            ligne = stream_resources.readLine();
             if(!ligne.isEmpty())
             {
                 liste = ligne.split('/');
-                m_ressources[liste[0]] = new Resource(liste[0], liste[1].toInt(), liste[2], liste[3].toInt(), liste[4]);
+                m_resources[liste[0]] = new Resource(liste[0], liste[1].toInt(), liste[2], liste[3].toInt(), liste[4]);
             }
         }
 
@@ -44,7 +44,7 @@ Resources::Resources()
             if(!ligne.isEmpty())
             {
                 liste = ligne.split('/');
-                m_equipements[liste[0]] = new OutfitModel(m_ressources[liste[0]], liste[1].toInt(), liste[2].toInt(), liste[3].toInt(), liste[4].toInt(), liste[5].toInt(), liste[6].toInt());
+                m_equipements[liste[0]] = new OutfitModel(m_resources[liste[0]], liste[1].toInt(), liste[2].toInt(), liste[3].toInt(), liste[4].toInt(), liste[5].toInt(), liste[6].toInt());
             }
         }
 
@@ -54,11 +54,11 @@ Resources::Resources()
             if(!ligne.isEmpty())
             {
                 liste = ligne.split('/');
-                m_armes[liste[0]] = new WeaponModel(m_equipements[liste[0]], m_sorts[liste[1]]);
+                m_armes[liste[0]] = new WeaponModel(m_equipements[liste[0]], m_spells[liste[1]]);
             }
         }
 
-        fichier_ressources.close();
+        fichier_resources.close();
         fichier_equipements.close();
         fichier_armes.close();
     }
@@ -72,7 +72,7 @@ Resources::Resources()
             ligne = stream_classes.readLine();
             if(!ligne.isEmpty())
             {
-                m_classes[ligne.section('/', 0, 0)] = new CharacterModel(ligne, m_sorts);
+                m_classes[ligne.section('/', 0, 0)] = new CharacterModel(ligne, m_spells);
             }
         }
         fichier_classes.close();
@@ -90,16 +90,16 @@ Resources::Resources()
             ligne = stream_monstres.readLine();
             if(!ligne.isEmpty())
             {
-                m_monstres[ligne.section('/', 0, 0)] = new MonsterModel(ligne, m_sorts);
+                m_monstres[ligne.section('/', 0, 0)] = new MonsterModel(ligne, m_spells);
             }
         }
         fichier_monstres.close();
     }
 }
 
-void Resources::ajouteRessource(Resource *ressource)
+void Resources::ajouteRessource(Resource *resource)
 {
-    m_ressources[ressource->nom()] = ressource;
+    m_resources[resource->nom()] = resource;
 }
 
 void Resources::ajouteEquipement(OutfitModel *equipement)
@@ -114,17 +114,17 @@ void Resources::ajouteArme(WeaponModel *arme)
     m_armes[arme->getEquipement()->getRessource()->nom()] = arme;
 }
 
-void Resources::ajouteSort(SpellModel *sort)
+void Resources::ajouteSpell(SpellModel *spell)
 {
-    m_sorts[sort->nom()] = sort;
+    m_spells[spell->nom()] = spell;
 }
 
 void Resources::enleveRessource(QString const& nom)
 {
-    if(m_ressources.contains(nom))
+    if(m_resources.contains(nom))
     {
-        delete m_ressources[nom];
-        m_ressources.remove(nom);
+        delete m_resources[nom];
+        m_resources.remove(nom);
     }
 }
 
@@ -146,20 +146,20 @@ void Resources::enleveArme(QString const& nom)
     }
 }
 
-void Resources::enleveSort(QString const& nom)
+void Resources::enleveSpell(QString const& nom)
 {
-    if(m_sorts.contains(nom))
+    if(m_spells.contains(nom))
     {
-        delete m_sorts[nom];
-        m_sorts.remove(nom);
+        delete m_spells[nom];
+        m_spells.remove(nom);
     }
 }
 
 Resource *Resources::getRessource(QString const& nom) const
 {
-    if(nom == "-1" || !m_ressources.contains(nom))
+    if(nom == "-1" || !m_resources.contains(nom))
         return 0;
-    return m_ressources[nom];
+    return m_resources[nom];
 }
 
 OutfitModel *Resources::getEquipement(QString const& nom) const
@@ -176,11 +176,11 @@ WeaponModel *Resources::getArme(QString const& nom) const
     return m_armes[nom];
 }
 
-SpellModel *Resources::getSort(const QString &nom) const
+SpellModel *Resources::getSpell(const QString &nom) const
 {
-    if(nom == "-1" || !m_sorts.contains(nom))
+    if(nom == "-1" || !m_spells.contains(nom))
         return 0;
-    return m_sorts[nom];
+    return m_spells[nom];
 }
 
 CharacterModel *Resources::getClasse(QString const& nom) const
@@ -205,20 +205,20 @@ EntityModel *Resources::getCreature(QString const& name) const
     return creature;
 }
 
-QStringList Resources::sorts() const
+QStringList Resources::spells() const
 {
     QStringList liste;
-    for(QMap<QString, SpellModel*>::const_iterator it = m_sorts.begin(); it != m_sorts.end(); it++)
+    for(QMap<QString, SpellModel*>::const_iterator it = m_spells.begin(); it != m_spells.end(); it++)
     {
         liste.push_back(it.key());
     }
     return liste;
 }
 
-QStringList Resources::ressources() const
+QStringList Resources::resources() const
 {
     QStringList liste;
-    for(QMap<QString, Resource*>::const_iterator it = m_ressources.begin(); it != m_ressources.end(); it++)
+    for(QMap<QString, Resource*>::const_iterator it = m_resources.begin(); it != m_resources.end(); it++)
     {
         liste.push_back(it.key());
     }
@@ -245,7 +245,7 @@ QString Resources::classePrecedente(QString const& actuelle)
 
 Resources::~Resources()
 {
-    for(QMap<QString, Resource*>::iterator it = m_ressources.begin(); it != m_ressources.end(); it++)
+    for(QMap<QString, Resource*>::iterator it = m_resources.begin(); it != m_resources.end(); it++)
     {
         delete it.value();
     }
@@ -257,7 +257,7 @@ Resources::~Resources()
     {
         delete it.value();
     }
-    for(QMap<QString, SpellModel*>::iterator it = m_sorts.begin(); it != m_sorts.end(); it++)
+    for(QMap<QString, SpellModel*>::iterator it = m_spells.begin(); it != m_spells.end(); it++)
     {
         delete it.value();
     }
