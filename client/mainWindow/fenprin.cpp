@@ -739,7 +739,7 @@ void FenPrin::changeVie(QString const& name, int vie)
 
 void FenPrin::attackMonster(QString const& name)
 {
-    m_reseau->envoyer("fight/"+name);
+    m_reseau->envoyer("fight/attackMonster/"+name);
     qDebug() << "veut fighttre " << name;
     //m_reseau->envoyer("fight/jeDemandeDefi/"+name);
     //m_boxannul->setText(trUtf8("Demande de defi à ")+name+(" en cours..."));

@@ -122,7 +122,7 @@ void ServerMap::recoFighttants(QString nameFight)
     for(int i = 0; i < l;i++)
     {
         pers = fight(nameFight)->getPersonnage(names[i]);
-        pers->setEnFight(false);
+        pers->setFightId(-1);
         envoieA(fight(nameFight)->fighttants(),"changePos/"+pers->getNom()+"/"+QString::number(pers->getPosMap().x())+"/"+QString::number(pers->getPosMap().y()));
     }
     for(int j = 0; j < joueurs.size(); j++)

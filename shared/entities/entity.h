@@ -77,8 +77,8 @@ public:
     void setTour(bool tour) { m_monTour = tour; }
     bool monTour() const { return m_monTour; }
 
-    void setEnFight(bool enFight);
-    bool enFight() const { return m_enFight; }
+    void setFightId(int fightId);
+    bool enFight() const { return m_fightId != -1; }
 
     void setEquipe(int equipe) { m_equipe = equipe; }
     int equipe() const {return m_equipe; }
@@ -114,7 +114,7 @@ protected:
     int m_equipe;
     bool m_pret;
     bool m_monTour;
-    bool m_enFight;
+    int m_fightId;
 
     QMap<QString,Spell*>m_spells;
 

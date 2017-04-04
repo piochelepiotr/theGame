@@ -3,7 +3,7 @@
 
 Entity::Entity(const QString &name, QString const& classe, Data *donnees_editeur)
 {
-    m_enFight = false;
+    m_fightId = -1;
     m_donnees_editeur = donnees_editeur;
     m_name = name;
     m_classe = classe;
@@ -71,9 +71,9 @@ QString Entity::important()
     return texte;
 }
 
-void Entity::setEnFight(bool enFight)
+void Entity::setFightId(int fightId)
 {
-    if(enFight)
+    if(fightId != -1)
     {
         m_vie = getTotalVie();
         m_posHorsFight = QPoint(m_posmapx,m_posmapy);
@@ -83,7 +83,7 @@ void Entity::setEnFight(bool enFight)
         m_posmapx = m_posHorsFight.x();
         m_posmapy = m_posHorsFight.y();
     }
-    m_enFight = enFight;
+    m_fightId = fightId;
 }
 
 void Entity::perdVie(int degats)
