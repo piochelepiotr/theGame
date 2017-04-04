@@ -10,7 +10,7 @@ FenPrin::FenPrin(QWidget *parent) : QMainWindow(parent)
 {
     m_fight = 0;
     m_donneesediteur = new Data(0,0,0,0);
-    m_reseau = new Reseau();
+    m_reseau = new Reseau(m_donneesediteur);
     m_threadReseau = new QThread;
     m_reseau->moveToThread(m_threadReseau);
     m_threadReseau->start();
@@ -151,11 +151,6 @@ void FenPrin::jeu()
     connect(m_jeu, SIGNAL(pnjclique(qint16, QPoint)), this, SLOT(dialoguePnj(qint16,QPoint)));
     connect(m_jeu, SIGNAL(faitRecette(QString)), this, SLOT(creerRecette(QString)));
     connect(m_jeu, SIGNAL(pourChat(QString)), this, SLOT(ajouteLigneChat(QString)));
-    connect(m_reseau, SIGNAL(ton_tour()), this, SLOT(ton_tour()));
-    connect(m_reseau,SIGNAL(gagneEquipement(QString)), this,SLOT(gagneEquipement(QString)));
-    connect(m_reseau,SIGNAL(gagneArme(QString)), this,SLOT(gagneArme(QString)));
-    connect(m_reseau,SIGNAL(gagneRessource(QString)), this,SLOT(gagneRessource(QString)));
-    connect(m_reseau,SIGNAL(commenceFight()),this,SLOT(commenceFight()));
     connect(m_reseau,SIGNAL(meurt(QString)),this,SLOT(meurt(QString)));
     connect(m_reseau,SIGNAL(finFight(QString)),this,SLOT(finFight(QString)));
 
@@ -636,12 +631,6 @@ void FenPrin::creerRecette(QString metier)
     //QMessageBox::information(this, "creation", "metier : "+metier);
 }
 
-void FenPrin::commenceFight()
-{
-    m_jeu->phaseFight();
-    m_jeu->setMonTour(false);
-}
-
 void FenPrin::je_passe_tour()
 {
     if(m_jeu->phase() == EnPlacement)
@@ -664,12 +653,6 @@ void FenPrin::je_passe_tour()
     }
 }
 
-void FenPrin::ton_tour()
-{
-    QMessageBox::information(this, trUtf8("haha"), trUtf8("a ton tour"));
-    m_jeu->setMonTour(true);
-}
-
 void FenPrin::utiliseSpell(QString name)// à passer dans layoutBarreOutil
 {
     if(m_jeu->phase() == EnFight && m_jeu->monTour())
@@ -679,21 +662,6 @@ void FenPrin::utiliseSpell(QString name)// à passer dans layoutBarreOutil
             m_jeu->veut_utiliserSpell(m_jeu->getPerso()->getSpell(name));
         }
     }
-}
-
-void FenPrin::gagneEquipement(QString donnees)
-{
-    m_compte->getPerso(m_persoActuel)->ajouterEquipement(new Outfit(donnees,m_donneesediteur->resources));
-}
-
-void FenPrin::gagneArme(QString donnees)
-{
-    m_compte->getPerso(m_persoActuel)->ajouterArme(new Weapon(donnees,m_donneesediteur->resources));
-}
-
-void FenPrin::gagneRessource(QString donnees)
-{
-    m_compte->getPerso(m_persoActuel)->ajouterRessource(m_donneesediteur->resources->getRessource(donnees));
 }
 
 void FenPrin::meurt(QString const& name)

@@ -103,16 +103,10 @@ public slots:
 
     void dialoguePnj(qint16 num,QPoint pos);
 
-    void gagneEquipement(QString donnees);
-    void gagneArme(QString donnees);
-    void gagneRessource(QString donnees);
-
     ///fights
 
     void je_passe_tour();
-    void ton_tour();
     void utiliseSpell(QString name);
-    void commenceFight();
     void meurt(QString const& name);
     void finFight(const QString &texte);
 

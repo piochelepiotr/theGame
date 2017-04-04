@@ -10,12 +10,13 @@
 
 class Character;
 class GameField;
+class Data;
 
 class Reseau : public QObject
 {
     Q_OBJECT
 public:
-    explicit Reseau(QObject *parent = 0);
+    explicit Reseau(Data *data,QObject *parent = 0);
     void start();
     QTcpSocket *socket() const { return m_socket; }
     ~Reseau();
@@ -37,16 +38,8 @@ signals:
     void ilAnnuleDemandeDefi();
     void ilRefuseMonDefi();
     void commenceDefi(int equipe);//soit il accepte mon defi soit j'ai accepté le sien
-    void ton_tour();
-    void commenceFight();
     void meurt(QString const& name);
     void finFight(QString const& texte);
-
-
-    //inventaire
-    void gagneArme(QString arme);
-    void gagneEquipement(QString equipement);
-    void gagneRessource(QString resource);
     
 public slots:
 
@@ -61,7 +54,7 @@ private:
 
     GameField *m_gameField;
     Character *m_character;
-    
+    Data *m_data;
 };
 
 void envoyerM(QTcpSocket *sock, QString const& message);

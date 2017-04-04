@@ -4,6 +4,7 @@
 #include "network/reseau.h"
 #include <QDebug>
 #include "layoutbarreoutil.h"
+#include <QMessageBox>
 #define ARROW_DISPLAY_DIST 40
 
 GameField::GameField(const QSize &size, Character *pers, QTcpSocket *sock, Data *donnees_editeur) : GameScene(size,0,donnees_editeur)
@@ -154,6 +155,8 @@ void GameField::cliqueGauche(int x, int y)
 
 void GameField::setMonTour(bool monTour)
 {
+    if(monTour)
+        QMessageBox::information(this, trUtf8("haha"), trUtf8("a ton tour"));
     m_layoutBarreOutil->setMonTour(monTour);
     effaceChemin();
     m_character->nouveau_tour();
@@ -180,6 +183,7 @@ void GameField::phasePlacement(Fight *fight,int equipe)
 
 void GameField::phaseFight()
 {
+    setMonTour(false);
     m_layoutBarreOutil->phaseFight();
     m_fightOuPas = EnFight;
     masque_casesFight();

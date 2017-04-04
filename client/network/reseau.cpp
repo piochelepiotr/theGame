@@ -1,10 +1,12 @@
 #include "network/reseau.h"
 #include "graphicGame/gamefield.h"
 #include "entities/character.h"
+#include "scenery/data.h"
 
-Reseau::Reseau(QObject *parent) :
+Reseau::Reseau(Data *data,QObject *parent) :
     QObject(parent)
 {
+    m_data = data;
     m_socket = new QTcpSocket;
     m_tailleMessage = 0;
     qRegisterMetaType <QAbstractSocket::SocketError>("QAbstractSocket::SocketError");
@@ -137,23 +139,23 @@ void Reseau::donneesRecues()
         }
         else if(inf == "tonTour")
         {
-              emit ton_tour();
+            m_gameField->setMonTour(true);
         }
         else if(inf == "gagneArme")
         {
-            emit gagneArme(message);
+            m_character->ajouterArme(new Weapon(message,m_donneesediteur->resources));
         }
         else if(inf == "gagneEquipement")
         {
-            emit gagneEquipement(message);
+            m_character->ajouterEquipement(new Outfit(message,m_donneesediteur->resources));
         }
         else if(inf == "gagneRessource")
         {
-            emit gagneRessource(message);
+            m_character->ajouterRessource(m_donneesediteur->resources->getRessource(message));
         }
         else if(inf == "commenceFight")
         {
-            emit commenceFight();
+            m_gameField->phaseFight();
         }
         else if(inf == "fightVieDe")
         {
