@@ -27,15 +27,15 @@ public:
     void coupable(QMap<QPoint, bool> *objetsCoupables);
     bool estCaseDeDepart(int x, int y, int equipe);
     Object *objet(int x,int y,int calque) const { return m_objets[calque][x][y]; }
-    QPoint caseCombat(int equipe,int num) const { return m_casescbt[equipe] [num]; }
-    void setCaseCombat(int equipe,int num,QPoint p) { m_estEnregistree = false; m_casescbt[equipe] [num] = p; }
+    QPoint caseFight(int equipe,int num) const { return m_casescbt[equipe] [num]; }
+    void setCaseFight(int equipe,int num,QPoint p) { m_estEnregistree = false; m_casescbt[equipe] [num] = p; }
     int x() const { return m_cooX; }
     int y() const { return m_cooY; }
     int z() const { return m_cooZ; }
     QVector<QPoint> cases_autour(QPoint const& p);
     QString fond() const { return m_fond; }
     void setFond(QString const& fond) { m_estEnregistree = false; m_fond = fond; }
-    int casePleineCombat(int i,int j) const { return m_casepleinesCombat[i][j]; }
+    int casePleineFight(int i,int j) const { return m_casepleinesFight[i][j]; }
     int casePleine(int i,int j) const { return m_casepleines[i][j]; }
 
     //pour le jeu
@@ -47,12 +47,12 @@ public:
     QPoint case_gauche(QPoint lacase);
     QPoint case_droite(QPoint lacase);
     QPoint posDep(int equipe);
-    void setCasePleineCombat(int i,int j,int value);
+    void setCasePleineFight(int i,int j,int value);
     QQueue<Dir> calculchemin(QPoint const& dep, QPoint const& arr);//calcul
     QQueue<Dir> calculcheminJusquaLObjet(QPoint const& dep, QPoint const& position_objet, QPoint *arrivee);
 
-    QQueue<Dir> calculcheminCombat(QPoint const& dep, QPoint const& arr, int max_dep);//calcul
-    QQueue<Dir> calculcheminJusquaLObjetCombat(QPoint const& dep, QPoint const& position_objet, QPoint *arrivee);
+    QQueue<Dir> calculcheminFight(QPoint const& dep, QPoint const& arr, int max_dep);//calcul
+    QQueue<Dir> calculcheminJusquaLObjetFight(QPoint const& dep, QPoint const& position_objet, QPoint *arrivee);
     void calculPortee(bool cases_ateignables[NBR_CASES_L] [NBR_CASES_H], int xdep, int ydep,int min_portee, int max_portee);
     void initialisePortee(bool cases_ateignables[NBR_CASES_L] [NBR_CASES_H], int xdep, int ydep,int min_portee, int max_portee);
 
@@ -81,7 +81,7 @@ public:
 private:
     bool m_estEnregistree;
     void videObjets();
-    void videCasesCombat();
+    void videCasesFight();
     void videCasesPleines();
     int m_cooX;
     int m_cooY;
@@ -89,7 +89,7 @@ private:
     Object *m_objets[3] [NBR_CASES_L] [NBR_CASES_H];
     QMap <QPoint, Gate>m_transpos;
     qint8 m_casepleines[NBR_CASES_L] [NBR_CASES_H];
-    int m_casepleinesCombat[NBR_CASES_L][NBR_CASES_H];//même chose que case pleines mais on ne peut pas marcher sur des joueurs par exemple !
+    int m_casepleinesFight[NBR_CASES_L][NBR_CASES_H];//même chose que case pleines mais on ne peut pas marcher sur des joueurs par exemple !
     QString m_fond;
     QPoint m_casescbt[2] [MAX_PAR_EQUIP];
     QMap<QString, double> m_monstres;

@@ -57,7 +57,7 @@ void LayoutBarreOutil::phasePlacement()
     setPret(false);
 }
 
-void LayoutBarreOutil::phaseCombat()
+void LayoutBarreOutil::phaseFight()
 {
     m_bout_passer_tour->setText(trUtf8("Passer mon tour"));
 }

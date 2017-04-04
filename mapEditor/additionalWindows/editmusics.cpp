@@ -1,5 +1,5 @@
-#include "editermusiques.h"
-#include "ui_editermusiques.h"
+#include "sortmusiques.h"
+#include "ui_sortmusiques.h"
 
 EditerMusiques::EditerMusiques(QWidget *parent, QVector<QString>*musiques) :
     QDialog(parent),

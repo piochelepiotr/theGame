@@ -16,18 +16,18 @@
 #include <QAction>
 #include <QMenu>
 #include "scenery/scenery.h"
-#include "additionalWindows/editerunobjet.h"
-#include "additionalWindows/editertransporteur.h"
+#include "additionalWindows/editobject.h"
+#include "additionalWindows/editgate.h"
 #include "scenery/sceneryChange.h"
 #include <QFileDialog>
-#include "additionalWindows/editerpnjs.h"
-#include "additionalWindows/editermonstredelamap.h"
-#include "additionalWindows/editermusiques.h"
-#include "additionalWindows/editermetier.h"
-#include "additionalWindows/editermonstres.h"
-#include "additionalWindows/editerclasses.h"
-#include "additionalWindows/editersorts.h"
-#include "additionalWindows/editerressources.h"
+#include "additionalWindows/editnpcs.h"
+#include "additionalWindows/editmapmonsters.h"
+#include "additionalWindows/editmusics.h"
+#include "additionalWindows/editjob.h"
+#include "additionalWindows/editmonsters.h"
+#include "additionalWindows/editclasses.h"
+#include "additionalWindows/editspells.h"
+#include "additionalWindows/editresources.h"
 #include "inventory/resources.h"
 #include <QPixmap>
 #include <QtDebug>
@@ -37,7 +37,7 @@
 #include "boutonimg.h"
 
 
-enum Outil{Outil_objets, Outil_transporteur, Outil_case_marchables, Outil_case_combat, Outil_case_po};
+enum Outil{Outil_objets, Outil_transporteur, Outil_case_marchables, Outil_case_fight, Outil_case_po};
 
 enum Cote{Droite, Gauche, Bas, Haut};
 
@@ -89,14 +89,14 @@ public slots:
     void nouveauObjetPourTheme();
     void chargeThemeObjet(int num);
     void selectionNouveauObjet(qint16 numero = 0);
-    void editerObjet();
+    void sortObjet();
 
-    void ajouteUnTransporteur(int x, int y, bool editer = false);
+    void ajouteUnTransporteur(int x, int y, bool sort = false);
 
     void outil_objets();
     void outil_transporteurs();
     void outil_cases_marchables();
-    void outil_cases_combat();
+    void outil_cases_fight();
     void outil_cases_po();
 
     void charger_contours();

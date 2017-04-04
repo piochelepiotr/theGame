@@ -7,17 +7,17 @@ Jeu2d::Jeu2d(QSize const& size, QLabel *texte,Data *donnees_editeur) : GameScene
 
 bool Jeu2d::peutAjouterCasecbt(int x, int y)
 {
-    int nombreCasesCombat = 0;
+    int nombreCasesFight = 0;
     for(int i = 0; i < MAX_PAR_EQUIP; i++)
     {
-        if(m_dataMap->caseCombat(m_equipe,i).x() != -1)
-            nombreCasesCombat++;
-        if(m_dataMap->caseCombat(m_equipe,i).x() == x && m_dataMap->caseCombat(m_equipe,i).y() == y)
+        if(m_dataMap->caseFight(m_equipe,i).x() != -1)
+            nombreCasesFight++;
+        if(m_dataMap->caseFight(m_equipe,i).x() == x && m_dataMap->caseFight(m_equipe,i).y() == y)
         {
             return false;
         }
     }
-    return nombreCasesCombat < MAX_PAR_EQUIP;
+    return nombreCasesFight < MAX_PAR_EQUIP;
 }
 
 

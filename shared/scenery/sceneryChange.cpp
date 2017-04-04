@@ -246,7 +246,7 @@ void ajouteObjet(Object *objet, QString const& chemin_vers_image)
 }
 
 
-void editerUnObjet(Object *objet)
+void sortUnObjet(Object *objet)
 {
     QString ligne, texte = QString::number((int)objet->numero()) + '/' + objet->nom() + '/' + objet->categorie() + '/' + QString::number(objet->propx()) + '/' + QString::number(objet->propy());
 

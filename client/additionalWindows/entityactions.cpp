@@ -2,7 +2,7 @@
 
 EntityActions::EntityActions(GameField *gameField) : SubWindow(gameField,Centered,700,400)
   ,m_cancelButton("Annuler")
-  ,m_fightButton("Combattre")
+  ,m_fightButton("Fighttre")
   ,m_privateMessageButton("Envoyer un message privé")
   ,m_exchangeButton("Lancer un échange")
 { 

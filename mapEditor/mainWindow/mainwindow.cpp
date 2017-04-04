@@ -50,9 +50,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionTransporteur->setShortcut(QKeySequence("T"));
     connect(ui->actionTransporteur, SIGNAL(triggered()), this, SLOT(outil_transporteurs()));
     addAction(ui->actionTransporteur);
-    ui->actionCase_combat->setShortcut(QKeySequence("C"));
-    connect(ui->actionCase_combat, SIGNAL(triggered()), this, SLOT(outil_cases_combat()));
-    addAction(ui->actionCase_combat);
+    ui->actionCase_fight->setShortcut(QKeySequence("C"));
+    connect(ui->actionCase_fight, SIGNAL(triggered()), this, SLOT(outil_cases_fight()));
+    addAction(ui->actionCase_fight);
     ui->actionCase_portee->setShortcut(QKeySequence("P"));
     connect(ui->actionCase_portee, SIGNAL(triggered()), this, SLOT(outil_cases_po()));
     addAction(ui->actionCase_portee);
@@ -159,7 +159,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 
             }
         }
-        else if(m_outil == Outil_case_combat)
+        else if(m_outil == Outil_case_fight)
         {
             if(caseExiste(poscase.x(), poscase.y()))
             {
@@ -384,7 +384,7 @@ void MainWindow::selectionNouveauObjet(qint16 numero)
     m_jeu->setObjetActuel(m_jeu->decors()->objet(numero));
 }
 
-void MainWindow::editerObjet()
+void MainWindow::sortObjet()
 {
     if(m_jeu->getObjActuel()->numero())
     {
@@ -394,7 +394,7 @@ void MainWindow::editerObjet()
         if(ok)
         {
             m_jeu->dataMap()->enregistre();
-            editerUnObjet(objet);
+            sortUnObjet(objet);
             m_jeu->charge();
             chargeThemeObjet(m_tabbar->m_widobjets->m_themesObjet->currentIndex());
         }
@@ -410,17 +410,17 @@ void MainWindow::editerObjet()
     }
 }
 
-void MainWindow::ajouteUnTransporteur(int x, int y, bool editer)
+void MainWindow::ajouteUnTransporteur(int x, int y, bool sort)
 {
     bool ok, suppr;
     Gate transpo;
-    if(editer)
+    if(sort)
     {
         transpo = m_jeu->dataMap()->getTranspo(QPoint(x,y));
     }
     EditerTransporteur boite(this, &transpo, &ok, &suppr);
 
-    if(editer && suppr)
+    if(sort && suppr)
     {
         m_jeu->supprimeTranspo(QPoint(x,y));
         return;
@@ -473,8 +473,8 @@ void MainWindow::outil_objets()
     ui->carte->setCursor(QCursor());
     if(m_outil == Outil_case_marchables)
         m_jeu->masque_casesMarchable();
-    else if(m_outil == Outil_case_combat)
-        m_jeu->masque_casesCombat();
+    else if(m_outil == Outil_case_fight)
+        m_jeu->masque_casesFight();
     else if(m_outil == Outil_case_po)
         m_jeu->masque_casesPO();
     m_outil = Outil_objets;
@@ -489,8 +489,8 @@ void MainWindow::outil_transporteurs()
     ui->carte->setCursor(QCursor());
     if(m_outil == Outil_case_marchables)
         m_jeu->masque_casesMarchable();
-    else if(m_outil == Outil_case_combat)
-        m_jeu->masque_casesCombat();
+    else if(m_outil == Outil_case_fight)
+        m_jeu->masque_casesFight();
     else if(m_outil == Outil_case_po)
         m_jeu->masque_casesPO();
     calque3();
@@ -502,8 +502,8 @@ void MainWindow::outil_transporteurs()
 void MainWindow::outil_cases_marchables()
 {
     ui->carte->setCursor(QCursor());
-    if(m_outil == Outil_case_combat)
-        m_jeu->masque_casesCombat();
+    if(m_outil == Outil_case_fight)
+        m_jeu->masque_casesFight();
     else if(m_outil == Outil_case_po)
         m_jeu->masque_casesPO();
     m_jeu->affiche_casesMarchable();
@@ -517,8 +517,8 @@ void MainWindow::outil_cases_marchables()
 void MainWindow::outil_cases_po()
 {
     ui->carte->setCursor(QCursor());
-    if(m_outil == Outil_case_combat)
-        m_jeu->masque_casesCombat();
+    if(m_outil == Outil_case_fight)
+        m_jeu->masque_casesFight();
     m_jeu->affiche_casesPO();
     calque3();
     m_jeu->setObjetActuel(m_jeu->decors()->objet(0));
@@ -527,15 +527,15 @@ void MainWindow::outil_cases_po()
     m_tabbar->setCurrentIndex(3);
 }
 
-void MainWindow::outil_cases_combat()
+void MainWindow::outil_cases_fight()
 {
-    ui->carte->setCursor(QCursor(QPixmap("../data/cursor_combat.png"), 0, 0));
+    ui->carte->setCursor(QCursor(QPixmap("../data/cursor_fight.png"), 0, 0));
     if(m_outil == Outil_case_marchables)
         m_jeu->masque_casesMarchable();
-    m_jeu->affiche_casesCombat();
+    m_jeu->affiche_casesFight();
     calque3();
     m_jeu->setObjetActuel(m_jeu->decors()->objet(0));
-    m_outil = Outil_case_combat;
+    m_outil = Outil_case_fight;
     m_tabbar->m_widdivers->m_outil_casescbt->setChecked(true);
     m_tabbar->setCurrentIndex(4);
 }
@@ -584,13 +584,13 @@ void MainWindow::charger_contours()
 void MainWindow::equipeUne()
 {
     m_jeu->equipe1();
-    m_tabbar->m_widCasesCombat->m_equipe_une->setChecked(true);
+    m_tabbar->m_widCasesFight->m_equipe_une->setChecked(true);
 }
 
 void MainWindow::equipeDeux()
 {
     m_jeu->equipe2();
-    m_tabbar->m_widCasesCombat->m_equipe_deux->setChecked(true);
+    m_tabbar->m_widCasesFight->m_equipe_deux->setChecked(true);
 }
 
 void MainWindow::changeZoom()
@@ -648,8 +648,8 @@ void MainWindow::annuler()
         case Outil_case_marchables:
             outil_cases_marchables();
             break;
-        case Outil_case_combat:
-            outil_cases_combat();
+        case Outil_case_fight:
+            outil_cases_fight();
             break;
         case Outil_case_po:
             outil_cases_po();

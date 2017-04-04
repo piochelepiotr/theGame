@@ -25,8 +25,8 @@ AddToWorldTab::AddToWorldTab(MainWindow *mainWindow, Jeu2d *gamePanel, Resources
     connect(m_editeMonstres, SIGNAL(clicked()), this, SLOT(editeMonstres()));
     connect(m_editeSorts, SIGNAL(clicked()), this, SLOT(editeSorts()));
     connect(m_editeClasses, SIGNAL(clicked()), this, SLOT(editeClasses()));
-    connect(m_editeRessources, SIGNAL(clicked()), this, SLOT(editerRessources()));
-    connect(m_editePnj, SIGNAL(clicked()), this, SLOT(editerPnjs()));
+    connect(m_editeRessources, SIGNAL(clicked()), this, SLOT(sortRessources()));
+    connect(m_editePnj, SIGNAL(clicked()), this, SLOT(sortPnjs()));
 
 }
 
@@ -50,12 +50,12 @@ void AddToWorldTab::editeClasses()
     EditerClasses boite(m_mainWindow);
 }
 
-void AddToWorldTab::editerRessources()
+void AddToWorldTab::sortRessources()
 {
     EditerRessources boite(m_mainWindow, m_ressources);
 }
 
-void AddToWorldTab::editerPnjs()
+void AddToWorldTab::sortPnjs()
 {
     EditerPnjs boite(m_mainWindow, m_jeu->decors());
 }

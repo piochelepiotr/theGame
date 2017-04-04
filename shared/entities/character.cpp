@@ -461,21 +461,21 @@ int Character::getBonusPC() const
 {
     int bon = 0;
     if(m_cape)
-        bon += m_cape->getBonusPointsCombat();
+        bon += m_cape->getBonusPointsFight();
     if(m_coiffe)
-        bon += m_coiffe->getBonusPointsCombat();
+        bon += m_coiffe->getBonusPointsFight();
     if(m_anod)
-        bon += m_anod->getBonusPointsCombat();
+        bon += m_anod->getBonusPointsFight();
     if(m_anog)
-        bon += m_anog->getBonusPointsCombat();
+        bon += m_anog->getBonusPointsFight();
     if(m_amulette)
-        bon += m_amulette->getBonusPointsCombat();
+        bon += m_amulette->getBonusPointsFight();
     if(m_ceinture)
-        bon += m_ceinture->getBonusPointsCombat();
+        bon += m_ceinture->getBonusPointsFight();
     if(m_bottes)
-        bon += m_bottes->getBonusPointsCombat();
+        bon += m_bottes->getBonusPointsFight();
     if(m_arme)
-        bon += m_arme->getEquipement()->getBonusPointsCombat();
+        bon += m_arme->getEquipement()->getBonusPointsFight();
     return bon;
 }
 
@@ -673,7 +673,7 @@ void Character::gagneXp(int xp)
     metAJourNiveau();
 }
 
-QString Character::gagneFinCombat(int niveauAutreEquipe,bool victoire)
+QString Character::gagneFinFight(int niveauAutreEquipe,bool victoire)
 {
     if(victoire)
     {

@@ -2,8 +2,8 @@
 #define EDITERSORTS_H
 
 #include <QDialog>
-#include "editermetier.h"
-#include "editerunsort.h"
+#include "editjob.h"
+#include "editspell.h"
 #include "inventory/resources.h"
 
 namespace Ui {

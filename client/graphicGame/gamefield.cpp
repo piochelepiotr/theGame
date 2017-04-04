@@ -12,9 +12,9 @@ GameField::GameField(const QSize &size, Character *pers, QTcpSocket *sock, Data 
     qDebug() << "time : " << elapsed.elapsed();
     m_displayGrid = false;
     m_sort_a_utiliser = 0;
-    m_combat = 0;
+    m_fight = 0;
     m_nomMetier = "";
-    m_combatOuPas = HorsCombat;
+    m_fightOuPas = HorsFight;
     m_socket = sock;
     m_character = pers;
     qDebug() << "time : " << elapsed.elapsed();
@@ -55,7 +55,7 @@ void GameField::cliqueGauche(int x, int y)
 {
     if(m_subWinOpened)
         return;
-    if(m_combatOuPas == HorsCombat)
+    if(m_fightOuPas == HorsFight)
     {
         QPoint p = fleche();
         QQueue<Dir> chem;
@@ -111,28 +111,28 @@ void GameField::cliqueGauche(int x, int y)
             }
         }
     }
-    else if(m_combatOuPas == EnPlacement)
+    else if(m_fightOuPas == EnPlacement)
     {
         QPoint p = m_dataMap->ccase(x, y,getlmap(),gethmap(),getlcase(),gethcase(),true);
         if(m_dataMap->estCaseDeDepart(p.x(),p.y(),m_character->equipe()))
         {
             if(!contientJoueur(p))
             {
-                envoyerM(m_socket, "combat/changePosDep/"+QString::number(p.x())+"*"+QString::number(p.y()));
+                envoyerM(m_socket, "fight/changePosDep/"+QString::number(p.x())+"*"+QString::number(p.y()));
             }
         }
     }
-    else if(m_combatOuPas == EnCombat && m_character->monTour() && getJoueur(m_character->getNom())->isImobile())
+    else if(m_fightOuPas == EnFight && m_character->monTour() && getJoueur(m_character->getNom())->isImobile())
     {
         if(!m_sort_a_utiliser)
         {
             QPoint arrivee = m_dataMap->ccase(x, y,getlmap(),gethmap(),getlcase(),gethcase(),true);
-            QQueue<Dir> chem = m_dataMap->calculcheminCombat(getJoueur(m_character->getNom())->posALaFin(), arrivee, m_character->getPCCombat());
+            QQueue<Dir> chem = m_dataMap->calculcheminFight(getJoueur(m_character->getNom())->posALaFin(), arrivee, m_character->getPCFight());
             if(!chem.isEmpty())
             {
                 m_character->use_pc(chem.size());
-                emit changePC(m_character->getPCCombat());
-                envoyerM(m_socket, "combat/dep/"+QString::number(arrivee.x())+"*"+QString::number(arrivee.y()));
+                emit changePC(m_character->getPCFight());
+                envoyerM(m_socket, "fight/dep/"+QString::number(arrivee.x())+"*"+QString::number(arrivee.y()));
             }
         }
         else
@@ -141,9 +141,9 @@ void GameField::cliqueGauche(int x, int y)
             stopUtiliseSort();
             if(p.x() != -1)
             {
-                m_character->use_pc(m_sort_a_utiliser->points_combat());
-                emit changePC(m_character->getPCCombat());
-                envoyerM(m_socket,"combat/attaque/"+m_sort_a_utiliser->nom()+"/"+QString::number(p.x())+"/"+QString::number(p.y()));
+                m_character->use_pc(m_sort_a_utiliser->points_fight());
+                emit changePC(m_character->getPCFight());
+                envoyerM(m_socket,"fight/attaque/"+m_sort_a_utiliser->nom()+"/"+QString::number(p.x())+"/"+QString::number(p.y()));
             }
             m_sort_a_utiliser = 0;
         }
@@ -156,7 +156,7 @@ void GameField::setMonTour(bool monTour)
     m_character->nouveau_tour();
     m_character->setTour(monTour);
     m_sort_a_utiliser = 0;
-    emit changePC(m_character->getPCCombat());
+    emit changePC(m_character->getPCFight());
 }
 
 void GameField::veut_utiliserSort(Spell *sort)
@@ -166,37 +166,37 @@ void GameField::veut_utiliserSort(Spell *sort)
     utiliseSort(sort);
 }
 
-void GameField::phasePlacement(Combat *combat,int equipe)
+void GameField::phasePlacement(Fight *fight,int equipe)
 {
     m_character->setEquipe(equipe);
-    m_combatOuPas = EnPlacement;
-    affiche_casesCombat();
+    m_fightOuPas = EnPlacement;
+    affiche_casesFight();
     setMonTour(false);
 }
 
-void GameField::phaseCombat()
+void GameField::phaseFight()
 {
-    m_combatOuPas = EnCombat;
-    masque_casesCombat();
+    m_fightOuPas = EnFight;
+    masque_casesFight();
     marche_pas();
 }
 
-void GameField::phaseFinCombat()
+void GameField::phaseFinFight()
 {
-    if(m_combatOuPas == EnPlacement)
-        masque_casesCombat();
-    m_combatOuPas = HorsCombat;
-    m_combat = 0;
+    if(m_fightOuPas == EnPlacement)
+        masque_casesFight();
+    m_fightOuPas = HorsFight;
+    m_fight = 0;
     effaceChemin();
     //cachePortee();
 }
 
-void GameField::deplaceCombat(const QString &qui, const QPoint &ou)
+void GameField::deplaceFight(const QString &qui, const QPoint &ou)
 {
     QPoint dep = getJoueur(qui)->posALaFin();
-    deplace(qui, m_dataMap->calculcheminCombat(dep,ou, 1000));
-    m_dataMap->setCasePleineCombat(dep.x(), dep.y(), 0);
-    m_dataMap->setCasePleineCombat(ou.x(), ou.y(), 2);
+    deplace(qui, m_dataMap->calculcheminFight(dep,ou, 1000));
+    m_dataMap->setCasePleineFight(dep.x(), dep.y(), 0);
+    m_dataMap->setCasePleineFight(ou.x(), ou.y(), 2);
 }
 
 void GameField::changeDeMap(int mapx, int mapy, int mapz, int coox,int cooy)
@@ -224,7 +224,7 @@ void GameField::utileClique(QPoint const& pos)
 {
     if(m_subWinOpened)
         return;
-    if(m_combatOuPas == HorsCombat)
+    if(m_fightOuPas == HorsFight)
     {
         qDebug() << "clique utile !";
         Object *obj = m_dataMap->objet(pos.x(),pos.y(),2);
@@ -370,7 +370,7 @@ void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     if(m_subWinOpened)
         return;
     int x = mouseEvent->scenePos().x(), y = mouseEvent->scenePos().y();
-    if(phase() == HorsCombat)
+    if(phase() == HorsFight)
     {
         /*for(QMap<QString,AfficheJoueur*>::iterator it = m_persos.begin();it != m_persos.end(); it++)
         {
@@ -437,7 +437,7 @@ void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 it.value()->hideToolTip();
         }*/
     }
-    else if(phase() == EnCombat)
+    else if(phase() == EnFight)
     {
         if(sort())
         {
@@ -485,7 +485,7 @@ void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                     {
                         effaceChemin();
                         m_ancienne = arrivee;
-                        QQueue<Dir> chem = m_dataMap->calculcheminCombat(getJoueur(m_character->getNom())->posALaFin(), arrivee, getPerso()->getPCCombat());
+                        QQueue<Dir> chem = m_dataMap->calculcheminFight(getJoueur(m_character->getNom())->posALaFin(), arrivee, getPerso()->getPCFight());
                         if(!chem.isEmpty())
                         {
                             afficheChemin(getJoueur(m_character->getNom())->posALaFin(), chem);
@@ -511,7 +511,7 @@ void GameField::dragLeaveEvent(QGraphicsSceneDragDropEvent *)
 
 void GameField::deplace(QString const& nom, const QQueue<Dir> &chem, Actions_personnage::DerniereAction action)
 {
-    if(phase() == EnCombat && monTour())
+    if(phase() == EnFight && monTour())
         effaceChemin();
     m_persos[nom]->nouveauchemin(chem, action);
 }
@@ -527,7 +527,7 @@ void GameField::marche_pas()
     for(QMap<QString,AfficheJoueur*>::iterator it = m_persos.begin(); it != m_persos.end(); it++)
     {
         QPoint p = it.value()->posALaFin();
-        m_dataMap->setCasePleineCombat(p.x(),p.y(),2);
+        m_dataMap->setCasePleineFight(p.x(),p.y(),2);
     }
 }
 

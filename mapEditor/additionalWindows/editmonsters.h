@@ -2,7 +2,7 @@
 #define EDITERMONSTRES_H
 
 #include <QDialog>
-#include "editercreature.h"
+#include "editentity.h"
 #include "graphic/numberButton.h"
 #include <QComboBox>
 #include "inventory/resources.h"

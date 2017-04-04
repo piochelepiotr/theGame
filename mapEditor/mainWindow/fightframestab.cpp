@@ -1,12 +1,12 @@
-#include "combatframestab.h"
+#include "fightframestab.h"
 #include "mainwindow.h"
 
-CombatFramesTab::CombatFramesTab(MainWindow *mainWindow, Jeu2d *gamePanel) :
+FightFramesTab::FightFramesTab(MainWindow *mainWindow, Jeu2d *gamePanel) :
     QWidget(mainWindow)
 {
     m_layCasesCombat = new QVBoxLayout;
     this->setLayout(m_layCasesCombat);
-    m_groupCasesCbt = new QGroupBox(trUtf8("Cases combat de l'équipe :"));
+    m_groupCasesCbt = new QGroupBox(trUtf8("Cases fight de l'équipe :"));
     m_equipe_une = new QRadioButton("1");
     m_equipe_une->setChecked(true);
     m_equipe_deux = new QRadioButton("2");

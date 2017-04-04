@@ -3,7 +3,7 @@
 FightWinnings::FightWinnings(QString const& text,Character *perso) :
     QHBoxLayout()
 {
-    qDebug() << "texte combattant" << text;
+    qDebug() << "texte fighttant" << text;
     QStringList liste = text.split('/');
     addWidget(new QLabel(liste[0]));
     addWidget(new QLabel("xp gagné: "+liste[1]));

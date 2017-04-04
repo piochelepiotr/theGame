@@ -193,7 +193,7 @@ void GameScene::resize(QSize const& nouvelle)
     {
         for(int j = 0; j < MAX_PAR_EQUIP; j++)
         {
-            m_imgcasescbt[i] [j]->setPos(m_dataMap->cposx(m_dataMap->caseCombat(i,j).x(),m_dataMap->caseCombat(i,j).y(),m_lcase,m_zoom_active)-m_mlcase, m_dataMap->cposy(m_dataMap->caseCombat(i,j).y(),m_hcase,m_zoom_active)-m_mhcase);
+            m_imgcasescbt[i] [j]->setPos(m_dataMap->cposx(m_dataMap->caseFight(i,j).x(),m_dataMap->caseFight(i,j).y(),m_lcase,m_zoom_active)-m_mlcase, m_dataMap->cposy(m_dataMap->caseFight(i,j).y(),m_hcase,m_zoom_active)-m_mhcase);
         }
     }
 
@@ -537,9 +537,9 @@ void GameScene::ajouteCasecbt(int x, int y)
 {
     for(int i = 0; i < MAX_PAR_EQUIP; i++)
     {
-        if(m_dataMap->caseCombat(m_equipe,i).x() == -1)
+        if(m_dataMap->caseFight(m_equipe,i).x() == -1)
         {
-            m_dataMap->setCaseCombat(m_equipe,i,QPoint(x,y));
+            m_dataMap->setCaseFight(m_equipe,i,QPoint(x,y));
             m_imgcasescbt[m_equipe] [i]->setPos(m_dataMap->cposx(x,y,m_lcase,m_zoom_active)-m_mlcase, m_dataMap->cposy(y,m_hcase,m_zoom_active)-m_mhcase);
             m_imgcasescbt[m_equipe] [i]->setVisible(true);
             return;
@@ -551,9 +551,9 @@ void GameScene::supprimeCasecbt(int x, int y)
 {
     for(int i = 0; i < MAX_PAR_EQUIP; i++)
     {
-        if(m_dataMap->caseCombat(m_equipe,i).x() == x && m_dataMap->caseCombat(m_equipe,i).y() == y)
+        if(m_dataMap->caseFight(m_equipe,i).x() == x && m_dataMap->caseFight(m_equipe,i).y() == y)
         {
-            m_dataMap->setCaseCombat(m_equipe,i,QPoint(-1,-1));
+            m_dataMap->setCaseFight(m_equipe,i,QPoint(-1,-1));
             m_imgcasescbt[m_equipe] [i]->setVisible(false);
             return;
         }
@@ -601,22 +601,22 @@ void GameScene::masque_casesMarchable()
     }
 }
 
-void GameScene::affiche_casesCombat()
+void GameScene::affiche_casesFight()
 {
     for(int i = 0; i < 2; i++)
     {
         for(int j = 0; j < MAX_PAR_EQUIP; j++)
         {
-            if(m_dataMap->caseCombat(i,j).x() != -1)
+            if(m_dataMap->caseFight(i,j).x() != -1)
             {
-                m_imgcasescbt[i] [j]->setPos(m_dataMap->cposx(m_dataMap->caseCombat(i,j).x(),m_dataMap->caseCombat(i,j).y(),m_lcase,m_zoom_active)-m_mlcase, m_dataMap->cposy(m_dataMap->caseCombat(i,j).y(),m_hcase,m_zoom_active)-m_mhcase);
+                m_imgcasescbt[i] [j]->setPos(m_dataMap->cposx(m_dataMap->caseFight(i,j).x(),m_dataMap->caseFight(i,j).y(),m_lcase,m_zoom_active)-m_mlcase, m_dataMap->cposy(m_dataMap->caseFight(i,j).y(),m_hcase,m_zoom_active)-m_mhcase);
                 m_imgcasescbt[i] [j]->setVisible(true);
             }
         }
     }
 }
 
-void GameScene::masque_casesCombat()
+void GameScene::masque_casesFight()
 {
     for(int i = 0; i < 2; i++)
     {

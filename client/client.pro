@@ -15,12 +15,12 @@ SOURCES += \
     network/compte.cpp \
     network/reseau.cpp \
     graphicGame/affichejoueur.cpp \
-    combats/combat.cpp \
     additionalWindows/windowendfight.cpp \
     graphicGame/layoutbarreoutil.cpp \
     graphicGame/gamefield.cpp \
     additionalWindows/entityactions.cpp \
-    graphicGame/windowactions.cpp
+    graphicGame/windowactions.cpp \
+    fights/fight.cpp
 
 HEADERS += \
     additionalWindows/caracteristiques.h \
@@ -33,12 +33,12 @@ HEADERS += \
     network/compte.h \
     network/reseau.h \
     graphicGame/affichejoueur.h \
-    combats/combat.h \
     additionalWindows/windowendfight.h \
     graphicGame/layoutbarreoutil.h \
     graphicGame/gamefield.h \
     additionalWindows/entityactions.h \
-    graphicGame/windowactions.h
+    graphicGame/windowactions.h \
+    fights/fight.h
 
 FORMS += \
     additionalWindows/caracteristiques.ui \

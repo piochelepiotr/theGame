@@ -10,11 +10,11 @@
 class MainWindow;
 class Jeu2d;
 
-class CombatFramesTab : public QWidget
+class FightFramesTab : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CombatFramesTab(MainWindow *mainWindow, Jeu2d *gamePanel);
+    explicit FightFramesTab(MainWindow *mainWindow, Jeu2d *gamePanel);
 
     QVBoxLayout *m_layCasesCombat;
         QGroupBox *m_groupCasesCbt;

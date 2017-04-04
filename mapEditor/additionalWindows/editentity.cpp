@@ -1,5 +1,5 @@
-#include "editercreature.h"
-#include "ui_editercreature.h"
+#include "sortcreature.h"
+#include "ui_sortcreature.h"
 
 EditerCreature::EditerCreature(QWidget *parent, Resources *lesRessources) :
     QWidget(parent),

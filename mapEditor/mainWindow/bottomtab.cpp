@@ -12,8 +12,8 @@ BottomTab::BottomTab(MainWindow *mainWindow, Jeu2d *gamePanel, Resources *ressou
     addTab(m_widobjets, trUtf8("Les objets"));//un truc a faire ici
     m_widCasesMarchables = new walkableFramesTab(mainWindow,gamePanel);
     addTab(m_widCasesMarchables, trUtf8("Cases marchables"));
-    m_widCasesCombat = new CombatFramesTab(mainWindow,gamePanel);
-    addTab(m_widCasesCombat, "Cases combat");
+    m_widCasesFight = new FightFramesTab(mainWindow,gamePanel);
+    addTab(m_widCasesFight, "Cases fight");
     m_widajouteMonde = new AddToWorldTab(mainWindow,gamePanel,ressources);
     addTab(m_widajouteMonde, trUtf8("ajoute au monde"));
 }

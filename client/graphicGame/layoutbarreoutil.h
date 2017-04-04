@@ -19,7 +19,7 @@ public:
     QListWidget *getChat() const { return m_chat; }
     QLineEdit *getLineEditChat() const { return m_bar_chat; }
     void phasePlacement();
-    void phaseCombat();
+    void phaseFight();
     void setPret(bool pret);
     void setMonTour(bool monTour);
 

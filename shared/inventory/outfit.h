@@ -21,12 +21,12 @@ class Outfit
 {
 public:
     Outfit(QString const& donnees,Resources *ressources);
-    Outfit(Resource *ressource, int bonus_force, int bonus_vie, int bonus_points_combat);
+    Outfit(Resource *ressource, int bonus_force, int bonus_vie, int bonus_points_fight);
     Outfit(Outfit const& autre);
     Resource *getRessource() const { return m_ressource; }
     int getBonusForce() const { return m_bonus_force; }
     int getBonusVie() const { return m_bonus_vie; }
-    int getBonusPointsCombat() const { return m_bonus_points_combat; }
+    int getBonusPointsFight() const { return m_bonus_points_fight; }
     QString nom() const { return m_ressource->nom(); }
 
     static QString descr_effet(Outfit *equipement);
@@ -40,7 +40,7 @@ protected:
     Resource *m_ressource;
     int m_bonus_force;
     int m_bonus_vie;
-    int m_bonus_points_combat;
+    int m_bonus_points_fight;
 };
 
 bool operator==(Outfit const& a, Outfit const& b);

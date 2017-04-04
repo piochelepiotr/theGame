@@ -1,5 +1,5 @@
-#include "editerressources.h"
-#include "ui_editerressources.h"
+#include "sortressources.h"
+#include "ui_sortressources.h"
 
 
 
@@ -55,7 +55,7 @@ void EditerRessources::ajouteEquipement(OutfitModel *equipement)
     if(fichier.open(QIODevice::WriteOnly | QIODevice::Append))
     {
         QTextStream stream(&fichier);
-        stream << equipement->getRessource()->nom()  << "/" << equipement->getBonusForce(0) << "/" << equipement->getBonusForce(1) <<  "/" << equipement->getBonusVie(0) << "/" << equipement->getBonusVie(1) << "/" << equipement->getBonusPointsCombat(0) << "/" << equipement->getBonusPointsCombat(1) << endl;
+        stream << equipement->getRessource()->nom()  << "/" << equipement->getBonusForce(0) << "/" << equipement->getBonusForce(1) <<  "/" << equipement->getBonusVie(0) << "/" << equipement->getBonusVie(1) << "/" << equipement->getBonusPointsFight(0) << "/" << equipement->getBonusPointsFight(1) << endl;
         fichier.close();
     }
 }
@@ -211,7 +211,7 @@ void EditerRessources::editeEquipement(OutfitModel *equipement)
             if(!ligne.isEmpty())
             {
                 if(ligne.section('/', 0, 0) == equipement->getRessource()->nom())
-                    stream2 << equipement->getRessource()->nom()  << "/" << equipement->getBonusForce(0) << "/" << equipement->getBonusForce(1) <<  "/" << equipement->getBonusVie(0) << "/" << equipement->getBonusVie(1) << "/" << equipement->getBonusPointsCombat(0) << "/" << equipement->getBonusPointsCombat(1) << endl;
+                    stream2 << equipement->getRessource()->nom()  << "/" << equipement->getBonusForce(0) << "/" << equipement->getBonusForce(1) <<  "/" << equipement->getBonusVie(0) << "/" << equipement->getBonusVie(1) << "/" << equipement->getBonusPointsFight(0) << "/" << equipement->getBonusPointsFight(1) << endl;
                 else
                     stream2 << ligne << endl;
             }
@@ -281,8 +281,8 @@ void EditerRessources::charge(QString const& nom)
         ui->force_max->setValue(equipement->getBonusForce(1));
         ui->vie_min->setValue(equipement->getBonusVie(0));
         ui->vie_max->setValue(equipement->getBonusVie(1));
-        ui->PC_min->setValue(equipement->getBonusPointsCombat(0));
-        ui->PC_max->setValue(equipement->getBonusPointsCombat(1));
+        ui->PC_min->setValue(equipement->getBonusPointsFight(0));
+        ui->PC_max->setValue(equipement->getBonusPointsFight(1));
         ui->partie_equipement->setEnabled(true);
     }
     if(arme)
@@ -310,8 +310,8 @@ void EditerRessources::enregistre(QString const& nom)
             equipement->setBonusForce(1, ui->force_max->value());
             equipement->setBonusVie(0, ui->vie_min->value());
             equipement->setBonusVie(1, ui->vie_max->value());
-            equipement->setBonusPointCombat(0, ui->PC_min->value());
-            equipement->setBonusPointCombat(1, ui->PC_max->value());
+            equipement->setBonusPointFight(0, ui->PC_min->value());
+            equipement->setBonusPointFight(1, ui->PC_max->value());
             editeEquipement(equipement);
         }
 

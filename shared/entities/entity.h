@@ -62,14 +62,14 @@ public:
 
     QString important();//la description pour les autres personnes de la map (à transmettre par le réseau)
 
-    //combats
+    //fights
 
     int getVie() const { return m_vie; }
-    int getPCCombat() { return m_pc_combat; }
+    int getPCFight() { return m_pc_fight; }
 
-    void use_pc(int nbr) { m_pc_combat = m_pc_combat - nbr; }
+    void use_pc(int nbr) { m_pc_fight = m_pc_fight - nbr; }
     void perdVie(int degats);
-    void nouveau_tour() { m_pc_combat = getTotalPC(); }  
+    void nouveau_tour() { m_pc_fight = getTotalPC(); }  
 
     void setPret(bool pret) { m_pret = pret; }
     bool pret() const { return m_pret; }
@@ -77,8 +77,8 @@ public:
     void setTour(bool tour) { m_monTour = tour; }
     bool monTour() const { return m_monTour; }
 
-    void setEnCombat(bool enCombat);
-    bool enCombat() const { return m_enCombat; }
+    void setEnFight(bool enFight);
+    bool enFight() const { return m_enFight; }
 
     void setEquipe(int equipe) { m_equipe = equipe; }
     int equipe() const {return m_equipe; }
@@ -87,7 +87,7 @@ public:
 
     bool peutUtiliserSort(QString const& nom);
     Spell *getSort(QString const& nom);
-    QString gagneFinCombat(int, bool victoire);
+    QString gagneFinFight(int, bool victoire);
 
     //
     Data *donneesEditeur() const { return m_donnees_editeur; }
@@ -99,7 +99,7 @@ protected:
     int m_posZ;
     int m_posmapx;
     int m_posmapy;
-    QPoint m_posHorsCombat;
+    QPoint m_posHorsFight;
     QString m_nom;
     QString m_classe;
     int m_base_vie;
@@ -107,14 +107,14 @@ protected:
     int m_base_pc;
     int m_niveau;
 
-    //combat
+    //fight
 
     int m_vie;
-    int m_pc_combat;
+    int m_pc_fight;
     int m_equipe;
     bool m_pret;
     bool m_monTour;
-    bool m_enCombat;
+    bool m_enFight;
 
     QMap<QString,Spell*>m_sorts;
 

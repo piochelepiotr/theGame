@@ -54,7 +54,7 @@ void Map::charge(QString const& nomFichier)
             for(int j = 0; j < NBR_CASES_H; j++)
             {
                 stream >> m_casepleines[i] [j];
-                m_casepleinesCombat[i] [j] = m_casepleines[i] [j];
+                m_casepleinesFight[i] [j] = m_casepleines[i] [j];
             }
         }
         QPoint p;
@@ -144,7 +144,7 @@ void Map::nouvelleMap()
         for(int j = 0; j < NBR_CASES_H; j++)
         {
             m_casepleines[i] [j] = 0;
-            m_casepleinesCombat[i] [j] = 0;
+            m_casepleinesFight[i] [j] = 0;
         }
     }
 
@@ -365,7 +365,7 @@ QVector<QPoint> Map::cases_autour(QPoint const& p)
 void Map::vide()
 {
     videObjets();
-    videCasesCombat();
+    videCasesFight();
     videCasesPleines();
     m_fond = "";
     m_musiques.clear();
@@ -387,7 +387,7 @@ void Map::videObjets()
     }
 }
 
-void Map::videCasesCombat()
+void Map::videCasesFight()
 {
     QPoint p(-1,-1);
 
@@ -407,7 +407,7 @@ void Map::videCasesPleines()
         for(int j = 0; j < NBR_CASES_H; j++)
         {
             m_casepleines[i] [j] = 0;
-            m_casepleinesCombat[i] [j] = 0;
+            m_casepleinesFight[i] [j] = 0;
         }
     }
 }
@@ -456,14 +456,14 @@ QQueue<Dir> Map::calculcheminJusquaLObjet(QPoint const& dep, QPoint const& posit
 }
 
 
-QQueue<Dir> Map::calculcheminCombat(QPoint const& dep, QPoint const& arr, int max_dep)
+QQueue<Dir> Map::calculcheminFight(QPoint const& dep, QPoint const& arr, int max_dep)
 {
     bool casesmarchees[NBR_CASES_L] [NBR_CASES_H];
     for(int i = 0; i < NBR_CASES_L; i++)
     {
         for(int j = 0; j < NBR_CASES_H; j++)
         {
-            if(!m_casepleinesCombat[i] [j])
+            if(!m_casepleinesFight[i] [j])
                 casesmarchees[i] [j] = false;
             else
                 casesmarchees[i] [j] = true;
@@ -473,18 +473,18 @@ QQueue<Dir> Map::calculcheminCombat(QPoint const& dep, QPoint const& arr, int ma
     QVector <Path>leschem;
     leschem.push_back(Path(dep));
 
-    return faitechemCombat(casesmarchees, arr, leschem, max_dep);
+    return faitechemFight(casesmarchees, arr, leschem, max_dep);
 
 }
 
-QQueue<Dir> Map::calculcheminJusquaLObjetCombat(QPoint const& dep, QPoint const& position_objet, QPoint *arrivee)
+QQueue<Dir> Map::calculcheminJusquaLObjetFight(QPoint const& dep, QPoint const& position_objet, QPoint *arrivee)
 {
     bool casesmarchees[NBR_CASES_L] [NBR_CASES_H];
     for(int i = 0; i < NBR_CASES_L; i++)
     {
         for(int j = 0; j < NBR_CASES_H; j++)
         {
-            if(!m_casepleinesCombat[i] [j])
+            if(!m_casepleinesFight[i] [j])
                 casesmarchees[i] [j] = false;
             else
                 casesmarchees[i] [j] = true;
@@ -496,19 +496,19 @@ QQueue<Dir> Map::calculcheminJusquaLObjetCombat(QPoint const& dep, QPoint const&
 
 
 
-    return faitechemCombat(casesmarchees, arrivees, leschem, arrivee);
+    return faitechemFight(casesmarchees, arrivees, leschem, arrivee);
 }
 
 void Map::setCasePleine(int i,int j,int value)
 {
     m_estEnregistree = false;
     m_casepleines[i][j] = value;
-    m_casepleinesCombat[i][j] = value;
+    m_casepleinesFight[i][j] = value;
 }
 
-void Map::setCasePleineCombat(int i,int j,int value)
+void Map::setCasePleineFight(int i,int j,int value)
 {
-    m_casepleinesCombat[i][j] = value;
+    m_casepleinesFight[i][j] = value;
 }
 
 void Map::charge_contours()

@@ -23,7 +23,7 @@ VariousTab::VariousTab(MainWindow *mainWindow) :
     m_outil_objets->setChecked(true);
     m_outil_transporteurs = new QRadioButton("transporteurs");
     m_outil_cases_marchables = new QRadioButton("cases marchables");
-    m_outil_casescbt = new QRadioButton("cases combat");
+    m_outil_casescbt = new QRadioButton("cases fight");
     m_outil_casespo = new QRadioButton(trUtf8("cases porté(e)"));
     m_layout_outils = new QHBoxLayout;
     m_layout_outils->addWidget(m_outil_objets);
@@ -41,5 +41,5 @@ VariousTab::VariousTab(MainWindow *mainWindow) :
     connect(m_outil_objets, SIGNAL(pressed()), mainWindow, SLOT(outil_objets()));
     connect(m_outil_transporteurs, SIGNAL(pressed()), mainWindow, SLOT(outil_transporteurs()));
     connect(m_outil_cases_marchables, SIGNAL(pressed()), mainWindow, SLOT(outil_cases_marchables()));
-    connect(m_outil_casescbt, SIGNAL(pressed()), mainWindow, SLOT(outil_cases_combat()));
+    connect(m_outil_casescbt, SIGNAL(pressed()), mainWindow, SLOT(outil_cases_fight()));
 }

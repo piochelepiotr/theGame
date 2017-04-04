@@ -99,7 +99,7 @@ public:
     int ajouterEquipement(Outfit *equipement);
     int ajouterRessource(Resource *ressource);
     Spell *getSort(QString const& nom);
-    QString gagneFinCombat(int niveauAutreEquipe, bool victoire);
+    QString gagneFinFight(int niveauAutreEquipe, bool victoire);
     void gagneXp(int xp);
     void metAJourNiveau();
     static int xpDeNiveau(int niveau);

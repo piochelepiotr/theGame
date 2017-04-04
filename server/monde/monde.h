@@ -9,7 +9,7 @@
 #include "map/point.h"
 #include <QTimer>
 #include <QSignalMapper>
-#include "monde/combat.h"
+#include "monde/fight.h"
 #include "map/map.h"
 #include "monde/map.h"
 

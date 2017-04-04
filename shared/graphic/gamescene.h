@@ -62,8 +62,8 @@ public:
 
     void affiche_casesMarchable();
     void masque_casesMarchable();
-    void affiche_casesCombat();
-    void masque_casesCombat();
+    void affiche_casesFight();
+    void masque_casesFight();
     void affiche_casesPO();
     void masque_casesPO();
 

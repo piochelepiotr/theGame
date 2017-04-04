@@ -3,7 +3,7 @@
 
 Entity::Entity(const QString &nom, QString const& classe, Data *donnees_editeur)
 {
-    m_enCombat = false;
+    m_enFight = false;
     m_donnees_editeur = donnees_editeur;
     m_nom = nom;
     m_classe = classe;
@@ -71,19 +71,19 @@ QString Entity::important()
     return texte;
 }
 
-void Entity::setEnCombat(bool enCombat)
+void Entity::setEnFight(bool enFight)
 {
-    if(enCombat)
+    if(enFight)
     {
         m_vie = getTotalVie();
-        m_posHorsCombat = QPoint(m_posmapx,m_posmapy);
+        m_posHorsFight = QPoint(m_posmapx,m_posmapy);
     }
     else
     {
-        m_posmapx = m_posHorsCombat.x();
-        m_posmapy = m_posHorsCombat.y();
+        m_posmapx = m_posHorsFight.x();
+        m_posmapy = m_posHorsFight.y();
     }
-    m_enCombat = enCombat;
+    m_enFight = enFight;
 }
 
 void Entity::perdVie(int degats)
@@ -95,7 +95,7 @@ void Entity::perdVie(int degats)
 
 bool Entity::peutUtiliserSort(QString const& nom)
 {
-    return m_pc_combat >= getSort(nom)->points_combat();
+    return m_pc_fight >= getSort(nom)->points_fight();
 }
 
 Spell *Entity::getSort(QString const& nom)
@@ -111,7 +111,7 @@ Spell *Entity::getSort(QString const& nom)
     }
 }
 
-QString Entity::gagneFinCombat(int ,bool victoire)
+QString Entity::gagneFinFight(int ,bool victoire)
 {
     if(victoire)
     {

@@ -32,18 +32,18 @@ signals:
     void ressource_repousse(int posx, int posy);
     void infos_map(QString infos);
 
-    //combat
+    //fight
     void onMeProposeDefi(QString qui);
     void ilAnnuleDemandeDefi();
     void ilRefuseMonDefi();
     void commenceDefi(int equipe);//soit il accepte mon defi soit j'ai accepté le sien
     void passe_tour();
     void ton_tour();
-    void commenceCombat();
+    void commenceFight();
     void changeVie(QString nom,int vie);
     void meurt(QString const& nom);
     void changePos(QString const& nom, int x,int y);
-    void finCombat(QString const& texte);
+    void finFight(QString const& texte);
 
 
     //inventaire

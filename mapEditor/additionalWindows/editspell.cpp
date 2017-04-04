@@ -1,13 +1,13 @@
-#include "editerunsort.h"
-#include "ui_editerunsort.h"
+#include "editerunediter.h"
+#include "ui_editerunediter.h"
 
-EditerUnSort::EditerUnSort(QWidget *parent, SpellModel *sort, bool creation) :
+EditerUnSort::EditerUnSort(QWidget *parent, SpellModel *editer, bool creation) :
     QDialog(parent),
     ui(new Ui::EditerUnSort)
 {
     m_creation = creation;
     ui->setupUi(this);
-    m_sort = sort;
+    m_editer = editer;
     charge();
     connect(this, SIGNAL(accepted()), this, SLOT(accepter()));
     exec();
@@ -25,7 +25,7 @@ void EditerUnSort::accepter()
 
 void EditerUnSort::enregistre()
 {
-    QString texte = m_sort->nom() +'/'+QString::number(ui->lvl->value());
+    QString texte = m_editer->nom() +'/'+QString::number(ui->lvl->value());
     for(int i = 0; i < ui->tableau->rowCount(); i++)
     {
         for(int j = 0; j < ui->tableau->columnCount(); j++)
@@ -36,10 +36,10 @@ void EditerUnSort::enregistre()
             }
         }
     }
-    m_sort->recharge(texte);
+    m_editer->recharge(texte);
     if(m_creation)
     {
-        QFile fichier(QString(DONNEES)+QString("sorts.txt"));
+        QFile fichier(QString(DONNEES)+QString("editers.txt"));
         if(fichier.open(QIODevice::WriteOnly | QIODevice::Append))
         {
             QTextStream stream(&fichier);
@@ -50,14 +50,14 @@ void EditerUnSort::enregistre()
     else
     {
         QString ligne;
-        QFile fichier(QString(DONNEES)+QString("sorts.txt")), fichier2(QString(DONNEES)+QString("sorts2.txt"));
+        QFile fichier(QString(DONNEES)+QString("editers.txt")), fichier2(QString(DONNEES)+QString("editers2.txt"));
         if(fichier.open(QIODevice::ReadOnly) && fichier2.open(QIODevice::WriteOnly))
         {
             QTextStream stream(&fichier), stream2(&fichier2);
             while(!stream.atEnd())
             {
                 ligne = stream.readLine();
-                if(ligne.section('/', 0, 0) == m_sort->nom())
+                if(ligne.section('/', 0, 0) == m_editer->nom())
                 {
                     stream2 << texte << endl;
                 }
@@ -68,27 +68,27 @@ void EditerUnSort::enregistre()
             }
             fichier.close();
             fichier2.close();
-            QFile::remove(QString(DONNEES)+QString("sorts.txt"));
-            QFile::rename(QString(DONNEES)+QString("sorts2.txt"), QString(DONNEES)+QString("sorts.txt"));
+            QFile::remove(QString(DONNEES)+QString("editers.txt"));
+            QFile::rename(QString(DONNEES)+QString("editers2.txt"), QString(DONNEES)+QString("editers.txt"));
         }
     }
 }
 
 void EditerUnSort::charge()
 {
-    setWindowTitle(m_sort->nom());
+    setWindowTitle(m_editer->nom());
     QString texte;
     if(!m_creation)
     {
-        QFile fichier(QString(DONNEES)+QString("sorts.txt"));
+        QFile fichier(QString(DONNEES)+QString("editers.txt"));
         if(fichier.open(QIODevice::ReadOnly))
         {
             QTextStream stream(&fichier);
-            while(!stream.atEnd() && texte.section('/', 0, 0) != m_sort->nom())
+            while(!stream.atEnd() && texte.section('/', 0, 0) != m_editer->nom())
             {
                 texte = stream.readLine();
             }
-            if(texte.section('/', 0, 0) != m_sort->nom())
+            if(texte.section('/', 0, 0) != m_editer->nom())
                 m_creation = true;
             fichier.close();
         }
@@ -123,7 +123,7 @@ void EditerUnSort::charge()
 void EditerUnSort::supprimer(QString const& nom)
 {
     QString ligne;
-    QFile fichier(QString(DONNEES)+QString("sorts.txt")), fichier2(QString(DONNEES)+QString("sorts2.txt"));
+    QFile fichier(QString(DONNEES)+QString("editers.txt")), fichier2(QString(DONNEES)+QString("editers2.txt"));
     if(fichier.open(QIODevice::ReadOnly) && fichier2.open(QIODevice::WriteOnly))
     {
         QTextStream stream(&fichier), stream2(&fichier2);
@@ -137,7 +137,7 @@ void EditerUnSort::supprimer(QString const& nom)
         }
         fichier.close();
         fichier2.close();
-        QFile::remove(QString(DONNEES)+QString("sorts.txt"));
-        QFile::rename(QString(DONNEES)+QString("sorts2.txt"), QString(DONNEES)+QString("sorts.txt"));
+        QFile::remove(QString(DONNEES)+QString("editers.txt"));
+        QFile::rename(QString(DONNEES)+QString("editers2.txt"), QString(DONNEES)+QString("editers.txt"));
     }
 }

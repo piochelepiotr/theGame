@@ -134,7 +134,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
 }
 
 
-QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const& arr, QVector<Path>parents, int max_dep)
+QQueue<Dir> faitechemFight(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const& arr, QVector<Path>parents, int max_dep)
 {
     QVector<Path>enfants;
     int x,y;
@@ -228,7 +228,7 @@ QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint
     if(enfants.isEmpty())
         return vide;
     else
-        return faitechemCombat(casemarchees, arr, enfants, max_dep-1);
+        return faitechemFight(casemarchees, arr, enfants, max_dep-1);
 }
 
 
@@ -362,7 +362,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
 }
 
 
-QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoint>const& arrivees, QVector<Path>parents, QPoint *arrivee)//on doit arriver à une des cases
+QQueue<Dir> faitechemFight(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoint>const& arrivees, QVector<Path>parents, QPoint *arrivee)//on doit arriver à une des cases
 {
     QVector<Path>enfants;
     int x,y;
@@ -456,7 +456,7 @@ QQueue<Dir> faitechemCombat(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVecto
     if(enfants.isEmpty())
         return vide;
     else
-        return faitechemCombat(casemarchees, arrivees, enfants, arrivee);
+        return faitechemFight(casemarchees, arrivees, enfants, arrivee);
 }
 
 Dir vaAdroite(Dir centre)

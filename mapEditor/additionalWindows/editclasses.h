@@ -2,7 +2,7 @@
 #define EDITERCLASSES_H
 
 #include <QDialog>
-#include "editermetier.h"
+#include "editjob.h"
 
 namespace Ui {
 class EditerClasses;

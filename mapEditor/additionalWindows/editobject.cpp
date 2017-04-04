@@ -1,5 +1,5 @@
-#include "editerunobjet.h"
-#include "ui_editerunobjet.h"
+#include "sortunobjet.h"
+#include "ui_sortunobjet.h"
 
 EditerUnObjet::EditerUnObjet(QWidget *parent,bool *ok,Object *objet, bool creation,int lcase, int hcase, QString *chemin, bool *supprimer) :
     QDialog(parent),

@@ -129,14 +129,14 @@ void Ecran::donneesRecues()
                 m_monde->connectPlayer(joueur);
                 m_infojoueurs->addItem(new QListWidgetItem(trUtf8("Connexion de ")+joueur->getPersoActuel()->getNom()));
                 /*joueur->joue();
-                QList<Joueur*>lesautres = joueursPasEnCombat(joueur->getPersoActuel()->getPos());
+                QList<Joueur*>lesautres = joueursPasEnFight(joueur->getPersoActuel()->getPos());
                 message = "ttt/"+m_monde->map(joueur->getPersoActuel()->getPos())->ressources_coupees()+'/';
                 for(int i = 0; i < lesautres.size(); i++)
                 {
                     message += lesautres[i]->getPersoActuel()->important()+'/';
                 }
                 joueur->envoi(message);
-                envoiGroupe(joueursPasEnCombat(joueur->getPersoActuel()->getPos()), "con/"+joueur->getPersoActuel()->important());*/
+                envoiGroupe(joueursPasEnFight(joueur->getPersoActuel()->getPos()), "con/"+joueur->getPersoActuel()->important());*/
                 //m_joueurenJeu.insert(joueur->getPersoActuel()->getPos(), joueur);
                 //m_nomJoueursEnJeu[joueur->getPersoActuel()->getNom()] = joueur;
             }
@@ -159,18 +159,18 @@ void Ecran::donneesRecues()
     }
 }
 
-/*QList<Joueur*>Ecran::joueursPasEnCombat(Point const& p)
+/*QList<Joueur*>Ecran::joueursPasEnFight(Point const& p)
 {
     QList<Joueur*> tous = m_joueurenJeu.values(p);
-    QList<Joueur*>pasEnCombat;
+    QList<Joueur*>pasEnFight;
     for(int j = 0; j < tous.size(); j++)
     {
-        if(!tous.at(j)->getPersoActuel()->enCombat())
+        if(!tous.at(j)->getPersoActuel()->enFight())
         {
-            pasEnCombat.append(tous.at(j));
+            pasEnFight.append(tous.at(j));
         }
     }
-    return pasEnCombat;
+    return pasEnFight;
 }*/
 
 void Ecran::deconnexionClient()
@@ -198,14 +198,14 @@ void Ecran::enleveJeu(Joueur *joueur)
 {
     //m_infojoueurs->addItem(new QListWidgetItem(joueur->getPersoActuel()->getNom()+" sort du jeu."));
     /*Personnage *pers = joueur->getPersoActuel();
-    if(pers->enCombat())
+    if(pers->enFight())
     {
-        Combat *combat = m_monde->map(pers->getPos())->combat(m_monde->map(pers->getPos())->leaderDe(pers->getNom()));
-        combat->enlevePerso(pers->getNom());
+        Fight *fight = m_monde->map(pers->getPos())->fight(m_monde->map(pers->getPos())->leaderDe(pers->getNom()));
+        fight->enlevePerso(pers->getNom());
     }
     else
     {
-        envoiGroupe(joueursPasEnCombat(joueur->getPersoActuel()->getPos()), "dec/"+joueur->getPersoActuel()->getNom());
+        envoiGroupe(joueursPasEnFight(joueur->getPersoActuel()->getPos()), "dec/"+joueur->getPersoActuel()->getNom());
     }*/
     //m_joueurenJeu.remove(joueur->getPersoActuel()->getPos(), joueur);
     //m_nomJoueursEnJeu.remove(joueur->getPersoActuel()->getNom());

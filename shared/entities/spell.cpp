@@ -1,10 +1,10 @@
 #include "entities/spell.h"
 
-Spell::Spell(QString const& nom, int niveau, int points_combat, int portee_min, int portee_max, int degats_terre_min, int degats_terre_max)
+Spell::Spell(QString const& nom, int niveau, int points_fight, int portee_min, int portee_max, int degats_terre_min, int degats_terre_max)
 {
     m_nom = nom;
     m_niveau = niveau;
-    m_points_combat = points_combat;
+    m_points_fight = points_fight;
     m_portee_min = portee_min;
     m_portee_max = portee_max;
     m_degats_terre_min = degats_terre_min;
@@ -20,7 +20,7 @@ QString Spell::decrit(Spell *sort)
     texte += "<td align=\"right\" >"+QObject::trUtf8("niveau ")+QString::number(sort->niveau())+"</td>";
     texte += "</tr><tr>";
     texte += "<td>"+QObject::trUtf8("portée : ")+QString::number(sort->portee_min())+QObject::trUtf8(" à ")+QString::number(sort->portee_max())+"</td>";
-    texte += "<td align=\"right\" >"+QString::number(sort->points_combat())+QObject::trUtf8(" PC") + "</td>";
+    texte += "<td align=\"right\" >"+QString::number(sort->points_fight())+QObject::trUtf8(" PC") + "</td>";
     texte += "</tr>";
     texte += "</table";
 

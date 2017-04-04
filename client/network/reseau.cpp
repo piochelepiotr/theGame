@@ -149,11 +149,11 @@ void Reseau::donneesRecues()
         {
             emit gagneRessource(message);
         }
-        else if(inf == "commenceCombat")
+        else if(inf == "commenceFight")
         {
-            emit commenceCombat();
+            emit commenceFight();
         }
-        else if(inf == "combatVieDe")
+        else if(inf == "fightVieDe")
         {
             emit changeVie(message.section('/',0,0),message.section('/',1,1).toInt());
         }
@@ -161,9 +161,9 @@ void Reseau::donneesRecues()
         {
             emit meurt(message);
         }
-        else if(inf == "finCombat")
+        else if(inf == "finFight")
         {
-            emit finCombat(message);
+            emit finFight(message);
         }
         else if(inf == "changePos")
         {

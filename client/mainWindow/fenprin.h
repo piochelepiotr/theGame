@@ -34,7 +34,7 @@
 #include "entities/npc.h"
 #include "additionalWindows/dialoguepnj.h"
 #include "additionalWindows/fairerecettes.h"
-#include "combats/combat.h"
+#include "fights/fight.h"
 #include "additionalWindows/windowendfight.h"
 #include "graphicGame/layoutbarreoutil.h"
 #include "additionalWindows/interjoueur.h"
@@ -107,15 +107,15 @@ public slots:
     void gagneArme(QString donnees);
     void gagneRessource(QString donnees);
 
-    ///combats
+    ///fights
 
     void je_passe_tour();
     void tu_dois_passe_tour();
     void ton_tour();
     void utiliseSort(QString nom);
-    void commenceCombat();
+    void commenceFight();
     void meurt(QString const& nom);
-    void finCombat(const QString &texte);
+    void finFight(const QString &texte);
     void changeVie(QString const& nom, int vie);
 
     void attackMonster(QString const& name);
@@ -138,7 +138,7 @@ private:
     Ui::JeuMainWindow *m_jeuui;
     Ui::CreerMainWindow *m_creerui;
 
-    Combat *m_combat;
+    Fight *m_fight;
 
     LayoutBarreOutil *m_layoutBarreOutil;
 

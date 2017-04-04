@@ -15,7 +15,7 @@
 #include <QMessageBox>
 #include "scenery/scenery.h"
 #include "monde/monde.h"
-#include "monde/combat.h"
+#include "monde/fight.h"
 #include <QTimer>
 #include "network/database.h"
 #include "network/compte.h"
@@ -33,10 +33,10 @@ public:
     void enleveJeu(Joueur *joueur);
     void enleveChoixPerso(Joueur *joueur);
     //void analyseReponsePnj(QString const& reponse, Personnage *perso);
-    //void commenceCombat(QString leader, QString autre);
-    //void finiCombat(QString leader);
-    //void analyseCombat(QString debut,QString fin,Joueur *joueur);
-    //QList<Joueur*>joueursPasEnCombat(Point const& p);
+    //void commenceFight(QString leader, QString autre);
+    //void finiFight(QString leader);
+    //void analyseFight(QString debut,QString fin,Joueur *joueur);
+    //QList<Joueur*>joueursPasEnFight(Point const& p);
 
 
 public slots:

@@ -4,12 +4,12 @@
 #include "graphic/gamescene.h"
 #include <QTcpSocket>
 #include "entities/character.h"
-#include "combats/combat.h"
+#include "fights/fight.h"
 #include "actions_personnage.h"
 
 class AfficheJoueur;
 
-enum Etat{HorsCombat,EnPlacement,EnCombat};
+enum Etat{HorsFight,EnPlacement,EnFight};
 
 class GameField : public GameScene
 {
@@ -35,11 +35,11 @@ public:
     void cliqueGauche(int x, int y);
     void setMonTour(bool monTour);
     void veut_utiliserSort(Spell *sort);
-    void deplaceCombat(const QString &qui, const QPoint &ou);
+    void deplaceFight(const QString &qui, const QPoint &ou);
     void deplace(QString const& nom, QQueue<Dir> const& chem, Actions_personnage::DerniereAction action = Actions_personnage::Aucune);
-    void phaseFinCombat();
-    void phaseCombat();
-    void phasePlacement(Combat *combat,int equipe);
+    void phaseFinFight();
+    void phaseFight();
+    void phasePlacement(Fight *fight,int equipe);
     void a_coupe();
     void doit_recolter();
     void fait_recettes();
@@ -49,7 +49,7 @@ public:
     void changeDeMap(int mapx, int mapy, int mapz, int coox,int cooy);
     bool monTour() { return m_character->monTour(); }
     Character *getPerso() { return m_character; }
-    Etat phase() const { return m_combatOuPas; }
+    Etat phase() const { return m_fightOuPas; }
     Map *dataMap() const { return m_dataMap; }
     Spell *sort() const { return m_sort_a_utiliser; }
     void utiliseSort(Spell *sort);
@@ -72,9 +72,9 @@ private:
     QString m_nomMetier;
     Dir m_orientation;
     QPoint m_pos_ressource;
-    Etat m_combatOuPas;
+    Etat m_fightOuPas;
     int m_debut_tour;
-    Combat *m_combat;
+    Fight *m_fight;
     Spell *m_sort_a_utiliser;
     QPoint m_posFleche;
     Dir m_directionChangeMap;

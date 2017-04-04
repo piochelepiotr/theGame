@@ -102,13 +102,13 @@
     </property>
     <addaction name="actionObjet"/>
     <addaction name="actionCase_marchable"/>
-    <addaction name="actionCase_combat"/>
+    <addaction name="actionCase_fight"/>
     <addaction name="actionTransporteur"/>
     <addaction name="actionCase_portee"/>
    </widget>
-   <widget class="QMenu" name="menuCase_combat">
+   <widget class="QMenu" name="menuCase_fight">
     <property name="title">
-     <string>Case combat</string>
+     <string>Case fight</string>
     </property>
     <addaction name="actionEquipe_1"/>
     <addaction name="actionEquipe_2"/>
@@ -131,7 +131,7 @@
    <addaction name="menuZoom"/>
    <addaction name="menuClaque"/>
    <addaction name="menuOutil"/>
-   <addaction name="menuCase_combat"/>
+   <addaction name="menuCase_fight"/>
    <addaction name="menuCase_marchable"/>
    <addaction name="menuEdition"/>
   </widget>
@@ -216,9 +216,9 @@
     <string>Case marchable</string>
    </property>
   </action>
-  <action name="actionCase_combat">
+  <action name="actionCase_fight">
    <property name="text">
-    <string>Case combat</string>
+    <string>Case fight</string>
    </property>
   </action>
   <action name="actionTransporteur">

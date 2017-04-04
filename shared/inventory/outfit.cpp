@@ -7,15 +7,15 @@ Outfit::Outfit(QString const& donnees, Resources *ressources)
     m_ressource = ressources->getRessource(liste[0]);
     m_bonus_force = liste[1].toInt();
     m_bonus_vie = liste[2].toInt();
-    m_bonus_points_combat = liste[3].toInt();
+    m_bonus_points_fight = liste[3].toInt();
 }
 
-Outfit::Outfit(Resource *ressource, int bonus_force, int bonus_vie, int bonus_points_combat)
+Outfit::Outfit(Resource *ressource, int bonus_force, int bonus_vie, int bonus_points_fight)
 {
     m_ressource = ressource;
     m_bonus_force = bonus_force;
     m_bonus_vie = bonus_vie;
-    m_bonus_points_combat = bonus_points_combat;
+    m_bonus_points_fight = bonus_points_fight;
 }
 
 Outfit::Outfit(Outfit const& autre)
@@ -23,7 +23,7 @@ Outfit::Outfit(Outfit const& autre)
     m_ressource = autre.m_ressource;
     m_bonus_force = autre.m_bonus_force;
     m_bonus_vie = autre.m_bonus_vie;
-    m_bonus_points_combat = autre.m_bonus_points_combat;
+    m_bonus_points_fight = autre.m_bonus_points_fight;
 }
 
 QString Outfit::descr_effet(Outfit *equipement)
@@ -37,10 +37,10 @@ QString Outfit::descr_effet(Outfit *equipement)
         effet += "<li style=\"color:rgb(220,20,20);\" >"+QString::number(equipement->getBonusVie())+QObject::trUtf8(" vie")+"</li>";
     else if(equipement->getBonusVie() > 0)
         effet += "<li style=\"color:rgb(20,220,20);\" >"+QString::number(equipement->getBonusVie())+QObject::trUtf8(" vie")+"</li>";
-    if(equipement->getBonusPointsCombat() < 0)
-        effet += "<li style=\"color:rgb(220,20,20);\" >"+QString::number(equipement->getBonusPointsCombat())+QObject::trUtf8(" PC")+"</li>";
-    else if(equipement->getBonusPointsCombat() > 0)
-        effet += "<li style=\"color:rgb(20,220,20);\" >"+QString::number(equipement->getBonusPointsCombat())+QObject::trUtf8(" PC")+"</li>";
+    if(equipement->getBonusPointsFight() < 0)
+        effet += "<li style=\"color:rgb(220,20,20);\" >"+QString::number(equipement->getBonusPointsFight())+QObject::trUtf8(" PC")+"</li>";
+    else if(equipement->getBonusPointsFight() > 0)
+        effet += "<li style=\"color:rgb(20,220,20);\" >"+QString::number(equipement->getBonusPointsFight())+QObject::trUtf8(" PC")+"</li>";
     return effet;
 }
 
@@ -57,7 +57,7 @@ QString Outfit::enString(Outfit *equipement)
         texte += equipement->getRessource()->nom() + '/';
         texte += QString::number(equipement->getBonusForce())+'/';
         texte += QString::number(equipement->getBonusVie())+'/';
-        texte += QString::number(equipement->getBonusPointsCombat())+'/';
+        texte += QString::number(equipement->getBonusPointsFight())+'/';
     }
     else
     {
@@ -99,7 +99,7 @@ bool operator==(Outfit const& a, Outfit const& b)
         return false;
     if(a.getBonusVie() != b.getBonusVie())
         return false;
-    if(a.getBonusPointsCombat() != b.getBonusPointsCombat())
+    if(a.getBonusPointsFight() != b.getBonusPointsFight())
         return false;
     return true;
 }

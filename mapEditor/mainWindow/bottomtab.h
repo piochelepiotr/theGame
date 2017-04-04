@@ -3,7 +3,7 @@
 
 #include <QTabWidget>
 #include "mainWindow/addtoworldtab.h"
-#include "mainWindow/combatframestab.h"
+#include "mainWindow/fightframestab.h"
 #include "mainWindow/infomaptab.h"
 #include "mainWindow/objectstab.h"
 #include "mainWindow/varioustab.h"
@@ -24,7 +24,7 @@ public:
     ObjectsTab *m_widobjets;
     InfoMapTab *m_widinfomap;
     walkableFramesTab *m_widCasesMarchables;
-    CombatFramesTab *m_widCasesCombat;
+    FightFramesTab *m_widCasesFight;
     AddToWorldTab *m_widajouteMonde;
 
 signals:

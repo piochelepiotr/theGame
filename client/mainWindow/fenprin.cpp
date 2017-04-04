@@ -8,7 +8,7 @@
 
 FenPrin::FenPrin(QWidget *parent) : QMainWindow(parent)
 {
-    m_combat = 0;
+    m_fight = 0;
     m_donneesediteur = new Data(0,0,0,0);
     m_reseau = new Reseau();
     m_threadReseau = new QThread;
@@ -158,11 +158,11 @@ void FenPrin::jeu()
     connect(m_reseau,SIGNAL(gagneEquipement(QString)), this,SLOT(gagneEquipement(QString)));
     connect(m_reseau,SIGNAL(gagneArme(QString)), this,SLOT(gagneArme(QString)));
     connect(m_reseau,SIGNAL(gagneRessource(QString)), this,SLOT(gagneRessource(QString)));
-    connect(m_reseau,SIGNAL(commenceCombat()),this,SLOT(commenceCombat()));
+    connect(m_reseau,SIGNAL(commenceFight()),this,SLOT(commenceFight()));
     connect(m_reseau,SIGNAL(changeVie(QString,int)),this,SLOT(changeVie(QString,int)));
     connect(m_reseau,SIGNAL(meurt(QString)),this,SLOT(meurt(QString)));
     connect(m_reseau,SIGNAL(changePos(QString,int,int)),m_jeu,SLOT(changePos(QString,int,int)));
-    connect(m_reseau,SIGNAL(finCombat(QString)),this,SLOT(finCombat(QString)));
+    connect(m_reseau,SIGNAL(finFight(QString)),this,SLOT(finFight(QString)));
 
     QTimer *timer = new QTimer(m_jeu);
     connect(timer, SIGNAL(timeout()), m_jeu, SLOT(imagesuivante()));
@@ -365,7 +365,7 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
             {
                 m_jeu->cliqueGauche(mouseEvent->scenePos().x(), mouseEvent->scenePos().y());
             }
-            else if(m_jeu->phase() == HorsCombat)
+            else if(m_jeu->phase() == HorsFight)
             {
                 QString nom = m_jeu->contientJoueur();
                 if(nom != m_compte->getPerso(m_persoActuel)->getNom() && !nom.isEmpty())
@@ -490,7 +490,7 @@ void FenPrin::persoPlus()
 
 void FenPrin::defiCommance(int equipe)
 {
-    m_jeu->phasePlacement(m_combat,equipe);
+    m_jeu->phasePlacement(m_fight,equipe);
     m_boxannul->close();
     //m_bar_vie->setMaximum(m_jeu->getPerso()->getTotalVie());
     m_compte->getPerso(m_persoActuel)->setPret(false);
@@ -499,32 +499,32 @@ void FenPrin::defiCommance(int equipe)
 
 void FenPrin::annuleDemandeDefi()
 {
-    if(m_combat != 0 && m_combat->leader() == m_compte->getPerso(m_persoActuel)->getNom() && m_jeu->phase() == HorsCombat)
+    if(m_fight != 0 && m_fight->leader() == m_compte->getPerso(m_persoActuel)->getNom() && m_jeu->phase() == HorsFight)
     {
-        m_reseau->envoyer("combat/annuleDemandeDefi/");
-        delete m_combat;
+        m_reseau->envoyer("fight/annuleDemandeDefi/");
+        delete m_fight;
     }
 }
 
 void FenPrin::onMeProposeDefi(QString qui)
 {
-    m_combat = new Combat(qui, m_compte->getPerso(m_persoActuel));
+    m_fight = new Fight(qui, m_compte->getPerso(m_persoActuel));
     m_boxquestion->setText(trUtf8("Souhaitez-vous faire un défi avec ") + qui +" ?");
     int rep = m_boxquestion->exec();
     if(rep == QMessageBox::Ok)
     {
-        m_reseau->envoyer("combat/accepteDemandeDefi");
+        m_reseau->envoyer("fight/accepteDemandeDefi");
     }
     else if(rep == QMessageBox::Cancel)
     {
-        m_reseau->envoyer("combat/refuseDemandeDefi");
+        m_reseau->envoyer("fight/refuseDemandeDefi");
     }
 }
 
 void FenPrin::ilRefuseDefi()
 {
-    delete m_combat;
-    m_combat = 0;
+    delete m_fight;
+    m_fight = 0;
     m_boxannul->close();
 }
 
@@ -598,7 +598,7 @@ void FenPrin::qqAutre()
 
 void FenPrin::deplacement(QString qui, QPoint ou)
 {
-    if(m_jeu->phase() == HorsCombat)
+    if(m_jeu->phase() == HorsFight)
     {
         m_jeu->deplace(qui, m_jeu->dataMap()->calculchemin(m_jeu->getJoueur(qui)->posALaFin(),ou));
     }
@@ -606,9 +606,9 @@ void FenPrin::deplacement(QString qui, QPoint ou)
     {
         m_jeu->changePos(qui,ou.x(),ou.y());
     }
-    else if(m_jeu->phase() == EnCombat)
+    else if(m_jeu->phase() == EnFight)
     {
-        m_jeu->deplaceCombat(qui,ou);
+        m_jeu->deplaceFight(qui,ou);
     }
 }
 
@@ -644,11 +644,11 @@ void FenPrin::creerRecette(QString metier)
     //QMessageBox::information(this, "creation", "metier : "+metier);
 }
 
-void FenPrin::commenceCombat()
+void FenPrin::commenceFight()
 {
-    m_jeu->phaseCombat();
+    m_jeu->phaseFight();
     tu_dois_passe_tour();
-    m_layoutBarreOutil->phaseCombat();
+    m_layoutBarreOutil->phaseFight();
 }
 
 void FenPrin::je_passe_tour()
@@ -657,19 +657,19 @@ void FenPrin::je_passe_tour()
     {
         if(m_compte->getPerso(m_persoActuel)->pret())
         {
-            m_reseau->envoyer("combat/pasPret");
+            m_reseau->envoyer("fight/pasPret");
             m_compte->getPerso(m_persoActuel)->setPret(false);
         }
         else
         {
-            m_reseau->envoyer("combat/pret");
+            m_reseau->envoyer("fight/pret");
             m_compte->getPerso(m_persoActuel)->setPret(true);
         }
         m_layoutBarreOutil->setPret(m_compte->getPerso(m_persoActuel)->pret());
     }
-    else if(m_jeu->phase() == EnCombat && m_jeu->monTour())
+    else if(m_jeu->phase() == EnFight && m_jeu->monTour())
     {
-        m_reseau->envoyer("combat/passeTour");
+        m_reseau->envoyer("fight/passeTour");
     }
 }
 
@@ -688,7 +688,7 @@ void FenPrin::ton_tour()
 
 void FenPrin::utiliseSort(QString nom)// à passer dans layoutBarreOutil
 {
-    if(m_jeu->phase() == EnCombat && m_jeu->monTour())
+    if(m_jeu->phase() == EnFight && m_jeu->monTour())
     {
         if(m_jeu->getPerso()->peutUtiliserSort(nom))
         {
@@ -722,9 +722,9 @@ void FenPrin::meurt(QString const& nom)
     m_jeu->meurt(nom);
 }
 
-void FenPrin::finCombat(QString const& texte)
+void FenPrin::finFight(QString const& texte)
 {
-    m_jeu->phaseFinCombat();
+    m_jeu->phaseFinFight();
     WindowEndFight boite(texte,this,m_compte->getPerso(m_persoActuel));
 }
 
@@ -739,11 +739,12 @@ void FenPrin::changeVie(QString const& nom, int vie)
 
 void FenPrin::attackMonster(QString const& name)
 {
-    qDebug() << "veut combattre " << name;
-    //m_reseau->envoyer("combat/jeDemandeDefi/"+nom);
+    m_reseau->envoyer("fight/"+name);
+    qDebug() << "veut fighttre " << name;
+    //m_reseau->envoyer("fight/jeDemandeDefi/"+nom);
     //m_boxannul->setText(trUtf8("Demande de defi à ")+nom+(" en cours..."));
     //m_boxannul->open(this, SLOT(annuleDemandeDefi()));
-    //m_combat = new Combat(m_compte->getPerso(m_persoActuel)->getNom(), m_compte->getPerso(m_persoActuel));
+    //m_fight = new Fight(m_compte->getPerso(m_persoActuel)->getNom(), m_compte->getPerso(m_persoActuel));
 }
 
 

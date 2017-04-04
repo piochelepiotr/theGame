@@ -33,8 +33,8 @@ public slots:
         void editeMonstres();
         void editeSorts();
         void editeClasses();
-        void editerRessources();
-        void editerPnjs();
+        void sortRessources();
+        void sortPnjs();
 
 };
 

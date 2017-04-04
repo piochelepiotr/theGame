@@ -2,8 +2,8 @@
 #define EDITERPNJS_H
 
 #include <QDialog>
-#include "editerunobjet.h"
-#include "creerpnj.h"
+#include "editobject.h"
+#include "createnpc.h"
 #include "scenery/scenery.h"
 #include <QTableWidgetItem>
 
@@ -44,8 +44,8 @@ public slots:
     
 private:
     Ui::EditerPnjs *ui;
-    QVector<Bouton2*>bouts_editer_objet;
-    QVector<Bouton2*>bouts_editer_dialogues;
+    QVector<Bouton2*>bouts_sort_objet;
+    QVector<Bouton2*>bouts_sort_dialogues;
     QMap<qint16, QTableWidgetItem*>m_noms;
     Scenery *m_decors;
 };

@@ -1,5 +1,5 @@
-#include "editermonstres.h"
-#include "ui_editermonstres.h"
+#include "sortmonstres.h"
+#include "ui_sortmonstres.h"
 
 EditerMonstres::EditerMonstres(QWidget *parent, Resources *ressources) :
     QDialog(parent),

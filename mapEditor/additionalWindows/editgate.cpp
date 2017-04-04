@@ -1,5 +1,5 @@
-#include "editertransporteur.h"
-#include "ui_editertransporteur.h"
+#include "sorttransporteur.h"
+#include "ui_sorttransporteur.h"
 
 
 

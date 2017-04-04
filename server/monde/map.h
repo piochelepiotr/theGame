@@ -2,7 +2,7 @@
 #define ServerMap_H
 
 #include "map/map.h"
-#include "monde/combat.h"
+#include "monde/fight.h"
 #include "entities/monsterModel.h"
 #include "entities/monster.h"
 
@@ -18,8 +18,8 @@ public:
     ~ServerMap();
     void coupe(QPoint p);
     QString ressources_coupees() const;
-    void addCombat(Character *leader1, Character *leader2);
-    Combat *combat(QString nom);
+    void addFight(Character *leader1, Character *leader2);
+    Fight *fight(QString nom);
     QString leaderDe(QString nom);
     void joueurChangePosDepart(QString nom, int x,int y);//pendant la phase de placement, demande une verification par le serveur
     void enEquipe(QString const& nom);
@@ -28,19 +28,19 @@ public:
     void addMonstre();
     void connectPlayer(Joueur *joueur, bool hasJustChangedServerMap = false);
     void disconnectPlayer(QString const& nom);
-    QList<Joueur*> joueursPasEnCombat();
+    QList<Joueur*> joueursPasEnFight();
     QList<Monster*>monsterNotFighting();
     void receiveMessage(Joueur *player,QString const& begin, QString const& message);
-    void analyseCombat(QString debut,QString fin,Joueur *joueur);
+    void analyseFight(QString debut,QString fin,Joueur *joueur);
     void analyseReponsePnj(QString const& reponse, Joueur *player);
 
 public slots:
 
     void repousse(int pos);
-    void decoCombattants(QString nomCombat);
-    void recoCombattants(QString nomCombat);
-    void finCombat(QString nom);
-    void finCombatAvantDebut(QString nom);
+    void decoFighttants(QString nomFight);
+    void recoFighttants(QString nomFight);
+    void finFight(QString nom);
+    void finFightAvantDebut(QString nom);
     void sendToPlayer(QString const& name,QString const& message);
 
 private:
@@ -50,7 +50,7 @@ private:
     QMap<QPoint,QTimer*>m_timers;
     Monde *m_parent;
     Point m_pos;
-    QMap<QString,Combat*>m_combats;
+    QMap<QString,Fight*>m_fights;
     QMap<QString,Monster*>m_monstres;
     QMap<QString,Joueur*>m_joueurs;
     Ecran *m_ecran;

@@ -12,7 +12,7 @@ ObjectsTab::ObjectsTab(MainWindow *mainWindow, Jeu2d *gamePanel) :
     m_ajouterUnObjet = new QPushButton(trUtf8("Ajouter un objet au thème"));
     m_effaceurobjet = new QPushButton(trUtf8("effaceur"));
     m_remplire = new QPushButton(trUtf8("remplir"));
-    m_bout_editobj = new QPushButton(trUtf8("editer"));
+    m_bout_editobj = new QPushButton(trUtf8("sort"));
     m_lay_bas_objets = new QHBoxLayout();
     m_lay_imagesObjets = new QHBoxLayout;
     m_scroll_imagesObjets = new QScrollArea();
@@ -55,6 +55,6 @@ ObjectsTab::ObjectsTab(MainWindow *mainWindow, Jeu2d *gamePanel) :
     connect(m_ajouterUnObjet, SIGNAL(clicked()), mainWindow, SLOT(nouveauObjetPourTheme()));
     connect(m_themesObjet, SIGNAL(currentIndexChanged(int)), mainWindow, SLOT(chargeThemeObjet(int)));
     connect(m_effaceurobjet, SIGNAL(clicked()), mainWindow, SLOT(selectionNouveauObjet()));
-    connect(m_bout_editobj, SIGNAL(clicked()), mainWindow, SLOT(editerObjet()));
+    connect(m_bout_editobj, SIGNAL(clicked()), mainWindow, SLOT(sortObjet()));
 
 }
