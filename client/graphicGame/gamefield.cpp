@@ -3,6 +3,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include "network/reseau.h"
 #include <QDebug>
+#include "layoutbarreoutil.h"
 #define ARROW_DISPLAY_DIST 40
 
 GameField::GameField(const QSize &size, Character *pers, QTcpSocket *sock, Data *donnees_editeur) : GameScene(size,0,donnees_editeur)
@@ -11,6 +12,7 @@ GameField::GameField(const QSize &size, Character *pers, QTcpSocket *sock, Data 
     elapsed.start();
     qDebug() << "time : " << elapsed.elapsed();
     m_displayGrid = false;
+    m_layoutBarreOutil = 0;
     m_spell_a_utiliser = 0;
     m_fight = 0;
     m_nameMetier = "";
@@ -131,7 +133,7 @@ void GameField::cliqueGauche(int x, int y)
             if(!chem.isEmpty())
             {
                 m_character->use_pc(chem.size());
-                emit changePC(m_character->getPCFight());
+                m_layoutBarreOutil->setPC(m_character->getPCFight());
                 envoyerM(m_socket, "fight/dep/"+QString::number(arrivee.x())+"*"+QString::number(arrivee.y()));
             }
         }
@@ -142,7 +144,7 @@ void GameField::cliqueGauche(int x, int y)
             if(p.x() != -1)
             {
                 m_character->use_pc(m_spell_a_utiliser->points_fight());
-                emit changePC(m_character->getPCFight());
+                m_layoutBarreOutil->setPC(m_character->getPCFight());
                 envoyerM(m_socket,"fight/attaque/"+m_spell_a_utiliser->name()+"/"+QString::number(p.x())+"/"+QString::number(p.y()));
             }
             m_spell_a_utiliser = 0;
@@ -152,11 +154,12 @@ void GameField::cliqueGauche(int x, int y)
 
 void GameField::setMonTour(bool monTour)
 {
+    m_layoutBarreOutil->setMonTour(monTour);
     effaceChemin();
     m_character->nouveau_tour();
     m_character->setTour(monTour);
     m_spell_a_utiliser = 0;
-    emit changePC(m_character->getPCFight());
+    m_layoutBarreOutil->setPC(m_character->getPCFight());
 }
 
 void GameField::veut_utiliserSpell(Spell *spell)
@@ -168,6 +171,7 @@ void GameField::veut_utiliserSpell(Spell *spell)
 
 void GameField::phasePlacement(Fight *fight,int equipe)
 {
+    m_layoutBarreOutil->phasePlacement();
     m_character->setEquipe(equipe);
     m_fightOuPas = EnPlacement;
     affiche_casesFight();
@@ -176,6 +180,7 @@ void GameField::phasePlacement(Fight *fight,int equipe)
 
 void GameField::phaseFight()
 {
+    m_layoutBarreOutil->phaseFight();
     m_fightOuPas = EnFight;
     masque_casesFight();
     marche_pas();
@@ -544,6 +549,10 @@ void GameField::recolte(const QString &name, QString const& verbe, int orientati
 void GameField::setVie(QString const& name, int vie)
 {
     m_persos[name]->changeToolTip(name+" ("+QString::number(vie)+")");
+    if(name == m_character->getNom())
+    {
+        m_layoutBarreOutil->setVie(vie);
+    }
 }
 
 void GameField::meurt(QString const& name)

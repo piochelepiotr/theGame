@@ -132,6 +132,7 @@ void FenPrin::jeu()
     m_jeuui->setupUi(this);
 
     this->setWindowTitle(m_compte->getPerso(m_persoActuel)->getNom());
+
     m_jeu = new GameField(QSize(size.width(),size.height()-HAUTEUR_BARRE_OUTIL), m_compte->getPerso(m_persoActuel), m_reseau->socket(), m_donneesediteur);
     m_jeuui->jeu2d->setScene(m_jeu);
     m_jeuui->jeu2d->setSceneRect(0,0,size.width(),size.height()-HAUTEUR_BARRE_OUTIL);
@@ -139,29 +140,23 @@ void FenPrin::jeu()
     m_layoutBarreOutil = new LayoutBarreOutil(this,m_compte->getPerso(m_persoActuel));
     m_jeuui->barreoutil->setLayout(m_layoutBarreOutil);
     m_jeuui->barreoutil->setFixedHeight(HAUTEUR_BARRE_OUTIL);
+    m_jeu->setLayoutBarreOutil(m_layoutBarreOutil);
+
+    m_reseau->setCharacter(m_compte->getPerso(m_persoActuel));
+    m_reseau->setGameField(m_jeu);
 
     connect(m_jeuui->menu_jeu_quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(m_jeuui->menu_jeu_deco, SIGNAL(triggered()), this, SLOT(connexion()));
     connect(m_jeuui->menu_jeu_changerPerso, SIGNAL(triggered()), this, SLOT(choixPerso()));
-    connect(m_reseau, SIGNAL(nouveauJoueur(EntityInfo)), m_jeu, SLOT(addEntity(EntityInfo)));
-    connect(m_reseau, SIGNAL(decJoueur(QString)), m_jeu, SLOT(removeEntity(QString)));
-    connect(m_reseau, SIGNAL(coupe(QString,QString,int,int)), m_jeu, SLOT(recolte(QString,QString,int,int)));
-    connect(m_reseau, SIGNAL(resource_coupe(QPoint)), m_jeu, SLOT(resourceRecoltee(QPoint)));
-    connect(m_reseau, SIGNAL(resource_repousse(int,int)), m_jeu, SLOT(resource_repousse(int,int)));
-    connect(m_reseau, SIGNAL(infos_map(QString)), m_jeu, SLOT(infos_map(QString)));
     connect(m_jeu, SIGNAL(pnjclique(qint16, QPoint)), this, SLOT(dialoguePnj(qint16,QPoint)));
     connect(m_jeu, SIGNAL(faitRecette(QString)), this, SLOT(creerRecette(QString)));
     connect(m_jeu, SIGNAL(pourChat(QString)), this, SLOT(ajouteLigneChat(QString)));
-    connect(m_jeu,SIGNAL(changePC(int)),m_layoutBarreOutil,SLOT(setPC(int)));
-    connect(m_reseau, SIGNAL(passe_tour()), this, SLOT(tu_dois_passe_tour()));
     connect(m_reseau, SIGNAL(ton_tour()), this, SLOT(ton_tour()));
     connect(m_reseau,SIGNAL(gagneEquipement(QString)), this,SLOT(gagneEquipement(QString)));
     connect(m_reseau,SIGNAL(gagneArme(QString)), this,SLOT(gagneArme(QString)));
     connect(m_reseau,SIGNAL(gagneRessource(QString)), this,SLOT(gagneRessource(QString)));
     connect(m_reseau,SIGNAL(commenceFight()),this,SLOT(commenceFight()));
-    connect(m_reseau,SIGNAL(changeVie(QString,int)),this,SLOT(changeVie(QString,int)));
     connect(m_reseau,SIGNAL(meurt(QString)),this,SLOT(meurt(QString)));
-    connect(m_reseau,SIGNAL(changePos(QString,int,int)),m_jeu,SLOT(changePos(QString,int,int)));
     connect(m_reseau,SIGNAL(finFight(QString)),this,SLOT(finFight(QString)));
 
     QTimer *timer = new QTimer(m_jeu);
@@ -177,7 +172,7 @@ void FenPrin::jeu()
 
 
 
-    tu_dois_passe_tour();
+    m_jeu->setMonTour(false);
     this->resize(size);
     //m_jeuui->jeu2d->setAttribute(Qt::WA_AlwaysShowToolTips);
 
@@ -486,15 +481,12 @@ void FenPrin::persoPlus()
     }
 }
 
-
-
 void FenPrin::defiCommance(int equipe)
 {
     m_jeu->phasePlacement(m_fight,equipe);
     m_boxannul->close();
     //m_bar_vie->setMaximum(m_jeu->getPerso()->getTotalVie());
     m_compte->getPerso(m_persoActuel)->setPret(false);
-    m_layoutBarreOutil->phasePlacement();
 }
 
 void FenPrin::annuleDemandeDefi()
@@ -647,8 +639,7 @@ void FenPrin::creerRecette(QString metier)
 void FenPrin::commenceFight()
 {
     m_jeu->phaseFight();
-    tu_dois_passe_tour();
-    m_layoutBarreOutil->phaseFight();
+    m_jeu->setMonTour(false);
 }
 
 void FenPrin::je_passe_tour()
@@ -673,17 +664,10 @@ void FenPrin::je_passe_tour()
     }
 }
 
-void FenPrin::tu_dois_passe_tour()
-{
-    m_jeu->setMonTour(false);
-    m_layoutBarreOutil->setMonTour(false);
-}
-
 void FenPrin::ton_tour()
 {
     QMessageBox::information(this, trUtf8("haha"), trUtf8("a ton tour"));
     m_jeu->setMonTour(true);
-    m_layoutBarreOutil->setMonTour(true);
 }
 
 void FenPrin::utiliseSpell(QString name)// à passer dans layoutBarreOutil
@@ -717,7 +701,7 @@ void FenPrin::meurt(QString const& name)
     if(name == m_compte->getPerso(m_persoActuel)->getNom())
     {
         if(m_jeu->monTour())
-            tu_dois_passe_tour();
+            m_jeu->setMonTour(false);
     }
     m_jeu->meurt(name);
 }
@@ -726,15 +710,6 @@ void FenPrin::finFight(QString const& texte)
 {
     m_jeu->phaseFinFight();
     WindowEndFight boite(texte,this,m_compte->getPerso(m_persoActuel));
-}
-
-void FenPrin::changeVie(QString const& name, int vie)
-{
-    m_jeu->setVie(name,vie);
-    if(name == m_compte->getPerso(m_persoActuel)->getNom())
-    {
-        m_layoutBarreOutil->setVie(vie);
-    }
 }
 
 void FenPrin::attackMonster(QString const& name)

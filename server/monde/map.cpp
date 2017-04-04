@@ -2,6 +2,8 @@
 #include "graphic/ecran.h"
 #include "monde/monde.h"
 
+#define MAX_FIGHTS 50
+
 ServerMap::ServerMap(Data *donnees_editeur, Monde *parent, Point const& pos,Ecran *ecran)
 {
     m_donnees_editeur = donnees_editeur;
@@ -85,12 +87,14 @@ void ServerMap::repousse(int pos)
     envoiGroupe(joueursPasEnFight(), "rep/"+QString::number(p.x())+'*'+QString::number(p.y()));
 }
 
-void ServerMap::addFight(Character *leader1, Character *leader2)
+void ServerMap::addFight(Entity *leader1, Entity *leader2)
 {
-    m_fights[leader1->getNom()] = new Fight(leader1,leader2,m_map);
-    connect(m_fights[leader1->getNom()],SIGNAL(envoie(QString,QString)), this,SLOT(sendToPlayer(QString,QString)));
-    connect(m_fights[leader1->getNom()],SIGNAL(decoFighttants(QString)),this,SLOT(decoFighttants(QString)));
-    connect(m_fights[leader1->getNom()],SIGNAL(s_finFight(QString)),this,SLOT(finFight(QString)));
+    int fightId = findFightId();
+    m_fights[fightId] = new Fight(leader1,leader2,m_map,fightId);
+    connect(m_fights[fightId],SIGNAL(envoie(QString,QString)), this,SLOT(sendToPlayer(QString,QString)));
+    connect(m_fights[fightId],SIGNAL(decoFighttants(int)),this,SLOT(decoFighttants(int)));
+    connect(m_fights[fightId],SIGNAL(s_finFight(int)),this,SLOT(finFight(int)));
+    m_fights[fightId]->createTeams();
 }
 
 void ServerMap::sendToPlayer(QString const& name,QString const& message)
@@ -98,9 +102,9 @@ void ServerMap::sendToPlayer(QString const& name,QString const& message)
     m_joueurs[name]->envoi(message);
 }
 
-void ServerMap::decoFighttants(QString nameFight)
+void ServerMap::decoFighttants(int fightId)
 {
-    QStringList names = fight(nameFight)->fighttants();
+    QStringList names = fight(fightId)->fighttants();
     int longueur = names.length();
     QList<Joueur*>joueurs = joueursPasEnFight();
     for(int j = 0; j < joueurs.size(); j++)
@@ -113,107 +117,88 @@ void ServerMap::decoFighttants(QString nameFight)
     }
 }
 
-void ServerMap::recoFighttants(QString nameFight)
+void ServerMap::recoFighttants(int fightId)
 {
-    QStringList names = fight(nameFight)->fighttants();
+    /*QStringList names = fight(fightId)->fighttants();
     QList<Joueur*>joueurs = joueursPasEnFight();
     int l = names.length();
-    Character *pers = 0;
+    Entity *entity = 0;
     for(int i = 0; i < l;i++)
     {
-        pers = fight(nameFight)->getPersonnage(names[i]);
-        pers->setFightId(-1);
-        envoieA(fight(nameFight)->fighttants(),"changePos/"+pers->getNom()+"/"+QString::number(pers->getPosMap().x())+"/"+QString::number(pers->getPosMap().y()));
+        entity = fight(fightId)->getEntity(names[i]);
+        entity->setFightId(-1);
+        envoieA(fight(fightId)->fighttants(),"changePos/"+entity->getNom()+"/"+QString::number(entity->getPosMap().x())+"/"+QString::number(entity->getPosMap().y()));
     }
     for(int j = 0; j < joueurs.size(); j++)
     {
         for(int i = 0; i < l; i++)
         {
-            joueurs.at(j)->envoi("con/"+fight(nameFight)->getPersonnage(names[i])->important());
+            joueurs.at(j)->envoi("con/"+fight(fightId)->getEntity(names[i])->important());
             m_joueurs[names[i]]->envoi("con/"+joueurs.at(j)->getPersoActuel()->important());
         }
-    }
+    }*/
 }
 
-void ServerMap::finFight(QString name)
+void ServerMap::finFight(int fightId)
 {
-    if(m_fights[name]->phase() == EnDemande)
+    Fight *fight = m_fights[fightId];
+    if(fight->phase() == EnDemande)
     {
 
     }
-    else if(m_fights[name]->phase() == EnPlacement)
+    else if(fight->phase() == EnPlacement)
     {
-        QString texte = m_fights[name]->gainsFin();
-        envoieA(fight(name)->fighttants(), "finFight/"+texte);
-        recoFighttants(name);
+        QString texte = fight->gainsFin();
+        envoieA(fight->fighttants(), "finFight/"+texte);
+        recoFighttants(fightId);
     }
-    else if(m_fights[name]->phase() == EnFight)
+    else if(fight->phase() == EnFight)
     {
-        QString texte = m_fights[name]->gainsFin();
-        envoieA(fight(name)->fighttants(), "finFight/"+texte);
-        recoFighttants(name);
+        QString texte = fight->gainsFin();
+        envoieA(fight->fighttants(), "finFight/"+texte);
+        recoFighttants(fightId);
     }
-    disconnect(m_fights[name]);
-    m_fights[name]->setPhase(FightFini);
-    delete m_fights[name];
-    m_fights.remove(name);
+    disconnect(fight);
+    fight->setPhase(FightFini);
+    delete fight;
+    m_fights.remove(fightId);
 }
 
-void ServerMap::finFightAvantDebut(QString name)
+void ServerMap::finFightAvantDebut(int fightId)
 {
-    disconnect(m_fights[name]);
-    delete m_fights[name];
-    m_fights.remove(name);
+    disconnect(m_fights[fightId]);
+    delete m_fights[fightId];
+    m_fights.remove(fightId);
 }
 
-Fight *ServerMap::fight(QString name)
+Fight *ServerMap::fight(int fightId)
 {
-    return m_fights[name];
-}
-
-QString ServerMap::leaderDe(QString name)
-{
-    for(QMap<QString,Fight*>::iterator it = m_fights.begin(); it != m_fights.end(); it++)
-    {
-        if(it.value()->contains(name))
-        {
-            return it.key();
-        }
-    }
-    qDebug() << "AUCUN LEADER TROUVE";
-    return "";
+    return m_fights[fightId];
 }
 
 ServerMap::~ServerMap()
 {
     delete m_map;
-    for(QMap<QString,Fight*>::iterator it = m_fights.begin(); it != m_fights.end(); it++)
+    for(auto fight : m_fights)
     {
-        delete it.value();
+        delete fight;
     }
 }
 
 void ServerMap::joueurChangePosDepart(QString name, int x, int y)
 {
-    QString leader = leaderDe(name);
-    if(m_map->estCaseDeDepart(x,y,m_fights[leader]->getPersonnage(name)->equipe()))
+    int fightId = m_joueurs[name]->getPersoActuel()->getFightId();
+    if(m_map->estCaseDeDepart(x,y,fight(fightId)->getEntity(name)->equipe()))
     {
-        if(m_fights[leader]->personneSur(x,y))
+        if(m_fights[fightId]->personneSur(x,y))
         {
             qDebug() << "on deplace";
-            m_fights[leader]->deplace(name,x,y);
+            m_fights[fightId]->moveEntity(name,x,y);
         }
     }
 }
 
-void ServerMap::enEquipe(QString const& name)
-{
-    int equipe1 = qrand()%2;
-    qDebug() << equipe1;
-    QPoint pos1 = m_map->posDep(equipe1);
-    QPoint pos2 = m_map->posDep(1-equipe1);
-    m_fights[name]->enEquipe(equipe1,1-equipe1,pos1,pos2);
-}
+
 
 void ServerMap::envoieA(QStringList names,QString message)
 {
@@ -250,8 +235,8 @@ void ServerMap::disconnectPlayer(QString const& name)
     m_joueurs.remove(name);
     if(pers->enFight())
     {
-        Fight *figth = fight(leaderDe(name));
-        figth->enlevePerso(name);
+        Fight *figth = fight(pers->getFightId());
+        figth->removeEntity(name);
     }
     else
     {
@@ -449,55 +434,63 @@ void ServerMap::receiveMessage(Joueur *player, QString const& begin, QString con
 
 void ServerMap::analyseFight(QString debut,QString fin,Joueur *joueur)
 {
-    if(debut == "jeDemandeDefi")
+    /*if(debut == "jeDemandeDefi")
     {
         m_joueurs[fin]->envoi("demandeDefi/"+joueur->getPersoActuel()->getNom());
         addFight(joueur->getPersoActuel(),m_joueurs[fin]->getPersoActuel());
     }
     else if(debut == "annuleDemandeDefi")
     {
-        QString name = fight(joueur->getPersoActuel()->getNom())->getNomLeader2();
-        finFight(joueur->getPersoActuel()->getNom());
+        QString name = fight(joueur->getPersoActuel()->getFightId())->getNomLeader2();
+        finFight(joueur->getPersoActuel()->getFightId());
         m_joueurs[name]->envoi("annuleDemandeDefi");
     }
     else if(debut == "accepteDemandeDefi")
     {
-        QString name = leaderDe(joueur->getPersoActuel()->getNom());
-        enEquipe(name);
+        enEquipe(joueur->getPersoActuel()->getFightId());
     }
     else if(debut == "refuseDemandeDefi")
     {
         QString name = leaderDe(joueur->getPersoActuel()->getNom());
         m_joueurs[name]->envoi("refuseDemandeDefi");
-    }
-    else if(debut == "changePosDep")
+    }*/
+    if(debut == "changePosDep")
     {
         joueurChangePosDepart(joueur->getPersoActuel()->getNom(),fin.section('*',0,0).toInt(),fin.section('*',1,1).toInt());
     }
     else if(debut == "pret")
     {
-        QString name = leaderDe(joueur->getPersoActuel()->getNom());
-        fight(name)->pret(joueur->getPersoActuel()->getNom());
+        fight(joueur->getPersoActuel()->getFightId())->pret(joueur->getPersoActuel()->getNom());
     }
     else if(debut == "pasPret")
     {
-        QString name = leaderDe(joueur->getPersoActuel()->getNom());
-        fight(name)->pasPret(joueur->getPersoActuel()->getNom());
+        fight(joueur->getPersoActuel()->getFightId())->pasPret(joueur->getPersoActuel()->getNom());
     }
     else if(debut == "dep")
     {
-        QString name = leaderDe(joueur->getPersoActuel()->getNom());
-        fight(name)->deplace(joueur->getPersoActuel()->getNom(),fin.section('*',0,0).toInt(),fin.section('*',1,1).toInt());
+        fight(joueur->getPersoActuel()->getFightId())->moveEntity(joueur->getPersoActuel()->getNom(),fin.section('*',0,0).toInt(),fin.section('*',1,1).toInt());
     }
     else if(debut == "passeTour")
     {
-        QString name = leaderDe(joueur->getPersoActuel()->getNom());
-        fight(name)->passeTour(joueur->getPersoActuel()->getNom());
+        fight(joueur->getPersoActuel()->getFightId())->passeTour(joueur->getPersoActuel()->getNom());
     }
     else if(debut == "attaque")
     {
-        QString name = leaderDe(joueur->getPersoActuel()->getNom());
-        fight(name)->attaque(joueur->getPersoActuel()->getNom(),fin.section('/',0,0),fin.section('/',1,1).toInt(),fin.section('/',2,2).toInt());
+        fight(joueur->getPersoActuel()->getFightId())->attack(joueur->getPersoActuel()->getNom(),fin.section('/',0,0),fin.section('/',1,1).toInt(),fin.section('/',2,2).toInt());
+    }
+    else if(debut == "attackMonster")
+    {
+        //check if the monster can be attacked
+        if(m_monstres.contains(fin))
+        {
+            Entity *monster = m_monstres[fin];
+            if(monster->getFightId() == -1)
+            {
+                //ok
+                qDebug() << "fight with "<< monster->getNom();
+                addFight(joueur->getPersoActuel(),monster);
+            }
+        }
     }
     else
     {
@@ -528,5 +521,16 @@ void ServerMap::analyseReponsePnj(QString const& reponse, Joueur *player)
         player->getPersoActuel()->ajouterRessource(m_donnees_editeur->resources->getRessource(reponse.section('_',1)));
         player->envoi("gagneRessource/"+reponse.section('_',1));
     }
+}
+
+int ServerMap::findFightId() const
+{
+    for(int i = 0; i < MAX_FIGHTS; i++)
+    {
+        if(!m_fights.contains(i))
+            return i;
+    }
+    qDebug() << "Max fight number on map reached";
+    return -1;
 }
 

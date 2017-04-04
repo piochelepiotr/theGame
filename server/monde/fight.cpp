@@ -1,15 +1,11 @@
 #include "monde/fight.h"
 
-Fight::Fight(Character *leader1, Character *leader2, Map *dataMap) : QObject()
+Fight::Fight(Entity *leader1, Entity *leader2, Map *dataMap, int fightId) : QObject()
 {
+    m_fightId = fightId;
     m_dataMap = dataMap;
-    leader1->setPret(false);
-    leader2->setPret(false);
-    m_leader1 = leader1->getNom();
-    m_leader2 = leader2->getNom();
-    m_fighttants[m_leader1] = leader1;
-    m_fighttants[m_leader2] = leader2;
-    m_phase = EnDemande;
+    m_entities[leader1->getNom()] = leader1;
+    m_entities[leader2->getNom()] = leader2;
 }
 
 Fight::~Fight()
@@ -17,18 +13,18 @@ Fight::~Fight()
     finFight();
 }
 
-void Fight::ajoutePerso(Character *perso)
+void Fight::addEntity(Character *perso)
 {
     perso->setPret(false);
-    m_fighttants[perso->getNom()] = perso;
+    m_entities[perso->getNom()] = perso;
 }
 
-void Fight::enlevePerso(QString name)
+void Fight::removeEntity(const QString &name)
 {
     if(m_phase == EnDemande)
     {
-        m_fighttants.remove(name);
-        if(name == m_leader1)
+        m_entities.remove(name);
+        /*if(name == m_leader1)
         {
             emit envoie(m_leader2,"annuleDemandeDefi");
             emit s_finFight(m_leader1);
@@ -37,69 +33,69 @@ void Fight::enlevePerso(QString name)
         {
             emit envoie(m_leader1,"refuseDemandeDefi");
             emit s_finFight(m_leader1);
-        }
+        }*/
     }
     else if(m_phase == EnPlacement)
     {
-        m_fighttants[name]->perdVie(m_fighttants[name]->getVie());
-        m_fighttants.remove(name);
+        m_entities[name]->perdVie(m_entities[name]->getVie());
+        m_entities.remove(name);
         envoieATous("dec/"+name);
         finFight();
         qDebug() << "fin du fight";
     }
     else if(m_phase == EnFight)
     {
-        m_fighttants[name]->perdVie(m_fighttants[name]->getVie());
-        m_fighttants.remove(name);
+        m_entities[name]->perdVie(m_entities[name]->getVie());
+        m_entities.remove(name);
         envoieATous("dec/"+name);
         meurt(name,false);
     }   
 }
 
-void Fight::deplace(QString name, int x, int y)
+void Fight::moveEntity(QString name, int x, int y)
 {
-    m_fighttants[name]->setPosMap(x,y);
+    m_entities[name]->setPosMap(x,y);
     if(m_phase == EnPlacement)
     {
-        for(QMap<QString, Character*>::const_iterator it = m_fighttants.begin(); it != m_fighttants.end(); it++)
+        for(auto const& entity : m_entities.keys())
         {
-            emit envoie(it.key(), "dep/"+name+"*"+QString::number(x)+"*"+QString::number(y));
+            emit envoie(entity, "dep/"+name+"*"+QString::number(x)+"*"+QString::number(y));
         }
     }
     else if(m_phase == EnFight)
     {
-        for(QMap<QString, Character*>::const_iterator it = m_fighttants.begin(); it != m_fighttants.end(); it++)
+        for(auto const& entity : m_entities.keys())
         {
-            emit envoie(it.key(), "dep/"+name+"*"+QString::number(x)+"*"+QString::number(y));
+            emit envoie(entity, "dep/"+name+"*"+QString::number(x)+"*"+QString::number(y));
         }
     }
 }
 
-Character *Fight::getCible(QPoint const& p)
+Entity *Fight::getCible(QPoint const& p)
 {
     if(m_phase != EnFight)
         return 0;
-    for(QMap<QString, Character*>::const_iterator it = m_fighttants.begin(); it != m_fighttants.end(); it++)
+    for(auto entity : m_entities)
     {
-        if(it.value()->getPosMap() == p)
-            return it.value();
+        if(entity->getPosMap() == p)
+            return entity;
     }
     return 0;
 }
 
-void Fight::attaque(QString nameAttaquant, QString nameSpell, int x, int y)
+void Fight::attack(QString nameAttaquant, QString nameSpell, int x, int y)
 {
     if(m_phase != EnFight)
         return;
-    Spell *spell = m_fighttants[nameAttaquant]->getSpell(nameSpell);
-    Character *cible = getCible(QPoint(x,y));
+    Spell *spell = m_entities[nameAttaquant]->getSpell(nameSpell);
+    Entity *cible = getCible(QPoint(x,y));
     if(cible != 0)
     {
         int degats = spell->degats();
         cible->perdVie(degats);
-        for(QMap<QString, Character*>::const_iterator it = m_fighttants.begin(); it != m_fighttants.end(); it++)
+        for(auto const& entity : m_entities.keys())
         {
-            emit envoie(it.key(),"fightVieDe/"+cible->getNom()+"/"+QString::number(cible->getVie()));
+            emit envoie(entity,"fightVieDe/"+cible->getNom()+"/"+QString::number(cible->getVie()));
         }
         if(cible->getVie() == 0)
         {
@@ -120,15 +116,15 @@ void Fight::passeTour(QString name)
 
 bool Fight::contains(QString name)
 {
-    return m_fighttants.keys().contains(name);
+    return m_entities.keys().contains(name);
 }
 
 bool Fight::personneSur(int x,int y)
 {
     QPoint p(x,y);
-    for(QMap<QString, Character*>::const_iterator it = m_fighttants.begin(); it != m_fighttants.end(); it++)
+    for(auto const& entity : m_entities)
     {
-        if(it.value()->getPosMap() == p)
+        if(entity->getPosMap() == p)
         {
             return false;
         }
@@ -136,35 +132,47 @@ bool Fight::personneSur(int x,int y)
     return true;
 }
 
-void Fight::enEquipe(int equipe1,int equipe2,QPoint const& pos1,QPoint const& pos2)
+void Fight::createTeams()
 {
+    int rand = qrand()%2;
     m_phase = EnPlacement;
-    getPersonnage(m_leader1)->setEquipe(equipe1);
-    getPersonnage(m_leader2)->setEquipe(equipe2);
-    emit envoie(m_leader1,"commenceDefi/"+QString::number(equipe1));
-    emit envoie(m_leader2,"commenceDefi/"+QString::number(1-equipe1));
-    deplace(m_leader1,pos1.x(),pos1.y());
-    deplace(m_leader2,pos2.x(),pos2.y());
-    getPersonnage(m_leader1)->setEnFight(true);
-    getPersonnage(m_leader2)->setEnFight(true);
-    emit decoFighttants(m_leader1);
+    //they are only two entities here
+    int i = 0;
+    for(auto entity : m_entities)
+    {
+        int team = (rand+i)%2;
+        i++;
+        QPoint pos = m_dataMap->posDep(team);
+        entity->setEquipe(team);
+        sendIfNotMonster(entity->getNom(),"fight/"+QString::number(m_fightId)+"/"+QString::number(team));
+        entity->setFightId(m_fightId);
+        entity->setPosMap(pos.x(),pos.y());
+        if(!entity->isMonster())
+        {
+            for(auto other : m_entities)
+            {
+                emit envoie(entity->getNom(), "newEntity/"+other->important());
+            }
+        }
+    }
+    emit decoFighttants(m_fightId);
 }
 
 void Fight::fightCommence()
 {
     m_phase = EnFight;
-    for(QMap<QString, Character*>::const_iterator it = m_fighttants.begin(); it != m_fighttants.end(); it++)
+    for(auto & entity : m_entities)
     {
-        it.value()->setTour(false);
-        emit envoie(it.value()->getNom(), "commenceFight");
+        entity->setTour(false);
+        emit envoie(entity->getNom(), "commenceFight");
     }
-    for(QMap<QString,Character*>::const_iterator it = m_fighttants.begin(); it != m_fighttants.end(); it++)
+    for(auto const& name: m_entities.keys())
     {
-        for(QMap<QString,Character*>::const_iterator it2 = m_fighttants.begin(); it2 != m_fighttants.end(); it2++)
+        for(auto it2 = m_entities.begin(); it2 != m_entities.end(); it2++)
         {
             qDebug() << it2.value()->getVie() << "est la vie";
             qDebug() << it2.value()->getTotalVie() << "est le total";
-            emit envoie(it.key(),"fightVieDe/"+it2.key()+"/"+QString::number(it2.value()->getVie()));
+            emit envoie(name,"fightVieDe/"+it2.key()+"/"+QString::number(it2.value()->getVie()));
         }
     }
     m_currentPlayer = -1;
@@ -174,9 +182,9 @@ void Fight::fightCommence()
 
 void Fight::toutLeMondeEstPret()
 {
-    for(QMap<QString,Character*>::iterator it = m_fighttants.begin(); it != m_fighttants.end(); it++)
+    for(auto const& entity : m_entities)
     {
-        if(!it.value()->pret())
+        if(!entity->pret())
         {
             return;
         }
@@ -186,21 +194,21 @@ void Fight::toutLeMondeEstPret()
 
 void Fight::pret(QString name)
 {
-    m_fighttants[name]->setPret(true);
+    m_entities[name]->setPret(true);
     toutLeMondeEstPret();
 }
 
 void Fight::pasPret(QString name)
 {
-    m_fighttants[name]->setPret(false);
+    m_entities[name]->setPret(false);
 }
 
 void Fight::order()
 {
     m_quantityFighttants = 0;
-    for(QMap<QString,Character*>::iterator it = m_fighttants.begin(); it != m_fighttants.end(); it++)
+    for(auto const& name : m_entities.keys())
     {
-        m_ordre.append(it.key());
+        m_ordre.append(name);
         m_quantityFighttants++;
     }
 }
@@ -211,22 +219,23 @@ void Fight::nextPlayer()
         return;
     if(m_currentPlayer != -1)
     {
-        m_fighttants[m_ordre[m_currentPlayer]]->setTour(false);
+        m_entities[m_ordre[m_currentPlayer]]->setTour(false);
         emit envoie(m_ordre[m_currentPlayer],"passeTour");
     }
     m_currentPlayer = (m_currentPlayer+1)%m_quantityFighttants;
-    m_fighttants[m_ordre[m_currentPlayer]]->setTour(true);
+    m_entities[m_ordre[m_currentPlayer]]->setTour(true);
     emit envoie(m_ordre[m_currentPlayer],"tonTour");
 }
 
 QStringList Fight::fighttants()
 {
-    QStringList fighttants;
-    for(QMap<QString,Character*>::iterator it = m_fighttants.begin(); it != m_fighttants.end(); it++)
+    /*QStringList fighttants;
+    for(QMap<QString,Character*>::iterator it = m_entities.begin(); it != m_entities.end(); it++)
     {
-        fighttants.append(it.key());
+        fighttants.append(name);
     }
-    return fighttants;
+    return fighttants;*/
+    return m_entities.keys();
 }
 
 void Fight::meurt(QString const& name,bool envoyer)
@@ -247,7 +256,7 @@ void Fight::meurt(QString const& name,bool envoyer)
                 if(i == m_currentPlayer)
                 {
                     m_currentPlayer %= m_quantityFighttants;
-                    m_fighttants[m_ordre[m_currentPlayer]]->setTour(true);
+                    m_entities[m_ordre[m_currentPlayer]]->setTour(true);
                     emit envoie(m_ordre[m_currentPlayer],"tonTour");
                 }
                 else if(i > m_currentPlayer)
@@ -266,19 +275,19 @@ bool Fight::finFight()
         return false;
     int l = 0;
     int tailleEquipe0 = 0;
-    for(QMap<QString,Character*>::iterator it = m_fighttants.begin(); it != m_fighttants.end(); it++)
+    for(auto const& entity : m_entities)
     {
-        if(it.value()->getVie() != 0)
+        if(entity->getVie() != 0)
         {
             l++;
-            if(it.value()->equipe() == 0)
+            if(entity->equipe() == 0)
                 tailleEquipe0++;
         }
     }
     qDebug() << "taille equipe : " <<tailleEquipe0 << "  et l = " << l;
     if(tailleEquipe0 == 0 || tailleEquipe0 == l)
     {
-        emit s_finFight(m_leader1);
+        emit s_finFight(m_fightId);
         return true;
     }
     return false;
@@ -286,9 +295,9 @@ bool Fight::finFight()
 
 void Fight::envoieATous(QString const& message)
 {
-    for(QMap<QString,Character*>::iterator it = m_fighttants.begin(); it != m_fighttants.end(); it++)
+    for(auto const& name : m_entities.keys())
     {
-        emit envoie(it.key(),message);
+        sendIfNotMonster(name,message);
     }
 }
 
@@ -297,34 +306,34 @@ QString Fight::gainsFin()
     QString equipe0,equipe1;
     int niveauEquipe0 = 0,niveauEquipe1 = 0;
     int tailleEquipe0 = 0;
-    for(QMap<QString,Character*>::iterator it = m_fighttants.begin(); it != m_fighttants.end(); it++)
+    for(auto const& entity : m_entities)
     {
-        if(it.value()->equipe() == 0)
+        if(entity->equipe() == 0)
         {
-            niveauEquipe0 += it.value()->getNiveau();
+            niveauEquipe0 += entity->getNiveau();
         }
         else
         {
-            niveauEquipe1 += it.value()->getNiveau();
+            niveauEquipe1 += entity->getNiveau();
         }
-        if(it.value()->getVie() != 0)
+        if(entity->getVie() != 0)
         {
-            if(it.value()->equipe() == 0)
+            if(entity->equipe() == 0)
             {
                 tailleEquipe0++;
             }
         }
     }
-    for(QMap<QString,Character*>::iterator it = m_fighttants.begin(); it != m_fighttants.end(); it++)
+    for(auto const& entity : m_entities)
     {
-        if(it.value()->equipe() == 0)
+        if(entity->equipe() == 0)
         {
-            equipe0 += it.value()->gagneFinFight(niveauEquipe1,niveauEquipe0 != 0);
+            equipe0 += entity->gagneFinFight(niveauEquipe1,niveauEquipe0 != 0);
             equipe0 += "//";
         }
         else
         {
-            equipe1 += it.value()->gagneFinFight(niveauEquipe0,niveauEquipe0 == 0);
+            equipe1 += entity->gagneFinFight(niveauEquipe0,niveauEquipe0 == 0);
             equipe1 += "//";
         }
     }
@@ -337,6 +346,15 @@ QString Fight::gainsFin()
     {
         qDebug() << "message :" << equipe0 +"*"+equipe1;
         return equipe0 +"*"+equipe1;
+    }
+}
+
+void Fight::sendIfNotMonster(QString const& name,QString const& message)
+{
+    Entity *entity = getEntity(name);
+    if(!entity->isMonster())
+    {
+        emit envoie(name,message);
     }
 }
 

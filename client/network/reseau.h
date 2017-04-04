@@ -8,6 +8,9 @@
 #include <QDataStream>
 #include <QString>
 
+class Character;
+class GameField;
+
 class Reseau : public QObject
 {
     Q_OBJECT
@@ -16,6 +19,9 @@ public:
     void start();
     QTcpSocket *socket() const { return m_socket; }
     ~Reseau();
+
+    void setCharacter(Character *character) { m_character = character; }
+    void setGameField(GameField *gameField) { m_gameField = gameField; }
     
 signals:
 
@@ -24,25 +30,16 @@ signals:
     void connexionRefusee();
     void qqdautre();
     void ecritdanschat(QString message);
-    void nouveauJoueur(EntityInfo perso);
-    void decJoueur(QString qui);
     void deplacement(QString qui, QPoint ou);
-    void coupe(QString qui, QString verbe, int orientation, int quantity_coups);
-    void resource_coupe(QPoint pos);
-    void resource_repousse(int posx, int posy);
-    void infos_map(QString infos);
 
     //fight
     void onMeProposeDefi(QString qui);
     void ilAnnuleDemandeDefi();
     void ilRefuseMonDefi();
     void commenceDefi(int equipe);//soit il accepte mon defi soit j'ai accepté le sien
-    void passe_tour();
     void ton_tour();
     void commenceFight();
-    void changeVie(QString name,int vie);
     void meurt(QString const& name);
-    void changePos(QString const& name, int x,int y);
     void finFight(QString const& texte);
 
 
@@ -61,6 +58,9 @@ private:
 
     QTcpSocket *m_socket;
     quint16 m_tailleMessage;
+
+    GameField *m_gameField;
+    Character *m_character;
     
 };
 

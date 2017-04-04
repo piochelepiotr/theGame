@@ -79,6 +79,7 @@ public:
 
     void setFightId(int fightId);
     bool enFight() const { return m_fightId != -1; }
+    int getFightId() const { return m_fightId; }
 
     void setEquipe(int equipe) { m_equipe = equipe; }
     int equipe() const {return m_equipe; }

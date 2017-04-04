@@ -8,6 +8,7 @@
 #include "actions_personnage.h"
 
 class AfficheJoueur;
+class LayoutBarreOutil;
 
 enum Etat{HorsFight,EnPlacement,EnFight};
 
@@ -27,7 +28,6 @@ signals:
     void pnjclique(qint16 numero, QPoint pos);
     void faitRecette(QString metier);
     void pourChat(QString texte);
-    void changePC(int pc);
 public:
     GameField(QSize const& size, Character *pers, QTcpSocket *sock, Data *donneesediteur);
     ~GameField();
@@ -65,7 +65,9 @@ public:
     bool contientJoueur(QPoint const& pos);
     QPoint posCaseVisee() const { return m_posCaseVisee; }
     void marche_pas();
+    void setLayoutBarreOutil(LayoutBarreOutil *layoutBarreOutil) { m_layoutBarreOutil = layoutBarreOutil; }
 private:
+    LayoutBarreOutil *m_layoutBarreOutil;
     Character *m_character;
     QMap<QString,AfficheJoueur*>m_persos;
     QTcpSocket *m_socket;

@@ -1,4 +1,6 @@
 #include "network/reseau.h"
+#include "graphicGame/gamefield.h"
+#include "entities/character.h"
 
 Reseau::Reseau(QObject *parent) :
     QObject(parent)
@@ -8,8 +10,8 @@ Reseau::Reseau(QObject *parent) :
     qRegisterMetaType <QAbstractSocket::SocketError>("QAbstractSocket::SocketError");
     connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(erreurSocket(QAbstractSocket::SocketError)));
     connect(m_socket, SIGNAL(readyRead()), this, SLOT(donneesRecues()));
-
-
+    m_gameField = 0;
+    m_character = 0;
 }
 
 Reseau::~Reseau()
@@ -86,15 +88,15 @@ void Reseau::donneesRecues()
             perso.classe = message.section('*',1,1);
             perso.posmap = QPoint(message.section('*',2,2).toInt(), message.section('*', 3,3).toInt());
             perso.monster = (bool) message.section('*',4,4).toInt();
-            emit nouveauJoueur(perso);
+            m_gameField->addEntity(perso);
         }
         else if(inf == "cut")
         {
-            emit coupe(message.section('*',0,0), messageRecu.section('*', 1, 1), messageRecu.section('*',2,2).toInt() , messageRecu.section('*', 3, 3).toInt());
+            m_gameField->recolte(message.section('*',0,0), messageRecu.section('*', 1, 1), messageRecu.section('*',2,2).toInt() , messageRecu.section('*', 3, 3).toInt());
         }
         else if(inf == "dec")
         {
-            emit decJoueur(message);
+            m_gameField->removeEntity(message);
         }
         else if(inf == "dep")
         {
@@ -119,19 +121,19 @@ void Reseau::donneesRecues()
         }
         else if(inf == "cop")
         {
-            emit resource_coupe(QPoint(message.section('*', 0, 0).toInt(), message.section('*', 1, 1).toInt()));
+            m_gameField->resourceRecoltee(QPoint(message.section('*', 0, 0).toInt(), message.section('*', 1, 1).toInt()));
         }
         else if(inf == "rep")
         {
-            emit resource_repousse(message.section('*', 0, 0).toInt(), message.section('*', 1, 1).toInt());
+            m_gameField->resource_repousse(message.section('*', 0, 0).toInt(), message.section('*', 1, 1).toInt());
         }
         else if(inf == "ttt")
         {
-            emit infos_map(message);
+            m_gameField->infos_map(message);
         }
         else if(inf == "passeTour")
         {
-            emit passe_tour();
+            m_gameField->setMonTour(false);
         }
         else if(inf == "tonTour")
         {
@@ -155,7 +157,7 @@ void Reseau::donneesRecues()
         }
         else if(inf == "fightVieDe")
         {
-            emit changeVie(message.section('/',0,0),message.section('/',1,1).toInt());
+            m_gameField->setVie(message.section('/',0,0),message.section('/',1,1).toInt());
         }
         else if(inf == "meurt")
         {
@@ -167,7 +169,7 @@ void Reseau::donneesRecues()
         }
         else if(inf == "changePos")
         {
-            emit changePos(message.section('/',0,0),message.section('/',1,1).toInt(),message.section('/',2,2).toInt());
+            m_gameField->changePos(message.section('/',0,0),message.section('/',1,1).toInt(),message.section('/',2,2).toInt());
         }
     }
 }

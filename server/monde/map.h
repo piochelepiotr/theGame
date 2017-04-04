@@ -18,11 +18,9 @@ public:
     ~ServerMap();
     void coupe(QPoint p);
     QString resources_coupees() const;
-    void addFight(Character *leader1, Character *leader2);
-    Fight *fight(QString name);
-    QString leaderDe(QString name);
+    void addFight(Entity *leader1, Entity *leader2);
+    Fight *fight(int fightId);
     void joueurChangePosDepart(QString name, int x,int y);//pendant la phase de placement, demande une verification par le serveur
-    void enEquipe(QString const& name);
     void envoieA(QStringList names,QString message);
     QString nameMonstre(QString const& nameClasse);
     void addMonstre();
@@ -37,20 +35,21 @@ public:
 public slots:
 
     void repousse(int pos);
-    void decoFighttants(QString nameFight);
-    void recoFighttants(QString nameFight);
-    void finFight(QString name);
-    void finFightAvantDebut(QString name);
+    void decoFighttants(int fightId);
+    void recoFighttants(int fightId);
+    void finFight(int fightId);
+    void finFightAvantDebut(int fightId);
     void sendToPlayer(QString const& name,QString const& message);
 
 private:
+    int findFightId() const;
     Map *m_map;
     QMap<QPoint, bool>m_objets_coupables;// =true si la resource est coupé, oui c'est pas très logique je sais
     QSignalMapper *m_aide_timers;
     QMap<QPoint,QTimer*>m_timers;
     Monde *m_parent;
     Point m_pos;
-    QMap<QString,Fight*>m_fights;
+    QMap<int,Fight*>m_fights;
     QMap<QString,Monster*>m_monstres;
     QMap<QString,Joueur*>m_joueurs;
     Ecran *m_ecran;
