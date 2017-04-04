@@ -155,8 +155,8 @@ void GameField::cliqueGauche(int x, int y)
 
 void GameField::setMonTour(bool monTour)
 {
-    if(monTour)
-        QMessageBox::information(this, trUtf8("haha"), trUtf8("a ton tour"));
+    //if(monTour)
+        //QMessageBox::information( , trUtf8("haha"), trUtf8("a ton tour"));
     m_layoutBarreOutil->setMonTour(monTour);
     effaceChemin();
     m_character->nouveau_tour();
@@ -172,17 +172,23 @@ void GameField::veut_utiliserSpell(Spell *spell)
     utiliseSpell(spell);
 }
 
-void GameField::phasePlacement(Fight *fight,int equipe)
+void GameField::phasePlacement(int equipe)
 {
-    m_layoutBarreOutil->phasePlacement();
+    m_character->setPret(false);
+    setMonTour(false);
     m_character->setEquipe(equipe);
     m_fightOuPas = EnPlacement;
     affiche_casesFight();
-    setMonTour(false);
+    for(auto name : m_persos.keys())
+    {
+        removeEntity(name);
+    }
+    m_layoutBarreOutil->phasePlacement();
 }
 
 void GameField::phaseFight()
 {
+    qDebug() << "debut de la phase fight";
     setMonTour(false);
     m_layoutBarreOutil->phaseFight();
     m_fightOuPas = EnFight;

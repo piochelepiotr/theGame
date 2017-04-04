@@ -5,10 +5,11 @@
 
 #define NBR_IMAGES_SECONDE 15
 
+//qRegisterMetaType<struct EntityInfo>("EntityInfo");
 
 FenPrin::FenPrin(QWidget *parent) : QMainWindow(parent)
 {
-    m_fight = 0;
+    qRegisterMetaType<EntityInfo>("EntityInfo");
     m_donneesediteur = new Data(0,0,0,0);
     m_reseau = new Reseau(m_donneesediteur);
     m_threadReseau = new QThread;
@@ -25,8 +26,6 @@ FenPrin::FenPrin(QWidget *parent) : QMainWindow(parent)
     m_boxquestion->setWindowTitle(trUtf8("Que-est-ce tu veux ?!??"));
     m_boxquestion->setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
 
-
-    qRegisterMetaType <EntityInfo>("InfoPerVis");
     connect(m_reseau, SIGNAL(erreurReseau(QString)), this, SLOT(ecriterreurReseau(QString)));
     connect(m_reseau, SIGNAL(ecritdanschat(QString)), this, SLOT(ajouteLigneChat(QString)));
     connect(m_reseau, SIGNAL(connexionAcceptee(QString)), this, SLOT(connexionAcc(QString)));
@@ -153,6 +152,11 @@ void FenPrin::jeu()
     connect(m_jeu, SIGNAL(pourChat(QString)), this, SLOT(ajouteLigneChat(QString)));
     connect(m_reseau,SIGNAL(meurt(QString)),this,SLOT(meurt(QString)));
     connect(m_reseau,SIGNAL(finFight(QString)),this,SLOT(finFight(QString)));
+    connect(m_reseau,SIGNAL(newEntity(EntityInfo)), m_jeu,SLOT(addEntity(EntityInfo)));
+    connect(m_reseau,SIGNAL(infoMap(QString)),m_jeu,SLOT(infos_map(QString)));
+    connect(m_reseau,SIGNAL(beginFight()),m_jeu,SLOT(phaseFight()));
+    connect(m_reseau,SIGNAL(enterFight(int)),m_jeu,SLOT(phasePlacement(int)));
+    connect(m_reseau,SIGNAL(changeLife(QString,int)),m_jeu,SLOT(setVie(QString,int)));
 
     QTimer *timer = new QTimer(m_jeu);
     connect(timer, SIGNAL(timeout()), m_jeu, SLOT(imagesuivante()));
@@ -478,7 +482,7 @@ void FenPrin::persoPlus()
 
 void FenPrin::defiCommance(int equipe)
 {
-    m_jeu->phasePlacement(m_fight,equipe);
+    m_jeu->phasePlacement(equipe);
     m_boxannul->close();
     //m_bar_vie->setMaximum(m_jeu->getPerso()->getTotalVie());
     m_compte->getPerso(m_persoActuel)->setPret(false);
@@ -486,16 +490,16 @@ void FenPrin::defiCommance(int equipe)
 
 void FenPrin::annuleDemandeDefi()
 {
-    if(m_fight != 0 && m_fight->leader() == m_compte->getPerso(m_persoActuel)->getNom() && m_jeu->phase() == HorsFight)
+    /*if(m_fight != 0 && m_fight->leader() == m_compte->getPerso(m_persoActuel)->getNom() && m_jeu->phase() == HorsFight)
     {
         m_reseau->envoyer("fight/annuleDemandeDefi/");
         delete m_fight;
-    }
+    }*/
 }
 
 void FenPrin::onMeProposeDefi(QString qui)
 {
-    m_fight = new Fight(qui, m_compte->getPerso(m_persoActuel));
+    /*m_fight = new Fight(qui, m_compte->getPerso(m_persoActuel));
     m_boxquestion->setText(trUtf8("Souhaitez-vous faire un défi avec ") + qui +" ?");
     int rep = m_boxquestion->exec();
     if(rep == QMessageBox::Ok)
@@ -505,14 +509,14 @@ void FenPrin::onMeProposeDefi(QString qui)
     else if(rep == QMessageBox::Cancel)
     {
         m_reseau->envoyer("fight/refuseDemandeDefi");
-    }
+    }*/
 }
 
 void FenPrin::ilRefuseDefi()
 {
-    delete m_fight;
+    /*delete m_fight;
     m_fight = 0;
-    m_boxannul->close();
+    m_boxannul->close();*/
 }
 
 

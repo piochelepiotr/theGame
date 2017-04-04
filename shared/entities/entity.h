@@ -64,6 +64,8 @@ public:
 
     //fights
 
+    void setFullLife() { m_vie = m_base_vie; }
+
     int getVie() const { return m_vie; }
     int getPCFight() { return m_pc_fight; }
 

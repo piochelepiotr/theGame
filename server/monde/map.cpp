@@ -149,13 +149,13 @@ void ServerMap::finFight(int fightId)
     else if(fight->phase() == EnPlacement)
     {
         QString texte = fight->gainsFin();
-        envoieA(fight->fighttants(), "finFight/"+texte);
+        envoieA(fight->characters(), "finFight/"+texte);
         recoFighttants(fightId);
     }
     else if(fight->phase() == EnFight)
     {
         QString texte = fight->gainsFin();
-        envoieA(fight->fighttants(), "finFight/"+texte);
+        envoieA(fight->characters(), "finFight/"+texte);
         recoFighttants(fightId);
     }
     disconnect(fight);

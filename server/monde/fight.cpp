@@ -59,14 +59,14 @@ void Fight::moveEntity(QString name, int x, int y)
     {
         for(auto const& entity : m_entities.keys())
         {
-            emit envoie(entity, "dep/"+name+"*"+QString::number(x)+"*"+QString::number(y));
+            sendIfNotMonster(entity,"dep/"+name+"*"+QString::number(x)+"*"+QString::number(y));
         }
     }
     else if(m_phase == EnFight)
     {
         for(auto const& entity : m_entities.keys())
         {
-            emit envoie(entity, "dep/"+name+"*"+QString::number(x)+"*"+QString::number(y));
+            sendIfNotMonster(entity,"dep/"+name+"*"+QString::number(x)+"*"+QString::number(y));
         }
     }
 }
@@ -144,7 +144,7 @@ void Fight::createTeams()
         i++;
         QPoint pos = m_dataMap->posDep(team);
         entity->setEquipe(team);
-        sendIfNotMonster(entity->getNom(),"fight/"+QString::number(m_fightId)+"/"+QString::number(team));
+        sendIfNotMonster(entity->getNom(),"enterFight/"+QString::number(team));
         entity->setFightId(m_fightId);
         entity->setPosMap(pos.x(),pos.y());
         if(!entity->isMonster())
@@ -163,8 +163,9 @@ void Fight::fightCommence()
     m_phase = EnFight;
     for(auto & entity : m_entities)
     {
+        entity->setFullLife();
         entity->setTour(false);
-        emit envoie(entity->getNom(), "commenceFight");
+        sendIfNotMonster(entity->getNom(), "commenceFight");
     }
     for(auto const& name: m_entities.keys())
     {
@@ -172,7 +173,7 @@ void Fight::fightCommence()
         {
             qDebug() << it2.value()->getVie() << "est la vie";
             qDebug() << it2.value()->getTotalVie() << "est le total";
-            emit envoie(name,"fightVieDe/"+it2.key()+"/"+QString::number(it2.value()->getVie()));
+            sendIfNotMonster(name,"fightVieDe/"+it2.key()+"/"+QString::number(it2.value()->getVie()));
         }
     }
     m_currentPlayer = -1;
@@ -215,16 +216,30 @@ void Fight::order()
 
 void Fight::nextPlayer()
 {
+    qDebug() << "Next player";
     if(m_phase != EnFight)
         return;
-    if(m_currentPlayer != -1)
+    if(m_currentPlayer != -1)//the previous player is too slow !!
     {
-        m_entities[m_ordre[m_currentPlayer]]->setTour(false);
-        emit envoie(m_ordre[m_currentPlayer],"passeTour");
+        Entity *entity = m_entities[m_ordre[m_currentPlayer]];
+        entity->setTour(false);
+        if(!entity->isMonster())
+        {
+            emit envoie(m_ordre[m_currentPlayer],"passeTour");
+        }
     }
     m_currentPlayer = (m_currentPlayer+1)%m_quantityFighttants;
     m_entities[m_ordre[m_currentPlayer]]->setTour(true);
-    emit envoie(m_ordre[m_currentPlayer],"tonTour");
+
+    //different for a player and a monster
+    if(m_entities[m_ordre[m_currentPlayer]]->isMonster())
+    {
+        nextPlayer();
+    }
+    else
+    {
+        emit envoie(m_ordre[m_currentPlayer],"tonTour");
+    }
 }
 
 QStringList Fight::fighttants()
@@ -236,6 +251,20 @@ QStringList Fight::fighttants()
     }
     return fighttants;*/
     return m_entities.keys();
+}
+
+QStringList Fight::characters()
+{
+    QStringList charac;
+    for(QMap<QString,Entity*>::iterator it = m_entities.begin(); it != m_entities.end(); it++)
+    {
+        if(!it.value()->isMonster())
+        {
+            charac.append(it.key());
+        }
+
+    }
+    return charac;
 }
 
 void Fight::meurt(QString const& name,bool envoyer)

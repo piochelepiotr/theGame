@@ -52,6 +52,7 @@ LayoutBarreOutil::LayoutBarreOutil(FenPrin *parent,Character *perso) :
 
 void LayoutBarreOutil::phasePlacement()
 {
+    qDebug() << "phase placement";
     m_bar_vie->setValue(m_parent->getJeu()->getPerso()->getVie());
     m_bout_passer_tour->setEnabled(true);
     setPret(false);
@@ -72,6 +73,7 @@ void LayoutBarreOutil::setPret(bool pret)
 
 void LayoutBarreOutil::setMonTour(bool monTour)
 {
+    qDebug() << "mon tour";
     m_bout_passer_tour->setEnabled(monTour);
 }
 

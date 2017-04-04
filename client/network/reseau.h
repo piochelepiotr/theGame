@@ -40,6 +40,12 @@ signals:
     void commenceDefi(int equipe);//soit il accepte mon defi soit j'ai accepté le sien
     void meurt(QString const& name);
     void finFight(QString const& texte);
+    void beginFight();
+    void enterFight(int team);
+    void changeLife(QString const& name,int life);
+
+    void newEntity(EntityInfo entity);
+    void infoMap(QString infos);
     
 public slots:
 

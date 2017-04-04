@@ -85,12 +85,12 @@ void Reseau::donneesRecues()
         }
         else if(inf == "con")
         {
-            EntityInfo perso;
-            perso.name = message.section('*', 0,0);
-            perso.classe = message.section('*',1,1);
-            perso.posmap = QPoint(message.section('*',2,2).toInt(), message.section('*', 3,3).toInt());
-            perso.monster = (bool) message.section('*',4,4).toInt();
-            m_gameField->addEntity(perso);
+            EntityInfo entity;
+            entity.name = message.section('*', 0,0);
+            entity.classe = message.section('*',1,1);
+            entity.posmap = QPoint(message.section('*',2,2).toInt(), message.section('*', 3,3).toInt());
+            entity.monster = (bool) message.section('*',4,4).toInt();
+            emit newEntity(entity);
         }
         else if(inf == "cut")
         {
@@ -131,7 +131,8 @@ void Reseau::donneesRecues()
         }
         else if(inf == "ttt")
         {
-            m_gameField->infos_map(message);
+            emit infoMap(message);
+            //m_gameField->infos_map(message);
         }
         else if(inf == "passeTour")
         {
@@ -143,23 +144,23 @@ void Reseau::donneesRecues()
         }
         else if(inf == "gagneArme")
         {
-            m_character->ajouterArme(new Weapon(message,m_donneesediteur->resources));
+            m_character->ajouterArme(new Weapon(message,m_data->resources));
         }
         else if(inf == "gagneEquipement")
         {
-            m_character->ajouterEquipement(new Outfit(message,m_donneesediteur->resources));
+            m_character->ajouterEquipement(new Outfit(message,m_data->resources));
         }
         else if(inf == "gagneRessource")
         {
-            m_character->ajouterRessource(m_donneesediteur->resources->getRessource(message));
+            m_character->ajouterRessource(m_data->resources->getRessource(message));
         }
         else if(inf == "commenceFight")
         {
-            m_gameField->phaseFight();
+            emit beginFight();
         }
         else if(inf == "fightVieDe")
         {
-            m_gameField->setVie(message.section('/',0,0),message.section('/',1,1).toInt());
+            emit changeLife(message.section('/',0,0),message.section('/',1,1).toInt());
         }
         else if(inf == "meurt")
         {
@@ -172,6 +173,19 @@ void Reseau::donneesRecues()
         else if(inf == "changePos")
         {
             m_gameField->changePos(message.section('/',0,0),message.section('/',1,1).toInt(),message.section('/',2,2).toInt());
+        }
+        else if(inf == "enterFight")
+        {
+            emit enterFight(message.section('/',0,0).toInt());
+        }
+        else if(inf == "newEntity")
+        {
+            EntityInfo entity;
+            entity.name = message.section('*', 0,0);
+            entity.classe = message.section('*',1,1);
+            entity.posmap = QPoint(message.section('*',2,2).toInt(), message.section('*', 3,3).toInt());
+            entity.monster = (bool) message.section('*',4,4).toInt();
+            emit newEntity(entity);
         }
     }
 }

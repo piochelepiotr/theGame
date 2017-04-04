@@ -75,6 +75,5 @@ struct EntityInfo
 enum Dir{O,OG,G,BG,B,BD,D,OD};
 
 //qRegisterMetaType<Dir>("Dir");
-//qRegisterMetaType<struct InfoPerVis>("InfoPerVis");
 
 #endif // CONSTANTES_H

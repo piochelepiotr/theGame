@@ -37,6 +37,7 @@ public:
     void order();
     void nextPlayer();
     QStringList fighttants();
+    QStringList characters();
     Entity *getCible(QPoint const& p);
     bool finFight();
     void envoieATous(QString const& message);

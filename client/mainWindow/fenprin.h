@@ -130,8 +130,6 @@ private:
     Ui::JeuMainWindow *m_jeuui;
     Ui::CreerMainWindow *m_creerui;
 
-    Fight *m_fight;
-
     LayoutBarreOutil *m_layoutBarreOutil;
 
     ////interjoueur

@@ -75,7 +75,7 @@ void Entity::setFightId(int fightId)
 {
     if(fightId != -1)
     {
-        m_pret = false;
+        m_pret = isMonster();//a monster is always ready to fight (AI controls it)
         m_vie = getTotalVie();
         m_posHorsFight = QPoint(m_posmapx,m_posmapy);
     }

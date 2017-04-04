@@ -24,6 +24,9 @@ public slots:
     void changePos(QString const& qui, int x, int y);
     void imagesuivante();
     void infos_map(QString infos);
+    void phaseFight();
+    void phasePlacement(int equipe);
+    void setVie(QString const& name, int vie);
 signals:
     void pnjclique(qint16 numero, QPoint pos);
     void faitRecette(QString metier);
@@ -38,8 +41,6 @@ public:
     void deplaceFight(const QString &qui, const QPoint &ou);
     void deplace(QString const& name, QQueue<Dir> const& chem, Actions_personnage::DerniereAction action = Actions_personnage::Aucune);
     void phaseFinFight();
-    void phaseFight();
-    void phasePlacement(Fight *fight,int equipe);
     void a_coupe();
     void doit_recolter();
     void fait_recettes();
@@ -57,7 +58,6 @@ public:
     void ajouteChemin(QString const& name, QQueue<Dir> const& chemin);
     QString contientJoueur();
     void meurt(QString const& name);
-    void setVie(QString const& name, int vie);
     void faitRecettes();
     void recolte(const QString &name, QString const& verbe, Dir orientation, int quantity_coups, Actions_personnage::DerniereAction derniere_action = Actions_personnage::Aucune);
     QPoint fleche() const { return m_posFleche; }
