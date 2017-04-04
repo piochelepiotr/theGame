@@ -1,5 +1,5 @@
-#include "editerunediter.h"
-#include "ui_editerunediter.h"
+#include "editspell.h"
+#include "ui_editspell.h"
 
 EditerUnSort::EditerUnSort(QWidget *parent, SpellModel *editer, bool creation) :
     QDialog(parent),

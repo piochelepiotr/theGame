@@ -1,5 +1,5 @@
-#include "sortmetier.h"
-#include "ui_sortmetier.h"
+#include "editjob.h"
+#include "ui_editjob.h"
 
 EditerMetier::EditerMetier(QWidget *parent, Scenery *decors, Resources *ressources) :
     QDialog(parent), ui(new Ui::EditerMetier)

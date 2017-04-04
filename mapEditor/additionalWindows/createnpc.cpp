@@ -1,5 +1,5 @@
-#include "creerpnj.h"
-#include "ui_creerpnj.h"
+#include "createnpc.h"
+#include "ui_createnpc.h"
 
 Bout::Bout(QString const& texte, const QString &nom) : QPushButton(texte)
 {

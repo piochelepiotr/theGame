@@ -1,5 +1,5 @@
-#include "nouvelleressourcemonstre.h"
-#include "ui_nouvelleressourcemonstre.h"
+#include "createmonsterresource.h"
+#include "ui_createmonsterresource.h"
 
 NouvelleRessourceMonstre::NouvelleRessourceMonstre(QWidget *parent) :
     QDialog(parent),

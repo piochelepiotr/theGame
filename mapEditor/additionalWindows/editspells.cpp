@@ -1,5 +1,5 @@
-#include "editerediters.h"
-#include "ui_editerediters.h"
+#include "editspells.h"
+#include "ui_editspells.h"
 
 EditerSorts::EditerSorts(QWidget *parent, Resources *ressources) :
     QDialog(parent),

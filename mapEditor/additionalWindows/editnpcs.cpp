@@ -1,5 +1,5 @@
-#include "sortpnjs.h"
-#include "ui_sortpnjs.h"
+#include "editnpcs.h"
+#include "ui_editnpcs.h"
 
 Bouton2::Bouton2(const QString &texte, qint16 num) : QPushButton(texte)
 {

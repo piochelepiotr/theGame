@@ -1,5 +1,5 @@
-#include "sortressources.h"
-#include "ui_sortressources.h"
+#include "editresources.h"
+#include "ui_editresources.h"
 
 
 

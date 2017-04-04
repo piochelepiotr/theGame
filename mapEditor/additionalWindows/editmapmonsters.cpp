@@ -1,5 +1,5 @@
-#include "sortmonstredelamap.h"
-#include "ui_sortmonstredelamap.h"
+#include "editmapmonsters.h"
+#include "ui_editmapmonsters.h"
 
 EditerMonstreDeLaMap::EditerMonstreDeLaMap(QWidget *parent, QMap<QString, double> *monstres,QStringList nomMonstres) :
     QDialog(parent),

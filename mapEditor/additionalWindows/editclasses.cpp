@@ -1,5 +1,5 @@
-#include "sortclasses.h"
-#include "ui_sortclasses.h"
+#include "editclasses.h"
+#include "ui_editclasses.h"
 
 EditerClasses::EditerClasses(QWidget *parent) :
     QDialog(parent),
