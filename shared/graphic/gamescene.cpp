@@ -113,9 +113,11 @@ GameScene::GameScene(const QSize &size, QLabel *texte, Data *donnees_editeur)
     m_cadreh->setZValue(5+NBR_CASES_H);
     m_cadreh->setBrush(QBrush(QColor(0,0,0)));
     m_cadreh->setOpacity(0.2);
+    m_cadred->setVisible(!m_zoom_active);
+    m_cadreg->setVisible(!m_zoom_active);
+    m_cadreb->setVisible(!m_zoom_active);
+    m_cadreh->setVisible(!m_zoom_active);
     m_subWindow = 0;
-    //m_subWindow = new SubWindow(this,Centered,700,300);
-    zoomChanged();
 }
 
 GameScene::~GameScene()
@@ -145,6 +147,7 @@ void GameScene::actualise()
 
 void GameScene::resize(QSize const& nouvelle)
 {
+    qDebug() << "resize";
     bool saved = m_dataMap->estEnregistree();
     m_lmap = nouvelle.width();
     m_hmap = nouvelle.height();

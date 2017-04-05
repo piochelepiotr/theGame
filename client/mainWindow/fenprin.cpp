@@ -250,9 +250,7 @@ void FenPrin::connexion(bool choixDuServ)
 
 
     m_layHome = new LayHome();
-    qDebug() << "setting layout";
     this->setCentralWidget(m_layHome);
-    qDebug() << "set";
 
     connect(m_layHome->m_subscribeButton, SIGNAL(pressed()), this, SLOT(inscription()));
     connect(m_layHome->m_connectButton, SIGNAL(pressed()), this, SLOT(essaiconnexion()));

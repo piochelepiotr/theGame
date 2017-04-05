@@ -33,8 +33,6 @@ GameField::GameField(const QSize &size, Character *pers, QTcpSocket *sock, Data 
     m_posFleche = QPoint(-1,-1);
     addEntity(inf);
     qDebug() << "time : " << elapsed.elapsed();
-    resize(size);
-    qDebug() << "time : " << elapsed.elapsed();
 }
 
 GameField::~GameField()
@@ -241,7 +239,6 @@ void GameField::utileClique(QPoint const& pos)
         return;
     if(m_fightOuPas == HorsFight)
     {
-        qDebug() << "clique utile !";
         Object *obj = m_dataMap->objet(pos.x(),pos.y(),2);
         if(obj->categorie() == "pnj")
         {
@@ -625,7 +622,6 @@ bool GameField::contientJoueur(QPoint const& pos)
 
 void GameField::addEntity(EntityInfo perso)
 {
-    qDebug() << "adding entity " << perso.name << " monster ? " << perso.monster;
     m_persos[perso.name] = new AfficheJoueur(m_donnees_editeur->resources->getCreature(perso.classe) ,perso.name, QSize(m_lcase, m_hcase), perso.posmap, this,m_lmap);
     /*if(perso.name == m_personnage->getNom())
         connect(m_persos[perso.name], SIGNAL(estSurTranspo(QPoint)), this, SLOT(VaChangerDeMap(QPoint)));*/

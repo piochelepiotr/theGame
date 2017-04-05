@@ -78,7 +78,6 @@ void ObjectItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *)
 
 void ObjectItem::mousePressEvent ( QGraphicsSceneMouseEvent *)
 {
-    qDebug() << "clique";
     if(m_toolTip->isEmpty())
     {
         qDebug() << "Clique utile dans objsurscene : " << toolTip();
