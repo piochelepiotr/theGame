@@ -19,7 +19,11 @@ SOURCES += \
     graphicGame/gamefield.cpp \
     additionalWindows/entityactions.cpp \
     graphicGame/windowactions.cpp \
-    fights/fight.cpp
+    fights/fight.cpp \
+    mainWindow/laychoosechar.cpp \
+    mainWindow/layhome.cpp \
+    mainWindow/laygame.cpp \
+    mainWindow/laycreatecharac.cpp
 
 HEADERS += \
     additionalWindows/caracteristiques.h \
@@ -37,7 +41,11 @@ HEADERS += \
     graphicGame/gamefield.h \
     additionalWindows/entityactions.h \
     graphicGame/windowactions.h \
-    fights/fight.h
+    fights/fight.h \
+    mainWindow/laychoosechar.h \
+    mainWindow/layhome.h \
+    mainWindow/laygame.h \
+    mainWindow/laycreatecharac.h
 
 FORMS += \
     additionalWindows/caracteristiques.ui \
