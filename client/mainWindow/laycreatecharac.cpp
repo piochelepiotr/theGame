@@ -2,22 +2,30 @@
 
 LayCreateCharac::LayCreateCharac()
 {
-    m_buttonCreate.setText("Créer ce personnage");
-    m_buttonCancel.setText("Annuler");
+    m_layoutButtons = new QHBoxLayout();
+    m_layoutCharacters = new QHBoxLayout();
+    m_buttonNext = new QPushButton();
+    m_buttonPrevious = new QPushButton();
+    m_buttonCreate = new QPushButton("Créer ce personnage");
+    m_buttonCancel = new QPushButton("Annuler");
+    m_imageCharacter = new QLabel();
+    m_labelName = new QLabel();
+    m_nameCharacter = new QLineEdit();
+    m_mainLayout = new QVBoxLayout();
 
-    m_layoutButtons.addWidget(&m_buttonCancel);
-    m_layoutButtons.addStretch();
-    //m_layoutButtons.addWidget(&m_spacerLeft);
-    m_layoutButtons.addWidget(&m_labelName);
-    m_layoutButtons.addWidget(&m_nameCharacter);
-    m_layoutButtons.addStretch();
-    //m_layoutButtons.addWidget(&m_spacerRight);
-    m_layoutButtons.addWidget(&m_buttonCreate);
+    this->setLayout(m_mainLayout);
 
-    m_layoutCharacters.addWidget(&m_buttonPrevious);
-    m_layoutCharacters.addWidget(&m_imageCharacter);
-    m_layoutCharacters.addWidget(&m_buttonNext);
+    m_layoutButtons->addWidget(m_buttonCancel);
+    m_layoutButtons->addStretch();
+    m_layoutButtons->addWidget(m_labelName);
+    m_layoutButtons->addWidget(m_nameCharacter);
+    m_layoutButtons->addStretch();
+    m_layoutButtons->addWidget(m_buttonCreate);
 
-    this->addLayout(&m_layoutCharacters);
-    this->addLayout(&m_layoutButtons);
+    m_layoutCharacters->addWidget(m_buttonPrevious);
+    m_layoutCharacters->addWidget(m_imageCharacter);
+    m_layoutCharacters->addWidget(m_buttonNext);
+
+    m_mainLayout->addLayout(m_layoutCharacters);
+    m_mainLayout->addLayout(m_layoutButtons);
 }

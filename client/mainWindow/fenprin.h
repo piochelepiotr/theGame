@@ -23,10 +23,6 @@
 #include "scenery/constants.h"
 #include "network/compte.h"
 #include "graphicGame/gamefield.h"
-#include "ui_comainwindow.h"
-#include "ui_choixmainwindow.h"
-#include "ui_jeumainwindow.h"
-#include "ui_creermainwindow.h"
 #include "additionalWindows/echange.h"
 #include "network/reseau.h"
 #include "additionalWindows/caracteristiques.h"
@@ -39,11 +35,10 @@
 #include "graphicGame/layoutbarreoutil.h"
 #include "additionalWindows/interjoueur.h"
 
-
-
-namespace Ui {
-    class FenPrin;
-}
+#include "mainWindow/laychoosechar.h"
+#include "mainWindow/laycreatecharac.h"
+#include "mainWindow/laygame.h"
+#include "mainWindow/layhome.h"
 
 class FenPrin : public QMainWindow
 {
@@ -55,7 +50,6 @@ public:
     ~FenPrin();
     void analyseTexte(QString & texte);
     void analyseReponsePnj(QString const& reponse);
-    Ui::JeuMainWindow *getJeuUi() const { return m_jeuui; }
     GameField *getJeu() const { return m_jeu; }
 
 public slots:
@@ -125,10 +119,12 @@ private:
     QString m_classeActuelle;
 
 
-    Ui::CoMainWindow *m_coui;
-    Ui::ChoixMainWindow *m_choixui;
-    Ui::JeuMainWindow *m_jeuui;
-    Ui::CreerMainWindow *m_creerui;
+    LayChooseChar *m_layChooseChar;
+    LayCreateCharac *m_layCreateCharac;
+    LayGame *m_layGame;
+    LayHome *m_layHome;
+
+
 
     LayoutBarreOutil *m_layoutBarreOutil;
 

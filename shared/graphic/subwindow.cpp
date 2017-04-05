@@ -3,7 +3,6 @@
 #include <QGraphicsProxyWidget>
 #include <QDebug>
 #include "scenery/constants.h"
-#include <QStyleOption>
 
 SubWindow::SubWindow(GameScene *gameScene, Place place, int width, int height) : m_closeButton()
 {

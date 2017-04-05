@@ -9,26 +9,24 @@
 #include <QFrame>
 #include <QLineEdit>
 
-class LayHome : public QVBoxLayout
+class LayHome : public QWidget
 {
 public:
     LayHome();
-    QHBoxLayout m_layButtons;
-    QHBoxLayout m_layName;
-    QHBoxLayout m_layPassword;
-    QHBoxLayout m_layCenter;
-    QVBoxLayout m_layFrame;
-    QFrame m_centerFrame;
-    //QSpacerItem m_topSpacer;
-    //QSpacerItem m_bottomSpacer;
-    //QSpacerItem m_leftSpacer;
-    //QSpacerItem m_rightSpacer;
-    QLabel m_labelPassword;
-    QLabel m_labelName;
-    QLineEdit m_password;
-    QLineEdit m_name;
-    QPushButton m_subscribeButton;
-    QPushButton m_connectButton;
+    ~LayHome();
+    QVBoxLayout *m_mainLayout;
+    QHBoxLayout *m_layCenter;
+    QFrame *m_centerFrame;
+    QVBoxLayout *m_layFrame;
+    QHBoxLayout *m_layButtons;
+    QHBoxLayout *m_layName;
+    QHBoxLayout *m_layPassword;
+    QLabel *m_labelPassword;
+    QLabel *m_labelName;
+    QLineEdit *m_password;
+    QLineEdit *m_name;
+    QPushButton *m_subscribeButton;
+    QPushButton *m_connectButton;
 };
 
 #endif // LAYHOME_H

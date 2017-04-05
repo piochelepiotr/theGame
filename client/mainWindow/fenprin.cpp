@@ -9,6 +9,10 @@
 
 FenPrin::FenPrin(QWidget *parent) : QMainWindow(parent)
 {
+    m_layChooseChar = 0;
+    m_layCreateCharac = 0;
+    m_layGame = 0;
+    m_layHome = 0;
     qRegisterMetaType<EntityInfo>("EntityInfo");
     m_donneesediteur = new Data(0,0,0,0);
     m_reseau = new Reseau(m_donneesediteur);
@@ -54,16 +58,6 @@ FenPrin::~FenPrin()
     delete m_reseau;
     if(m_etat != Connexion && m_etat != Debut)
         delete m_compte;
-    if(m_etat == Connexion)
-        delete m_coui;
-    else if(m_etat == ChoixPersos)
-        delete m_choixui;
-    else if(m_etat == Jeu)
-    {
-        delete m_jeuui;
-    }
-    else if(m_etat == CreerPerso)
-        delete m_creerui;
 }
 
 void FenPrin::inscription()
@@ -73,8 +67,8 @@ void FenPrin::inscription()
 
 void FenPrin::essaiconnexion()
 {
-    QString accountName = m_coui->bar_ndc->text();
-    QString password = m_coui->bar_mdp->text();
+    QString accountName = m_layHome->m_name->text();
+    QString password = m_layHome->m_password->text();
     /*For the tests*/
     if(accountName.isEmpty())
     {
@@ -124,29 +118,27 @@ void FenPrin::analyseTexte(QString & texte)//fonction à mettre dans la classe b
 void FenPrin::jeu()
 {
     QSize size = this->size();
-    delete m_choixui;
-    m_choixui = 0;
     m_reseau->envoyer("jeu/"+QString::number(m_persoActuel));
-    m_jeuui = new Ui::JeuMainWindow();
-    m_jeuui->setupUi(this);
+    m_layGame = new LayGame();
+    this->setCentralWidget(m_layGame);
 
     this->setWindowTitle(m_compte->getPerso(m_persoActuel)->getNom());
 
     m_jeu = new GameField(QSize(size.width(),size.height()-HAUTEUR_BARRE_OUTIL), m_compte->getPerso(m_persoActuel), m_reseau->socket(), m_donneesediteur);
-    m_jeuui->jeu2d->setScene(m_jeu);
-    m_jeuui->jeu2d->setSceneRect(0,0,size.width(),size.height()-HAUTEUR_BARRE_OUTIL);
+    m_layGame->m_game->setScene(m_jeu);
+    m_layGame->m_game->setSceneRect(0,0,size.width(),size.height()-HAUTEUR_BARRE_OUTIL);
 
     m_layoutBarreOutil = new LayoutBarreOutil(this,m_compte->getPerso(m_persoActuel));
-    m_jeuui->barreoutil->setLayout(m_layoutBarreOutil);
-    m_jeuui->barreoutil->setFixedHeight(HAUTEUR_BARRE_OUTIL);
+    m_layGame->m_toolBar->setLayout(m_layoutBarreOutil);
+    m_layGame->m_toolBar->setFixedHeight(HAUTEUR_BARRE_OUTIL);
     m_jeu->setLayoutBarreOutil(m_layoutBarreOutil);
 
     m_reseau->setCharacter(m_compte->getPerso(m_persoActuel));
     m_reseau->setGameField(m_jeu);
 
-    connect(m_jeuui->menu_jeu_quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
-    connect(m_jeuui->menu_jeu_deco, SIGNAL(triggered()), this, SLOT(connexion()));
-    connect(m_jeuui->menu_jeu_changerPerso, SIGNAL(triggered()), this, SLOT(choixPerso()));
+    //connect(m_jeuui->menu_jeu_quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
+    //connect(m_jeuui->menu_jeu_deco, SIGNAL(triggered()), this, SLOT(connexion()));
+    //connect(m_jeuui->menu_jeu_changerPerso, SIGNAL(triggered()), this, SLOT(choixPerso()));
     connect(m_jeu, SIGNAL(pnjclique(qint16, QPoint)), this, SLOT(dialoguePnj(qint16,QPoint)));
     connect(m_jeu, SIGNAL(faitRecette(QString)), this, SLOT(creerRecette(QString)));
     connect(m_jeu, SIGNAL(pourChat(QString)), this, SLOT(ajouteLigneChat(QString)));
@@ -163,7 +155,7 @@ void FenPrin::jeu()
     timer->start(1000/NBR_IMAGES_SECONDE);
 
 
-    m_jeuui->jeu2d->setMouseTracking(true);
+    m_layGame->m_game->setMouseTracking(true);
 
     m_jeu->installEventFilter(this);
 
@@ -186,40 +178,40 @@ void FenPrin::choixPerso()
     QSize size = this->size();
     if(m_etat == Connexion)
     {
-        delete m_coui;
-        m_coui = 0;
+        //delete m_layHome;
+        //m_layHome = 0;
     }
     if(m_etat == CreerPerso)
     {
-        delete m_creerui;
-        m_creerui = 0;
+        delete m_layCreateCharac;
+        m_layCreateCharac = 0;
     }
     else if(m_etat == Jeu)
     {
-        delete m_jeuui;
-        m_jeuui = 0;
+        delete m_layGame;
+        m_layGame = 0;
         m_reseau->envoyer("cdp");
     }
 
-    m_choixui = new Ui::ChoixMainWindow();
-    m_choixui->setupUi(this);
+    m_layChooseChar = new LayChooseChar();
+    setCentralWidget(m_layChooseChar);
     m_persoActuel = 0;
 
     if(m_compte->getNbrPerso())
     {
-        m_choixui->image_persoactuel->setPixmap(QPixmap("../data/imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
-        m_choixui->bout_jouer->setEnabled(true);
-        m_choixui->bout_supprimer->setEnabled(true);
-        m_choixui->nameperso->setText(m_compte->getPerso(m_persoActuel)->getNom());
+        m_layChooseChar->m_imageCharacter->setPixmap(QPixmap("../data/imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
+        m_layChooseChar->m_buttonPlay->setEnabled(true);
+        m_layChooseChar->m_buttonDelete->setEnabled(true);
+        m_layChooseChar->m_nameCharacter->setText(m_compte->getPerso(m_persoActuel)->getNom());
     }
 
-    connect(m_choixui->menu_jeu_quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
-    connect(m_choixui->menu_jeu_deco, SIGNAL(triggered()), this, SLOT(connexion()));
-    connect(m_choixui->bout_jouer, SIGNAL(pressed()), this, SLOT(jeu()));
-    connect(m_choixui->bout_creer, SIGNAL(pressed()), this, SLOT(persoPlus()));
-    connect(m_choixui->bout_suiv, SIGNAL(pressed()), this, SLOT(persoSuivant()));
-    connect(m_choixui->bout_pre, SIGNAL(pressed()), this, SLOT(persoPrecedent()));
-    connect(m_choixui->bout_supprimer, SIGNAL(pressed()), this, SLOT(supprimmePerso()));
+    //connect(m_choixui->menu_jeu_quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
+    //connect(m_choixui->menu_jeu_deco, SIGNAL(triggered()), this, SLOT(connexion()));
+    connect(m_layChooseChar->m_buttonPlay, SIGNAL(pressed()), this, SLOT(jeu()));
+    connect(m_layChooseChar->m_buttonCreate, SIGNAL(pressed()), this, SLOT(persoPlus()));
+    connect(m_layChooseChar->m_buttonNext, SIGNAL(pressed()), this, SLOT(persoSuivant()));
+    connect(m_layChooseChar->m_buttonPrevious, SIGNAL(pressed()), this, SLOT(persoPrecedent()));
+    connect(m_layChooseChar->m_buttonDelete, SIGNAL(pressed()), this, SLOT(supprimmePerso()));
 
     m_etat = ChoixPersos;
     this->resize(size);
@@ -232,8 +224,8 @@ void FenPrin::connexion(bool choixDuServ)
     {
         if(!choixDuServ)
             m_reseau->envoyer("dec");
-        delete m_choixui;
-        m_choixui = 0;
+        delete m_layChooseChar;
+        m_layChooseChar = 0;
         delete m_compte;
         m_compte = 0;
     }
@@ -241,8 +233,8 @@ void FenPrin::connexion(bool choixDuServ)
     {
         if(!choixDuServ)
             m_reseau->envoyer("dec");
-        delete m_creerui;
-        m_creerui = 0;
+        delete m_layCreateCharac;
+        m_layCreateCharac = 0;
         delete m_compte;
         m_compte = 0;
     }
@@ -250,21 +242,23 @@ void FenPrin::connexion(bool choixDuServ)
     {
         if(!choixDuServ)
             m_reseau->envoyer("dec");
-        delete m_jeuui;
-        m_jeuui = 0;
+        delete m_layGame;
+        m_layGame = 0;
         delete m_compte;
         m_compte = 0;
     }
 
 
-    m_coui = new Ui::CoMainWindow();
-    m_coui->setupUi(this);
+    m_layHome = new LayHome();
+    qDebug() << "setting layout";
+    this->setCentralWidget(m_layHome);
+    qDebug() << "set";
 
-    connect(m_coui->bout_ins, SIGNAL(pressed()), this, SLOT(inscription()));
-    connect(m_coui->bout_co, SIGNAL(pressed()), this, SLOT(essaiconnexion()));
-    connect(m_coui->bar_ndc, SIGNAL(returnPressed()), this, SLOT(essaiconnexion()));
-    connect(m_coui->bar_mdp, SIGNAL(returnPressed()), this, SLOT(essaiconnexion()));
-    connect(m_coui->menu_jeu_quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
+    connect(m_layHome->m_subscribeButton, SIGNAL(pressed()), this, SLOT(inscription()));
+    connect(m_layHome->m_connectButton, SIGNAL(pressed()), this, SLOT(essaiconnexion()));
+    connect(m_layHome->m_name, SIGNAL(returnPressed()), this, SLOT(essaiconnexion()));
+    connect(m_layHome->m_password, SIGNAL(returnPressed()), this, SLOT(essaiconnexion()));
+    //connect(m_coui->menu_jeu_quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
 
     m_etat = Connexion;
 }
@@ -272,17 +266,17 @@ void FenPrin::connexion(bool choixDuServ)
 void FenPrin::creer()
 {
     m_classeActuelle = "esudem";
-    delete m_choixui;
-    m_choixui = 0;
-    m_creerui = new Ui::CreerMainWindow();
-    m_creerui->setupUi(this);
-    m_creerui->image_classe->setPixmap(QPixmap("../data/imagesdespersos/"+m_classeActuelle+'/'+m_classeActuelle+".png").scaled(QSize(this->size().width()*PLPERSOCREER, this->size().height()*PHPERSOCREER)));
-    connect(m_creerui->bout_creer, SIGNAL(pressed()),this, SLOT(creerUnPerso()));
-    connect(m_creerui->bout_annuler, SIGNAL(pressed()), this, SLOT(choixPerso()));
-    connect(m_creerui->menu_jeu_quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
-    connect(m_creerui->menu_jeu_deco, SIGNAL(triggered()), this, SLOT(connexion()));
-    connect(m_creerui->bout_suiv, SIGNAL(pressed()), this, SLOT(classeSuivante()));
-    connect(m_creerui->bout_pre, SIGNAL(pressed()), this, SLOT(classePrecedente()));
+    delete m_layChooseChar;
+    m_layChooseChar = 0;
+    m_layCreateCharac = new LayCreateCharac();
+    this->setCentralWidget(m_layCreateCharac);
+    m_layCreateCharac->m_imageCharacter->setPixmap(QPixmap("../data/imagesdespersos/"+m_classeActuelle+'/'+m_classeActuelle+".png").scaled(QSize(this->size().width()*PLPERSOCREER, this->size().height()*PHPERSOCREER)));
+    connect(m_layCreateCharac->m_buttonCreate, SIGNAL(pressed()),this, SLOT(creerUnPerso()));
+    connect(m_layCreateCharac->m_buttonCancel, SIGNAL(pressed()), this, SLOT(choixPerso()));
+    //connect(m_creerui->menu_jeu_quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
+    //connect(m_creerui->menu_jeu_deco, SIGNAL(triggered()), this, SLOT(connexion()));
+    connect(m_layCreateCharac->m_buttonNext, SIGNAL(pressed()), this, SLOT(classeSuivante()));
+    connect(m_layCreateCharac->m_buttonPrevious, SIGNAL(pressed()), this, SLOT(classePrecedente()));
     m_etat = CreerPerso;
 }
 
@@ -293,13 +287,13 @@ void FenPrin::caracteristiques()
 
 bool FenPrin::eventFilter(QObject *obj, QEvent *event)
 {
-    if(m_etat == CreerPerso && m_creerui != 0)
+    if(m_etat == CreerPerso && m_layCreateCharac != 0)
     {
         if (obj == this)
         {
                  if(event->type() == QEvent::Resize)
                  {
-                     m_creerui->image_classe->setPixmap(QPixmap("../data/imagesdespersos/"+m_classeActuelle+'/'+m_classeActuelle+".png").scaled(QSize(this->size().width()*PLPERSOCREER, this->size().height()*PHPERSOCREER)));
+                     m_layCreateCharac->m_imageCharacter->setPixmap(QPixmap("../data/imagesdespersos/"+m_classeActuelle+'/'+m_classeActuelle+".png").scaled(QSize(this->size().width()*PLPERSOCREER, this->size().height()*PHPERSOCREER)));
                      return true;
                  }
                  else
@@ -312,14 +306,14 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
             return QMainWindow::eventFilter(obj, event);
         }
     }
-    else if(m_etat == ChoixPersos && m_choixui != 0)
+    else if(m_etat == ChoixPersos && m_layChooseChar != 0)
     {
         if(obj == this)
         {
             if (event->type() == QEvent::Resize)
             {
                 if(m_compte->getNbrPerso())
-                    m_choixui->image_persoactuel->setPixmap(QPixmap("../data/imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
+                    m_layChooseChar->m_imageCharacter->setPixmap(QPixmap("../data/imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
                 return true;
             }
             else
@@ -332,7 +326,7 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
             return QMainWindow::eventFilter(obj, event);
         }
     }
-    else if(m_etat == Jeu && m_jeuui != 0)
+    else if(m_etat == Jeu && m_layGame != 0)
     {
         if(obj == this && event->type() == QEvent::Resize)
         {
@@ -349,7 +343,7 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
                 height2 = (int)(((double)width2)/screenFormat);
             }*/
             m_jeu->resize(QSize(width2,height2));
-            m_jeuui->jeu2d->setSceneRect(0,0,width2,height2);
+            m_layGame->m_game->setSceneRect(0,0,width2,height2);
             return true;
         }
         else if(obj == m_jeu && event->type() == QEvent::GraphicsSceneMousePress)
@@ -402,13 +396,13 @@ bool FenPrin::eventFilter(QObject *obj, QEvent *event)
 void FenPrin::classeSuivante()
 {
     m_classeActuelle = m_donneesediteur->resources->classeSuivante(m_classeActuelle);
-    m_creerui->image_classe->setPixmap(QPixmap("../data/imagesdespersos/"+m_classeActuelle+'/'+m_classeActuelle+".png").scaled(QSize(this->size().width()*PLPERSOCREER, this->size().height()*PHPERSOCREER)));
+    m_layCreateCharac->m_imageCharacter->setPixmap(QPixmap("../data/imagesdespersos/"+m_classeActuelle+'/'+m_classeActuelle+".png").scaled(QSize(this->size().width()*PLPERSOCREER, this->size().height()*PHPERSOCREER)));
 }
 
 void FenPrin::classePrecedente()
 {
     m_classeActuelle = m_donneesediteur->resources->classeSuivante(m_classeActuelle);
-    m_creerui->image_classe->setPixmap(QPixmap("../data/imagesdespersos/"+m_classeActuelle+'/'+m_classeActuelle+".png").scaled(QSize(this->size().width()*PLPERSOCREER, this->size().height()*PHPERSOCREER)));
+    m_layCreateCharac->m_imageCharacter->setPixmap(QPixmap("../data/imagesdespersos/"+m_classeActuelle+'/'+m_classeActuelle+".png").scaled(QSize(this->size().width()*PLPERSOCREER, this->size().height()*PHPERSOCREER)));
 }
 
 void FenPrin::persoSuivant()
@@ -418,8 +412,8 @@ void FenPrin::persoSuivant()
         m_persoActuel++;
         if(m_persoActuel >= m_compte->getNbrPerso())
             m_persoActuel = 0;
-        m_choixui->image_persoactuel->setPixmap(QPixmap("../data/imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
-        m_choixui->nameperso->setText(m_compte->getPerso(m_persoActuel)->getNom());
+        m_layChooseChar->m_imageCharacter->setPixmap(QPixmap("../data/imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
+        m_layChooseChar->m_nameCharacter->setText(m_compte->getPerso(m_persoActuel)->getNom());
     }
 }
 
@@ -430,8 +424,8 @@ void FenPrin::persoPrecedent()
         m_persoActuel--;
         if(m_persoActuel < 0)
             m_persoActuel = m_compte->getNbrPerso()-1;
-        m_choixui->image_persoactuel->setPixmap(QPixmap("../data/imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
-        m_choixui->nameperso->setText(m_compte->getPerso(m_persoActuel)->getNom());
+        m_layChooseChar->m_imageCharacter->setPixmap(QPixmap("../data/imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
+        m_layChooseChar->m_nameCharacter->setText(m_compte->getPerso(m_persoActuel)->getNom());
     }
 }
 
@@ -445,15 +439,15 @@ void FenPrin::supprimmePerso()
         m_persoActuel = 0;
         if(m_compte->getNbrPerso())
         {
-            m_choixui->image_persoactuel->setPixmap(QPixmap("../data/imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
-            m_choixui->nameperso->setText(m_compte->getPerso(m_persoActuel)->getNom());
+            m_layChooseChar->m_imageCharacter->setPixmap(QPixmap("../data/imagesdespersos/"+m_compte->getPerso(m_persoActuel)->getClasse()+'/'+m_compte->getPerso(m_persoActuel)->getClasse()+".png").scaled(QSize(this->size().width()*PLPERSOCHOIX, this->size().height()*PHPERSOCHOIX)));
+            m_layChooseChar->m_nameCharacter->setText(m_compte->getPerso(m_persoActuel)->getNom());
         }
         else
         {
-            m_choixui->image_persoactuel->setText("Vous n'avez aucun personnage.");
-            m_choixui->nameperso->setText("name inconnu");
-            m_choixui->bout_jouer->setEnabled(false);
-            m_choixui->bout_supprimer->setEnabled(false);
+            m_layChooseChar->m_imageCharacter->setText("Vous n'avez aucun personnage.");
+            m_layChooseChar->m_nameCharacter->setText("name inconnu");
+            m_layChooseChar->m_buttonPlay->setEnabled(false);
+            m_layChooseChar->m_buttonDelete->setEnabled(false);
         }
     }
 
@@ -464,7 +458,7 @@ void FenPrin::supprimmePerso()
 void FenPrin::creerUnPerso()
 {
     QString texte="PERSO/";
-    Character *perso = new Character(m_creerui->bar_name->text(), m_classeActuelle, m_donneesediteur);
+    Character *perso = new Character(m_layCreateCharac->m_nameCharacter->text(), m_classeActuelle, m_donneesediteur);
     m_compte->ajouteUnPerso(perso);
     texte += perso->toString();
 

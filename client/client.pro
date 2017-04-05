@@ -52,10 +52,6 @@ FORMS += \
     additionalWindows/echange.ui \
     additionalWindows/fairerecettes.ui \
     additionalWindows/interjoueur.ui \
-    mainWindow/choixmainwindow.ui \
-    mainWindow/comainwindow.ui \
-    mainWindow/creermainwindow.ui \
-    mainWindow/jeumainwindow.ui \
     additionalWindows/windowendfight.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../data-shared/release/ -lshared

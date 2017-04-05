@@ -1,5 +1,3 @@
-
-#include "ui_jeumainwindow.h"
 #include "layoutbarreoutil.h"
 #include "mainWindow/fenprin.h"
 
