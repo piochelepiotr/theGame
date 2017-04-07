@@ -89,7 +89,7 @@ public:
     QMap<QString,Spell*> spells() const { return m_spells; }
 
     bool peutUtiliserSpell(QString const& name);
-    Spell *getSpell(QString const& name);
+    virtual Spell *getSpell(QString const& name);
     QString gagneFinFight(int, bool victoire);
 
     //

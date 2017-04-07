@@ -140,7 +140,7 @@ void Reseau::donneesRecues()
         }
         else if(inf == "tonTour")
         {
-            m_gameField->setMonTour(true);
+            emit yourTurn();
         }
         else if(inf == "gagneArme")
         {

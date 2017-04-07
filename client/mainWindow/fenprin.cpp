@@ -149,6 +149,8 @@ void FenPrin::jeu()
     connect(m_reseau,SIGNAL(beginFight()),m_jeu,SLOT(phaseFight()));
     connect(m_reseau,SIGNAL(enterFight(int)),m_jeu,SLOT(phasePlacement(int)));
     connect(m_reseau,SIGNAL(changeLife(QString,int)),m_jeu,SLOT(setVie(QString,int)));
+    connect(m_reseau,SIGNAL(yourTurn()), m_jeu, SLOT(yourTurn()));
+
 
     QTimer *timer = new QTimer(m_jeu);
     connect(timer, SIGNAL(timeout()), m_jeu, SLOT(imagesuivante()));
@@ -629,6 +631,7 @@ void FenPrin::creerRecette(QString metier)
 
 void FenPrin::je_passe_tour()
 {
+    qDebug() << "passer tour";
     if(m_jeu->phase() == EnPlacement)
     {
         if(m_compte->getPerso(m_persoActuel)->pret())
@@ -645,6 +648,7 @@ void FenPrin::je_passe_tour()
     }
     else if(m_jeu->phase() == EnFight && m_jeu->monTour())
     {
+        qDebug() << "ok";
         m_reseau->envoyer("fight/passeTour");
     }
 }

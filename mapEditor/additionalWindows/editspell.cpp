@@ -39,7 +39,7 @@ void EditerUnSpell::enregistre()
     m_editer->recharge(texte);
     if(m_creation)
     {
-        QFile fichier(QString(DONNEES)+QString("editers.txt"));
+        QFile fichier(QString(DONNEES)+QString("spells.txt"));
         if(fichier.open(QIODevice::WriteOnly | QIODevice::Append))
         {
             QTextStream stream(&fichier);
@@ -50,7 +50,7 @@ void EditerUnSpell::enregistre()
     else
     {
         QString ligne;
-        QFile fichier(QString(DONNEES)+QString("editers.txt")), fichier2(QString(DONNEES)+QString("editers2.txt"));
+        QFile fichier(QString(DONNEES)+QString("spells.txt")), fichier2(QString(DONNEES)+QString("spells2.txt"));
         if(fichier.open(QIODevice::ReadOnly) && fichier2.open(QIODevice::WriteOnly))
         {
             QTextStream stream(&fichier), stream2(&fichier2);
@@ -68,8 +68,8 @@ void EditerUnSpell::enregistre()
             }
             fichier.close();
             fichier2.close();
-            QFile::remove(QString(DONNEES)+QString("editers.txt"));
-            QFile::rename(QString(DONNEES)+QString("editers2.txt"), QString(DONNEES)+QString("editers.txt"));
+            QFile::remove(QString(DONNEES)+QString("spells.txt"));
+            QFile::rename(QString(DONNEES)+QString("spells2.txt"), QString(DONNEES)+QString("spells.txt"));
         }
     }
 }
@@ -80,7 +80,7 @@ void EditerUnSpell::charge()
     QString texte;
     if(!m_creation)
     {
-        QFile fichier(QString(DONNEES)+QString("editers.txt"));
+        QFile fichier(QString(DONNEES)+QString("spells.txt"));
         if(fichier.open(QIODevice::ReadOnly))
         {
             QTextStream stream(&fichier);
@@ -123,7 +123,7 @@ void EditerUnSpell::charge()
 void EditerUnSpell::supprimer(QString const& name)
 {
     QString ligne;
-    QFile fichier(QString(DONNEES)+QString("editers.txt")), fichier2(QString(DONNEES)+QString("editers2.txt"));
+    QFile fichier(QString(DONNEES)+QString("spells.txt")), fichier2(QString(DONNEES)+QString("spells2.txt"));
     if(fichier.open(QIODevice::ReadOnly) && fichier2.open(QIODevice::WriteOnly))
     {
         QTextStream stream(&fichier), stream2(&fichier2);
@@ -137,7 +137,7 @@ void EditerUnSpell::supprimer(QString const& name)
         }
         fichier.close();
         fichier2.close();
-        QFile::remove(QString(DONNEES)+QString("editers.txt"));
-        QFile::rename(QString(DONNEES)+QString("editers2.txt"), QString(DONNEES)+QString("editers.txt"));
+        QFile::remove(QString(DONNEES)+QString("spells.txt"));
+        QFile::rename(QString(DONNEES)+QString("spells2.txt"), QString(DONNEES)+QString("spells.txt"));
     }
 }

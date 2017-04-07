@@ -28,9 +28,11 @@ public:
     void disconnectPlayer(QString const& name);
     QList<Joueur*> joueursPasEnFight();
     QList<Monster*>monsterNotFighting();
+    QList<Entity *> getEntitiesNotFighting();
     void receiveMessage(Joueur *player,QString const& begin, QString const& message);
     void analyseFight(QString debut,QString fin,Joueur *joueur);
     void analyseReponsePnj(QString const& reponse, Joueur *player);
+    void sendToNotFighting(QString const& message) const;
 
 public slots:
 

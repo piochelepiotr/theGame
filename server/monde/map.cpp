@@ -119,24 +119,42 @@ void ServerMap::decoFighttants(int fightId)
 
 void ServerMap::recoFighttants(int fightId)
 {
-    /*QStringList names = fight(fightId)->fighttants();
-    QList<Joueur*>joueurs = joueursPasEnFight();
+    QStringList names = fight(fightId)->fighttants();
+    QList<Entity*>entities = getEntitiesNotFighting();
     int l = names.length();
     Entity *entity = 0;
     for(int i = 0; i < l;i++)
     {
         entity = fight(fightId)->getEntity(names[i]);
         entity->setFightId(-1);
-        envoieA(fight(fightId)->fighttants(),"changePos/"+entity->getNom()+"/"+QString::number(entity->getPosMap().x())+"/"+QString::number(entity->getPosMap().y()));
+        //envoieA(fight(fightId)->fighttants(),"changePos/"+entity->getNom()+"/"+QString::number(entity->getPosMap().x())+"/"+QString::number(entity->getPosMap().y()));
     }
-    for(int j = 0; j < joueurs.size(); j++)
+
+    //2 things to do :
+    //send all the players that have just get out of the fight to everyone not fighting
+    //send all the players and monsters that were not in a fight to the players (not monsters) that have just get out of the fight
+    for(auto const& name : names)
     {
-        for(int i = 0; i < l; i++)
+        if(m_joueurs.contains(name))//if it is a player and not a monster
         {
-            joueurs.at(j)->envoi("con/"+fight(fightId)->getEntity(names[i])->important());
-            m_joueurs[names[i]]->envoi("con/"+joueurs.at(j)->getPersoActuel()->important());
+            for(auto const& entity : entities)
+            {
+                m_joueurs[name]->envoi("con/"+entity->important());
+            }
         }
-    }*/
+        sendToNotFighting("con/"+fight(fightId)->getEntity(name)->important());
+    }
+}
+
+void ServerMap::sendToNotFighting(QString const& message) const
+{
+    for(auto const& player : m_joueurs)
+    {
+        if(!player->getPersoActuel()->enFight())
+        {
+            player->envoi(message);
+        }
+    }
 }
 
 void ServerMap::finFight(int fightId)
@@ -264,6 +282,21 @@ QList<Monster*> ServerMap::monsterNotFighting()
             monsterNotFighting.append(i);
     }
     return monsterNotFighting;
+}
+
+QList<Entity *> ServerMap::getEntitiesNotFighting()
+{
+    QList<Entity *>entitiesNotFighting;
+
+    for(auto const& monster : monsterNotFighting())
+    {
+        entitiesNotFighting.append(monster);
+    }
+    for(auto const& player : joueursPasEnFight())
+    {
+        entitiesNotFighting.append(player->getPersoActuel());
+    }
+    return entitiesNotFighting;
 }
 
 void envoiGroupe(QList<Joueur*> const& receveurs, QString const& message, const QString &name)

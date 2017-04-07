@@ -95,7 +95,7 @@ void Fight::attack(QString nameAttaquant, QString nameSpell, int x, int y)
         cible->perdVie(degats);
         for(auto const& entity : m_entities.keys())
         {
-            emit envoie(entity,"fightVieDe/"+cible->getNom()+"/"+QString::number(cible->getVie()));
+            sendIfNotMonster(entity,"fightVieDe/"+cible->getNom()+"/"+QString::number(cible->getVie()));
         }
         if(cible->getVie() == 0)
         {

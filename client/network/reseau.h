@@ -43,6 +43,7 @@ signals:
     void beginFight();
     void enterFight(int team);
     void changeLife(QString const& name,int life);
+    void yourTurn();
 
     void newEntity(EntityInfo entity);
     void infoMap(QString infos);

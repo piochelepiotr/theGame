@@ -41,12 +41,12 @@ GameScene::GameScene(const QSize &size, QLabel *texte, Data *donnees_editeur)
     for(int j = 0; j < MAX_PAR_EQUIP; j++)
     {
         m_imgcasescbt[0] [j] = addPixmap(casecbt1);
-        m_imgcasescbt[0] [j]->setZValue(5+NBR_CASES_H);
+        m_imgcasescbt[0] [j]->setZValue(5);
         m_imgcasescbt[0] [j]->setVisible(false);
         m_imgcasescbt[0] [j]->setOpacity(0.5);
 
         m_imgcasescbt[1] [j] = addPixmap(casecbt2);
-        m_imgcasescbt[1] [j]->setZValue(5+NBR_CASES_H);
+        m_imgcasescbt[1] [j]->setZValue(5);
         m_imgcasescbt[1] [j]->setVisible(false);
         m_imgcasescbt[1] [j]->setOpacity(0.5);
     }
@@ -66,7 +66,7 @@ GameScene::GameScene(const QSize &size, QLabel *texte, Data *donnees_editeur)
             m_caseImmarchables[i] [j]->setOpacity(0.5);
 
             m_casesPortee[i] [j] = addPixmap(casePortee);
-            m_casesPortee[i] [j]->setZValue(5+NBR_CASES_H);
+            m_casesPortee[i] [j]->setZValue(5);
             m_casesPortee[i] [j]->setVisible(false);
             m_casesPortee[i] [j]->setOpacity(0.5);
 
@@ -159,6 +159,8 @@ void GameScene::resize(QSize const& nouvelle)
     QPixmap casePortee = QPixmap("../data/interface/casePO.png").scaled(m_lcase, m_hcase);
     QPixmap casecbt1 = QPixmap("../data/interface/casecbt0.png").scaled(m_lcase, m_hcase);
     QPixmap casecbt2 = QPixmap("../data/interface/casecbt1.png").scaled(m_lcase, m_hcase);
+
+    m_imgCaseVisee->setPixmap(QPixmap("../data/interface/casePO.png").scaled(m_lcase,m_hcase));
 
 
 

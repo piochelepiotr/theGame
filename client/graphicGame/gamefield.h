@@ -27,6 +27,7 @@ public slots:
     void phaseFight();
     void phasePlacement(int equipe);
     void setVie(QString const& name, int vie);
+    void yourTurn() { setMonTour(true); }
 signals:
     void pnjclique(qint16 numero, QPoint pos);
     void faitRecette(QString metier);
@@ -67,6 +68,7 @@ public:
     void marche_pas();
     void setLayoutBarreOutil(LayoutBarreOutil *layoutBarreOutil) { m_layoutBarreOutil = layoutBarreOutil; }
 private:
+    void removeEntities();
     LayoutBarreOutil *m_layoutBarreOutil;
     Character *m_character;
     QMap<QString,AfficheJoueur*>m_persos;

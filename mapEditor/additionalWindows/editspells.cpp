@@ -20,7 +20,7 @@ EditerSpells::~EditerSpells()
 void EditerSpells::chargeSpells()
 {
     QString ligne;
-    QFile fichier(QString(DONNEES)+QString("editers.txt"));
+    QFile fichier(QString(DONNEES)+QString("spells.txt"));
     if(fichier.open(QIODevice::ReadOnly))
     {
         QTextStream stream(&fichier);

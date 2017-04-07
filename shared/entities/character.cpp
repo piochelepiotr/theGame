@@ -644,6 +644,7 @@ QStringList Character::getJobs()
 
 Spell *Character::getSpell(QString const& name)
 {
+    qDebug() << name;
     if(name == "cac")
     {
         if(m_arme)
@@ -651,14 +652,9 @@ Spell *Character::getSpell(QString const& name)
         else
             return m_donnees_editeur->resources->getSpell("Coup de poing")->spellNiveau(1);
     }
-    else if(m_spells.contains(name))
-    {
-        return m_spells[name];
-    }
     else
     {
-        qDebug("SORT DEMANDER N'EXISTE PAS");
-        return m_donnees_editeur->resources->getSpell("Coup de poing")->spellNiveau(1);
+        return Entity::getSpell(name);
     }
 }
 

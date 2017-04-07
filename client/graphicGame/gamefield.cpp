@@ -172,16 +172,23 @@ void GameField::veut_utiliserSpell(Spell *spell)
 
 void GameField::phasePlacement(int equipe)
 {
+    m_displayGrid = true;
+    grille();
     m_character->setPret(false);
     setMonTour(false);
     m_character->setEquipe(equipe);
     m_fightOuPas = EnPlacement;
     affiche_casesFight();
+    removeEntities();
+    m_layoutBarreOutil->phasePlacement();
+}
+
+void GameField::removeEntities()
+{
     for(auto name : m_persos.keys())
     {
         removeEntity(name);
     }
-    m_layoutBarreOutil->phasePlacement();
 }
 
 void GameField::phaseFight()
@@ -196,11 +203,15 @@ void GameField::phaseFight()
 
 void GameField::phaseFinFight()
 {
+    setMonTour(false);
     if(m_fightOuPas == EnPlacement)
         masque_casesFight();
+    m_displayGrid = false;
+    grille();
     m_fightOuPas = HorsFight;
     m_fight = 0;
     effaceChemin();
+    removeEntities();
     //cachePortee();
 }
 

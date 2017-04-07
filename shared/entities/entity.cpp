@@ -101,6 +101,7 @@ bool Entity::peutUtiliserSpell(QString const& name)
 
 Spell *Entity::getSpell(QString const& name)
 {
+    qDebug() << name << " entity";
     if(m_spells.contains(name))
     {
         return m_spells[name];

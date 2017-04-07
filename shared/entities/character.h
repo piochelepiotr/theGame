@@ -98,7 +98,7 @@ public:
     int ajouterArme(Weapon *arme);
     int ajouterEquipement(Outfit *equipement);
     int ajouterRessource(Resource *resource);
-    Spell *getSpell(QString const& name);
+    virtual Spell *getSpell(QString const& name);
     QString gagneFinFight(int niveauAutreEquipe, bool victoire);
     void gagneXp(int xp);
     void metAJourNiveau();
