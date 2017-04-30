@@ -940,6 +940,7 @@ MonsterModel *Map::nouveauMonstre()
     double total = 0;
     for(QMap<QString,double>::iterator it = m_monstres.begin(); it != m_monstres.end(); it++)
     {
+        qDebug() << it.key() << " proba : " << it.value();
         total += it.value();
     }
     if(total == 0)
