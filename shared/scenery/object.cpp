@@ -31,6 +31,13 @@ QPixmap Object::image()
     return m_image;
 }
 
+QPixmap Object::imageForSize(int lcase, int hcase)
+{
+    int width = (int)((double)lcase*m_propx);
+    int height = (int)((double)hcase*m_propy);
+    return QPixmap("../data/objets/"+QString::number(m_numero)).scaled(width, height);
+}
+
 void Object::resize(int lcase, int hcase)
 {
     m_largeur = (int)((double)lcase*m_propx);

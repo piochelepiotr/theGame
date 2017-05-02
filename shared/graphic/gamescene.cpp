@@ -16,7 +16,7 @@ GameScene::GameScene(const QSize &size, QLabel *texte, Data *donnees_editeur)
     m_zoom_active = true;
     m_tailleci = 1;
     m_enlevercaseim = false;
-    m_calc = CALQUE_DEFAUT;
+    m_calcObject = true;
     m_equipe = 0;
     m_objetActuel = m_donnees_editeur->decor->objet(0);
     m_texte = texte;
@@ -37,6 +37,10 @@ GameScene::GameScene(const QSize &size, QLabel *texte, Data *donnees_editeur)
     m_imgCaseVisee->setZValue(5);
     m_imgCaseVisee->setVisible(false);
     m_imgCaseVisee->setOpacity(0.5);
+
+    m_imageBackground = addPixmap(QPixmap());
+    m_imageBackground->setZValue(3);
+    m_imageBackground->setVisible(false);
 
     for(int j = 0; j < MAX_PAR_EQUIP; j++)
     {
@@ -195,7 +199,7 @@ void GameScene::resize(QSize const& nouvelle)
     m_cadreb->setRect(m_lcase*CASESCACHEESX+1,m_mhcase*(NBR_CASES_H-CASESCACHEESY), m_lmap-2*m_lcase*CASESCACHEESX-2, m_lmap-m_mhcase*(NBR_CASES_H-CASESCACHEESY));
     m_cadreh->setRect(m_lcase*CASESCACHEESX+1,0, m_lmap-2*m_lcase*CASESCACHEESX-2, m_mhcase*CASESCACHEESY);
 
-    fondEgal(m_dataMap->fond());
+    m_fond->setPixmap(m_dataMap->getBackground(m_lmap,m_hmap));
     m_dataMap->setEnregistree(saved);
     if(m_subWindow)
         m_subWindow->gameResized();
@@ -287,21 +291,38 @@ void GameScene::largethautcase()
     }
 }
 
-void GameScene::case_prend_valeur(QPoint const& poscase)
+void GameScene::case_prend_valeur(QPoint const& poscase, QPoint const& pos)
 {
-    caseEgale(poscase.x(),poscase.y(),m_objetActuel);
-    m_objet = m_objetActuel;
+    if(m_calcObject)
+    {
+        caseEgale(poscase.x(),poscase.y(),m_objetActuel);
+        m_objet = m_objetActuel;
+    }
+    else
+    {
+        m_dataMap->addToBackground(m_objetActuel, pos, m_lmap, m_hmap);
+        m_fond->setPixmap(m_dataMap->getBackground(m_lmap,m_hmap));
+    }
 }
 
-void GameScene::souriBouge(QPoint const& poscase)
+void GameScene::souriBouge(QPoint const& poscase, QPoint const& pos)
 {
-    m_texte->setText("pos : ["+QString::number(poscase.x())+";"+QString::number(poscase.y())+"] et map ["+QString::number(m_dataMap->x())+";"+QString::number(m_dataMap->y())+";"+QString::number(m_dataMap->z())+"]");
-    if(poscase.x() != m_caseSele.x() || poscase.y() != m_caseSele.y())
-        changementSele(poscase);
+    m_texte->setText("pos : ["+QString::number(pos.x())+";"+QString::number(pos.y())+"] et map ["+QString::number(m_dataMap->x())+";"+QString::number(m_dataMap->y())+";"+QString::number(m_dataMap->z())+"]");
+    if(m_calcObject)
+    {
+        if(poscase.x() != m_caseSele.x() || poscase.y() != m_caseSele.y())
+            changementSele(poscase);
+    }
+    else
+    {
+        m_imageBackground->setPos(pos.x()-m_imageBackground->pixmap().width()/2, pos.y()-m_imageBackground->pixmap().height()/2);
+    }
 }
 
 void GameScene::changementSele(QPoint const& nouvelle)
 {
+    if(!m_calcObject)
+        return;
     if(m_caseSele.x() != -1)
     {
         caseEgale(m_caseSele.x(), m_caseSele.y(), m_objet);
@@ -314,12 +335,20 @@ void GameScene::changementSele(QPoint const& nouvelle)
     m_caseSele = nouvelle;
 }
 
-
 void GameScene::setObjetActuel(Object *nouveau)
 {
     changementSele(QPoint(-1,-1));
     m_objet = m_donnees_editeur->decor->objet(0);
     m_objetActuel = nouveau;
+    if(m_objetActuel->numero() != 0)
+    {
+        m_imageBackground->setPixmap(m_objetActuel->image());
+        m_imageBackground->setVisible(!m_calcObject);
+    }
+    else
+    {
+        m_imageBackground->setVisible(false);
+    }
 }
 
 void GameScene::charge(int cooX, int cooY, int cooZ)
@@ -392,23 +421,20 @@ void GameScene::supprimeTranspo(QPoint const& pos)
     m_lesimagestransports.remove(pos);
 }
 
-void GameScene::calc1()
+void GameScene::calcObject()
 {
+    m_imageBackground->setVisible(false);
     changementSele(QPoint(-1,-1));
-    m_calc = 0;
+    m_calcObject = true;
+    souriBouge(QPoint(-1,-1), QPoint(-200,-200));
 }
 
-void GameScene::calc2()
+void GameScene::calcBacground()
 {
+    m_imageBackground->setVisible(m_objetActuel->numero() != 0);
     changementSele(QPoint(-1,-1));
-    m_calc = 1;
-}
-
-
-void GameScene::calc3()
-{
-    changementSele(QPoint(-1,-1));
-    m_calc = 2;
+    m_calcObject = false;
+    souriBouge(QPoint(-1,-1), QPoint(-200,-200));
 }
 
 void GameScene::rend_case_immarchable(int i, int j)
@@ -503,14 +529,6 @@ void GameScene::remplitCaseIm(int i, int j)
             }
         }
     }
-}
-
-void GameScene::fondEgal(QString const& name)
-{
-    m_dataMap->setFond(name);
-    QPixmap background = QPixmap("../data/lesfonds/"+name);
-    if(!background.isNull())
-        m_fond->setPixmap(background.scaled(m_lmap, m_hmap));
 }
 
 void GameScene::chargeContours()

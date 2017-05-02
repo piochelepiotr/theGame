@@ -28,9 +28,8 @@ public:
             QPushButton *m_ajouterUnObjet;
             QGroupBox *m_groupCalc;
                 QHBoxLayout *m_laycalc;
-                QRadioButton *m_calc1;
-                QRadioButton *m_calc2;
-                QRadioButton *m_calc3;
+                QRadioButton *m_calcObject;
+                QRadioButton *m_calcBackground;
         QHBoxLayout *m_lay_bas_objets;
             QVBoxLayout *m_lay_actions_objet;
                 QPushButton *m_effaceurobjet;

@@ -1,5 +1,8 @@
 #include "map/map.h"
 
+#define BACKGROUND_WIDTH 1920
+#define BACKGROUND_HEIGHT 1080
+
 Map::Map(Data *donnees_editeur,int cooX, int cooY, int cooZ)
 {
     m_estEnregistree = true;
@@ -8,7 +11,7 @@ Map::Map(Data *donnees_editeur,int cooX, int cooY, int cooZ)
     m_cooX = cooX;
     m_cooY = cooY;
     m_cooZ = cooZ;
-    charge("../data/maps/["+QString::number(cooX)+";"+QString::number(cooY)+";"+QString::number(cooZ)+"].bin");
+    charge("../data/maps/["+QString::number(cooX)+";"+QString::number(cooY)+";"+QString::number(cooZ)+"]");
     m_estEnregistree = true;
 }
 
@@ -18,18 +21,29 @@ void Map::chargeMap(int x,int y,int z)
     m_cooX = x;
     m_cooY = y;
     m_cooZ = z;
-    charge("../data/maps/["+QString::number(m_cooX)+";"+QString::number(m_cooY)+";"+QString::number(m_cooZ)+"].bin");
+    charge("../data/maps/["+QString::number(m_cooX)+";"+QString::number(m_cooY)+";"+QString::number(m_cooZ)+"]");
     m_estEnregistree = true;
 }
 
 void Map::charge(QString const& nameFichier)
 {
     QFile fichier;
-    fichier.setFileName(nameFichier);
+    fichier.setFileName(nameFichier+".bin");
     if(!fichier.exists())
     {
         nouvelleMap();
         return;
+    }
+
+    //loads background if it exists
+    QFile backGround(nameFichier+".png");
+    if(backGround.exists())
+    {
+        m_background = QPixmap(nameFichier+".png");
+    }
+    else
+    {
+        m_background = QPixmap(BACKGROUND_WIDTH,BACKGROUND_HEIGHT);
     }
 
     if(fichier.open(QIODevice::ReadOnly))
@@ -74,9 +88,6 @@ void Map::charge(QString const& nameFichier)
 
         QStringList liste = texte.split("/");
 
-        m_fond = liste.front();
-        liste.pop_front();
-
         while(liste[0] != "FINMUSIQUES")
         {
             m_musiques.push_back(liste[0]);
@@ -115,7 +126,7 @@ bool Map::undo()
     {
         m_undo--;
         nouvelleMap();
-        charge("../data/maps/undo/"+QString::number(m_undo)+".bin");
+        charge("../data/maps/undo/"+QString::number(m_undo));
         //fichier.setFileName();
         return true;
     }
@@ -124,6 +135,7 @@ bool Map::undo()
 
 void Map::nouvelleMap()
 {
+    m_background = QPixmap(BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
     m_estEnregistree = false;
     for(int i = 0; i < NBR_CASES_L; i++)
     {
@@ -149,7 +161,6 @@ void Map::nouvelleMap()
             m_casescbt[i] [j] = QPoint(-1,-1);
         }
     }
-    m_fond = FOND_DEFAUT;
     m_musiques.clear();
     m_monstres.clear();
     m_transpos.clear();
@@ -210,17 +221,19 @@ void Map::casePleineDeMap(int cooX, int cooY, int cooZ, qint8 casesPleines[NBR_C
 void Map::enregistre(bool undo/* = -1*/)
 {
     QFile fichier;
+    QString fileName;
     if(undo)
     {
         m_undo++;
-        fichier.setFileName("../data/maps/undo/"+QString::number(undo)+".bin");
+        fileName = QString("../data/maps/undo/"+QString::number(undo));
     }
     else
     {
-        fichier.setFileName("../data/maps/["+QString::number(m_cooX)+";"+QString::number(m_cooY)+";"+QString::number(m_cooZ)+"].bin");
+        fileName = QString("../data/maps/["+QString::number(m_cooX)+";"+QString::number(m_cooY)+";"+QString::number(m_cooZ)+"]");
         m_estEnregistree = true;
     }
-
+    fichier.setFileName(fileName+".bin");
+    m_background.save(fileName+".png");
     if(fichier.open(QIODevice::WriteOnly))
     {
         QDataStream stream(&fichier);
@@ -251,8 +264,6 @@ void Map::enregistre(bool undo/* = -1*/)
         //et la chaine QString
 
         QString reste;
-
-        reste += m_fond + '/';
 
         for(int i = 0; i < m_musiques.size(); i++)
         {
@@ -361,10 +372,10 @@ void Map::vide()
     videObjets();
     videCasesFight();
     videCasesPleines();
-    m_fond = "";
     m_musiques.clear();
     m_monstres.clear();
     m_transpos.clear();
+    m_background = QPixmap(BACKGROUND_WIDTH,BACKGROUND_HEIGHT);
 }
 
 void Map::videObjets()
@@ -1053,4 +1064,15 @@ Dir orientation_vers_objet(QPoint const& pos, QPoint const& pos_obj)
         else
             return BD;
     }
+}
+
+void Map::addToBackground(Object *object, QPoint const& pos, int mapWidth, int mapHeight)
+{
+    int newPosx = (int)((((double)pos.x())/((double)mapWidth))*BACKGROUND_WIDTH);
+    int newPosy = (int)((((double)pos.y())/((double)mapHeight))*BACKGROUND_HEIGHT);
+    int frameWidth = BACKGROUND_WIDTH/((NBR_CASES_L-CASESCACHEESX*2)*2-1)*2;
+    int frameHeight = BACKGROUND_HEIGHT/(NBR_CASES_H-CASESCACHEESY*2-1)*2;
+    QPixmap image = object->imageForSize(frameWidth, frameHeight);
+    QPainter painter(&m_background);
+    painter.drawPixmap(newPosx-image.width()/2, newPosy-image.height()/2,image);
 }

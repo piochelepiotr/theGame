@@ -36,20 +36,17 @@ ObjectsTab::ObjectsTab(MainWindow *mainWindow, Jeu2d *gamePanel) :
     m_objets->addLayout(m_lay_bas_objets);
     setLayout(m_objets);
     m_groupCalc = new QGroupBox(trUtf8("calc"));
-    m_calc1 = new QRadioButton("1");
-    m_calc1->setChecked(true);
-    m_calc2 = new QRadioButton("2");
-    m_calc3 = new QRadioButton("3");
+    m_calcObject = new QRadioButton("Objects");
+    m_calcObject->setChecked(true);
+    m_calcBackground = new QRadioButton("Background");
     m_laycalc = new QHBoxLayout;
-    m_laycalc->addWidget(m_calc1);
-    m_laycalc->addWidget(m_calc2);
-    m_laycalc->addWidget(m_calc3);
+    m_laycalc->addWidget(m_calcObject);
+    m_laycalc->addWidget(m_calcBackground);
     m_groupCalc->setLayout(m_laycalc);
     m_hautobjets->addWidget(m_groupCalc);
 
-    connect(m_calc1, SIGNAL(pressed()), gamePanel, SLOT(calc1()));
-    connect(m_calc2, SIGNAL(pressed()), gamePanel, SLOT(calc2()));
-    connect(m_calc3, SIGNAL(pressed()), gamePanel, SLOT(calc3()));
+    connect(m_calcObject, SIGNAL(pressed()), gamePanel, SLOT(calcObject()));
+    connect(m_calcBackground, SIGNAL(pressed()), gamePanel, SLOT(calcBacground()));
     connect(m_remplire, SIGNAL(clicked()), gamePanel, SLOT(remplire()));
     connect(m_ajouterUnThemeObjet, SIGNAL(clicked()), mainWindow, SLOT(nouveauThemeObjet()));
     connect(m_ajouterUnObjet, SIGNAL(clicked()), mainWindow, SLOT(nouveauObjetPourTheme()));

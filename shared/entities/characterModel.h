@@ -8,6 +8,7 @@ class CharacterModel : public EntityModel
 {
 public:
     CharacterModel(QString const& donnees, QMap<QString, SpellModel*>const&getSpells);
+    virtual ~CharacterModel();
     QString arme() const { return m_arme; }
     QString metier() const { return m_metier; }
     virtual bool isMonster() const { return false; }

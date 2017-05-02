@@ -17,6 +17,7 @@ public:
     void setPropy(double propy, int lcase, int hcase);
     void setNom(QString const& name) { m_name = name; }
     QPixmap image();
+    QPixmap imageForSize(int lcase, int hcase);
     void resize(int lcase, int hcase);
 
 private:

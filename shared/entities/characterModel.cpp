@@ -21,3 +21,8 @@ CharacterModel::CharacterModel(QString const& donnees, const QMap<QString, Spell
         liste.pop_front();
     }
 }
+
+CharacterModel::~CharacterModel()
+{
+
+}

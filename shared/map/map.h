@@ -11,6 +11,7 @@
 #include "scenery/data.h"
 #include <QtCore>
 #include "map/gate.h"
+#include <QPixmap>
 
 class Map
 {
@@ -33,8 +34,6 @@ public:
     int y() const { return m_cooY; }
     int z() const { return m_cooZ; }
     QVector<QPoint> cases_autour(QPoint const& p);
-    QString fond() const { return m_fond; }
-    void setFond(QString const& fond) { m_estEnregistree = false; m_fond = fond; }
     int casePleineFight(int i,int j) const { return m_casepleinesFight[i][j]; }
     int casePleine(int i,int j) const { return m_casepleines[i][j]; }
 
@@ -78,6 +77,10 @@ public:
 
     QMap<QPoint,Object*> posCollectedResources();
 
+    void addToBackground(Object *object, QPoint const& pos, int mapWidth, int mapHeight);
+
+    QPixmap getBackground(int mapWidth, int mapHeight) const { return m_background.scaled(mapWidth, mapHeight); }
+
 private:
     bool m_estEnregistree;
     void videObjets();
@@ -90,7 +93,7 @@ private:
     QMap <QPoint, Gate>m_transpos;
     qint8 m_casepleines[NBR_CASES_L] [NBR_CASES_H];
     int m_casepleinesFight[NBR_CASES_L][NBR_CASES_H];//même chose que case pleines mais on ne peut pas marcher sur des joueurs par exemple !
-    QString m_fond;
+    QPixmap m_background;
     QPoint m_casescbt[2] [MAX_PAR_EQUIP];
     QMap<QString, double> m_monstres;
     QVector<QString>m_musiques;

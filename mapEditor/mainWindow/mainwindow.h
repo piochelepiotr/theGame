@@ -77,13 +77,12 @@ public slots:
     void grandeTaille();
     void nouvelle();
 
-    void calque1();
+    /*void calque1();
     void calque2();
-    void calque3();
+    void calque3();*/
 
     void equipeUne();
     void equipeDeux();
-    void chargefond();
     void chargeMap();
     void nouveauThemeObjet();
     void nouveauObjetPourTheme();

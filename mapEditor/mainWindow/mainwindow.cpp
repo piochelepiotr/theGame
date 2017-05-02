@@ -108,7 +108,8 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     {
         QMainWindow::eventFilter(obj,event);
         QGraphicsSceneMouseEvent *mouseEvent = static_cast<QGraphicsSceneMouseEvent *>(event);
-        QPoint poscase = m_jeu->dataMap()->ccase(mouseEvent->scenePos().x(), mouseEvent->scenePos().y(),m_jeu->getlmap(),m_jeu->gethmap(),m_jeu->getlcase(),m_jeu->gethcase(),m_jeu->zoom());
+        QPoint pos = QPoint(mouseEvent->scenePos().x(), mouseEvent->scenePos().y());
+        QPoint poscase = m_jeu->dataMap()->ccase(pos.x(), pos.y(),m_jeu->getlmap(),m_jeu->gethmap(),m_jeu->getlcase(),m_jeu->gethcase(),m_jeu->zoom());
         if(m_appuyer)
         {
             if((poscase.x() != m_jeu->case_selectionnee().x() || poscase.y() != m_jeu->case_selectionnee().y()) && poscase.x() != -1)
@@ -127,13 +128,13 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
                 else if(m_outil == Outil_objets)
                 {
                     m_au_moins_une_case_en_glisser = true;
-                    m_jeu->case_prend_valeur(poscase);
+                    m_jeu->case_prend_valeur(poscase,pos);
                 }
             }
         }
         else
         {
-            m_jeu->souriBouge(poscase);
+            m_jeu->souriBouge(poscase,pos);
         }
         return true;
     }
@@ -141,7 +142,8 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     {
         QMainWindow::eventFilter(obj,event);
         QGraphicsSceneMouseEvent *mouseEvent = static_cast<QGraphicsSceneMouseEvent *>(event);
-        QPoint poscase = m_jeu->dataMap()->ccase(mouseEvent->scenePos().x(), mouseEvent->scenePos().y(),m_jeu->getlmap(),m_jeu->gethmap(),m_jeu->getlcase(),m_jeu->gethcase(),m_jeu->zoom());
+        QPoint pos = QPoint(mouseEvent->scenePos().x(), mouseEvent->scenePos().y());
+        QPoint poscase = m_jeu->dataMap()->ccase(pos.x(), pos.y(),m_jeu->getlmap(),m_jeu->gethmap(),m_jeu->getlcase(),m_jeu->gethcase(),m_jeu->zoom());
         if(m_outil == Outil_transporteur)
         {
             if(caseExiste(poscase.x(), poscase.y()))
@@ -195,7 +197,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
                 }
                 else
                 {
-                    m_jeu->case_prend_valeur(poscase);
+                    m_jeu->case_prend_valeur(poscase,pos);
                     m_jeu->ajouteEvent();
                 }
             }
@@ -432,12 +434,6 @@ void MainWindow::ajouteUnTransporteur(int x, int y, bool spell)
     }
 }
 
-void MainWindow::chargefond()
-{
-    QDir dir(QFileDialog::getOpenFileName(this, trUtf8("Ouvrir un fichier"), "lesfonds/", "Images (*.png *.gif *.jpg *.jpeg)"));
-    m_jeu->fondEgal(dir.dirName());
-}
-
 void MainWindow::deplaceMap(Cote cote)
 {
     int cx = 0, cy = 0;
@@ -493,7 +489,7 @@ void MainWindow::outil_transporteurs()
         m_jeu->masque_casesFight();
     else if(m_outil == Outil_case_po)
         m_jeu->masque_casesPO();
-    calque3();
+    m_jeu->calcObject();
     m_jeu->setObjetActuel(m_jeu->decors()->objet(0));
     m_outil = Outil_transporteur;
     m_tabbar->m_widdivers->m_outil_transporteurs->setChecked(true);
@@ -507,7 +503,7 @@ void MainWindow::outil_cases_marchables()
     else if(m_outil == Outil_case_po)
         m_jeu->masque_casesPO();
     m_jeu->affiche_casesMarchable();
-    calque3();
+    m_jeu->calcObject();
     m_jeu->setObjetActuel(m_jeu->decors()->objet(0));
     m_outil = Outil_case_marchables;
     m_tabbar->m_widdivers->m_outil_cases_marchables->setChecked(true);
@@ -520,7 +516,7 @@ void MainWindow::outil_cases_po()
     if(m_outil == Outil_case_fight)
         m_jeu->masque_casesFight();
     m_jeu->affiche_casesPO();
-    calque3();
+    m_jeu->calcObject();
     m_jeu->setObjetActuel(m_jeu->decors()->objet(0));
     m_outil = Outil_case_po;
     m_tabbar->m_widdivers->m_outil_casespo->setChecked(true);
@@ -533,14 +529,14 @@ void MainWindow::outil_cases_fight()
     if(m_outil == Outil_case_marchables)
         m_jeu->masque_casesMarchable();
     m_jeu->affiche_casesFight();
-    calque3();
+    m_jeu->calcObject();
     m_jeu->setObjetActuel(m_jeu->decors()->objet(0));
     m_outil = Outil_case_fight;
     m_tabbar->m_widdivers->m_outil_casescbt->setChecked(true);
     m_tabbar->setCurrentIndex(4);
 }
 
-void MainWindow::calque1()
+/*void MainWindow::calque1()
 {
     m_jeu->calc1();
     m_tabbar->m_widobjets->m_calc1->setChecked(true);
@@ -556,7 +552,7 @@ void MainWindow::calque3()
 {
     m_jeu->calc3();
     m_tabbar->m_widobjets->m_calc3->setChecked(true);
-}
+}*/
 
 void MainWindow::petiteTaille()
 {

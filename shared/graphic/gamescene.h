@@ -16,16 +16,14 @@ public slots:
     void nouvelle();
     void charge(int cooX = -1, int cooY = -1, int cooZ = -1);
     void remplire();
-    void calc1();
-    void calc2();
-    void calc3();
+    void calcObject();
+    void calcBacground();
     void equipe1() { m_equipe = 0; }
     void equipe2() { m_equipe = 1; }
     void setEffaceIm(bool efface) { m_enlevercaseim = efface; }
     void tailleun() { m_tailleci = 1; }
     void tailletrois() { m_tailleci = 3; }
     void taillecinq() { m_tailleci = 5; }
-    void fondEgal(QString const& name);
     void changeValeurZoom();
     void undo();
     void ajouteEvent();
@@ -38,7 +36,7 @@ public:
     void largethautcase();
     void grille();
     void changementSele(QPoint const& nouvelle);
-    void souriBouge(QPoint const& poscase);
+    void souriBouge(QPoint const& poscase, const QPoint &pos);
     void setObjetActuel(Object *nouveau);
     void caseEgale(int i, int j, Object *objet);
     Object *getObjActuel() const { return m_objetActuel; }
@@ -55,7 +53,7 @@ public:
     bool case_sans_portee(int i, int j);
     bool case_avec_portee(int i, int j);
     QPoint case_selectionnee() { return m_caseSele; }
-    void case_prend_valeur(QPoint const& poscase);
+    void case_prend_valeur(QPoint const& poscase, const QPoint &pos);
     void chargeContours();
     void supprimeCasecbt(int x, int y);
     void ajouteCasecbt(int x, int y);
@@ -92,6 +90,7 @@ protected:
     QGraphicsPolygonItem *m_grille[NBR_CASES_L] [NBR_CASES_H];
     ObjectItem *m_imagesObjets [NBR_CASES_L] [NBR_CASES_H];
     bool m_cases_ateignables [NBR_CASES_L] [NBR_CASES_H];
+    QGraphicsPixmapItem *m_imageBackground;
     QGraphicsPixmapItem *m_fond;
     QMap <QPoint, QGraphicsPixmapItem*>m_lesimagestransports;
     QGraphicsPixmapItem *m_imgCaseVisee;
@@ -106,7 +105,7 @@ protected:
     Object *m_objet;
     Object *m_objetActuel;
     Data *m_donnees_editeur;
-    int m_calc;
+    bool m_calcObject;
     bool m_enlevercaseim;
     int m_tailleci;
     bool m_zoom_active;
