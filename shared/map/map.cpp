@@ -228,7 +228,7 @@ void Map::enregistre(bool undo/* = -1*/)
         {
             for(int j = 0; j < NBR_CASES_H; j++)
             {
-                stream << m_objets[i] [j]->numero() << m_objets[i] [j]->numero() << m_objets[i] [j]->numero();
+                stream << m_objets[i] [j]->numero();
             }
         }
 
