@@ -26,7 +26,7 @@ public:
     static void casePleineDeMap(int cooX,int cooY,int cooZ, qint8 casesPleines[NBR_CASES_L] [NBR_CASES_H]);
     void coupable(QMap<QPoint, bool> *objetsCoupables);
     bool estCaseDeDepart(int x, int y, int equipe);
-    Object *objet(int x,int y,int calque) const { return m_objets[calque][x][y]; }
+    Object *objet(int x,int y) const { return m_objets[x][y]; }
     QPoint caseFight(int equipe,int num) const { return m_casescbt[equipe] [num]; }
     void setCaseFight(int equipe,int num,QPoint p) { m_estEnregistree = false; m_casescbt[equipe] [num] = p; }
     int x() const { return m_cooX; }
@@ -62,7 +62,7 @@ public:
     //coté éditeur de map
     void enregistre(bool undo = false);
     void setCasePleine(int i,int j,int value);
-    void setObjet(int i,int j,int calque,Object *objet) {m_estEnregistree = false; m_objets[calque][i][j] = objet; }
+    void setObjet(int i,int j,Object *objet) {m_estEnregistree = false; m_objets[i][j] = objet; }
     void vide();
 
     QPoint ccase(int posx, int posy, int lmap, int hmap, int lcase, int hcase, bool zoom);
@@ -86,7 +86,7 @@ private:
     int m_cooX;
     int m_cooY;
     int m_cooZ;
-    Object *m_objets[3] [NBR_CASES_L] [NBR_CASES_H];
+    Object *m_objets[NBR_CASES_L] [NBR_CASES_H];
     QMap <QPoint, Gate>m_transpos;
     qint8 m_casepleines[NBR_CASES_L] [NBR_CASES_H];
     int m_casepleinesFight[NBR_CASES_L][NBR_CASES_H];//même chose que case pleines mais on ne peut pas marcher sur des joueurs par exemple !

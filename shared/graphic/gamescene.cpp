@@ -70,18 +70,9 @@ GameScene::GameScene(const QSize &size, QLabel *texte, Data *donnees_editeur)
             m_casesPortee[i] [j]->setVisible(false);
             m_casesPortee[i] [j]->setOpacity(0.5);
 
-            for(int x = 0; x < 2; x++)
-            {
-                m_imagesObjets[x] [i] [j] = new ObjectItem(this,m_lmap);
-                m_imagesObjets[x] [i] [j]->setVisible(false);
-            }
-
-            m_imagesObjets[2] [i] [j] = new ObjectItem(this,m_lmap,QPoint(i,j));
-            m_imagesObjets[2] [i] [j]->setVisible(false);
-
-            m_imagesObjets[0] [i] [j]->setZValue(1);
-            m_imagesObjets[1] [i] [j]->setZValue(2);
-            m_imagesObjets[2] [i] [j]->setZValue(j+4);
+            m_imagesObjets [i] [j] = new ObjectItem(this,m_lmap,QPoint(i,j));
+            m_imagesObjets [i] [j]->setVisible(false);
+            m_imagesObjets[i] [j]->setZValue(j+4);
 
             m_grille[i] [j] = addPolygon(p, pen);
             m_grille[i] [j]->setZValue(3);
@@ -174,10 +165,7 @@ void GameScene::resize(QSize const& nouvelle)
     {
         for(int j = 0; j < NBR_CASES_H; j++)
         {
-            for(int x = 0; x < 3; x++)
-            {
-                caseEgale(i, j, m_dataMap->objet(i,j,x), x);
-            }
+            caseEgale(i, j, m_dataMap->objet(i,j));
             m_casesDep[i] [j]->setPixmap(caseDep);
             m_casesDep[i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase,m_zoom_active)-m_mlcase, m_dataMap->cposy(j,m_hcase,m_zoom_active)-m_mhcase);
 
@@ -301,7 +289,7 @@ void GameScene::largethautcase()
 
 void GameScene::case_prend_valeur(QPoint const& poscase)
 {
-    caseEgale(poscase.x(),poscase.y(),m_objetActuel, m_calc);
+    caseEgale(poscase.x(),poscase.y(),m_objetActuel);
     m_objet = m_objetActuel;
 }
 
@@ -316,12 +304,12 @@ void GameScene::changementSele(QPoint const& nouvelle)
 {
     if(m_caseSele.x() != -1)
     {
-        caseEgale(m_caseSele.x(), m_caseSele.y(), m_objet, m_calc);
+        caseEgale(m_caseSele.x(), m_caseSele.y(), m_objet);
     }
     if(nouvelle.x() != -1)
     {
-        m_objet = m_dataMap->objet(nouvelle.x(),nouvelle.y(),m_calc);
-        caseEgale(nouvelle.x(), nouvelle.y(), m_objetActuel, m_calc);
+        m_objet = m_dataMap->objet(nouvelle.x(),nouvelle.y());
+        caseEgale(nouvelle.x(), nouvelle.y(), m_objetActuel);
     }
     m_caseSele = nouvelle;
 }
@@ -356,27 +344,22 @@ void GameScene::nouvelle()
 }
 
 
-void GameScene::caseEgale(int i, int j, Object *objet, int fond)
+void GameScene::caseEgale(int i, int j, Object *objet)
 {
-    m_dataMap->setObjet(i,j,fond,objet);
+    m_dataMap->setObjet(i,j,objet);
     if(objet == m_donnees_editeur->decor->objet(0))
     {
-        m_imagesObjets[fond] [i] [j]->setVisible(false);
+        m_imagesObjets[i] [j]->setVisible(false);
     }
     else
     {
-        m_imagesObjets[fond] [i] [j]->setPixmap(objet->image());
-        m_imagesObjets[fond] [i] [j]->setVisible(true);
-        if(fond == 2)
-        {
-            m_imagesObjets[fond] [i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().width()/2, m_dataMap->cposy(j,m_hcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().height()+m_hcase*ECART);
-            if(objet->name().isEmpty())
-                m_imagesObjets[fond][i][j]->changeToolTip("");
-            else
-                m_imagesObjets[fond][i][j]->changeToolTip(objet->name());
-        }
+        m_imagesObjets[i] [j]->setPixmap(objet->image());
+        m_imagesObjets[i] [j]->setVisible(true);
+        m_imagesObjets[i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase,m_zoom_active)-m_imagesObjets[i] [j]->pixmap().width()/2, m_dataMap->cposy(j,m_hcase,m_zoom_active)-m_imagesObjets[i] [j]->pixmap().height()+m_hcase*ECART);
+        if(objet->name().isEmpty())
+            m_imagesObjets[i][j]->changeToolTip("");
         else
-            m_imagesObjets[fond] [i] [j]->setPos(m_dataMap->cposx(i,j,m_lcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().width()/2, m_dataMap->cposy(j,m_hcase,m_zoom_active)-m_imagesObjets[fond] [i] [j]->pixmap().height()/2);
+            m_imagesObjets[i][j]->changeToolTip(objet->name());
     }
 }
 
@@ -387,7 +370,7 @@ void GameScene::remplire()
     {
         for(int j = 0; j < NBR_CASES_H; j++)
         {
-            caseEgale(i,j,m_objetActuel, m_calc);
+            caseEgale(i,j,m_objetActuel);
         }
     }
     ajouteEvent();
@@ -659,15 +642,15 @@ void GameScene::masque_casesPO()
 
 void GameScene::updateObjet(int i,int j, Object *objet)
 {
-    delete m_imagesObjets[2] [i] [j];
-    m_imagesObjets[2] [i] [j] = new ObjectItem(this, m_lmap, QPoint(i,j));
-    m_imagesObjets[2] [i] [j]->setZValue(j+4);
-    caseEgale(i,j,objet,2);
+    delete m_imagesObjets[i] [j];
+    m_imagesObjets[i] [j] = new ObjectItem(this, m_lmap, QPoint(i,j));
+    m_imagesObjets[i] [j]->setZValue(j+4);
+    caseEgale(i,j,objet);
 }
 
 void GameScene::updateObjet(QPoint pos)
 {
-    updateObjet(pos.x(),pos.y(),m_dataMap->objet(pos.x(),pos.y(),2));
+    updateObjet(pos.x(),pos.y(),m_dataMap->objet(pos.x(),pos.y()));
 }
 
 void GameScene::effaceChemin()

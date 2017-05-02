@@ -41,11 +41,8 @@ void Map::charge(QString const& nameFichier)
         {
             for(int j = 0; j < NBR_CASES_H; j++)
             {
-                for(int x = 0; x < 3; x++)
-                {
-                    stream >> num;
-                    m_objets[x] [i] [j] = m_donnees_editeur->decor->objet(num);
-                }
+                stream >> num;
+                m_objets[i] [j] = m_donnees_editeur->decor->objet(num);
             }
         }
 
@@ -132,10 +129,7 @@ void Map::nouvelleMap()
     {
         for(int j = 0; j < NBR_CASES_H; j++)
         {
-            for(int x = 0; x < 3; x++)
-            {
-                m_objets[x] [i] [j] = m_donnees_editeur->decor->objet(0);
-            }
+            m_objets[i] [j] = m_donnees_editeur->decor->objet(0);
         }
     }
 
@@ -234,7 +228,7 @@ void Map::enregistre(bool undo/* = -1*/)
         {
             for(int j = 0; j < NBR_CASES_H; j++)
             {
-                stream << m_objets[0] [i] [j]->numero() << m_objets[1] [i] [j]->numero() << m_objets[2] [i] [j]->numero();
+                stream << m_objets[i] [j]->numero() << m_objets[i] [j]->numero() << m_objets[i] [j]->numero();
             }
         }
 
@@ -304,7 +298,7 @@ void Map::coupable(QMap<QPoint, bool> *objetsCoupables)
     {
         for(int j = CASESCACHEESY; j < NBR_CASES_H-CASESCACHEESY; j++)
         {
-            if(m_donnees_editeur->metiers->est_un_objet_coupable(m_objets[2][i][j]->numero()))
+            if(m_donnees_editeur->metiers->est_un_objet_coupable(m_objets[i][j]->numero()))
             {
                 (*objetsCoupables)[QPoint(i,j)] = true;
             }
@@ -379,10 +373,7 @@ void Map::videObjets()
     {
         for(int j = 0; j < NBR_CASES_H; j++)
         {
-            for(int x = 0; x < 3; x++)
-            {
-                m_objets[x] [i] [j] = m_donnees_editeur->decor->objet(0);
-            }
+            m_objets[i] [j] = m_donnees_editeur->decor->objet(0);
         }
     }
 }
@@ -1021,9 +1012,9 @@ QMap<QPoint, Object *> Map::posCollectedResources()
     {
         for(int j = 0; j < NBR_CASES_H; j++)
         {
-            if(m_donnees_editeur->metiers->est_un_objet_coupe(m_objets[i][j][2]->numero()))
+            if(m_donnees_editeur->metiers->est_un_objet_coupe(m_objets[i][j]->numero()))
             {
-                collectedObjetcs[QPoint(i,j)] = m_objets[i][j][2];
+                collectedObjetcs[QPoint(i,j)] = m_objets[i][j];
             }
         }
     }

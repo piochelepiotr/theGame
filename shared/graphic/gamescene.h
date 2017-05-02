@@ -40,7 +40,7 @@ public:
     void changementSele(QPoint const& nouvelle);
     void souriBouge(QPoint const& poscase);
     void setObjetActuel(Object *nouveau);
-    void caseEgale(int i, int j, Object *objet, int fond);
+    void caseEgale(int i, int j, Object *objet);
     Object *getObjActuel() const { return m_objetActuel; }
     int getlcase() const { return m_lcase; }
     int gethcase() const { return m_hcase; }
@@ -90,7 +90,7 @@ protected:
     QGraphicsPixmapItem *m_casesPortee[NBR_CASES_L] [NBR_CASES_H];
     QGraphicsPixmapItem *m_imgcasescbt[2] [MAX_PAR_EQUIP];
     QGraphicsPolygonItem *m_grille[NBR_CASES_L] [NBR_CASES_H];
-    ObjectItem *m_imagesObjets [3] [NBR_CASES_L] [NBR_CASES_H];
+    ObjectItem *m_imagesObjets [NBR_CASES_L] [NBR_CASES_H];
     bool m_cases_ateignables [NBR_CASES_L] [NBR_CASES_H];
     QGraphicsPixmapItem *m_fond;
     QMap <QPoint, QGraphicsPixmapItem*>m_lesimagestransports;
