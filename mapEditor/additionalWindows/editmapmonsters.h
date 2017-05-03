@@ -21,7 +21,7 @@ public:
     ~EditerMonstreDeLaMap();
 
 public slots:
-    void ajouter();
+    void addRow();
     void accepter();
     void supprimer(int num);
     

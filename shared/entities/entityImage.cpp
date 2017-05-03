@@ -18,6 +18,10 @@ ImagesAction::ImagesAction(QString const& name_classe, QString const& name_actio
             m_images[i].push_back(p.scaled(size.width(), size.height()));
             j++;
         }
+        if(j == 0)
+        {
+            qDebug() << "impossible de charger les images de la classe "<<m_nameClasse<<" du chemin "<< chemin2;
+        }
     }
 }
 
