@@ -250,7 +250,7 @@ void GameField::utileClique(QPoint const& pos)
         return;
     if(m_fightOuPas == HorsFight)
     {
-        Object *obj = m_dataMap->objet(pos.x(),pos.y(),2);
+        Object *obj = m_dataMap->objet(pos.x(),pos.y());
         if(obj->categorie() == "pnj")
         {
             qDebug() << "pnj";
@@ -345,17 +345,17 @@ void GameField::doit_recolter()
 
 void GameField::resourceRecoltee(QPoint pos)
 {
-    caseEgale(pos.x(), pos.y(), m_donnees_editeur->metiers->getSoucheParObjet(m_dataMap->objet(pos.x(),pos.y(),2)->numero()), 2);
+    caseEgale(pos.x(), pos.y(), m_donnees_editeur->metiers->getSoucheParObjet(m_dataMap->objet(pos.x(),pos.y())->numero()));
 }
 
 void GameField::resource_repousse(int posx, int posy)
 {
-    caseEgale(posx, posy, m_donnees_editeur->metiers->getObjetParSouche(m_dataMap->objet(posx,posy,2)->numero()), 2);
+    caseEgale(posx, posy, m_donnees_editeur->metiers->getObjetParSouche(m_dataMap->objet(posx,posy)->numero()));
 }
 
 void GameField::a_coupe()
 {
-    qint16 numobj = m_dataMap->objet(m_pos_resource.x(),m_pos_resource.y(),2)->numero();
+    qint16 numobj = m_dataMap->objet(m_pos_resource.x(),m_pos_resource.y())->numero();
     Job *metier = m_character->getMetier(m_nameMetier);
     int xp = xpCoupeRessource(metier->getMetierBase()->objet_coupable(numobj)->lvl());
     int quantity_resources = metier->quantity_resources(numobj);
