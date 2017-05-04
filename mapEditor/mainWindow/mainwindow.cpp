@@ -386,7 +386,7 @@ void MainWindow::selectionNouveauObjet(qint16 numero)
     m_jeu->setObjetActuel(m_jeu->decors()->objet(numero));
 }
 
-void MainWindow::spellObjet()
+void MainWindow::editObject()
 {
     if(m_jeu->getObjActuel()->numero())
     {
@@ -396,7 +396,7 @@ void MainWindow::spellObjet()
         if(ok)
         {
             m_jeu->dataMap()->enregistre();
-            spellUnObjet(objet);
+            editObject(objet);
             m_jeu->charge();
             chargeThemeObjet(m_tabbar->m_widobjets->m_themesObjet->currentIndex());
         }

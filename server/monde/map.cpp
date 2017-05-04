@@ -3,6 +3,7 @@
 #include "monde/monde.h"
 
 #define MAX_FIGHTS 50
+#define NBR_MONSTRES_MAP 20
 
 ServerMap::ServerMap(Data *donnees_editeur, Monde *parent, Point const& pos,Ecran *ecran)
 {

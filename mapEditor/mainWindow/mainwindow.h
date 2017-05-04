@@ -88,7 +88,7 @@ public slots:
     void nouveauObjetPourTheme();
     void chargeThemeObjet(int num);
     void selectionNouveauObjet(qint16 numero = 0);
-    void spellObjet();
+    void editObject();
 
     void ajouteUnTransporteur(int x, int y, bool spell = false);
 

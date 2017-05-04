@@ -7,6 +7,9 @@
 #include "map/map.h"
 #include "graphic/objectItem.h"
 #include "graphic/subwindow.h"
+#include "utils/comparespoints.h"
+
+class Scenery;
 
 class GameScene : public QGraphicsScene
 {
@@ -44,8 +47,8 @@ public:
     int gethcase() const { return m_hcase; }
     int getlmap() const { return m_lmap; }
     int gethmap() const { return m_hmap; }
-    Scenery *decors() { return m_donnees_editeur->decor; }
-    void ajouteTranspo(const QPoint &pos, const Gate &transpo);
+    Scenery *decors();
+    void ajouteTranspo(const QPoint &pos, Gate *transpo);
     void supprimeTranspo(const QPoint &pos);
     void remplitCaseIm(int i, int j);
     void rend_case_immarchable(int i, int j);

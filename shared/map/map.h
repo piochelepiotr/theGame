@@ -4,18 +4,23 @@
 #include <QFile>
 #include <QMap>
 #include <QPoint>
-#include "scenery/constants.h"
-#include "scenery/sceneryChange.h"
-#include "map/computePath.h"
-#include "point.h"
-#include "scenery/data.h"
-#include <QtCore>
-#include "map/gate.h"
 #include <QPixmap>
+#include <QtCore>
+
+class Data;
+class Object;
+class MonsterModel;
+class Gate;
+
+#include "scenery/constants.h"
+#include "utils/comparespoints.h"
 
 class Map
 {
 public:
+
+    static const int mapWidth;
+    static const int mapHeight;
 
     //coté utilisateur
     Map(Data *donnees_editeur, int cooX, int cooY, int cooZ);
@@ -67,8 +72,8 @@ public:
     QPoint ccase(int posx, int posy, int lmap, int hmap, int lcase, int hcase, bool zoom);
     int cposy(int casey,int hcase,bool zoom);
     int cposx(int casex, int casey, int lcase, bool zoom);
-    Gate getTranspo(QPoint const& pos) const { return m_transpos[pos]; }
-    void ajouterTranspo(QPoint const& pos, Gate const& transpo) { m_transpos[pos] = transpo; }
+    Gate *getTranspo(QPoint const& pos) const { return m_transpos[pos]; }
+    void ajouterTranspo(QPoint const& pos, Gate *transpo) { m_transpos[pos] = transpo; }
     void supprimeTranspo(QPoint const& pos) { m_transpos.remove(pos); }
     bool contientTranspo(QPoint const& pos) { return m_transpos.contains(pos); }
 
@@ -90,7 +95,7 @@ private:
     int m_cooY;
     int m_cooZ;
     Object *m_objets[NBR_CASES_L] [NBR_CASES_H];
-    QMap <QPoint, Gate>m_transpos;
+    QMap <QPoint, Gate*>m_transpos;
     qint8 m_casepleines[NBR_CASES_L] [NBR_CASES_H];
     int m_casepleinesFight[NBR_CASES_L][NBR_CASES_H];//même chose que case pleines mais on ne peut pas marcher sur des joueurs par exemple !
     QPixmap m_background;

@@ -1,6 +1,9 @@
 #include "gamescene.h"
 #include <QGraphicsPixmapItem>
 
+#include "scenery/data.h"
+#include "map/computePath.h"
+
 GameScene::GameScene(const QSize &size, QLabel *texte, Data *donnees_editeur)
 {
     m_subWinOpened = false;
@@ -405,7 +408,7 @@ void GameScene::remplire()
     ajouteEvent();
 }
 
-void GameScene::ajouteTranspo(QPoint const& pos, Gate const& transpo)
+void GameScene::ajouteTranspo(QPoint const& pos, Gate *transpo)
 {
     m_dataMap->ajouterTranspo(pos,transpo);
     m_lesimagestransports[pos] = addPixmap(QPixmap("../data/interface/transporteur.png").scaled(m_lcase, m_hcase));
@@ -721,4 +724,9 @@ void GameScene::affichePortee()
 void GameScene::utileClique(QPoint const& pos)
 {
     Q_UNUSED(pos);
+}
+
+Scenery *GameScene::decors()
+{
+    return m_donnees_editeur->decor;
 }

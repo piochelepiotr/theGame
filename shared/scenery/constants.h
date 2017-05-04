@@ -15,7 +15,6 @@
 
 #define TEMPS_MIN_REPOUSSE 60000
 #define TEMPS_MAX_REPOUSSE 120000
-#define NBR_MONSTRES_MAP 3
 #define METIER_LVLS_1CASEENPLUS 15
 
 //emplacement des resources

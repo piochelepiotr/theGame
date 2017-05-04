@@ -59,7 +59,8 @@ SOURCES += \
     scenery/scenery.cpp \
     scenery/sceneryChange.cpp \
     graphic/tooltip.cpp \
-    graphic/subwindow.cpp
+    graphic/subwindow.cpp \
+    utils/comparespoints.cpp
 
 HEADERS += \
     entities/character.h \
@@ -108,7 +109,8 @@ HEADERS += \
     scenery/scenery.h \
     scenery/sceneryChange.h \
     graphic/tooltip.h \
-    graphic/subwindow.h
+    graphic/subwindow.h \
+    utils/comparespoints.h
 
 unix {
     target.path = /usr/lib

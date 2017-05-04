@@ -101,7 +101,7 @@ void EditerPnjs::modifierpnj_objet(qint16 num)
     EditerUnObjet boite(this, &ok, objet, false,m_decors->lcase(), m_decors->hcase(), 0, &supprimer);
     if(ok)
     {
-        spellUnObjet(objet);
+        editObject(objet);
         m_names[num]->setText(objet->name());
     }
     else if(supprimer)

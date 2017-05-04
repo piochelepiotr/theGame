@@ -3,6 +3,16 @@
 #define BACKGROUND_WIDTH 1920
 #define BACKGROUND_HEIGHT 1080
 
+#include "scenery/constants.h"
+#include "scenery/sceneryChange.h"
+#include "map/computePath.h"
+#include "point.h"
+#include "scenery/data.h"
+#include "map/gate.h"
+
+const int Map::mapWidth = 60;
+const int Map::mapHeight = 30;
+
 Map::Map(Data *donnees_editeur,int cooX, int cooY, int cooZ)
 {
     m_estEnregistree = true;
@@ -107,7 +117,7 @@ void Map::charge(QString const& nameFichier)
 
         for(int i = 0; i < liste.size()-2; i+=8)
         {
-             m_transpos[QPoint(liste[i+6].toInt(), liste[i+7].toInt())] = Gate(liste[i], liste[i+1], liste[i+2].toInt(), liste[i+3].toInt(), liste[i+4].toInt(), (Dir)liste[i+5].toInt(), liste[i+6].toInt(), liste[i+7].toInt());
+             m_transpos[QPoint(liste[i+6].toInt(), liste[i+7].toInt())] = new Gate(liste[i], liste[i+1], liste[i+2].toInt(), liste[i+3].toInt(), liste[i+4].toInt(), (Dir)liste[i+5].toInt(), liste[i+6].toInt(), liste[i+7].toInt());
         }
         charge_contours();
         if(m_undo != -1)
@@ -279,19 +289,19 @@ void Map::enregistre(bool undo/* = -1*/)
 
         reste += "FINMONSTRES/";
 
-        for(QMap<QPoint, Gate>::const_iterator it = m_transpos.begin(); it != m_transpos.end(); it++)
+        for(QMap<QPoint, Gate*>::const_iterator it = m_transpos.begin(); it != m_transpos.end(); it++)
         {
-            reste += it.value().getNom();
+            reste += it.value()->getNom();
             reste += '/';
-            reste += it.value().getNomArr();
+            reste += it.value()->getNomArr();
             reste += '/';
-            reste += QString::number(it.value().getMapX());
+            reste += QString::number(it.value()->getMapX());
             reste += '/';
-            reste += QString::number(it.value().getMapY());
+            reste += QString::number(it.value()->getMapY());
             reste += '/';
-            reste += QString::number(it.value().getMapZ());
+            reste += QString::number(it.value()->getMapZ());
             reste += '/';
-            reste += QString::number((int)it.value().getLargage());
+            reste += QString::number((int)it.value()->getLargage());
             reste += '/';
             reste += QString::number(it.key().x());
             reste += '/';
@@ -948,6 +958,8 @@ MonsterModel *Map::nouveauMonstre()
     if(total == 0)
         return 0;
     double rand = ((double)(qrand() % ((int)(total*1000))))/1000.0;
+    qDebug() << "rand : " << rand;
+    total = 0;
     for(QMap<QString,double>::iterator it = m_monstres.begin(); it != m_monstres.end(); it++)
     {
         total += it.value();
