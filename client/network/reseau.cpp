@@ -131,6 +131,7 @@ void Reseau::donneesRecues()
         }
         else if(inf == "ttt")
         {
+            qDebug() << "emit message";
             emit infoMap(message);
             //m_gameField->infos_map(message);
         }

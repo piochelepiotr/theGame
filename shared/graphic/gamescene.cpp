@@ -58,9 +58,9 @@ GameScene::GameScene(const QSize &size, QLabel *texte, Data *donnees_editeur)
         m_imgcasescbt[1] [j]->setOpacity(0.5);
     }
 
-    for(int i=0; i < NBR_CASES_L; i++)
+    for(int i=0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             m_casesDep[i] [j] = addPixmap(caseDep);
             m_casesDep[i] [j]->setZValue(4);
@@ -68,7 +68,7 @@ GameScene::GameScene(const QSize &size, QLabel *texte, Data *donnees_editeur)
             m_casesDep[i] [j]->setOpacity(0.5);
 
             m_caseImmarchables[i] [j] = addPixmap(caseim);
-            m_caseImmarchables[i] [j]->setZValue(5+NBR_CASES_H);
+            m_caseImmarchables[i] [j]->setZValue(5+Map::mapHeight);
             m_caseImmarchables[i] [j]->setVisible(false);
             m_caseImmarchables[i] [j]->setOpacity(0.5);
 
@@ -96,19 +96,19 @@ GameScene::GameScene(const QSize &size, QLabel *texte, Data *donnees_editeur)
     m_objet = m_donnees_editeur->decor->objet(0);
 
     m_cadreg = addRect(0,0,m_lcase*CASESCACHEESX, m_hmap);
-    m_cadreg->setZValue(5+NBR_CASES_H);
+    m_cadreg->setZValue(5+Map::mapHeight);
     m_cadreg->setBrush(QBrush(QColor(0,0,0)));
     m_cadreg->setOpacity(0.2);
     m_cadred = addRect(m_lmap-m_lcase*CASESCACHEESX,0,m_lcase*CASESCACHEESX, m_hmap);
-    m_cadred->setZValue(5+NBR_CASES_H);
+    m_cadred->setZValue(5+Map::mapHeight);
     m_cadred->setBrush(QBrush(QColor(0,0,0)));
     m_cadred->setOpacity(0.2);
-    m_cadreb = addRect(m_lcase*CASESCACHEESX+1,m_mhcase*(NBR_CASES_H-CASESCACHEESY), m_lmap-2*m_lcase*CASESCACHEESX-2, m_lmap-m_mhcase*(NBR_CASES_H-CASESCACHEESY));
-    m_cadreb->setZValue(5+NBR_CASES_H);
+    m_cadreb = addRect(m_lcase*CASESCACHEESX+1,m_mhcase*(Map::mapHeight-CASESCACHEESY), m_lmap-2*m_lcase*CASESCACHEESX-2, m_lmap-m_mhcase*(Map::mapHeight-CASESCACHEESY));
+    m_cadreb->setZValue(5+Map::mapHeight);
     m_cadreb->setBrush(QBrush(QColor(0,0,0)));
     m_cadreb->setOpacity(0.2);
     m_cadreh = addRect(m_lcase*CASESCACHEESX+1,0, m_lmap-2*m_lcase*CASESCACHEESX-2, m_mhcase*CASESCACHEESY);
-    m_cadreh->setZValue(5+NBR_CASES_H);
+    m_cadreh->setZValue(5+Map::mapHeight);
     m_cadreh->setBrush(QBrush(QColor(0,0,0)));
     m_cadreh->setOpacity(0.2);
     m_cadred->setVisible(!m_zoom_active);
@@ -168,9 +168,9 @@ void GameScene::resize(QSize const& nouvelle)
         m_imgcasescbt[1] [i]->setPixmap(casecbt2);
     }
 
-    for(int i = 0; i < NBR_CASES_L; i++)
+    for(int i = 0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             caseEgale(i, j, m_dataMap->objet(i,j));
             m_casesDep[i] [j]->setPixmap(caseDep);
@@ -199,7 +199,7 @@ void GameScene::resize(QSize const& nouvelle)
 
     m_cadreg->setRect(0,0,m_lcase*CASESCACHEESX, m_hmap);
     m_cadred->setRect(m_lmap-m_lcase*CASESCACHEESX,0,m_lcase*CASESCACHEESX, m_hmap);
-    m_cadreb->setRect(m_lcase*CASESCACHEESX+1,m_mhcase*(NBR_CASES_H-CASESCACHEESY), m_lmap-2*m_lcase*CASESCACHEESX-2, m_lmap-m_mhcase*(NBR_CASES_H-CASESCACHEESY));
+    m_cadreb->setRect(m_lcase*CASESCACHEESX+1,m_mhcase*(Map::mapHeight-CASESCACHEESY), m_lmap-2*m_lcase*CASESCACHEESX-2, m_lmap-m_mhcase*(Map::mapHeight-CASESCACHEESY));
     m_cadreh->setRect(m_lcase*CASESCACHEESX+1,0, m_lmap-2*m_lcase*CASESCACHEESX-2, m_mhcase*CASESCACHEESY);
 
     m_fond->setPixmap(m_dataMap->getBackground(m_lmap,m_hmap));
@@ -214,9 +214,9 @@ void GameScene::grille()
     {
     if(m_zoom_active)
     {
-        for(int i=0; i < NBR_CASES_L; i++)
+        for(int i=0; i < Map::mapWidth; i++)
         {
-            for(int j = 0; j < NBR_CASES_H; j++)
+            for(int j = 0; j < Map::mapHeight; j++)
             {
                 m_grille[i] [j]->setVisible(false);
             }
@@ -224,9 +224,9 @@ void GameScene::grille()
         int posx, posy;
         QPolygon p;
 
-        for(int i = CASESCACHEESX, m = NBR_CASES_L-CASESCACHEESX+1; i < m; i++)
+        for(int i = CASESCACHEESX, m = Map::mapWidth-CASESCACHEESX+1; i < m; i++)
         {
-            for(int j = CASESCACHEESY; j < NBR_CASES_H-CASESCACHEESY+2; j++)
+            for(int j = CASESCACHEESY; j < Map::mapHeight-CASESCACHEESY+2; j++)
             {
                 if(!m_dataMap->casePleine(i,j))
                     m_grille[i] [j]->setVisible(true);
@@ -246,9 +246,9 @@ void GameScene::grille()
         int posx, posy;
         QPolygon p;
 
-        for(int i=0; i < NBR_CASES_L; i++)
+        for(int i=0; i < Map::mapWidth; i++)
         {
-            for(int j = 0; j < NBR_CASES_H; j++)
+            for(int j = 0; j < Map::mapHeight; j++)
             {
                 if(!m_dataMap->casePleine(i,j))
                     m_grille[i] [j]->setVisible(true);
@@ -266,9 +266,9 @@ void GameScene::grille()
     }
     else
     {
-        for(int i=0; i < NBR_CASES_L; i++)
+        for(int i=0; i < Map::mapWidth; i++)
         {
-            for(int j = 0; j < NBR_CASES_H; j++)
+            for(int j = 0; j < Map::mapHeight; j++)
             {
                 m_grille[i] [j]->setVisible(false);
             }
@@ -280,15 +280,15 @@ void GameScene::largethautcase()
 {
     if(m_zoom_active)
     {
-        m_lcase = m_lmap/((NBR_CASES_L-CASESCACHEESX*2)*2-1)*2;
-        m_hcase = m_hmap/(NBR_CASES_H-CASESCACHEESY*2-1)*2;
+        m_lcase = m_lmap/((Map::mapWidth-CASESCACHEESX*2)*2-1)*2;
+        m_hcase = m_hmap/(Map::mapHeight-CASESCACHEESY*2-1)*2;
         m_mlcase = m_lcase/2;
         m_mhcase = m_hcase/2;
     }
     else
     {
-        m_lcase = m_lmap/(NBR_CASES_L*2-1)*2;
-        m_hcase = m_hmap/(NBR_CASES_H-1)*2;
+        m_lcase = m_lmap/(Map::mapWidth*2-1)*2;
+        m_hcase = m_hmap/(Map::mapHeight-1)*2;
         m_mlcase = m_lcase/2;
         m_mhcase = m_hcase/2;
     }
@@ -398,9 +398,9 @@ void GameScene::caseEgale(int i, int j, Object *objet)
 void GameScene::remplire()
 {
     changementSele(QPoint(-1,-1));
-    for(int i=0; i < NBR_CASES_L; i++)
+    for(int i=0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             caseEgale(i,j,m_objetActuel);
         }
@@ -442,7 +442,7 @@ void GameScene::calcBacground()
 
 void GameScene::rend_case_immarchable(int i, int j)
 {
-    if(i > -1 && j > -1 && i < NBR_CASES_L && j < NBR_CASES_H)
+    if(i > -1 && j > -1 && i < Map::mapWidth && j < Map::mapHeight)
     {
         if(m_enlevercaseim)
         {
@@ -475,7 +475,7 @@ void GameScene::change_portee_case(QPoint const& lacase)
 
 bool GameScene::case_sans_portee(int i, int j)
 {
-    if(i > -1 && j > -1 && i < NBR_CASES_L && j < NBR_CASES_H)
+    if(i > -1 && j > -1 && i < Map::mapWidth && j < Map::mapHeight)
     {
         if(m_dataMap->casePleine(i,j) != 2)
         {
@@ -494,7 +494,7 @@ bool GameScene::case_sans_portee(int i, int j)
 
 bool GameScene::case_avec_portee(int i, int j)
 {
-    if(i > -1 && j > -1 && i < NBR_CASES_L && j < NBR_CASES_H)
+    if(i > -1 && j > -1 && i < Map::mapWidth && j < Map::mapHeight)
     {
         if(m_dataMap->casePleine(i,j) == 2)
         {
@@ -589,9 +589,9 @@ void GameScene::undo()
 
 void GameScene::affiche_casesMarchable()
 {
-    for(int i = 0; i < NBR_CASES_L; i++)
+    for(int i = 0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             if(m_dataMap->casePleine(i,j))
                 m_caseImmarchables[i] [j]->setVisible(true);
@@ -601,9 +601,9 @@ void GameScene::affiche_casesMarchable()
 
 void GameScene::masque_casesMarchable()
 {
-    for(int i = 0; i < NBR_CASES_L; i++)
+    for(int i = 0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             m_caseImmarchables[i] [j]->setVisible(false);
         }
@@ -639,9 +639,9 @@ void GameScene::masque_casesFight()
 void GameScene::affiche_casesPO()
 {
     affiche_casesMarchable();
-    for(int i = 0; i < NBR_CASES_L; i++)
+    for(int i = 0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             if(m_dataMap->casePleine(i,j) == 2)
                 m_casesPortee[i] [j]->setVisible(true);
@@ -651,9 +651,9 @@ void GameScene::affiche_casesPO()
 
 void GameScene::masque_casesPO()
 {
-    for(int i = 0; i < NBR_CASES_L; i++)
+    for(int i = 0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             m_caseImmarchables[i] [j]->setVisible(false);
             m_casesPortee[i] [j]->setVisible(false);
@@ -676,9 +676,9 @@ void GameScene::updateObjet(QPoint pos)
 
 void GameScene::effaceChemin()
 {
-    for(int i = 0; i < NBR_CASES_L; i++)
+    for(int i = 0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
 
             m_casesDep[i] [j]->setVisible(false);
@@ -700,9 +700,9 @@ void GameScene::afficheChemin(QPoint dep, QQueue<Dir>chem)
 void GameScene::stopUtiliseSpell()
 {
     m_imgCaseVisee->setVisible(false);
-    for(int i = 0; i < NBR_CASES_L; i++)
+    for(int i = 0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             m_cases_ateignables[i] [j] = false;
             m_casesPortee[i][j]->setVisible(false);
@@ -712,9 +712,9 @@ void GameScene::stopUtiliseSpell()
 
 void GameScene::affichePortee()
 {
-    for(int i = 0; i < NBR_CASES_L; i++)
+    for(int i = 0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             m_casesPortee[i][j]->setVisible(m_cases_ateignables[i][j]);
         }

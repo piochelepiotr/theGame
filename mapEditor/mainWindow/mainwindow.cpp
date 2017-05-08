@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include <iostream>
 #include <QGraphicsSceneMouseEvent>
+#include "scenery/data.h"
+#include "mainWindow/bottomtab.h"
+#include "scenery/sceneryChange.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -396,7 +399,7 @@ void MainWindow::editObject()
         if(ok)
         {
             m_jeu->dataMap()->enregistre();
-            editObject(objet);
+            editAnObject(objet);
             m_jeu->charge();
             chargeThemeObjet(m_tabbar->m_widobjets->m_themesObjet->currentIndex());
         }
@@ -415,12 +418,12 @@ void MainWindow::editObject()
 void MainWindow::ajouteUnTransporteur(int x, int y, bool spell)
 {
     bool ok, suppr;
-    Gate transpo;
+    Gate *transpo;
     if(spell)
     {
         transpo = m_jeu->dataMap()->getTranspo(QPoint(x,y));
     }
-    EditerTransporteur boite(this, &transpo, &ok, &suppr);
+    EditerTransporteur boite(this, transpo, &ok, &suppr);
 
     if(spell && suppr)
     {
@@ -439,7 +442,7 @@ void MainWindow::deplaceMap(Cote cote)
     int cx = 0, cy = 0;
     if(cote == Droite)
     {
-        if(m_jeu->dataMap()->x() < NBR_DE_MAPS_X-1)
+        if(m_jeu->dataMap()->x() < Map::worldWidth-1)
             cx = 1;
     }
     else if(cote == Gauche)
@@ -449,7 +452,7 @@ void MainWindow::deplaceMap(Cote cote)
     }
     else if(cote == Bas)
     {
-        if(m_jeu->dataMap()->y() < NBR_DE_MAPS_Y-1)
+        if(m_jeu->dataMap()->y() < Map::worldHeight-1)
             cy = 1;
     }
     else

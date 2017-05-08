@@ -19,8 +19,11 @@ class Map
 {
 public:
 
-    static const int mapWidth;
-    static const int mapHeight;
+    static const int mapWidth = 30;
+    static const int mapHeight = 60;
+    static const int worldWidth;
+    static const int worldHeight;
+    static const int worldDepth;
 
     //coté utilisateur
     Map(Data *donnees_editeur, int cooX, int cooY, int cooZ);
@@ -29,7 +32,7 @@ public:
     void chargeMap(int x,int y,int z);
     void nouvelleMap();
     static bool exist(int cooX, int cooY, int cooZ, int undo = -1);
-    static void casePleineDeMap(int cooX,int cooY,int cooZ, qint8 casesPleines[NBR_CASES_L] [NBR_CASES_H]);
+    static void casePleineDeMap(int cooX,int cooY,int cooZ, qint8 casesPleines[mapWidth] [mapHeight]);
     void coupable(QMap<QPoint, bool> *objetsCoupables);
     bool estCaseDeDepart(int x, int y, int equipe);
     Object *objet(int x,int y) const { return m_objets[x][y]; }
@@ -57,8 +60,8 @@ public:
 
     QQueue<Dir> calculcheminFight(QPoint const& dep, QPoint const& arr, int max_dep);//calcul
     QQueue<Dir> calculcheminJusquaLObjetFight(QPoint const& dep, QPoint const& position_objet, QPoint *arrivee);
-    void calculPortee(bool cases_ateignables[NBR_CASES_L] [NBR_CASES_H], int xdep, int ydep,int min_portee, int max_portee);
-    void initialisePortee(bool cases_ateignables[NBR_CASES_L] [NBR_CASES_H], int xdep, int ydep,int min_portee, int max_portee);
+    void calculPortee(bool cases_ateignables[Map::mapWidth] [Map::mapHeight], int xdep, int ydep,int min_portee, int max_portee);
+    void initialisePortee(bool cases_ateignables[Map::mapWidth] [Map::mapHeight], int xdep, int ydep,int min_portee, int max_portee);
 
     QMap<QString, double> *getMonstresMap() { return &m_monstres; }
     QVector<QString> *getMusiques() { return &m_musiques; }
@@ -94,18 +97,18 @@ private:
     int m_cooX;
     int m_cooY;
     int m_cooZ;
-    Object *m_objets[NBR_CASES_L] [NBR_CASES_H];
+    Object *m_objets[Map::mapWidth] [Map::mapHeight];
     QMap <QPoint, Gate*>m_transpos;
-    qint8 m_casepleines[NBR_CASES_L] [NBR_CASES_H];
-    int m_casepleinesFight[NBR_CASES_L][NBR_CASES_H];//même chose que case pleines mais on ne peut pas marcher sur des joueurs par exemple !
+    qint8 m_casepleines[Map::mapWidth] [Map::mapHeight];
+    int m_casepleinesFight[Map::mapWidth][Map::mapHeight];//même chose que case pleines mais on ne peut pas marcher sur des joueurs par exemple !
     QPixmap m_background;
     QPoint m_casescbt[2] [MAX_PAR_EQUIP];
     QMap<QString, double> m_monstres;
     QVector<QString>m_musiques;
-    bool m_haut[(NBR_CASES_L-CASESCACHEESX)*2];
-    bool m_bas[(NBR_CASES_L-CASESCACHEESX)*2];
-    bool m_gauche[NBR_CASES_H-CASESCACHEESY*2+1];
-    bool m_droite[NBR_CASES_H-CASESCACHEESY*2+1];
+    bool m_haut[(Map::mapWidth-CASESCACHEESX)*2];
+    bool m_bas[(Map::mapWidth-CASESCACHEESX)*2];
+    bool m_gauche[Map::mapHeight-CASESCACHEESY*2+1];
+    bool m_droite[Map::mapHeight-CASESCACHEESY*2+1];
     Data *m_donnees_editeur;
     int m_undo;
 };

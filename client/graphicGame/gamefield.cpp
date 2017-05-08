@@ -5,6 +5,7 @@
 #include <QDebug>
 #include "layoutbarreoutil.h"
 #include <QMessageBox>
+#include "map/computePath.h"
 #define ARROW_DISPLAY_DIST 40
 
 GameField::GameField(const QSize &size, Character *pers, QTcpSocket *sock, Data *donnees_editeur) : GameScene(size,0,donnees_editeur)
@@ -29,7 +30,7 @@ GameField::GameField(const QSize &size, Character *pers, QTcpSocket *sock, Data 
     inf.posmap = pers->getPosMap();
     inf.monster = false;
     m_fleche = addPixmap(QPixmap());
-    m_fleche->setZValue(4+NBR_CASES_H);
+    m_fleche->setZValue(4+Map::mapHeight);
     m_posFleche = QPoint(-1,-1);
     addEntity(inf);
     qDebug() << "time : " << elapsed.elapsed();
@@ -76,17 +77,17 @@ void GameField::cliqueGauche(int x, int y)
                 if(direction_fleche() == O)
                 {
                     m_maparry--;
-                    m_cooarry += NBR_CASES_H-CASESCACHEESY*2-1;
+                    m_cooarry += Map::mapHeight-CASESCACHEESY*2-1;
                 }
                 else if(direction_fleche() == B)
                 {
                     m_maparry++;
-                    m_cooarry -= NBR_CASES_H-CASESCACHEESY*2-1;
+                    m_cooarry -= Map::mapHeight-CASESCACHEESY*2-1;
                 }
                 else if(direction_fleche() == G)
                 {
                     m_maparrx--;
-                    m_cooarrx = NBR_CASES_L-CASESCACHEESX-1;
+                    m_cooarrx = Map::mapWidth-CASESCACHEESX-1;
                 }
                 else
                 {
@@ -367,6 +368,7 @@ void GameField::a_coupe()
 
 void GameField::infos_map(QString infos)
 {
+    qDebug() << "debut";
     QString unJoueur;
     EntityInfo perso;
     while(infos.at(0) != '/')
@@ -374,6 +376,7 @@ void GameField::infos_map(QString infos)
         resourceRecoltee(QPoint(infos.mid(0,2).toInt(), infos.mid(2,2).toInt()));
         infos = infos.mid(4);
     }
+    qDebug() << "suite";
     infos = infos.mid(1);
     while(infos.size() > 0)
     {
@@ -384,7 +387,9 @@ void GameField::infos_map(QString infos)
         perso.monster = (bool) unJoueur.section('*',4,4).toInt();
         addEntity(perso);
         infos = infos.section('/', 1);
+        qDebug() << "et de un";
     }
+    qDebug() << "fin";
 }
 
 void GameField::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )

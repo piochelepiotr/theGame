@@ -12,7 +12,7 @@
 qint16 trouveNumero();
 void ajouteUnTheme(QString const& name);
 void ajouteObjet(Object *objet, QString const& chemin_vers_image);
-void editObject(Object *objet);
+void editAnObject(Object *objet);
 void supprimerObjet(Scenery *decors, Object *objet);
 
 

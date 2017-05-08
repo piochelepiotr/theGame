@@ -10,8 +10,11 @@
 #include "scenery/data.h"
 #include "map/gate.h"
 
-const int Map::mapWidth = 60;
-const int Map::mapHeight = 30;
+//const int Map::mapWidth = 60;
+//const int Map::mapHeight = 30;
+const int Map::worldWidth = 8;
+const int Map::worldHeight = 5;
+const int Map::worldDepth = 5;
 
 Map::Map(Data *donnees_editeur,int cooX, int cooY, int cooZ)
 {
@@ -61,18 +64,18 @@ void Map::charge(QString const& nameFichier)
         QDataStream stream(&fichier);
         qint16 num;
         qint8 num2;
-        for(int i = 0; i < NBR_CASES_L; i++)
+        for(int i = 0; i < Map::mapWidth; i++)
         {
-            for(int j = 0; j < NBR_CASES_H; j++)
+            for(int j = 0; j < Map::mapHeight; j++)
             {
                 stream >> num;
                 m_objets[i] [j] = m_donnees_editeur->decor->objet(num);
             }
         }
 
-        for(int i = 0; i < NBR_CASES_L; i++)
+        for(int i = 0; i < Map::mapWidth; i++)
         {
-            for(int j = 0; j < NBR_CASES_H; j++)
+            for(int j = 0; j < Map::mapHeight; j++)
             {
                 stream >> m_casepleines[i] [j];
                 m_casepleinesFight[i] [j] = m_casepleines[i] [j];
@@ -147,17 +150,17 @@ void Map::nouvelleMap()
 {
     m_background = QPixmap(BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
     m_estEnregistree = false;
-    for(int i = 0; i < NBR_CASES_L; i++)
+    for(int i = 0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             m_objets[i] [j] = m_donnees_editeur->decor->objet(0);
         }
     }
 
-    for(int i = 0; i < NBR_CASES_L; i++)
+    for(int i = 0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             m_casepleines[i] [j] = 0;
             m_casepleinesFight[i] [j] = 0;
@@ -186,7 +189,7 @@ bool Map::exist(int cooX,int cooY,int cooZ,int undo/*=-1*/)
     return fichier.exists();
 }
 
-void Map::casePleineDeMap(int cooX, int cooY, int cooZ, qint8 casesPleines[NBR_CASES_L] [NBR_CASES_H])
+void Map::casePleineDeMap(int cooX, int cooY, int cooZ, qint8 casesPleines[Map::mapWidth] [Map::mapHeight])
 {
     QFile fichier;
     fichier.setFileName("../data/maps/["+QString::number(cooX)+";"+QString::number(cooY)+";"+QString::number(cooZ)+"].bin");
@@ -199,9 +202,9 @@ void Map::casePleineDeMap(int cooX, int cooY, int cooZ, qint8 casesPleines[NBR_C
     {
         QDataStream stream(&fichier);
         qint16 num;
-        for(int i = 0; i < NBR_CASES_L; i++)
+        for(int i = 0; i < Map::mapWidth; i++)
         {
-            for(int j = 0; j < NBR_CASES_H; j++)
+            for(int j = 0; j < Map::mapHeight; j++)
             {
                 for(int x = 0; x < 3; x++)
                 {
@@ -210,9 +213,9 @@ void Map::casePleineDeMap(int cooX, int cooY, int cooZ, qint8 casesPleines[NBR_C
             }
         }
 
-        for(int i = 0; i < NBR_CASES_L; i++)
+        for(int i = 0; i < Map::mapWidth; i++)
         {
-            for(int j = 0; j < NBR_CASES_H; j++)
+            for(int j = 0; j < Map::mapHeight; j++)
             {
                 stream >> casesPleines[i] [j];
             }
@@ -247,17 +250,17 @@ void Map::enregistre(bool undo/* = -1*/)
     if(fichier.open(QIODevice::WriteOnly))
     {
         QDataStream stream(&fichier);
-        for(int i = 0; i < NBR_CASES_L; i++)
+        for(int i = 0; i < Map::mapWidth; i++)
         {
-            for(int j = 0; j < NBR_CASES_H; j++)
+            for(int j = 0; j < Map::mapHeight; j++)
             {
                 stream << m_objets[i] [j]->numero();
             }
         }
 
-        for(int i = 0; i < NBR_CASES_L; i++)
+        for(int i = 0; i < Map::mapWidth; i++)
         {
-            for(int j = 0; j < NBR_CASES_H; j++)
+            for(int j = 0; j < Map::mapHeight; j++)
             {
                 stream << m_casepleines[i] [j];
             }
@@ -315,9 +318,9 @@ void Map::enregistre(bool undo/* = -1*/)
 
 void Map::coupable(QMap<QPoint, bool> *objetsCoupables)
 {
-    for(int i = CASESCACHEESX; i < NBR_CASES_L-CASESCACHEESX; i++)
+    for(int i = CASESCACHEESX; i < Map::mapWidth-CASESCACHEESX; i++)
     {
-        for(int j = CASESCACHEESY; j < NBR_CASES_H-CASESCACHEESY; j++)
+        for(int j = CASESCACHEESY; j < Map::mapHeight-CASESCACHEESY; j++)
         {
             if(m_donnees_editeur->metiers->est_un_objet_coupable(m_objets[i][j]->numero()))
             {
@@ -390,9 +393,9 @@ void Map::vide()
 
 void Map::videObjets()
 {
-    for(int i = 0; i < NBR_CASES_L; i++)
+    for(int i = 0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             m_objets[i] [j] = m_donnees_editeur->decor->objet(0);
         }
@@ -414,9 +417,9 @@ void Map::videCasesFight()
 
 void Map::videCasesPleines()
 {
-    for(int i = 0; i < NBR_CASES_L; i++)
+    for(int i = 0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             m_casepleines[i] [j] = 0;
             m_casepleinesFight[i] [j] = 0;
@@ -426,10 +429,10 @@ void Map::videCasesPleines()
 
 QQueue<Dir> Map::calculchemin(QPoint const& dep, QPoint const& arr)
 {
-    bool casesmarchees[NBR_CASES_L] [NBR_CASES_H];
-    for(int i = 0; i < NBR_CASES_L; i++)
+    bool casesmarchees[Map::mapWidth] [Map::mapHeight];
+    for(int i = 0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             if(!m_casepleines[i] [j])
                 casesmarchees[i] [j] = false;
@@ -447,10 +450,10 @@ QQueue<Dir> Map::calculchemin(QPoint const& dep, QPoint const& arr)
 
 QQueue<Dir> Map::calculcheminJusquaLObjet(QPoint const& dep, QPoint const& position_objet, QPoint *arrivee)
 {
-    bool casesmarchees[NBR_CASES_L] [NBR_CASES_H];
-    for(int i = 0; i < NBR_CASES_L; i++)
+    bool casesmarchees[Map::mapWidth] [Map::mapHeight];
+    for(int i = 0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             if(!m_casepleines[i] [j])
                 casesmarchees[i] [j] = false;
@@ -470,10 +473,10 @@ QQueue<Dir> Map::calculcheminJusquaLObjet(QPoint const& dep, QPoint const& posit
 
 QQueue<Dir> Map::calculcheminFight(QPoint const& dep, QPoint const& arr, int max_dep)
 {
-    bool casesmarchees[NBR_CASES_L] [NBR_CASES_H];
-    for(int i = 0; i < NBR_CASES_L; i++)
+    bool casesmarchees[Map::mapWidth] [Map::mapHeight];
+    for(int i = 0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             if(!m_casepleinesFight[i] [j])
                 casesmarchees[i] [j] = false;
@@ -491,10 +494,10 @@ QQueue<Dir> Map::calculcheminFight(QPoint const& dep, QPoint const& arr, int max
 
 QQueue<Dir> Map::calculcheminJusquaLObjetFight(QPoint const& dep, QPoint const& position_objet, QPoint *arrivee)
 {
-    bool casesmarchees[NBR_CASES_L] [NBR_CASES_H];
-    for(int i = 0; i < NBR_CASES_L; i++)
+    bool casesmarchees[Map::mapWidth] [Map::mapHeight];
+    for(int i = 0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             if(!m_casepleinesFight[i] [j])
                 casesmarchees[i] [j] = false;
@@ -526,29 +529,29 @@ void Map::setCasePleineFight(int i,int j,int value)
 void Map::charge_contours()
 {
     m_estEnregistree = false;
-    for(int i = 0; i < (NBR_CASES_L-CASESCACHEESX)*2; i++)
+    for(int i = 0; i < (Map::mapWidth-CASESCACHEESX)*2; i++)
     {
         m_haut[i] = false;
         m_bas[i] = false;
     }
 
-    for(int i = 0; i <= NBR_CASES_H-CASESCACHEESY*2; i++)
+    for(int i = 0; i <= Map::mapHeight-CASESCACHEESY*2; i++)
     {
         m_gauche[i] = false;
         m_droite[i] = false;
     }
 
-    qint8 casesPleines[NBR_CASES_L] [NBR_CASES_H];
+    qint8 casesPleines[Map::mapWidth] [Map::mapHeight];
     if(Map::exist(m_cooX, m_cooY-1, m_cooZ))
     {
         casePleineDeMap(m_cooX,m_cooY-1,m_cooZ,casesPleines);
-        for(int i = 0; i < NBR_CASES_L-CASESCACHEESX*2; i++)
+        for(int i = 0; i < Map::mapWidth-CASESCACHEESX*2; i++)
         {
-            if(!m_casepleines[i+CASESCACHEESX][CASESCACHEESY] && !casesPleines[i+CASESCACHEESX][NBR_CASES_H-CASESCACHEESY-1])
+            if(!m_casepleines[i+CASESCACHEESX][CASESCACHEESY] && !casesPleines[i+CASESCACHEESX][Map::mapHeight-CASESCACHEESY-1])
             {
                 m_haut[2*i] = true;
             }
-            if(!m_casepleines[i+CASESCACHEESX][CASESCACHEESY+1] && !casesPleines[i+CASESCACHEESX][NBR_CASES_H-CASESCACHEESY])
+            if(!m_casepleines[i+CASESCACHEESX][CASESCACHEESY+1] && !casesPleines[i+CASESCACHEESX][Map::mapHeight-CASESCACHEESY])
             {
                 m_haut[2*i+1] = true;
             }
@@ -557,13 +560,13 @@ void Map::charge_contours()
     if(Map::exist(m_cooX, m_cooY+1, m_cooZ))
     {
         casePleineDeMap(m_cooX,m_cooY+1,m_cooZ,casesPleines);
-        for(int i = 0; i < NBR_CASES_L-CASESCACHEESX*2; i++)
+        for(int i = 0; i < Map::mapWidth-CASESCACHEESX*2; i++)
         {
-            if(!casesPleines[i+CASESCACHEESX][CASESCACHEESY] && !m_casepleines[i+CASESCACHEESX] [NBR_CASES_H-CASESCACHEESY-1])
+            if(!casesPleines[i+CASESCACHEESX][CASESCACHEESY] && !m_casepleines[i+CASESCACHEESX] [Map::mapHeight-CASESCACHEESY-1])
             {
                 m_bas[2*i] = true;
             }
-            if(!casesPleines[i+CASESCACHEESX][CASESCACHEESY+1] && !m_casepleines[i+CASESCACHEESX] [NBR_CASES_H-CASESCACHEESY])
+            if(!casesPleines[i+CASESCACHEESX][CASESCACHEESY+1] && !m_casepleines[i+CASESCACHEESX] [Map::mapHeight-CASESCACHEESY])
             {
                 m_bas[2*i+1] = true;
             }
@@ -572,9 +575,9 @@ void Map::charge_contours()
     if(Map::exist(m_cooX-1, m_cooY, m_cooZ))
     {
         casePleineDeMap(m_cooX-1,m_cooY,m_cooZ,casesPleines);
-        for(int j = 0; j < NBR_CASES_H-CASESCACHEESY*2+1; j++)
+        for(int j = 0; j < Map::mapHeight-CASESCACHEESY*2+1; j++)
         {
-            if(!m_casepleines[CASESCACHEESX][CASESCACHEESY+j] && !casesPleines[NBR_CASES_L-CASESCACHEESX-1][CASESCACHEESY+j])
+            if(!m_casepleines[CASESCACHEESX][CASESCACHEESY+j] && !casesPleines[Map::mapWidth-CASESCACHEESX-1][CASESCACHEESY+j])
             {
                 m_gauche[j] = true;
             }
@@ -583,9 +586,9 @@ void Map::charge_contours()
     if(Map::exist(m_cooX+1, m_cooY, m_cooZ))
     {
         casePleineDeMap(m_cooX+1,m_cooY,m_cooZ,casesPleines);
-        for(int j = 0; j < NBR_CASES_H-CASESCACHEESY*2+1; j++)
+        for(int j = 0; j < Map::mapHeight-CASESCACHEESY*2+1; j++)
         {
-            if(!casesPleines[CASESCACHEESX][CASESCACHEESY+j] && !m_casepleines[NBR_CASES_L-CASESCACHEESX-1] [CASESCACHEESY+j])
+            if(!casesPleines[CASESCACHEESX][CASESCACHEESY+j] && !m_casepleines[Map::mapWidth-CASESCACHEESX-1] [CASESCACHEESY+j])
             {
                 m_droite[j] = true;
             }
@@ -602,12 +605,12 @@ QPoint Map::case_haut(QPoint lacase)
     }
     if(actuelle < 0)
         actuelle = 0;
-    else if(actuelle > (NBR_CASES_L-CASESCACHEESX)*2-1)
-        actuelle = (NBR_CASES_L-CASESCACHEESX)*2-1;
+    else if(actuelle > (Map::mapWidth-CASESCACHEESX)*2-1)
+        actuelle = (Map::mapWidth-CASESCACHEESX)*2-1;
     int adroite = actuelle, agauche = actuelle, trouve = -1;
-    while(trouve == -1 && (agauche >= 0 || adroite < (NBR_CASES_L-CASESCACHEESX)*2))
+    while(trouve == -1 && (agauche >= 0 || adroite < (Map::mapWidth-CASESCACHEESX)*2))
     {
-        if(adroite < (NBR_CASES_L-CASESCACHEESX)*2 && m_haut[adroite])
+        if(adroite < (Map::mapWidth-CASESCACHEESX)*2 && m_haut[adroite])
             trouve = adroite;
         else if(agauche >= 0 && m_haut[agauche])
             trouve = agauche;
@@ -629,18 +632,18 @@ QPoint Map::case_haut(QPoint lacase)
 QPoint Map::case_bas(QPoint lacase)
 {
     int actuelle = (lacase.x()-CASESCACHEESX)*2;
-    if(lacase.y() == NBR_CASES_H-CASESCACHEESY)
+    if(lacase.y() == Map::mapHeight-CASESCACHEESY)
     {
         actuelle++;
     }
     if(actuelle < 0)
         actuelle = 0;
-    else if(actuelle > (NBR_CASES_L-CASESCACHEESX)*2-1)
-        actuelle = (NBR_CASES_L-CASESCACHEESX)*2-1;
+    else if(actuelle > (Map::mapWidth-CASESCACHEESX)*2-1)
+        actuelle = (Map::mapWidth-CASESCACHEESX)*2-1;
     int adroite = actuelle, agauche = actuelle, trouve = -1;
-    while(trouve == -1 && (agauche >= 0 || adroite < (NBR_CASES_L-CASESCACHEESX)*2))
+    while(trouve == -1 && (agauche >= 0 || adroite < (Map::mapWidth-CASESCACHEESX)*2))
     {
-        if(adroite < (NBR_CASES_L-CASESCACHEESX)*2 && m_bas[adroite])
+        if(adroite < (Map::mapWidth-CASESCACHEESX)*2 && m_bas[adroite])
             trouve = adroite;
         else if(agauche >= 0 && m_bas[agauche])
             trouve = agauche;
@@ -654,7 +657,7 @@ QPoint Map::case_bas(QPoint lacase)
     if(trouve != -1)
     {
         p.setX(CASESCACHEESX+trouve/2);
-        p.setY(NBR_CASES_H-CASESCACHEESY-1+trouve%2);
+        p.setY(Map::mapHeight-CASESCACHEESY-1+trouve%2);
     }
     return p;
 }
@@ -664,14 +667,14 @@ QPoint Map::case_gauche(QPoint lacase)
     int actuelle = lacase.y()-CASESCACHEESY;
     if(actuelle < 0)
         actuelle = 0;
-    else if(actuelle > NBR_CASES_H-CASESCACHEESY*2)
-        actuelle = NBR_CASES_H-CASESCACHEESY*2;
+    else if(actuelle > Map::mapHeight-CASESCACHEESY*2)
+        actuelle = Map::mapHeight-CASESCACHEESY*2;
     int enhaut = actuelle, enbas = actuelle, trouve = -1;
-    while(trouve == -1 && (enhaut > -1 || enbas <= NBR_CASES_H-CASESCACHEESY*2))
+    while(trouve == -1 && (enhaut > -1 || enbas <= Map::mapHeight-CASESCACHEESY*2))
     {
         if(enhaut > -1 && m_gauche[enhaut] && enhaut > -1)
             trouve = enhaut;
-        else if(enbas <= NBR_CASES_H-CASESCACHEESY*2 && m_gauche[enbas] && enbas <= NBR_CASES_H-CASESCACHEESY*2)
+        else if(enbas <= Map::mapHeight-CASESCACHEESY*2 && m_gauche[enbas] && enbas <= Map::mapHeight-CASESCACHEESY*2)
                 trouve = enbas;
         enhaut--;
         enbas++;
@@ -690,14 +693,14 @@ QPoint Map::case_droite(QPoint lacase)
     int actuelle = lacase.y()-CASESCACHEESY;
     if(actuelle < 0)
         actuelle = 0;
-    else if(actuelle > NBR_CASES_H-CASESCACHEESY*2)
-        actuelle = NBR_CASES_H-CASESCACHEESY*2;
+    else if(actuelle > Map::mapHeight-CASESCACHEESY*2)
+        actuelle = Map::mapHeight-CASESCACHEESY*2;
     int enhaut = actuelle, enbas = actuelle, trouve = -1;
-    while(trouve == -1 && (enhaut >= 0 || enbas <= NBR_CASES_H-CASESCACHEESY*2))
+    while(trouve == -1 && (enhaut >= 0 || enbas <= Map::mapHeight-CASESCACHEESY*2))
     {
         if(enhaut >= 0 && m_droite[enhaut] && enhaut >= 0)
             trouve = enhaut;
-        else if(enbas <= NBR_CASES_H-CASESCACHEESY*2 && m_droite[enbas] && enbas <= NBR_CASES_H-CASESCACHEESY*2)
+        else if(enbas <= Map::mapHeight-CASESCACHEESY*2 && m_droite[enbas] && enbas <= Map::mapHeight-CASESCACHEESY*2)
             trouve = enbas;
         else
         {
@@ -708,7 +711,7 @@ QPoint Map::case_droite(QPoint lacase)
     QPoint p(-1,-1);
     if(trouve != -1)
     {
-        p.setX(NBR_CASES_L-CASESCACHEESX-1);
+        p.setX(Map::mapWidth-CASESCACHEESX-1);
         p.setY(CASESCACHEESY+trouve);
     }
     return p;
@@ -725,12 +728,12 @@ QPoint Map::posDep(int equipe)
     return p;
 }
 
-void Map::initialisePortee(bool cases_ateignables[NBR_CASES_L] [NBR_CASES_H], int xdep, int ydep, int min_portee, int max_portee)
+void Map::initialisePortee(bool cases_ateignables[Map::mapWidth] [Map::mapHeight], int xdep, int ydep, int min_portee, int max_portee)
 {
-    int cases_ateignables2[NBR_CASES_L][NBR_CASES_H];
-    for(int i = 0; i < NBR_CASES_L; i++)
+    int cases_ateignables2[Map::mapWidth][Map::mapHeight];
+    for(int i = 0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             cases_ateignables2[i][j] = 0;
         }
@@ -775,16 +778,16 @@ void Map::initialisePortee(bool cases_ateignables[NBR_CASES_L] [NBR_CASES_H], in
 
     }
 
-    for(int i = 0; i < NBR_CASES_L; i++)
+    for(int i = 0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             cases_ateignables[i][j] = (cases_ateignables2[i][j] == 1) && (m_casepleines[i][j] == 0);
         }
     }
 }
 
-void Map::calculPortee(bool cases_ateignables[NBR_CASES_L] [NBR_CASES_H], int xdep, int ydep, int min_portee, int max_portee)
+void Map::calculPortee(bool cases_ateignables[Map::mapWidth] [Map::mapHeight], int xdep, int ydep, int min_portee, int max_portee)
 {
     // on créer une map avec des dimentions différentes
     int lcase = 40,hcase = 40;
@@ -794,9 +797,9 @@ void Map::calculPortee(bool cases_ateignables[NBR_CASES_L] [NBR_CASES_H], int xd
     int y = cposy(ydep,hcase,true);
 
     initialisePortee(cases_ateignables,xdep,ydep,min_portee,max_portee);
-    for(int i = 0; i < NBR_CASES_L;i++)
+    for(int i = 0; i < Map::mapWidth;i++)
     {
-        for(int j = 0;j < NBR_CASES_H; j++)
+        for(int j = 0;j < Map::mapHeight; j++)
         {
             if(m_casepleines[i][j] == 2 && (i != xdep || j != ydep))
             {
@@ -805,9 +808,9 @@ void Map::calculPortee(bool cases_ateignables[NBR_CASES_L] [NBR_CASES_H], int xd
                 int d = x2*x2+y2*y2;
                 double max = 0,min = 0;
                 calculContoursCase(x2,y2,mlcase,mhcase,max,min);
-                for(int i2 = 0; i2 < NBR_CASES_L;i2++)
+                for(int i2 = 0; i2 < Map::mapWidth;i2++)
                 {
-                    for(int j2 = 0;j2 < NBR_CASES_H; j2++)
+                    for(int j2 = 0;j2 < Map::mapHeight; j2++)
                     {
                         if(cases_ateignables[i2][j2])
                         {
@@ -869,7 +872,7 @@ QPoint Map::ccase(int posx, int posy,int lmap,int hmap,int lcase,int hcase,bool 
             || (!zoom && posx > 0 && posx < lmap && posy > 0 && posy < hmap))
     {
         double a = (double) mhcase/ (double) mlcase, bdroitem, bdroited;
-        int i = 0, j = qCeil(NBR_CASES_H/2)-1;
+        int i = 0, j = qCeil(Map::mapHeight/2)-1;
 
         while(-mhcase + i*hcase - (int) ((double)(posx)*a) < posy)
         {
@@ -917,7 +920,7 @@ QPoint Map::ccase(int posx, int posy,int lmap,int hmap,int lcase,int hcase,bool 
         lacase.setX(-1);
         lacase.setY(-1);
     }
-    else if(lacase.x() > NBR_CASES_L-1)
+    else if(lacase.x() > Map::mapWidth-1)
     {
         lacase.setX(-1);
         lacase.setY(-1);
@@ -927,7 +930,7 @@ QPoint Map::ccase(int posx, int posy,int lmap,int hmap,int lcase,int hcase,bool 
         lacase.setX(-1);
         lacase.setY(-1);
     }
-    else if(lacase.y() > NBR_CASES_H-1)
+    else if(lacase.y() > Map::mapHeight-1)
     {
         lacase.setX(-1);
         lacase.setY(-1);
@@ -941,8 +944,8 @@ QPoint Map::caseLibre()
     int y = 0;
     do
     {
-        x = qrand()%NBR_CASES_L;
-        y = qrand()%NBR_CASES_H;
+        x = qrand()%Map::mapWidth;
+        y = qrand()%Map::mapHeight;
     }while(m_casepleines[x][y] != 0);
     return QPoint(x,y);
 }
@@ -1031,9 +1034,9 @@ void droiteExtremes(QList<double>droites,double &max,double &min)
 QMap<QPoint, Object *> Map::posCollectedResources()
 {
     QMap<QPoint,Object*>collectedObjetcs;
-    for(int i = 0; i < NBR_CASES_L; i++)
+    for(int i = 0; i < Map::mapWidth; i++)
     {
-        for(int j = 0; j < NBR_CASES_H; j++)
+        for(int j = 0; j < Map::mapHeight; j++)
         {
             if(m_donnees_editeur->metiers->est_un_objet_coupe(m_objets[i][j]->numero()))
             {
@@ -1082,8 +1085,8 @@ void Map::addToBackground(Object *object, QPoint const& pos, int mapWidth, int m
 {
     int newPosx = (int)((((double)pos.x())/((double)mapWidth))*BACKGROUND_WIDTH);
     int newPosy = (int)((((double)pos.y())/((double)mapHeight))*BACKGROUND_HEIGHT);
-    int frameWidth = BACKGROUND_WIDTH/((NBR_CASES_L-CASESCACHEESX*2)*2-1)*2;
-    int frameHeight = BACKGROUND_HEIGHT/(NBR_CASES_H-CASESCACHEESY*2-1)*2;
+    int frameWidth = BACKGROUND_WIDTH/((Map::mapWidth-CASESCACHEESX*2)*2-1)*2;
+    int frameHeight = BACKGROUND_HEIGHT/(Map::mapHeight-CASESCACHEESY*2-1)*2;
     QPixmap image = object->imageForSize(frameWidth, frameHeight);
     QPainter painter(&m_background);
     painter.drawPixmap(newPosx-image.width()/2, newPosy-image.height()/2,image);

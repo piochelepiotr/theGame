@@ -61,7 +61,7 @@ void ajouteObjet(Object *objet, QString const& chemin_vers_image)
 }
 
 
-void editObject(Object *objet)
+void editAnObject(Object *objet)
 {
     QString ligne, texte = QString::number((int)objet->numero()) + '/' + objet->name() + '/' + objet->categorie() + '/' + QString::number(objet->propx()) + '/' + QString::number(objet->propy());
 
@@ -120,27 +120,27 @@ void supprimerObjet(Scenery *decors, Object *objet)
         QFile::rename("../data/objets/objets2.txt", "../data/objets/objets.txt");
     }
 
-    Object *objets[3] [NBR_CASES_L] [NBR_CASES_H];
+    Object *objets[3] [Map::mapWidth] [Map::mapHeight];
     QMap <QPoint, Gate>transpos;
-    qint8 casepleines[NBR_CASES_L] [NBR_CASES_H];
+    qint8 casepleines[Map::mapWidth] [Map::mapHeight];
     QString namefond;
     QPoint casescbt [2] [MAX_PAR_EQUIP];
     QMap<QString, double>monstres;
     QVector<QString>musiques;
 
-    for(int i = 0; i < NBR_DE_MAPS_X; i++)
+    for(int i = 0; i < Map::worldWidth; i++)
     {
-        for(int j = 0; j < NBR_DE_MAPS_Y; j++)
+        for(int j = 0; j < Map::worldHeight; j++)
         {
-            for(int z = 0; z < NBR_DE_MAPS_Z; z++)
+            for(int z = 0; z < Map::worldDepth; z++)
             {
                 if(Map::exist(i,j,z))
                 {
 
                     //chargeMap(decors, i,j,z,objets,transpos, casepleines, &namefond, casescbt, &monstres, &musiques);
-                    for(int i1 = 0; i1 < NBR_CASES_L; i1++)
+                    for(int i1 = 0; i1 < Map::mapWidth; i1++)
                     {
-                        for(int j1 = 0; j1 < NBR_CASES_H; j1++)
+                        for(int j1 = 0; j1 < Map::mapHeight; j1++)
                         {
                             for(int x = 0; x < 3; x++)
                             {

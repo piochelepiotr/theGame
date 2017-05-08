@@ -3,10 +3,10 @@
 
 bool caseExiste(int x, int y)
 {
-    return x >= 0 && y >= 0 && x < NBR_CASES_L && y < NBR_CASES_H;
+    return x >= 0 && y >= 0 && x < Map::mapWidth && y < Map::mapHeight;
 }
 
-QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const& arr, QVector<Path>parents)
+QQueue<Dir> faitechem(bool casemarchees[Map::mapWidth] [Map::mapHeight], QPoint const& arr, QVector<Path>parents)
 {
     QVector<Path>enfants;
     int x,y;
@@ -31,7 +31,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
                     enfants.push_back(Path(parents[i], OD, 0, -1));
                 }
             }
-            if(y+1 < NBR_CASES_H)
+            if(y+1 < Map::mapHeight)
             {
                 if(!casemarchees[x] [y+1])
                 {
@@ -47,7 +47,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
                     enfants.push_back(Path(parents[i], OG,-1, -1));
                 }
             }
-            if(x-1 >= 0 && y+1 < NBR_CASES_H)
+            if(x-1 >= 0 && y+1 < Map::mapHeight)
             {
                 if(!casemarchees[x-1] [y+1])
                 {
@@ -58,7 +58,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
         }
         else
         {
-            if(x+1 < NBR_CASES_L && y-1 >= 0)
+            if(x+1 < Map::mapWidth && y-1 >= 0)
             {
                 if(!casemarchees[x+1] [y-1])
                 {
@@ -66,7 +66,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
                     enfants.push_back(Path(parents[i], OD, 1, -1));
                 }
             }
-            if(x+1 < NBR_CASES_L && y+1 < NBR_CASES_H)
+            if(x+1 < Map::mapWidth && y+1 < Map::mapHeight)
             {
                 if(!casemarchees[x+1] [y+1])
                 {
@@ -82,7 +82,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
                     enfants.push_back(Path(parents[i], OG, 0, -1));
                 }
             }
-            if(y+1 < NBR_CASES_H)
+            if(y+1 < Map::mapHeight)
             {
                 if(!casemarchees[x] [y+1])
                 {
@@ -91,7 +91,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
                 }
             }
         }
-        if(y+2 < NBR_CASES_H)
+        if(y+2 < Map::mapHeight)
         {
             if(!casemarchees[x] [y+2])
             {
@@ -107,7 +107,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
                 enfants.push_back(Path(parents[i], O, 0, -2));
             }
         }
-        if(x+1 < NBR_CASES_L)
+        if(x+1 < Map::mapWidth)
         {
             if(!casemarchees[x+1] [y])
             {
@@ -134,7 +134,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const
 }
 
 
-QQueue<Dir> faitechemFight(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint const& arr, QVector<Path>parents, int max_dep)
+QQueue<Dir> faitechemFight(bool casemarchees[Map::mapWidth] [Map::mapHeight], QPoint const& arr, QVector<Path>parents, int max_dep)
 {
     QVector<Path>enfants;
     int x,y;
@@ -160,7 +160,7 @@ QQueue<Dir> faitechemFight(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint 
                         enfants.push_back(Path(parents[i], OD, 0, -1));
                     }
                 }
-                if(y+1 < NBR_CASES_H)
+                if(y+1 < Map::mapHeight)
                 {
                     if(!casemarchees[x] [y+1])
                     {
@@ -176,7 +176,7 @@ QQueue<Dir> faitechemFight(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint 
                         enfants.push_back(Path(parents[i], OG,-1, -1));
                     }
                 }
-                if(x-1 >= 0 && y+1 < NBR_CASES_H)
+                if(x-1 >= 0 && y+1 < Map::mapHeight)
                 {
                     if(!casemarchees[x-1] [y+1])
                     {
@@ -187,7 +187,7 @@ QQueue<Dir> faitechemFight(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint 
             }
             else
             {
-                if(x+1 < NBR_CASES_L && y-1 >= 0)
+                if(x+1 < Map::mapWidth && y-1 >= 0)
                 {
                     if(!casemarchees[x+1] [y-1])
                     {
@@ -195,7 +195,7 @@ QQueue<Dir> faitechemFight(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint 
                         enfants.push_back(Path(parents[i], OD, 1, -1));
                     }
                 }
-                if(x+1 < NBR_CASES_L && y+1 < NBR_CASES_H)
+                if(x+1 < Map::mapWidth && y+1 < Map::mapHeight)
                 {
                     if(!casemarchees[x+1] [y+1])
                     {
@@ -211,7 +211,7 @@ QQueue<Dir> faitechemFight(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint 
                         enfants.push_back(Path(parents[i], OG, 0, -1));
                     }
                 }
-                if(y+1 < NBR_CASES_H)
+                if(y+1 < Map::mapHeight)
                 {
                     if(!casemarchees[x] [y+1])
                     {
@@ -232,7 +232,7 @@ QQueue<Dir> faitechemFight(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QPoint 
 }
 
 
-QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoint>const& arrivees, QVector<Path>parents, QPoint *arrivee)//on doit arriver à une des cases
+QQueue<Dir> faitechem(bool casemarchees[Map::mapWidth] [Map::mapHeight], QVector<QPoint>const& arrivees, QVector<Path>parents, QPoint *arrivee)//on doit arriver à une des cases
 {
     QVector<Path>enfants;
     int x,y;
@@ -259,7 +259,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
                     enfants.push_back(Path(parents[i], OD, 0, -1));
                 }
             }
-            if(y+1 < NBR_CASES_H)
+            if(y+1 < Map::mapHeight)
             {
                 if(!casemarchees[x] [y+1])
                 {
@@ -275,7 +275,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
                     enfants.push_back(Path(parents[i], OG,-1, -1));
                 }
             }
-            if(x-1 >= 0 && y+1 < NBR_CASES_H)
+            if(x-1 >= 0 && y+1 < Map::mapHeight)
             {
                 if(!casemarchees[x-1] [y+1])
                 {
@@ -286,7 +286,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
         }
         else
         {
-            if(x+1 < NBR_CASES_L && y-1 >= 0)
+            if(x+1 < Map::mapWidth && y-1 >= 0)
             {
                 if(!casemarchees[x+1] [y-1])
                 {
@@ -294,7 +294,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
                     enfants.push_back(Path(parents[i], OD, 1, -1));
                 }
             }
-            if(x+1 < NBR_CASES_L && y+1 < NBR_CASES_H)
+            if(x+1 < Map::mapWidth && y+1 < Map::mapHeight)
             {
                 if(!casemarchees[x+1] [y+1])
                 {
@@ -310,7 +310,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
                     enfants.push_back(Path(parents[i], OG, 0, -1));
                 }
             }
-            if(y+1 < NBR_CASES_H)
+            if(y+1 < Map::mapHeight)
             {
                 if(!casemarchees[x] [y+1])
                 {
@@ -319,7 +319,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
                 }
             }
         }
-        if(y+2 < NBR_CASES_H)
+        if(y+2 < Map::mapHeight)
         {
             if(!casemarchees[x] [y+2])
             {
@@ -335,7 +335,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
                 enfants.push_back(Path(parents[i], O, 0, -2));
             }
         }
-        if(x+1 < NBR_CASES_L)
+        if(x+1 < Map::mapWidth)
         {
             if(!casemarchees[x+1] [y])
             {
@@ -362,7 +362,7 @@ QQueue<Dir> faitechem(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoi
 }
 
 
-QQueue<Dir> faitechemFight(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector<QPoint>const& arrivees, QVector<Path>parents, QPoint *arrivee)//on doit arriver à une des cases
+QQueue<Dir> faitechemFight(bool casemarchees[Map::mapWidth] [Map::mapHeight], QVector<QPoint>const& arrivees, QVector<Path>parents, QPoint *arrivee)//on doit arriver à une des cases
 {
     QVector<Path>enfants;
     int x,y;
@@ -389,7 +389,7 @@ QQueue<Dir> faitechemFight(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector
                     enfants.push_back(Path(parents[i], OD, 0, -1));
                 }
             }
-            if(y+1 < NBR_CASES_H)
+            if(y+1 < Map::mapHeight)
             {
                 if(!casemarchees[x] [y+1])
                 {
@@ -405,7 +405,7 @@ QQueue<Dir> faitechemFight(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector
                     enfants.push_back(Path(parents[i], OG,-1, -1));
                 }
             }
-            if(x-1 >= 0 && y+1 < NBR_CASES_H)
+            if(x-1 >= 0 && y+1 < Map::mapHeight)
             {
                 if(!casemarchees[x-1] [y+1])
                 {
@@ -416,7 +416,7 @@ QQueue<Dir> faitechemFight(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector
         }
         else
         {
-            if(x+1 < NBR_CASES_L && y-1 >= 0)
+            if(x+1 < Map::mapWidth && y-1 >= 0)
             {
                 if(!casemarchees[x+1] [y-1])
                 {
@@ -424,7 +424,7 @@ QQueue<Dir> faitechemFight(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector
                     enfants.push_back(Path(parents[i], OD, 1, -1));
                 }
             }
-            if(x+1 < NBR_CASES_L && y+1 < NBR_CASES_H)
+            if(x+1 < Map::mapWidth && y+1 < Map::mapHeight)
             {
                 if(!casemarchees[x+1] [y+1])
                 {
@@ -440,7 +440,7 @@ QQueue<Dir> faitechemFight(bool casemarchees[NBR_CASES_L] [NBR_CASES_H], QVector
                     enfants.push_back(Path(parents[i], OG, 0, -1));
                 }
             }
-            if(y+1 < NBR_CASES_H)
+            if(y+1 < Map::mapHeight)
             {
                 if(!casemarchees[x] [y+1])
                 {

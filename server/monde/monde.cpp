@@ -5,11 +5,11 @@ Monde::Monde(Data *donnees_editeur,Ecran *ecran)
     m_ecran = ecran;
     m_donnees_editeur = donnees_editeur;
 
-    for(int i = 0; i < NBR_DE_MAPS_X; i++)
+    for(int i = 0; i < Map::worldWidth; i++)
     {
-        for(int j = 0; j < NBR_DE_MAPS_Y; j++)
+        for(int j = 0; j < Map::worldHeight; j++)
         {
-            for(int z = 0; z < NBR_DE_MAPS_Z; z++)
+            for(int z = 0; z < Map::worldDepth; z++)
             {
                 if(Map::exist(i,j,z))
                 {

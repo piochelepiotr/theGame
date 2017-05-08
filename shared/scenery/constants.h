@@ -43,13 +43,7 @@
 
 
 //jeu
-
-#define NBR_DE_MAPS_X 8
-#define NBR_DE_MAPS_Y 5
-#define NBR_DE_MAPS_Z 5
 #define MAX_CHEMIN 100
-#define NBR_CASES_L 30
-#define NBR_CASES_H 60
 #define CASESCACHEESX 3
 #define CASESCACHEESY 6
 #define MAX_PAR_EQUIP 15
@@ -58,7 +52,6 @@
 #define NBR_LVL_SORTS 10
 #define INTERVALE_RECETTE 1000
 #define HAUTEUR_BARRE_OUTIL 70
-#define FOND_DEFAUT "ogeante.png"
 
 const double screenFormat = 1.7;
 
@@ -72,7 +65,5 @@ struct EntityInfo
 };
 
 enum Dir{O,OG,G,BG,B,BD,D,OD};
-
-//qRegisterMetaType<Dir>("Dir");
 
 #endif // CONSTANTES_H
