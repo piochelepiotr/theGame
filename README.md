@@ -23,3 +23,6 @@ The player can freely explore the world and when he goes to dangerous places, he
 ##State of advancement
 
 The major problem of the game is its lack of graphisms. A friend of mine (Adèle Pelletant) did some beautifull graphisms but the amount of pictures needed is massive, way too much for one person.
+
+![](images/esudem.png)
+
